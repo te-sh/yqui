@@ -9,22 +9,22 @@ class App extends React.Component {
 
     console.log('Initialize App')
 
-    var ws = new WebSocket("ws://localhost:8085/ws")
+    var ws = new WebSocket('ws://' + window.location.host + '/ws')
     ws.onopen = evt => {
-      console.log("ws open")
+      console.log('ws open')
     }
     ws.onclose = evt => {
-      console.log("ws close")
+      console.log('ws close')
       ws = null
     }
     ws.onmessage = evt => {
-      console.log("ws received: " + evt.data)
+      console.log('ws received: ' + evt.data)
     }
     ws.onerror = evt => {
-      console.log("ws error: " + evt.data)
+      console.log('ws error: ' + evt.data)
     }
     setTimeout(() => {
-      ws.send("ws test")
+      ws.send(JSON.stringify({ c: "ws test" }))
     }, 1000)
   }
 
