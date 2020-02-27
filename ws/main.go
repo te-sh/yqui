@@ -5,6 +5,7 @@ import (
 	"time"
 	"net/http"
 	"github.com/gorilla/websocket"
+	"github.com/google/uuid"
 )
 
 type Cmd struct {
@@ -12,7 +13,9 @@ type Cmd struct {
 	A string `json:"a"`
 }
 
-var clients = make(map[*websocket.Conn]bool)
+var clients = make(map[*websocket.Conn]string)
+var clientIDs []string
+
 var Received = make(chan Cmd)
 var Sending = make(chan interface {})
 
@@ -60,6 +63,38 @@ func HandleMessage() {
 	}
 }
 
+func AddClient(c *websocket.Conn) error {
+	u, err := uuid.NewRandom()
+	if err != nil {
+		log.Println("err uuid: ", err)
+		return err
+	}
+
+	v := u.String()
+	clients[c] = v
+	clientIDs = append(clientIDs, v)
+
+	return nil
+}
+
+func RemoveClient(c *websocket.Conn) {
+	v := clients[c]
+
+	i := func() int {
+		for j, s := range clientIDs {
+			if s == v {
+				return j
+			}
+		}
+		return -1
+	}()
+	if (i >= 0) {
+		clientIDs = append(clientIDs[:i], clientIDs[i+1:]...)
+	}
+
+	delete(clients, c)
+}
+
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -72,8 +107,12 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 
-	clients[c] = true
-	defer delete(clients, c)
+	err2 := AddClient(c)
+	if err2 != nil {
+		log.Println("err add client: ", err2)
+		return
+	}
+	defer RemoveClient(c)
 
 	for {
 		var cmd Cmd
