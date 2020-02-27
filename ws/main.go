@@ -25,7 +25,7 @@ func ws(w http.ResponseWriter, r *http.Request) {
 			log.Println("read: ", err)
 			break
 		}
-		log.Printf("receive: %s", message)
+		log.Printf("received: %s", message)
 		err = c.WriteMessage(mt, message)
 		if err != nil {
 			log.Println("write: ", err)
@@ -35,6 +35,6 @@ func ws(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/ws", ws)
+	http.HandleFunc("/", ws)
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }

@@ -8,13 +8,18 @@ services:
     volumes:
       - './web:/app'
       - '/app/node_modules'
-    ports:
-      - '3000:3000'
   ws:
     build:
       context: './ws'
     image: te-sh/yqui-ws
     volumes:
       - './ws:/app'
+  proxy:
+    image: nginx:1.17.8-alpine
     ports:
-      - '8000:8000'
+      - '8085:8085'
+    volumes:
+      - ./proxy.conf:/etc/nginx/conf.d/proxy.conf:ro
+    depends_on:
+      - web
+      - ws

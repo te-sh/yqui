@@ -9,7 +9,7 @@ class App extends React.Component {
 
     console.log('Initialize App')
 
-    var ws = new WebSocket("ws://localhost:8000/ws")
+    var ws = new WebSocket("ws://localhost:8085/ws")
     ws.onopen = evt => {
       console.log("ws open")
     }
@@ -18,7 +18,7 @@ class App extends React.Component {
       ws = null
     }
     ws.onmessage = evt => {
-      console.log("ws receive: " + evt.data)
+      console.log("ws received: " + evt.data)
     }
     ws.onerror = evt => {
       console.log("ws error: " + evt.data)
