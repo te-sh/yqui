@@ -18,7 +18,7 @@ var upgrader = websocket.Upgrader{
 }
 
 func Broadcast() {
-	ticker := time.NewTicker(5)
+	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 
 	for {
@@ -31,6 +31,7 @@ func Broadcast() {
 			}
 		}()
 
+		log.Printf("write: %s", m)
 		for c := range clients {
 			err := c.WriteMessage(mt, m)
 			if err != nil {
