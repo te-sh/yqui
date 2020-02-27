@@ -8,6 +8,24 @@ class App extends React.Component {
     super(props);
 
     console.log('Initialize App')
+
+    var ws = new WebSocket("ws://localhost:8000/ws")
+    ws.onopen = evt => {
+      console.log("ws open")
+    }
+    ws.onclose = evt => {
+      console.log("ws close")
+      ws = null
+    }
+    ws.onmessage = evt => {
+      console.log("ws receive: " + evt.data)
+    }
+    ws.onerror = evt => {
+      console.log("ws error: " + evt.data)
+    }
+    setTimeout(() => {
+      ws.send("ws test")
+    }, 1000)
   }
 
   render() {

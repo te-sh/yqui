@@ -10,3 +10,11 @@ services:
       - '/app/node_modules'
     ports:
       - '3000:3000'
+  ws:
+    build:
+      context: './ws'
+    image: te-sh/yqui-ws
+    volumes:
+      - './ws:/app'
+    ports:
+      - '8000:8000'
