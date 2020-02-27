@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 	"net/http"
 	"github.com/gorilla/websocket"
 )
@@ -17,14 +18,24 @@ var upgrader = websocket.Upgrader{
 }
 
 func Broadcast() {
+	ticker := time.NewTicker(5)
+	defer ticker.Stop()
+
 	for {
-		m := <- Sending
-		for client := range clients {
-			err := client.WriteMessage(websocket.TextMessage, m)
+		mt, m := func() (int, []byte) {
+			select {
+			case m := <- Sending:
+				return websocket.TextMessage, m
+			case <- ticker.C:
+				return websocket.PingMessage, []byte{}
+			}
+		}()
+
+		for c := range clients {
+			err := c.WriteMessage(mt, m)
 			if err != nil {
-				log.Printf("error: %v", err)
-				client.Close()
-				delete(clients, client)
+				log.Println("err write: ", err)
+				return
 			}
 		}
 	}
@@ -40,22 +51,27 @@ func HandleMessage() {
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Print("upgrade: ", err)
+		log.Println("err upgrade: ", err)
 		return
 	}
 
 	clients[c] = true
-	defer c.Close()
+	defer delete(clients, c)
 
 	for {
-		_, message, err := c.ReadMessage()
+		mt, m, err := c.ReadMessage()
 		if err != nil {
-			log.Println("read: ", err)
+			log.Println("err read: ", err)
 			break
 		}
+		log.Printf("received: %s", m)
 
-		log.Printf("received: %s", message)
-		Received <- message
+		if mt == websocket.CloseMessage {
+			c.Close()
+			return
+		}
+
+		Received <- m
 	}
 }
 
