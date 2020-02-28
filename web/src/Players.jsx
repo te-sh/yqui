@@ -12,7 +12,7 @@ const Players = ({ props, state }) => {
     </Grid>
   ))
   return (
-    <Grid container justify="center" alignItems="center" className="full-height">
+    <Grid container justify="center" alignItems="center">
       {list}
     </Grid>
   )

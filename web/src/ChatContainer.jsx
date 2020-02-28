@@ -5,7 +5,7 @@ import Messages from './Messages'
 
 const ChatContainer = props => {
   return (
-    <Grid container direction="column" className="full-height">
+    <Grid container direction="column" wrap="nowrap">
       <Grid item>
         <Chat />
       </Grid>
