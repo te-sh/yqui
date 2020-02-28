@@ -13,3 +13,7 @@
 .overflow-scroll {
   overflow-y: scroll !important;
 }
+
+.player {
+  width: 10em;
+}

@@ -4,9 +4,9 @@ import { Card, CardContent, Typography } from '@material-ui/core'
 const Player = props => {
   console.log(props)
   return (
-    <Card>
+    <Card className="player">
       <CardContent>
-        <Typography>{props.player.name}</Typography>
+        <Typography align="center">{props.player.name}</Typography>
       </CardContent>
     </Card>
   )

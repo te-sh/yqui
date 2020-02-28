@@ -5,9 +5,9 @@ const Actions = props => {
   return (
     <Card>
       <CardContent>
-        <Grid container>
+        <Grid container justify="center">
           <Grid item>
-            <Button>
+            <Button variant="outlined" color="primary" size="large">
               早押し
             </Button>
           </Grid>
