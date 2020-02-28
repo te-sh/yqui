@@ -7,8 +7,9 @@ const initialState = {
   enterRoom: true,
   ws: null,
   room: {
-    ids: [],
-    users: {}
+    users: {},
+    players: [],
+    master: -1
   },
   messages: []
 }

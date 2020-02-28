@@ -63,17 +63,21 @@ func HandleMessage() {
 }
 
 func AddClient(c *websocket.Conn, name string) {
-	id := rand.Int63()
+	id := rand.Int63n(1<<53)
 	ids[c] = id
-	room.IDs = append(room.IDs, id)
 	room.Users[id] = User{name}
+	room.Players = append(room.Players, id)
 
 	Sending <- Message{Type: "room", Content: room}
 }
 
 func RemoveClient(c *websocket.Conn) {
 	id := ids[c]
-	room.IDs = Int64RemoveFirst(room.IDs, id)
+	if room.Master == id {
+		room.Master = -1
+	} else {
+		room.Players = Int64RemoveFirst(room.Players, id)
+	}
 	delete(room.Users, id)
 	delete(ids, c)
 

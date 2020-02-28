@@ -11,8 +11,8 @@ const Messages = ({ props, state }) => {
   ))
 
   return (
-    <Card className="full-height">
-      <CardContent>
+    <Card className="full-height overflow-scroll">
+      <CardContent className="full-height">
         {list}
       </CardContent>
     </Card>

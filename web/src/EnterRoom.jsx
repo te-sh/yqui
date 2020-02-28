@@ -19,11 +19,14 @@ const EnterRoom = ({ props, state, action }) => {
         <DialogTitle id="form-dialog-title">入室</DialogTitle>
         <DialogContent>
           <TextField id="name" label="ハンドル"
+                     inputProps={{maxLength: 10}}
                      value={name}
                      onChange={evt => setName(evt.target.value)} />
         </DialogContent>
         <DialogActions>
-          <Button type="submit" color="primary">入室</Button>
+          <Button type="submit" color="primary" disabled={name.length === 0}>
+            入室
+          </Button>
         </DialogActions>
       </form>
     </Dialog>
