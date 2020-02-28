@@ -47,12 +47,12 @@ const Page = ({ props, state, action }) => {
   }
 
   return (
-    <Grid container direction="column" wrap="nowrap">
+    <Grid container direction="column" wrap="nowrap" style={{height: '100%', maxHeight: '100%'}}>
       <Grid item>
         <TopBar />
       </Grid>
-      <Grid item>
-        <Grid container>
+      <Grid item style={{flexGrow: 1}}>
+        <Grid container style={{height: '100%', maxHeight: '100%'}}>
           <Grid item xs={3}>
             <ChatContainer />
           </Grid>

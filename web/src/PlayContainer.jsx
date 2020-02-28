@@ -5,8 +5,8 @@ import Actions from './Actions'
 
 const PlayContainer = props => {
   return (
-    <Grid container direction="column">
-      <Grid item>
+    <Grid container direction="column" wrap="nowrap" style={{height: '100%', maxHeight: '100%'}}>
+      <Grid item style={{flexGrow: 1}}>
         <Players />
       </Grid>
       <Grid item>
