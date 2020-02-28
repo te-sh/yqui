@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core'
 import { leaveRoom, recvRoom, recvMessage } from './actions'
 import TopBar from './TopBar'
 import ChatContainer from './ChatContainer'
+import PlayContainer from './PlayContainer'
 import EnterRoom from './EnterRoom'
 
 const Page = ({ props, state, action }) => {
@@ -26,14 +27,14 @@ const Page = ({ props, state, action }) => {
         console.log('ws received: ' + evt.data)
         let data = JSON.parse(evt.data)
         switch (data.type) {
-        case 'room':
-          action.recvRoom(data.content)
-          break
-        case 'chat':
-          action.recvMessage(data.content)
-          break
-        default:
-          ;
+          case 'room':
+            action.recvRoom(data.content)
+            break
+          case 'chat':
+            action.recvMessage(data.content)
+            break
+          default:
+            ;
         }
       }
     }
@@ -46,7 +47,7 @@ const Page = ({ props, state, action }) => {
   }
 
   return (
-    <Grid container direction="column" className="full-screen">
+    <Grid container direction="column" wrap="nowrap" className="full-screen">
       <Grid item>
         <TopBar />
       </Grid>
@@ -56,6 +57,7 @@ const Page = ({ props, state, action }) => {
             <ChatContainer />
           </Grid>
           <Grid item xs={9}>
+            <PlayContainer />
           </Grid>
         </Grid>
       </Grid>

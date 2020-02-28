@@ -56,7 +56,7 @@ func HandleMessage() {
 		cmd := <- Received
 		switch (cmd.C) {
 		case "c":
-			chat := Chat{Name: room.Users[cmd.ID].Name, Text: cmd.A}
+			chat := Chat{Name: room.Users[cmd.ID].Name, Text: cmd.A, Time: time.Now().UnixNano()}
 			Sending <- Message{Type: "chat", Content: chat}
 		}
 	}

@@ -8,16 +8,24 @@ import { enterRoom } from './actions'
 const EnterRoom = ({ props, state, action }) => {
   const [name, setName] = React.useState('')
 
+  const enterRoom = evt => {
+    evt.preventDefault();
+    action.enterRoom(name)
+  }
+
   return (
     <Dialog open={state.open} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">入室</DialogTitle>
-      <DialogContent>
-        <TextField id="name" label="ハンドル"
-                   onChange={evt => setName(evt.target.value)} />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => action.enterRoom(name)} color="primary">入室</Button>
-      </DialogActions>
+      <form onSubmit={evt => enterRoom(evt)}>
+        <DialogTitle id="form-dialog-title">入室</DialogTitle>
+        <DialogContent>
+          <TextField id="name" label="ハンドル"
+                     value={name}
+                     onChange={evt => setName(evt.target.value)} />
+        </DialogContent>
+        <DialogActions>
+          <Button type="submit" color="primary">入室</Button>
+        </DialogActions>
+      </form>
     </Dialog>
   )
 }
