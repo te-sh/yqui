@@ -17,7 +17,7 @@ const Chat = ({ props, state }) => {
   return (
     <form onSubmit={evt => chat(evt)}>
       <Grid container alignItems="center" wrap="nowrap">
-        <Grid item className="stretch">
+        <Grid item>
           <TextField id="message" variant="outlined" fullWidth
                      value={message}
                      onChange={evt => setMessage(evt.target.value)} />

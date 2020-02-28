@@ -51,8 +51,8 @@ const Page = ({ props, state, action }) => {
       <Grid item>
         <TopBar />
       </Grid>
-      <Grid item className="stretch">
-        <Grid container alignItems="stretch" style={{height: '100%'}}>
+      <Grid item>
+        <Grid container>
           <Grid item xs={3}>
             <ChatContainer />
           </Grid>

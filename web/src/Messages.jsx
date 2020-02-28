@@ -12,7 +12,7 @@ const Messages = ({ props, state }) => {
 
   return (
     <Card>
-      <CardContent className="full-height">
+      <CardContent>
         {list}
       </CardContent>
     </Card>

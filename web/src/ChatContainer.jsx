@@ -9,7 +9,7 @@ const ChatContainer = props => {
       <Grid item>
         <Chat />
       </Grid>
-      <Grid item className="stretch">
+      <Grid item>
         <Messages />
       </Grid>
     </Grid>

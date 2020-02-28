@@ -5,8 +5,8 @@ import Actions from './Actions'
 
 const PlayContainer = props => {
   return (
-    <Grid container direction="column" className="full-height">
-      <Grid item className="stretch">
+    <Grid container direction="column">
+      <Grid item>
         <Players />
       </Grid>
       <Grid item>
