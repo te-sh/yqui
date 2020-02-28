@@ -8,13 +8,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type Cmd struct {
-	C string `json:"c"`
-	A string `json:"a"`
-}
-
-var clients = make(map[*websocket.Conn]int64)
-var clientIDs []int64
+var ids = make(map[*websocket.Conn]int64)
+var room = NewRoom()
 
 var Received = make(chan Cmd)
 var Sending = make(chan interface {})
@@ -32,7 +27,7 @@ func Ping() {
 	for {
 		<- ticker.C
 		log.Println("ping")
-		for c := range clients {
+		for c := range ids {
 			err := c.WriteMessage(websocket.PingMessage, []byte{})
 			if err != nil {
 				log.Println("err ping: ", err)
@@ -46,7 +41,7 @@ func Broadcast() {
 	for {
 		cmd := <- Sending
 		log.Println("write: ", cmd)
-		for c := range clients {
+		for c := range ids {
 			err := c.WriteJSON(cmd)
 			if err != nil {
 				log.Println("err write: ", err)
@@ -63,15 +58,21 @@ func HandleMessage() {
 	}
 }
 
-func AddClient(c *websocket.Conn) {
+func AddClient(c *websocket.Conn, name string) {
 	id := rand.Int63()
-	clients[c] = id
-	clientIDs = append(clientIDs, id)
+	ids[c] = id
+	room.IDs = append(room.IDs, id)
+	room.Users[id] = User{name}
+
+	Sending <- room
 }
 
 func RemoveClient(c *websocket.Conn) {
-	clientIDs = Int64RemoveFirst(clientIDs, clients[c])
-	delete(clients, c)
+	id := ids[c]
+	room.IDs = Int64RemoveFirst(room.IDs, id)
+	delete(ids, c)
+
+	Sending <- room
 }
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
@@ -92,7 +93,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 
-	AddClient(c)
+	AddClient(c, name)
 	defer RemoveClient(c)
 
 	for {
