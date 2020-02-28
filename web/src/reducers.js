@@ -1,5 +1,5 @@
 import URI from 'urijs'
-import { ENTER_ROOM, ENTER_ROOM_OPEN } from './actions'
+import { ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM } from './actions'
 
 const initialState = {
   enterRoom: true,
@@ -10,41 +10,23 @@ const initialState = {
   }
 }
 
+const uri = URI(window.location.href).protocol('ws').pathname('/ws')
+
 const yquiApp = (state = initialState, action) => {
   switch (action.type) {
-  case ENTER_ROOM:
-    return Object.assign({}, state, {
-      enterRoom: false,
-      ws: createWebSocket(action.name)
-    })
   case ENTER_ROOM_OPEN:
     return Object.assign({}, state, {
       enterRoom: true
     })
+  case ENTER_ROOM:
+    return Object.assign({}, state, {
+      enterRoom: false,
+      ws: new WebSocket(uri.query({ name: action.name }).toString())
+    })
+  case LEAVE_ROOM:
+    return initialState
   default:
     return state
-  }
-}
-
-const uri = URI(window.location.href).protocol('ws').pathname('/ws')
-
-const createWebSocket = name => {
-  var ws = new WebSocket(uri.query({ name }).toString())
-
-  ws.onopen = evt => {
-    console.log('ws open')
-  }
-
-  ws.onclose = evt => {
-    console.log('ws close')
-  }
-
-  ws.onmessage = evt => {
-    console.log('ws received: ' + evt.data)
-  }
-
-  ws.onerror = evt => {
-    console.log('ws error: ' + evt.data)
   }
 }
 
