@@ -1,21 +1,27 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
+import React from 'react'
+import { AppBar, Toolbar, Typography } from '@material-ui/core'
+import URI from 'urijs'
+import EnterRoom from './EnterRoom'
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+const App = props => {
+  console.log('Initialize App')
 
-    console.log('Initialize App')
+  const uri = URI(window.location.href).protocol('ws').pathname('/ws')
+  const [open, setOpen] = React.useState(true)
 
-    var ws = new WebSocket('ws://' + window.location.host + '/ws')
+  const onEnter = (name) => {
+    setOpen(false)
+
+    console.log(name)
+    var ws = new WebSocket(uri.query({ name }).toString())
     ws.onopen = evt => {
       console.log('ws open')
+      ws.send(JSON.stringify({ c: "ws test" }))
     }
     ws.onclose = evt => {
       console.log('ws close')
       ws = null
+      setOpen(true)
     }
     ws.onmessage = evt => {
       console.log('ws received: ' + evt.data)
@@ -23,13 +29,10 @@ class App extends React.Component {
     ws.onerror = evt => {
       console.log('ws error: ' + evt.data)
     }
-    setTimeout(() => {
-      ws.send(JSON.stringify({ c: "ws test" }))
-    }, 1000)
   }
 
-  render() {
-    return (
+  return (
+    <div>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">
@@ -37,8 +40,9 @@ class App extends React.Component {
           </Typography>
         </Toolbar>
       </AppBar>
-    )
-  }
+      <EnterRoom open={open} onEnter={onEnter} />
+    </div>
+  )
 }
 
 export default App;

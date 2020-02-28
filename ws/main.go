@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 	"time"
+	"math/rand"
 	"net/http"
 	"github.com/gorilla/websocket"
-	"github.com/google/uuid"
 )
 
 type Cmd struct {
@@ -13,8 +13,8 @@ type Cmd struct {
 	A string `json:"a"`
 }
 
-var clients = make(map[*websocket.Conn]string)
-var clientIDs []string
+var clients = make(map[*websocket.Conn]int64)
+var clientIDs []int64
 
 var Received = make(chan Cmd)
 var Sending = make(chan interface {})
@@ -63,55 +63,36 @@ func HandleMessage() {
 	}
 }
 
-func AddClient(c *websocket.Conn) error {
-	u, err := uuid.NewRandom()
-	if err != nil {
-		log.Println("err uuid: ", err)
-		return err
-	}
-
-	v := u.String()
-	clients[c] = v
-	clientIDs = append(clientIDs, v)
-
-	return nil
+func AddClient(c *websocket.Conn) {
+	id := rand.Int63()
+	clients[c] = id
+	clientIDs = append(clientIDs, id)
 }
 
 func RemoveClient(c *websocket.Conn) {
-	v := clients[c]
-
-	i := func() int {
-		for j, s := range clientIDs {
-			if s == v {
-				return j
-			}
-		}
-		return -1
-	}()
-	if (i >= 0) {
-		clientIDs = append(clientIDs[:i], clientIDs[i+1:]...)
-	}
-
+	clientIDs = Int64RemoveFirst(clientIDs, clients[c])
 	delete(clients, c)
 }
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
+	name := r.FormValue("name");
+	if name == "" {
+		return
+	}
+
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("err upgrade: ", err)
 		return
 	}
+	defer c.Close()
 
 	c.SetCloseHandler(func(code int, text string) error {
 		log.Println("close: ", text)
 		return nil
 	})
 
-	err2 := AddClient(c)
-	if err2 != nil {
-		log.Println("err add client: ", err2)
-		return
-	}
+	AddClient(c)
 	defer RemoveClient(c)
 
 	for {
@@ -127,6 +108,8 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
+
 	go HandleMessage()
 	go Broadcast()
 	go Ping()
