@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { AppBar, Toolbar, Typography } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { leaveRoom } from './actions'
+import TopBar from './TopBar'
+import Chat from './Chat'
 import EnterRoom from './EnterRoom'
 
 const Page = ({ props, state, action }) => {
@@ -34,13 +36,14 @@ const Page = ({ props, state, action }) => {
 
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">
-            Yqui
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <TopBar />
+      <Grid container>
+        <Grid item xs={3}>
+          <Chat />
+        </Grid>
+        <Grid item xs={9}>
+        </Grid>
+      </Grid>
       <EnterRoom />
     </div>
   )
