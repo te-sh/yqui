@@ -1,5 +1,7 @@
 import URI from 'urijs'
-import { ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM } from './actions'
+import {
+  ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM, RECV_ROOM, RECV_MESSAGE
+} from './actions'
 
 const initialState = {
   enterRoom: true,
@@ -7,7 +9,8 @@ const initialState = {
   room: {
     ids: [],
     users: {}
-  }
+  },
+  messages: []
 }
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
@@ -25,6 +28,14 @@ const yquiApp = (state = initialState, action) => {
     })
   case LEAVE_ROOM:
     return initialState
+  case RECV_ROOM:
+    return Object.assign({}, state, {
+      room: action.room
+    })
+  case RECV_MESSAGE:
+    return Object.assign({}, state, {
+      messages: [action.message].concat(state.messages)
+    })
   default:
     return state
   }

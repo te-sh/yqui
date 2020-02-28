@@ -1,20 +1,39 @@
 import React from 'react'
-import { Card, CardContent, Grid, TextField } from '@material-ui/core'
+import { connect } from 'react-redux'
+import { Grid, IconButton, TextField } from '@material-ui/core'
+import { Edit } from '@material-ui/icons'
 
-const Chat = props => {
+const Chat = ({ props, state }) => {
+  const [message, setMessage] = React.useState('')
+
+  const chat = evt => {
+    evt.preventDefault()
+    if (state.ws) {
+      state.ws.send(JSON.stringify({ c: "c", a: message }))
+      setMessage("")
+    }
+  }
+
   return (
-    <Grid container direction="column">
-      <Grid item>
-        <TextField id="message" variant="outlined" fullWidth />
+    <form onSubmit={evt => chat(evt)}>
+      <Grid container>
+        <Grid item className="stretch">
+          <TextField id="message" variant="outlined" fullWidth
+                     value={message}
+                     onChange={evt => setMessage(evt.target.value)} />
+        </Grid>
+        <Grid item>
+          <IconButton type="submit">
+            <Edit />
+          </IconButton>
+        </Grid>
       </Grid>
-      <Grid item>
-        <Card>
-          <CardContent>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+    </form>
   )
 }
 
-export default Chat
+export default connect(
+  state => ({ state: {
+    ws: state.ws
+  }})
+)(Chat)

@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Grid } from '@material-ui/core'
-import { leaveRoom } from './actions'
+import { leaveRoom, recvRoom, recvMessage } from './actions'
 import TopBar from './TopBar'
-import Chat from './Chat'
+import ChatContainer from './ChatContainer'
 import EnterRoom from './EnterRoom'
 
 const Page = ({ props, state, action }) => {
@@ -24,6 +24,17 @@ const Page = ({ props, state, action }) => {
     if (!state.ws.onmessage) {
       state.ws.onmessage = evt => {
         console.log('ws received: ' + evt.data)
+        let data = JSON.parse(evt.data)
+        switch (data.type) {
+        case 'room':
+          action.recvRoom(data.content)
+          break
+        case 'chat':
+          action.recvMessage(data.content)
+          break
+        default:
+          ;
+        }
       }
     }
 
@@ -35,17 +46,21 @@ const Page = ({ props, state, action }) => {
   }
 
   return (
-    <div>
-      <TopBar />
-      <Grid container>
-        <Grid item xs={3}>
-          <Chat />
-        </Grid>
-        <Grid item xs={9}>
+    <Grid container direction="column" className="full-screen">
+      <Grid item>
+        <TopBar />
+      </Grid>
+      <Grid item className="stretch">
+        <Grid container alignItems="stretch" className="full-height">
+          <Grid item xs={3}>
+            <ChatContainer />
+          </Grid>
+          <Grid item xs={9}>
+          </Grid>
         </Grid>
       </Grid>
       <EnterRoom />
-    </div>
+    </Grid>
   )
 }
 
@@ -54,6 +69,8 @@ export default connect(
     ws: state.ws
   }}),
   dispatch => ({ action: {
-    leaveRoom: () => dispatch(leaveRoom())
+    leaveRoom: () => dispatch(leaveRoom()),
+    recvRoom: (room) => dispatch(recvRoom(room)),
+    recvMessage: (message) => dispatch(recvMessage(message))
   }})
 )(Page)

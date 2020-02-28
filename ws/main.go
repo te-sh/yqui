@@ -12,7 +12,7 @@ var ids = make(map[*websocket.Conn]int64)
 var room = NewRoom()
 
 var Received = make(chan Cmd)
-var Sending = make(chan interface {})
+var Sending = make(chan Message)
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
@@ -39,10 +39,10 @@ func Ping() {
 
 func Broadcast() {
 	for {
-		cmd := <- Sending
-		log.Println("write: ", cmd)
+		msg := <- Sending
+		log.Println("write: ", msg)
 		for c := range ids {
-			err := c.WriteJSON(cmd)
+			err := c.WriteJSON(msg)
 			if err != nil {
 				log.Println("err write: ", err)
 				return
@@ -54,7 +54,11 @@ func Broadcast() {
 func HandleMessage() {
 	for {
 		cmd := <- Received
-		Sending <- cmd
+		switch (cmd.C) {
+		case "c":
+			chat := Chat{Name: room.Users[cmd.ID].Name, Text: cmd.A}
+			Sending <- Message{Type: "chat", Content: chat}
+		}
 	}
 }
 
@@ -64,15 +68,16 @@ func AddClient(c *websocket.Conn, name string) {
 	room.IDs = append(room.IDs, id)
 	room.Users[id] = User{name}
 
-	Sending <- room
+	Sending <- Message{Type: "room", Content: room}
 }
 
 func RemoveClient(c *websocket.Conn) {
 	id := ids[c]
 	room.IDs = Int64RemoveFirst(room.IDs, id)
+	delete(room.Users, id)
 	delete(ids, c)
 
-	Sending <- room
+	Sending <- Message{Type: "room", Content: room}
 }
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
@@ -104,6 +109,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		log.Println("received: ", cmd)
+		cmd.ID = ids[c]
 		Received <- cmd
 	}
 }
