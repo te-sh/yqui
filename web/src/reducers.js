@@ -1,6 +1,7 @@
 import URI from 'urijs'
 import {
-  ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM, RECV_ROOM, RECV_MESSAGE
+  ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM,
+  RECV_ROOM, RECV_MESSAGE, RECV_ANSWERS
 } from './actions'
 
 const initialState = {
@@ -9,8 +10,9 @@ const initialState = {
   room: {
     users: {},
     players: [],
-    master: -1
+    master: -1,
   },
+  answers: [],
   messages: []
 }
 
@@ -36,6 +38,10 @@ const yquiApp = (state = initialState, action) => {
   case RECV_MESSAGE:
     return Object.assign({}, state, {
       messages: [action.message].concat(state.messages)
+    })
+  case RECV_ANSWERS:
+    return Object.assign({}, state, {
+      answers: action.answers
     })
   default:
     return state

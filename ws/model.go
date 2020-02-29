@@ -3,7 +3,8 @@ package main
 type Cmd struct {
 	C string `json:"c"`
 	A string `json:"a"`
-	ID int64
+	ID int64 `json:"-"`
+	Time int64 `json:"-"`
 }
 
 type Message struct {
@@ -12,6 +13,7 @@ type Message struct {
 }
 
 type User struct {
+	ID int64 `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -31,5 +33,10 @@ func NewRoom() *Room {
 type Chat struct {
 	Name string `json:"name"`
 	Text string `json:"text"`
+	Time int64 `json:"time"`
+}
+
+type Answer struct {
+	ID int64 `json:"id"`
 	Time int64 `json:"time"`
 }

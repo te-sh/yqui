@@ -2,9 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Paper, Typography } from '@material-ui/core'
 
-const Messages = ({ props, state }) => {
-  console.log(state)
-  const list = state.messages.map((message) => (
+const Messages = ({ messages }) => {
+  const list = messages.map((message) => (
     <Typography key={message.time}>
       {message.name} &gt; {message.text}
     </Typography>
@@ -18,7 +17,7 @@ const Messages = ({ props, state }) => {
 }
 
 export default connect(
-  state => ({ state: {
+  state => ({
     messages: state.messages
-  }})
+  })
 )(Messages)

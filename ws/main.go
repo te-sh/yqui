@@ -10,6 +10,7 @@ import (
 
 var ids = make(map[*websocket.Conn]int64)
 var room = NewRoom()
+var answers []Answer
 
 var Received = make(chan Cmd)
 var Sending = make(chan Message)
@@ -56,8 +57,13 @@ func HandleMessage() {
 		cmd := <- Received
 		switch (cmd.C) {
 		case "c":
-			chat := Chat{Name: room.Users[cmd.ID].Name, Text: cmd.A, Time: time.Now().UnixNano()}
+			chat := Chat{Name: room.Users[cmd.ID].Name, Text: cmd.A, Time: cmd.Time}
 			Sending <- Message{Type: "chat", Content: chat}
+		case "a":
+			if AnswerFindIndex(answers, cmd.ID) < 0 {
+				answers = append(answers, Answer{ID: cmd.ID, Time: cmd.Time})
+				Sending <- Message{Type: "answers", Content: answers}
+			}
 		}
 	}
 }
@@ -65,10 +71,11 @@ func HandleMessage() {
 func AddClient(c *websocket.Conn, name string) {
 	id := rand.Int63n(1<<53)
 	ids[c] = id
-	room.Users[id] = User{name}
+	room.Users[id] = User{ID: id, Name: name}
 	room.Players = append(room.Players, id)
 
 	Sending <- Message{Type: "room", Content: room}
+	Sending <- Message{Type: "answers", Content: answers}
 }
 
 func RemoveClient(c *websocket.Conn) {
@@ -114,6 +121,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		}
 		log.Println("received: ", cmd)
 		cmd.ID = ids[c]
+		cmd.Time = time.Now().UnixNano() / 1000
 		Received <- cmd
 	}
 }

@@ -5,17 +5,17 @@ import {
 } from '@material-ui/core'
 import { enterRoom } from './actions'
 
-const EnterRoom = ({ props, state, action }) => {
+const EnterRoom = ({ open, enterRoom }) => {
   const [name, setName] = React.useState('')
 
-  const enterRoom = evt => {
+  const submit = evt => {
     evt.preventDefault();
-    action.enterRoom(name)
+    enterRoom(name)
   }
 
   return (
-    <Dialog open={state.open} aria-labelledby="form-dialog-title">
-      <form onSubmit={evt => enterRoom(evt)}>
+    <Dialog open={open} aria-labelledby="form-dialog-title">
+      <form onSubmit={evt => submit(evt)}>
         <DialogTitle id="form-dialog-title">入室</DialogTitle>
         <DialogContent>
           <TextField id="name" label="ハンドル"
@@ -34,10 +34,10 @@ const EnterRoom = ({ props, state, action }) => {
 }
 
 export default connect(
-  state => ({ state: {
+  state => ({
     open: state.enterRoom
-  }}),
-  dispatch => ({ action: {
+  }),
+  dispatch => ({
     enterRoom: data => dispatch(enterRoom(data))
-  }})
+  })
 )(EnterRoom)

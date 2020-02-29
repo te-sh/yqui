@@ -3,6 +3,7 @@ export const ENTER_ROOM = 'ENTER_ROOM'
 export const LEAVE_ROOM = 'LEAVE_ROOM'
 export const RECV_ROOM = 'RECV_ROOM'
 export const RECV_MESSAGE = 'RECV_MESSAGE'
+export const RECV_ANSWERS = 'RECV_ANSWERS'
 
 export const enterRoomOpen = () => {
   return { type: ENTER_ROOM_OPEN }
@@ -22,4 +23,8 @@ export const recvRoom = (room) => {
 
 export const recvMessage = (message) => {
   return { type: RECV_MESSAGE, message }
+}
+
+export const recvAnswers = (answers) => {
+  return { type: RECV_ANSWERS, answers }
 }

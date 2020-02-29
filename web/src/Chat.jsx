@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import { IconButton, Paper, TextField } from '@material-ui/core'
 import { Edit } from '@material-ui/icons'
 
-const Chat = ({ props, state }) => {
+const Chat = ({ ws }) => {
   const [message, setMessage] = React.useState('')
 
   const chat = evt => {
     evt.preventDefault()
-    if (state.ws) {
-      state.ws.send(JSON.stringify({ c: "c", a: message }))
+    if (ws) {
+      ws.send(JSON.stringify({ c: "c", a: message }))
       setMessage("")
     }
   }
@@ -29,7 +29,7 @@ const Chat = ({ props, state }) => {
 }
 
 export default connect(
-  state => ({ state: {
+  state => ({
     ws: state.ws
-  }})
+  })
 )(Chat)

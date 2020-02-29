@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { leaveRoom, recvRoom, recvMessage } from './actions'
+import { leaveRoom, recvAnswers, recvRoom, recvMessage } from './actions'
 import TopBar from './TopBar'
 import Chat from './Chat'
 import Messages from './Messages'
@@ -8,26 +8,29 @@ import Players from './Players'
 import Actions from './Actions'
 import EnterRoom from './EnterRoom'
 
-const Page = ({ props, state, action }) => {
-  if (state.ws) {
-    if (!state.ws.onopen) {
-      state.ws.onopen = evt => {
+const Page = ({ ws, action }) => {
+  if (ws) {
+    if (!ws.onopen) {
+      ws.onopen = evt => {
         console.log('ws open')
       }
     }
 
-    if (!state.ws.onclose) {
-      state.ws.onclose = evt => {
+    if (!ws.onclose) {
+      ws.onclose = evt => {
         console.log('ws close')
         action.leaveRoom()
       }
     }
 
-    if (!state.ws.onmessage) {
-      state.ws.onmessage = evt => {
+    if (!ws.onmessage) {
+      ws.onmessage = evt => {
         console.log('ws received: ' + evt.data)
         let data = JSON.parse(evt.data)
         switch (data.type) {
+          case 'answers':
+            action.recvAnswers(data.content)
+            break
           case 'room':
             action.recvRoom(data.content)
             break
@@ -40,8 +43,8 @@ const Page = ({ props, state, action }) => {
       }
     }
 
-    if (!state.ws.onerror) {
-      state.ws.onerror = evt => {
+    if (!ws.onerror) {
+      ws.onerror = evt => {
         console.log('ws error: ' + evt.data)
       }
     }
@@ -60,11 +63,12 @@ const Page = ({ props, state, action }) => {
 }
 
 export default connect(
-  state => ({ state: {
+  state => ({
     ws: state.ws
-  }}),
+  }),
   dispatch => ({ action: {
     leaveRoom: () => dispatch(leaveRoom()),
+    recvAnswers: (answers) => dispatch(recvAnswers(answers)),
     recvRoom: (room) => dispatch(recvRoom(room)),
     recvMessage: (message) => dispatch(recvMessage(message))
   }})
