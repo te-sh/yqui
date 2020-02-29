@@ -10,8 +10,9 @@ import (
 
 var ids = make(map[*websocket.Conn]int64)
 var room = NewRoom()
-var answers []Answer
-var right int64 = -1
+var answers []int64
+var answerTimes []int64
+var right int = -1
 
 var Received = make(chan Cmd)
 var Sending = make(chan Message)
@@ -58,45 +59,44 @@ func HandleMessage() {
 		cmd := <- Received
 		switch (cmd.C) {
 		case "a":
-			if AnswerFindIndex(answers, cmd.ID) < 0 {
+			if Int64FindIndex(answers, cmd.ID) < 0 {
 				if len(answers) == 0 {
-					right = cmd.ID
+					right = 0
 					Sending <- Message{Type: "sound", Content: "push"}
-					Sending <- Message{Type: "right", Content: cmd.ID}
+					Sending <- Message{Type: "right", Content: right}
 				}
-				answers = append(answers, Answer{ID: cmd.ID, Time: cmd.Time})
+				answers = append(answers, cmd.ID)
+				answerTimes = append(answerTimes, cmd.Time)
 				Sending <- Message{Type: "answers", Content: answers}
+				Sending <- Message{Type: "answerTimes", Content: answerTimes}
 			}
 		case "s":
-			player, ok := room.Users[right]
+			player, ok := room.Users[answers[right]]
 			if ok {
 				player.Correct += 1
-				right = -1
-				Sending <- Message{Type: "sound", Content: "correct"}
-				Sending <- Message{Type: "room", Content: room}
-				Sending <- Message{Type: "right", Content: right}
 			}
+			right = -1
+			Sending <- Message{Type: "sound", Content: "correct"}
+			Sending <- Message{Type: "room", Content: room}
+			Sending <- Message{Type: "right", Content: right}
 		case "f":
-			player, ok := room.Users[right]
+			player, ok := room.Users[answers[right]]
 			if ok {
 				player.Wrong += 1
-				i := AnswerFindIndex(answers, right)
-				if i >= 0 {
-					if i < len(answers) - 1 {
-						right = answers[i + 1].ID
-					} else {
-						right = -1
-					}
-				}
-				right = -1
-				Sending <- Message{Type: "sound", Content: "wrong"}
-				Sending <- Message{Type: "room", Content: room}
-				Sending <- Message{Type: "right", Content: right}
 			}
+			if right < len(answers) - 1 {
+				right += 1
+			}
+			Sending <- Message{Type: "sound", Content: "wrong"}
+			Sending <- Message{Type: "room", Content: room}
+			Sending <- Message{Type: "right", Content: right}
 		case "r":
 			answers = nil
+			answerTimes = nil
 			right = -1
 			Sending <- Message{Type: "answers", Content: answers}
+			Sending <- Message{Type: "answerTimes", Content: answerTimes}
+			Sending <- Message{Type: "right", Content: right}
 		case "m":
 			if room.Master == cmd.ID {
 				room.Master = -1

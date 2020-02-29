@@ -17,12 +17,3 @@ func Int64FindIndex(a []int64, b int64) int {
 	}
 	return -1
 }
-
-func AnswerFindIndex(a []Answer, b int64) int {
-	for i, e := range a {
-		if e.ID == b {
-			return i
-		}
-	}
-	return -1
-}

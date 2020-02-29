@@ -4,11 +4,13 @@ import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 
 const Player = ({ player, answers, right }) => {
-  const order = answers ? answers.findIndex(answer => answer.id === player.id) : -1
+  const order = answers ? answers.findIndex(answer => answer === player.id) : -1
+
+  console.log(order, right);
 
   const orderClass = classNames(
     'decorate',
-    { 'right': player.id === right }
+    { 'right': right >= 0 && order === right }
   )
 
   return (
