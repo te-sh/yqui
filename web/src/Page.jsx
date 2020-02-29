@@ -1,15 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {
-  leaveRoom, playSound, recvAnswers, recvSelfID, recvRoom, recvMessage
-} from './redux/actions'
+import playSound from './sound'
+import { leaveRoom, recvAnswers, recvSelfID, recvRoom, recvMessage } from './redux/actions'
 import TopBar from './TopBar'
 import Chat from './Chat'
 import Messages from './Messages'
 import Players from './Players'
 import Actions from './Actions'
 import EnterRoom from './EnterRoom'
-import SoundEffect from './SoundEffect'
 
 const Page = ({ ws, action }) => {
   if (ws) {
@@ -31,11 +29,11 @@ const Page = ({ ws, action }) => {
         console.log('ws received: ' + evt.data)
         let data = JSON.parse(evt.data)
         switch (data.type) {
+          case 'sound':
+            playSound(data.content)
+            break
           case 'answers':
             action.recvAnswers(data.content)
-            break
-          case 'sound':
-            action.playSound(data.content)
             break
           case 'selfID':
             action.recvSelfID(data.content)
@@ -67,7 +65,6 @@ const Page = ({ ws, action }) => {
       <Players />
       <Actions />
       <EnterRoom />
-      <SoundEffect />
     </div>
   )
 }

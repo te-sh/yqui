@@ -1,7 +1,6 @@
 export const ENTER_ROOM_OPEN = 'ENTER_ROOM_OPEN'
 export const ENTER_ROOM = 'ENTER_ROOM'
 export const LEAVE_ROOM = 'LEAVE_ROOM'
-export const PLAY_SOUND = 'PLAY_SOUND'
 export const RECV_ANSWERS = 'RECV_ANSWERS'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
@@ -17,10 +16,6 @@ export const enterRoom = name => {
 
 export const leaveRoom = () => {
   return { type: LEAVE_ROOM }
-}
-
-export const playSound = name => {
-  return { type: PLAY_SOUND, name }
 }
 
 export const recvAnswers = answers => {
