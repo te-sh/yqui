@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { IconButton, TextField } from '@material-ui/core'
+import { IconButton, Paper, TextField } from '@material-ui/core'
 import { Edit } from '@material-ui/icons'
 
 const Chat = ({ props, state }) => {
@@ -15,14 +15,16 @@ const Chat = ({ props, state }) => {
   }
 
   return (
-    <form onSubmit={evt => chat(evt)}>
-      <TextField id="message" variant="outlined" fullWidth
-                 value={message}
-                 onChange={evt => setMessage(evt.target.value)} />
-      <IconButton type="submit">
-        <Edit />
-      </IconButton>
-    </form>
+    <Paper className="chat">
+      <form onSubmit={evt => chat(evt)} className="chat-input">
+        <TextField id="message" variant="outlined" fullWidth
+                   value={message}
+                   onChange={evt => setMessage(evt.target.value)} />
+        <IconButton type="submit">
+          <Edit />
+        </IconButton>
+      </form>
+    </Paper>
   )
 }
 

@@ -2,8 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { leaveRoom, recvRoom, recvMessage } from './actions'
 import TopBar from './TopBar'
-import ChatContainer from './ChatContainer'
-import PlayContainer from './PlayContainer'
+import Chat from './Chat'
+import Messages from './Messages'
+import Players from './Players'
+import Actions from './Actions'
 import EnterRoom from './EnterRoom'
 
 const Page = ({ props, state, action }) => {
@@ -46,10 +48,12 @@ const Page = ({ props, state, action }) => {
   }
 
   return (
-    <div>
+    <div className="page">
       <TopBar />
-      <ChatContainer />
-      <PlayContainer />
+      <Chat />
+      <Messages />
+      <Players />
+      <Actions />
       <EnterRoom />
     </div>
   )

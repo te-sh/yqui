@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, CardContent, Typography } from '@material-ui/core'
+import { Paper, Typography } from '@material-ui/core'
 
 const Messages = ({ props, state }) => {
   console.log(state)
@@ -11,11 +11,9 @@ const Messages = ({ props, state }) => {
   ))
 
   return (
-    <Card>
-      <CardContent>
-        {list}
-      </CardContent>
-    </Card>
+    <Paper className="messages" style={{overflowY: 'scroll'}}>
+      {list}
+    </Paper>
   )
 }
 

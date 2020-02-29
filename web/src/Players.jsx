@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Grid } from '@material-ui/core'
+import { Grid, Paper } from '@material-ui/core'
 import Player from './Player'
 
 const Players = ({ props, state }) => {
@@ -12,9 +12,11 @@ const Players = ({ props, state }) => {
     </Grid>
   ))
   return (
-    <Grid container justify="center" alignItems="center">
-      {list}
-    </Grid>
+    <Paper className="players">
+      <Grid container justify="center" alignItems="center">
+        {list}
+      </Grid>
+    </Paper>
   )
 }
 
