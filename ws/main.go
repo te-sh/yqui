@@ -58,6 +58,9 @@ func HandleMessage() {
 		switch (cmd.C) {
 		case "a":
 			if AnswerFindIndex(answers, cmd.ID) < 0 {
+				if len(answers) == 0 {
+					Sending <- Message{Type: "sound", Content: "push"}
+				}
 				answers = append(answers, Answer{ID: cmd.ID, Time: cmd.Time})
 				Sending <- Message{Type: "answers", Content: answers}
 			}

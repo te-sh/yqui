@@ -1,6 +1,6 @@
 import URI from 'urijs'
 import {
-  ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM,
+  ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM, PLAY_SOUND,
   RECV_SELF_ID, RECV_ROOM, RECV_MESSAGE, RECV_ANSWERS
 } from './actions'
 
@@ -14,7 +14,8 @@ const initialState = {
     master: -1,
   },
   answers: [],
-  messages: []
+  messages: [],
+  sound: null
 }
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
@@ -32,6 +33,10 @@ const yquiApp = (state = initialState, action) => {
     })
   case LEAVE_ROOM:
     return initialState
+  case PLAY_SOUND:
+    return Object.assign({}, state, {
+      sound: action.name
+    })
   case RECV_ANSWERS:
     return Object.assign({}, state, {
       answers: action.answers

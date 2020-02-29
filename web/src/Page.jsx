@@ -1,12 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { leaveRoom, recvAnswers, recvSelfID, recvRoom, recvMessage } from './redux/actions'
+import {
+  leaveRoom, playSound, recvAnswers, recvSelfID, recvRoom, recvMessage
+} from './redux/actions'
 import TopBar from './TopBar'
 import Chat from './Chat'
 import Messages from './Messages'
 import Players from './Players'
 import Actions from './Actions'
 import EnterRoom from './EnterRoom'
+import SoundEffect from './SoundEffect'
 
 const Page = ({ ws, action }) => {
   if (ws) {
@@ -30,6 +33,9 @@ const Page = ({ ws, action }) => {
         switch (data.type) {
           case 'answers':
             action.recvAnswers(data.content)
+            break
+          case 'sound':
+            action.playSound(data.content)
             break
           case 'selfID':
             action.recvSelfID(data.content)
@@ -61,6 +67,7 @@ const Page = ({ ws, action }) => {
       <Players />
       <Actions />
       <EnterRoom />
+      <SoundEffect />
     </div>
   )
 }
@@ -71,9 +78,10 @@ export default connect(
   }),
   dispatch => ({ action: {
     leaveRoom: () => dispatch(leaveRoom()),
-    recvAnswers: (answers) => dispatch(recvAnswers(answers)),
-    recvSelfID: (selfID) => dispatch(recvSelfID(selfID)),
-    recvRoom: (room) => dispatch(recvRoom(room)),
-    recvMessage: (message) => dispatch(recvMessage(message))
+    playSound: name => dispatch(playSound(name)),
+    recvAnswers: answers => dispatch(recvAnswers(answers)),
+    recvSelfID: selfID => dispatch(recvSelfID(selfID)),
+    recvRoom: room => dispatch(recvRoom(room)),
+    recvMessage: message => dispatch(recvMessage(message))
   }})
 )(Page)

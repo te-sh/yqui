@@ -4,7 +4,7 @@ import { Grid, Paper } from '@material-ui/core'
 import Player from './Player'
 
 const Players = ({ room }) => {
-  const list = room.players.map((player) => (
+  const list = room.players.map(player => (
     <Grid item key={player}>
       <Player player={room.users[player]} />
     </Grid>

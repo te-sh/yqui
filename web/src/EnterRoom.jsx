@@ -38,6 +38,6 @@ export default connect(
     open: state.enterRoom
   }),
   dispatch => ({
-    enterRoom: data => dispatch(enterRoom(data))
+    enterRoom: name => dispatch(enterRoom(name))
   })
 )(EnterRoom)

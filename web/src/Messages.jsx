@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Paper, Typography } from '@material-ui/core'
 
 const Messages = ({ messages }) => {
-  const list = messages.map((message) => (
+  const list = messages.map(message => (
     <Typography key={message.time}>
       {message.name} &gt; {message.text}
     </Typography>
