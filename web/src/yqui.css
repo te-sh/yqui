@@ -37,32 +37,87 @@
   padding: 8px;
   grid-column: 2/3;
   grid-row: 2/4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .actions {
   padding: 16px;
   grid-column: 2/3;
   grid-row: 4/5;
-}
-
-.player {
-  width: 10em;
-}
-
-.answer-order {
-  border: solid 1px black;
-  width: 30px;
-  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.answer-order-content {
+.actions button {
+  margin: 0 10px;
+}
+
+.player {
+  width: 150px;
+  margin: 8px;
+  padding: 5px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 35px 1fr 35px;
+}
+
+.player-name {
+  grid-column: 1/4;
+  grid-row: 1/2;
+  border-bottom: solid 1px #656565;
+}
+
+.answer-order {
+  grid-column: 1/2;
+  grid-row: 2/3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.answer-order .decorate {
+  border: solid 1px black;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+}
+
+.answer-order .content {
   font-family: 'Odibee Sans';
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .answer-order.right {
   background-color: #90caef;
+}
+
+.correct {
+  grid-column: 2/3;
+  grid-row: 2/3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #8bc34a;
+}
+
+.correct .content {
+  font-family: 'Krona One';
+  font-size: 44px;
+}
+
+.wrong {
+  grid-column: 3/4;
+  grid-row: 2/3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f44336;
+}
+
+.wrong .content {
+  font-family: 'Krona One';
+  font-size: 32px;
 }

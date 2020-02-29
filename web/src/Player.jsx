@@ -7,20 +7,34 @@ const Player = ({ player, answers, right }) => {
   const order = answers ? answers.findIndex(answer => answer.id === player.id) : -1
 
   const orderClass = classNames(
-    'answer-order',
-    { 'right': player.id == right }
+    'decorate',
+    { 'right': player.id === right }
   )
 
   return (
     <Paper className="player">
-      <Typography align="center">{player.name}</Typography>
-      <Typography align="center" className={orderClass}>
-        <span className="answer-order-content">
-          {order >= 0 ? order + 1 : ""}
-        </span>
-      </Typography>
-      <Typography className="correct">{player.correct}</Typography>
-      <Typography className="wrong">{player.wrong}</Typography>
+      <Box className="player-name">
+        <Typography align="center">
+          {player.name}
+        </Typography>
+      </Box>
+      <Box className="answer-order">
+        <Box className={orderClass}>
+          <Typography align="center" className="content">
+            {order >= 0 ? order + 1 : ""}
+          </Typography>
+        </Box>
+      </Box>
+      <Box className="correct">
+        <Typography className="content">
+          {player.correct}
+        </Typography>
+      </Box>
+      <Box className="wrong">
+        <Typography className="content">
+          {player.wrong}
+        </Typography>
+      </Box>
     </Paper>
   )
 }
