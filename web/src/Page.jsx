@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Grid } from '@material-ui/core'
 import { leaveRoom, recvRoom, recvMessage } from './actions'
 import TopBar from './TopBar'
 import ChatContainer from './ChatContainer'
@@ -47,22 +46,12 @@ const Page = ({ props, state, action }) => {
   }
 
   return (
-    <Grid container direction="column" wrap="nowrap" style={{height: '100%', maxHeight: '100%'}}>
-      <Grid item>
-        <TopBar />
-      </Grid>
-      <Grid item style={{flexGrow: 1}}>
-        <Grid container style={{height: '100%', maxHeight: '100%'}}>
-          <Grid item xs={3}>
-            <ChatContainer />
-          </Grid>
-          <Grid item xs={9}>
-            <PlayContainer />
-          </Grid>
-        </Grid>
-      </Grid>
+    <div>
+      <TopBar />
+      <ChatContainer />
+      <PlayContainer />
       <EnterRoom />
-    </Grid>
+    </div>
   )
 }
 

@@ -11,7 +11,7 @@ const Messages = ({ props, state }) => {
   ))
 
   return (
-    <Card style={{height: '100%', maxHeight: '100%'}}>
+    <Card>
       <CardContent>
         {list}
       </CardContent>
