@@ -9,8 +9,8 @@ const Chat = ({ ws }) => {
   const chat = evt => {
     evt.preventDefault()
     if (ws) {
-      ws.send(JSON.stringify({ c: "c", a: message }))
-      setMessage("")
+      ws.send(JSON.stringify({ c: 'c', a: message }))
+      setMessage('')
     }
   }
 

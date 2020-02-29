@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField
 } from '@material-ui/core'
-import { enterRoom } from './actions'
+import { enterRoom } from './redux/actions'
 
 const EnterRoom = ({ open, enterRoom }) => {
   const [name, setName] = React.useState('')

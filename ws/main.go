@@ -56,14 +56,26 @@ func HandleMessage() {
 	for {
 		cmd := <- Received
 		switch (cmd.C) {
-		case "c":
-			chat := Chat{Name: room.Users[cmd.ID].Name, Text: cmd.A, Time: cmd.Time}
-			Sending <- Message{Type: "chat", Content: chat}
 		case "a":
 			if AnswerFindIndex(answers, cmd.ID) < 0 {
 				answers = append(answers, Answer{ID: cmd.ID, Time: cmd.Time})
 				Sending <- Message{Type: "answers", Content: answers}
 			}
+		case "r":
+			answers = nil
+			Sending <- Message{Type: "answers", Content: answers}
+		case "m":
+			if room.Master == cmd.ID {
+				room.Master = -1
+				room.Players = append(room.Players, cmd.ID)
+			} else if room.Master < 0 {
+				room.Master = cmd.ID
+				room.Players = Int64Remove(room.Players, cmd.ID)
+			}
+			Sending <- Message{Type: "room", Content: room}
+		case "c":
+			chat := Chat{Name: room.Users[cmd.ID].Name, Text: cmd.A, Time: cmd.Time}
+			Sending <- Message{Type: "chat", Content: chat}
 		}
 	}
 }
@@ -83,7 +95,7 @@ func RemoveClient(c *websocket.Conn) {
 	if room.Master == id {
 		room.Master = -1
 	} else {
-		room.Players = Int64RemoveFirst(room.Players, id)
+		room.Players = Int64Remove(room.Players, id)
 	}
 	delete(room.Users, id)
 	delete(ids, c)
@@ -111,6 +123,12 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 
 	AddClient(c, name)
 	defer RemoveClient(c)
+
+	err2 := c.WriteJSON(Message{Type: "selfID", Content: ids[c]})
+	if err2 != nil {
+		log.Println("err write: ", err2)
+		return
+	}
 
 	for {
 		var cmd Cmd

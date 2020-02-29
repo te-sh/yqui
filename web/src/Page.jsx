@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { leaveRoom, recvAnswers, recvRoom, recvMessage } from './actions'
+import { leaveRoom, recvAnswers, recvSelfID, recvRoom, recvMessage } from './redux/actions'
 import TopBar from './TopBar'
 import Chat from './Chat'
 import Messages from './Messages'
@@ -30,6 +30,9 @@ const Page = ({ ws, action }) => {
         switch (data.type) {
           case 'answers':
             action.recvAnswers(data.content)
+            break
+          case 'selfID':
+            action.recvSelfID(data.content)
             break
           case 'room':
             action.recvRoom(data.content)
@@ -69,6 +72,7 @@ export default connect(
   dispatch => ({ action: {
     leaveRoom: () => dispatch(leaveRoom()),
     recvAnswers: (answers) => dispatch(recvAnswers(answers)),
+    recvSelfID: (selfID) => dispatch(recvSelfID(selfID)),
     recvRoom: (room) => dispatch(recvRoom(room)),
     recvMessage: (message) => dispatch(recvMessage(message))
   }})

@@ -1,6 +1,6 @@
 package main
 
-func Int64RemoveFirst(a []int64, b int64) []int64 {
+func Int64Remove(a []int64, b int64) []int64 {
 	i := Int64FindIndex(a, b)
 	if (i >= 0) {
 		return append(a[:i], a[i+1:]...)

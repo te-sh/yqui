@@ -1,12 +1,13 @@
 import URI from 'urijs'
 import {
   ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM,
-  RECV_ROOM, RECV_MESSAGE, RECV_ANSWERS
+  RECV_SELF_ID, RECV_ROOM, RECV_MESSAGE, RECV_ANSWERS
 } from './actions'
 
 const initialState = {
   enterRoom: true,
   ws: null,
+  selfID: null,
   room: {
     users: {},
     players: [],
@@ -31,6 +32,14 @@ const yquiApp = (state = initialState, action) => {
     })
   case LEAVE_ROOM:
     return initialState
+  case RECV_ANSWERS:
+    return Object.assign({}, state, {
+      answers: action.answers
+    })
+  case RECV_SELF_ID:
+    return Object.assign({}, state, {
+      selfID: action.selfID
+    })
   case RECV_ROOM:
     return Object.assign({}, state, {
       room: action.room
@@ -38,10 +47,6 @@ const yquiApp = (state = initialState, action) => {
   case RECV_MESSAGE:
     return Object.assign({}, state, {
       messages: [action.message].concat(state.messages)
-    })
-  case RECV_ANSWERS:
-    return Object.assign({}, state, {
-      answers: action.answers
     })
   default:
     return state
