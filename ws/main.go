@@ -11,6 +11,7 @@ import (
 var ids = make(map[*websocket.Conn]int64)
 var room = NewRoom()
 var answers []Answer
+var right int64 = -1
 
 var Received = make(chan Cmd)
 var Sending = make(chan Message)
@@ -59,13 +60,42 @@ func HandleMessage() {
 		case "a":
 			if AnswerFindIndex(answers, cmd.ID) < 0 {
 				if len(answers) == 0 {
+					right = cmd.ID
 					Sending <- Message{Type: "sound", Content: "push"}
+					Sending <- Message{Type: "right", Content: cmd.ID}
 				}
 				answers = append(answers, Answer{ID: cmd.ID, Time: cmd.Time})
 				Sending <- Message{Type: "answers", Content: answers}
 			}
+		case "s":
+			player, ok := room.Users[right]
+			if ok {
+				player.Correct += 1
+				right = -1
+				Sending <- Message{Type: "sound", Content: "correct"}
+				Sending <- Message{Type: "room", Content: room}
+				Sending <- Message{Type: "right", Content: right}
+			}
+		case "f":
+			player, ok := room.Users[right]
+			if ok {
+				player.Wrong += 1
+				i := AnswerFindIndex(answers, right)
+				if i >= 0 {
+					if i < len(answers) - 1 {
+						right = answers[i + 1].ID
+					} else {
+						right = -1
+					}
+				}
+				right = -1
+				Sending <- Message{Type: "sound", Content: "wrong"}
+				Sending <- Message{Type: "room", Content: room}
+				Sending <- Message{Type: "right", Content: right}
+			}
 		case "r":
 			answers = nil
+			right = -1
 			Sending <- Message{Type: "answers", Content: answers}
 		case "m":
 			if room.Master == cmd.ID {
@@ -86,7 +116,7 @@ func HandleMessage() {
 func AddClient(c *websocket.Conn, name string) {
 	id := rand.Int63n(1<<53)
 	ids[c] = id
-	room.Users[id] = User{ID: id, Name: name}
+	room.Users[id] = &User{ID: id, Name: name}
 	room.Players = append(room.Players, id)
 
 	Sending <- Message{Type: "room", Content: room}

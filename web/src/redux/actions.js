@@ -2,6 +2,7 @@ export const ENTER_ROOM_OPEN = 'ENTER_ROOM_OPEN'
 export const ENTER_ROOM = 'ENTER_ROOM'
 export const LEAVE_ROOM = 'LEAVE_ROOM'
 export const RECV_ANSWERS = 'RECV_ANSWERS'
+export const RECV_RIGHT = 'RECV_RIGHT'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
 export const RECV_MESSAGE = 'RECV_MESSAGE'
@@ -20,6 +21,10 @@ export const leaveRoom = () => {
 
 export const recvAnswers = answers => {
   return { type: RECV_ANSWERS, answers }
+}
+
+export const recvRight = right => {
+  return { type: RECV_RIGHT, right }
 }
 
 export const recvSelfID = selfID => {

@@ -15,17 +15,19 @@ type Message struct {
 type User struct {
 	ID int64 `json:"id"`
 	Name string `json:"name"`
+	Correct int32 `json:"correct"`
+	Wrong int32 `json:"wrong"`
 }
 
 type Room struct {
-	Users map[int64]User `json:"users"`
+	Users map[int64]*User `json:"users"`
 	Players []int64 `json:"players"`
 	Master int64 `json:"master"`
 }
 
 func NewRoom() *Room {
 	room := new(Room)
-	room.Users = make(map[int64]User)
+	room.Users = make(map[int64]*User)
 	room.Master = -1
 	return room
 }

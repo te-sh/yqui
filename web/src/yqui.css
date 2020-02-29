@@ -48,3 +48,21 @@
 .player {
   width: 10em;
 }
+
+.answer-order {
+  border: solid 1px black;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.answer-order-content {
+  font-family: 'Odibee Sans';
+  font-size: 22px;
+}
+
+.answer-order.right {
+  background-color: #90caef;
+}

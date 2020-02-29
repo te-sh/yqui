@@ -1,5 +1,7 @@
 const sounds = {
-  push: new Audio('/snd/push.wav')
+  push: new Audio('/snd/push.wav'),
+  correct: new Audio('/snd/correct.wav'),
+  wrong: new Audio('/snd/wrong.wav')
 }
 
 for (let name of Object.keys(sounds)) {

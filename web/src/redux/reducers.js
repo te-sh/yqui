@@ -1,7 +1,7 @@
 import URI from 'urijs'
 import {
   ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM,
-  RECV_SELF_ID, RECV_ROOM, RECV_MESSAGE, RECV_ANSWERS
+  RECV_ANSWERS, RECV_RIGHT, RECV_SELF_ID, RECV_ROOM, RECV_MESSAGE
 } from './actions'
 
 const initialState = {
@@ -14,6 +14,7 @@ const initialState = {
     master: -1,
   },
   answers: [],
+  right: -1,
   messages: []
 }
 
@@ -35,6 +36,10 @@ const yquiApp = (state = initialState, action) => {
   case RECV_ANSWERS:
     return Object.assign({}, state, {
       answers: action.answers
+    })
+  case RECV_RIGHT:
+    return Object.assign({}, state, {
+      right: action.right
     })
   case RECV_SELF_ID:
     return Object.assign({}, state, {
