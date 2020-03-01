@@ -1,15 +1,33 @@
-const sounds = {
-  push: new Audio('/snd/push.wav'),
-  correct: new Audio('/snd/correct.wav'),
-  wrong: new Audio('/snd/wrong.wav')
+const AudioContext = window.AudioContext || window.webkitAudioContext
+const context = new AudioContext()
+
+let buffer = {}
+const sounds = ['push', 'correct', 'wrong']
+
+function loadSound(name, url) {
+  var request = new XMLHttpRequest()
+  request.open('GET', url, true)
+  request.responseType = 'arraybuffer'
+
+  request.onload = () => {
+    let data = request.response
+    context.decodeAudioData(data)
+      .then(decoded => {
+        buffer[name] = decoded
+      })
+  }
+  request.send()
 }
 
-for (let name of Object.keys(sounds)) {
-  sounds[name].preload = 'auto'
+for (let name of sounds) {
+  loadSound(name, '/snd/' + name + '.wav')
 }
 
 const playSound = name => {
-  sounds[name].play()
+  let source = context.createBufferSource()
+  source.buffer = buffer[name]
+  source.connect(context.destination)
+  source.start(0)
 }
 
 export default playSound

@@ -28,6 +28,12 @@ const Actions = ({ ws, selfID, room }) => {
     }
   }
 
+  const allClear = () => {
+    if (ws) {
+      ws.send(JSON.stringify({ c: 'e' }))
+    }
+  }
+
   const forPlayer = (
     <Button variant="outlined" color="primary" size="large"
             onClick={() => answer()}>
@@ -49,6 +55,10 @@ const Actions = ({ ws, selfID, room }) => {
     <Button variant="outlined" color="default" size="large" key="reset"
             onClick={() => reset()}>
       リセット
+    </Button>,
+    <Button variant="outlined" color="default" size="large" key="all-clear"
+            onClick={() => allClear()}>
+      オールクリア
     </Button>
   ]
 

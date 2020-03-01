@@ -6,8 +6,6 @@ import classNames from 'classnames'
 const Player = ({ player, answers, right }) => {
   const order = answers ? answers.findIndex(answer => answer === player.id) : -1
 
-  console.log(order, right);
-
   const orderClass = classNames(
     'decorate',
     { 'right': right >= 0 && order === right }

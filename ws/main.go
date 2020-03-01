@@ -71,6 +71,9 @@ func HandleMessage() {
 				Sending <- Message{Type: "answerTimes", Content: answerTimes}
 			}
 		case "s":
+			if right < 0 || right >= len(answers) {
+				continue
+			}
 			player, ok := room.Users[answers[right]]
 			if ok {
 				player.Correct += 1
@@ -80,6 +83,9 @@ func HandleMessage() {
 			Sending <- Message{Type: "room", Content: room}
 			Sending <- Message{Type: "right", Content: right}
 		case "f":
+			if right < 0 || right >= len(answers) {
+				continue
+			}
 			player, ok := room.Users[answers[right]]
 			if ok {
 				player.Wrong += 1
@@ -97,6 +103,18 @@ func HandleMessage() {
 			Sending <- Message{Type: "answers", Content: answers}
 			Sending <- Message{Type: "answerTimes", Content: answerTimes}
 			Sending <- Message{Type: "right", Content: right}
+		case "e":
+			answers = nil
+			answerTimes = nil
+			right = -1
+			for id := range room.Users {
+				room.Users[id].Correct = 0
+				room.Users[id].Wrong = 0
+			}
+			Sending <- Message{Type: "answers", Content: answers}
+			Sending <- Message{Type: "answerTimes", Content: answerTimes}
+			Sending <- Message{Type: "right", Content: right}
+			Sending <- Message{Type: "room", Content: room}
 		case "m":
 			if room.Master == cmd.ID {
 				room.Master = -1
