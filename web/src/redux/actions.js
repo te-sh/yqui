@@ -8,6 +8,7 @@ export const RECV_ANSWER_TIMES = 'RECV_ANSWER_TIMES'
 export const RECV_RIGHT = 'RECV_RIGHT'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
+export const RECV_RULE = 'RECV_RULE'
 export const RECV_MESSAGE = 'RECV_MESSAGE'
 
 export const enterRoomOpen = () => {
@@ -48,6 +49,10 @@ export const recvSelfID = selfID => {
 
 export const recvRoom = room => {
   return { type: RECV_ROOM, room }
+}
+
+export const recvRule = rule => {
+  return { type: RECV_RULE, rule }
 }
 
 export const recvMessage = message => {

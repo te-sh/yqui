@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"time"
+	"encoding/json"
 	"math/rand"
 	"net/http"
 	"github.com/gorilla/websocket"
@@ -10,7 +11,7 @@ import (
 
 var ids = make(map[*websocket.Conn]int64)
 var room = NewRoom()
-var rule Rule
+var rule = NewRule()
 var answers []int64
 var answerTimes []int64
 var right int = -1
@@ -77,7 +78,7 @@ func HandleMessage() {
 			}
 			player, ok := room.Users[answers[right]]
 			if ok {
-				player.Correct += 1
+				player.Correct += rule.CorrectByCorrect
 			}
 			right = -1
 			Sending <- Message{Type: "sound", Content: "correct"}
@@ -89,7 +90,7 @@ func HandleMessage() {
 			}
 			player, ok := room.Users[answers[right]]
 			if ok {
-				player.Wrong += 1
+				player.Wrong += rule.WrongByWrong
 			}
 			if right < len(answers) - 1 {
 				right += 1
@@ -116,6 +117,9 @@ func HandleMessage() {
 			Sending <- Message{Type: "answerTimes", Content: answerTimes}
 			Sending <- Message{Type: "right", Content: right}
 			Sending <- Message{Type: "room", Content: room}
+		case "l":
+			json.Unmarshal([]byte(cmd.A), &rule)
+			Sending <- Message{Type: "rule", Content: rule}
 		case "m":
 			if room.Master == cmd.ID {
 				room.Master = -1
@@ -140,6 +144,8 @@ func AddClient(c *websocket.Conn, name string) {
 
 	Sending <- Message{Type: "room", Content: room}
 	Sending <- Message{Type: "answers", Content: answers}
+	Sending <- Message{Type: "answerTimes", Content: answerTimes}
+	Sending <- Message{Type: "rule", Content: rule}
 }
 
 func RemoveClient(c *websocket.Conn) {

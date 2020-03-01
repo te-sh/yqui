@@ -15,8 +15,8 @@ type Message struct {
 type User struct {
 	ID int64 `json:"id"`
 	Name string `json:"name"`
-	Correct int32 `json:"correct"`
-	Wrong int32 `json:"wrong"`
+	Correct int `json:"correct"`
+	Wrong int `json:"wrong"`
 }
 
 type Room struct {
@@ -33,8 +33,27 @@ func NewRoom() *Room {
 }
 
 type Rule struct {
-	CorrectByCorrect int
-	WrongByWrong int
+	CorrectByCorrect int `json:"correctByCorrect"`
+	WrongByWrong int `json:"wrongByWrong"`
+	WinCorrect int `json:"winCorrect"`
+	LoseWrong int `json:"loseWrong"`
+}
+
+func NewRule() *Rule {
+	rule := new(Rule)
+	rule.CorrectByCorrect = 1
+	rule.WrongByWrong = 1
+	rule.WinCorrect = 7
+	rule.LoseWrong = 3
+	return rule
+}
+
+func isWin(u *User) bool {
+	return u.Correct >= rule.WinCorrect
+}
+
+func isLose(u *User) bool {
+	return u.Wrong <= rule.LoseWrong
 }
 
 type Chat struct {

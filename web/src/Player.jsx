@@ -8,7 +8,7 @@ const Player = ({ player, selfID, answers, right }) => {
 
   const nameClass = player => classNames(
     'content',
-    { 'self': selfID == player.id }
+    { 'self': selfID === player.id }
   )
 
   const orderClass = classNames(
