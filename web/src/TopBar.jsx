@@ -1,9 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
-import { SupervisorAccount } from '@material-ui/icons'
+import { ListAlt, SupervisorAccount } from '@material-ui/icons'
+import { ruleOpen } from './redux/actions'
 
-const TopBar = ({ ws, selfID, room }) => {
+const TopBar = ({ ws, selfID, room, ruleOpen }) => {
+  const rule = () => {
+    ruleOpen()
+  }
+
   const toggleMaster = () => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'm' }))
@@ -17,6 +22,9 @@ const TopBar = ({ ws, selfID, room }) => {
           Yqui
         </Typography>
         <div className="toolbar-grow" />
+        <IconButton color="inherit" onClick={() => rule()}>
+          <ListAlt />
+        </IconButton>
         <IconButton color={selfID === room.master ? 'secondary' : 'inherit'}
                     disabled={selfID !== room.master && room.master >= 0}
                     onClick={() => toggleMaster()}>
@@ -32,5 +40,8 @@ export default connect(
     ws: state.ws,
     selfID: state.selfID,
     room: state.room
+  }),
+  dispatch => ({
+    ruleOpen: () => dispatch(ruleOpen())
   })
 )(TopBar)

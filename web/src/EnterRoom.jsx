@@ -35,7 +35,7 @@ const EnterRoom = ({ open, enterRoom }) => {
 
 export default connect(
   state => ({
-    open: state.enterRoom
+    open: state.enterRoomOpen
   }),
   dispatch => ({
     enterRoom: name => dispatch(enterRoom(name))

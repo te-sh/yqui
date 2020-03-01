@@ -10,6 +10,7 @@ import (
 
 var ids = make(map[*websocket.Conn]int64)
 var room = NewRoom()
+var rule Rule
 var answers []int64
 var answerTimes []int64
 var right int = -1

@@ -32,6 +32,11 @@ func NewRoom() *Room {
 	return room
 }
 
+type Rule struct {
+	CorrectByCorrect int
+	WrongByWrong int
+}
+
 type Chat struct {
 	Name string `json:"name"`
 	Text string `json:"text"`
