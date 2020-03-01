@@ -4,6 +4,8 @@ import { Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 
 const Actions = ({ ws, selfID, room }) => {
+  const isPlayer = () => selfID !== room.master
+
   const answer = () => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'a' }))
@@ -31,6 +33,36 @@ const Actions = ({ ws, selfID, room }) => {
   const allClear = () => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'e' }))
+    }
+  }
+
+  const onKeyDown = (evt) => {
+    const keyCode = evt.keyCode
+    if (isPlayer()) {
+      switch (keyCode) {
+        case 13:
+          answer()
+          break
+        default:
+          ;
+      }
+    } else {
+      switch (keyCode) {
+        case 67:
+          correct()
+          break
+        case 87:
+          wrong()
+          break
+        case 82:
+          reset()
+          break
+        case 65:
+          allClear()
+          break
+        default:
+          ;
+      }
     }
   }
 
@@ -63,8 +95,11 @@ const Actions = ({ ws, selfID, room }) => {
   ]
 
   return (
-    <Paper className="actions">
-      {selfID === room.master ? forMaster : forPlayer}
+    <Paper>
+      <div className="actions" tabIndex="0"
+           onKeyDown={evt => onKeyDown(evt)}>
+        {isPlayer() ? forPlayer : forMaster }
+      </div>
     </Paper>
   )
 }
