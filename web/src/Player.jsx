@@ -3,8 +3,13 @@ import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 
-const Player = ({ player, answers, right }) => {
+const Player = ({ player, selfID, answers, right }) => {
   const order = answers ? answers.findIndex(answer => answer === player.id) : -1
+
+  const nameClass = player => classNames(
+    'content',
+    { 'self': selfID == player.id }
+  )
 
   const orderClass = classNames(
     'decorate',
@@ -14,7 +19,7 @@ const Player = ({ player, answers, right }) => {
   return (
     <Paper className="player">
       <Box className="player-name">
-        <Typography align="center">
+        <Typography align="center" className={nameClass(player)}>
           {player.name}
         </Typography>
       </Box>
@@ -41,6 +46,7 @@ const Player = ({ player, answers, right }) => {
 
 export default connect(
   state => ({
+    selfID: state.selfID,
     answers: state.answers,
     right: state.right
   })
