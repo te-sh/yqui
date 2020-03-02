@@ -16,6 +16,23 @@ const Player = ({ player, selfID, answers, right }) => {
     { 'right': right >= 0 && order === right }
   )
 
+  const winOrLoseClass = player => classNames(
+    'win-or-lose',
+    { 'active': player.winOrder >= 0 || player.loseOrder >= 0 }
+  )
+
+  const winOrLoseText = player => {
+    if (player.winOrder >= 0) {
+      let order = player.winOrder + 1
+      return order.toString() +
+        (order === 1 ? 'st' : order === 2 ? 'nd' : order === 3 ? 'rd' : 'th')
+    } else if (player.loseOrder >= 0) {
+      return 'Lose'
+    } else {
+      return ''
+    }
+  }
+
   return (
     <Paper className="player">
       <Box className="player-name">
@@ -38,6 +55,11 @@ const Player = ({ player, selfID, answers, right }) => {
       <Box className="wrong">
         <Typography className="content">
           {player.wrong}
+        </Typography>
+      </Box>
+      <Box className={winOrLoseClass(player)}>
+        <Typography className="content">
+          {winOrLoseText(player)}
         </Typography>
       </Box>
     </Paper>

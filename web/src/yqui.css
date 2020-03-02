@@ -125,3 +125,23 @@
   font-family: 'Krona One';
   font-size: 32px;
 }
+
+.win-or-lose {
+  visibility: hidden;
+  grid-column: 1/4;
+  grid-row: 2/3;
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+}
+
+.win-or-lose.active {
+  visibility: visible;
+}
+
+.win-or-lose .content {
+  font-family: 'Trade Winds';
+  font-size: 32px;
+}
