@@ -6,10 +6,17 @@ import {
 import { setRule } from './redux/actions'
 
 const Rule = ({ open, ws, rule, setRule }) => {
-  const [correctByCorrect, setCorrectByCorrect] = React.useState(rule.correctByCorrect)
-  const [wrongByWrong, setWrongByWrong] = React.useState(rule.wrongByWrong)
-  const [winCorrect, setWinCorrect] = React.useState(rule.winCorrect)
-  const [loseWrong, setLoseWrong] = React.useState(rule.loseWrong)
+  const [correctByCorrect, setCorrectByCorrect] = React.useState(0)
+  const [wrongByWrong, setWrongByWrong] = React.useState(0)
+  const [winCorrect, setWinCorrect] = React.useState(0)
+  const [loseWrong, setLoseWrong] = React.useState(0)
+
+  const onEnter = () => {
+    setCorrectByCorrect(rule.correctByCorrect)
+    setWrongByWrong(rule.wrongByWrong)
+    setWinCorrect(rule.winCorrect)
+    setLoseWrong(rule.loseWrong)
+  }
 
   const submit = evt => {
     evt.preventDefault();
@@ -31,7 +38,8 @@ const Rule = ({ open, ws, rule, setRule }) => {
   }
 
   return (
-    <Dialog open={open} aria-labelledby="form-dialog-title">
+    <Dialog open={open} onEnter={() => onEnter()}
+            aria-labelledby="form-dialog-title">
       <form onSubmit={evt => submit(evt)}>
         <DialogTitle id="form-dialog-title">ルール</DialogTitle>
         <DialogContent>

@@ -17,6 +17,17 @@ type User struct {
 	Name string `json:"name"`
 	Correct int `json:"correct"`
 	Wrong int `json:"wrong"`
+	WinOrder int `json:"winOrder"`
+	LoseOrder int `json:"loseOrder"`
+}
+
+func NewUser(id int64, name string) *User {
+	user := new(User)
+	user.ID = id
+	user.Name = name
+	user.WinOrder = -1
+	user.LoseOrder = -1
+	return user
 }
 
 type Room struct {
@@ -30,6 +41,26 @@ func NewRoom() *Room {
 	room.Users = make(map[int64]*User)
 	room.Master = -1
 	return room
+}
+
+func Win(room *Room, target *User) {
+	r := 0
+	for id := range room.Users {
+		if room.Users[id].WinOrder >= 0 {
+			r += 1
+		}
+	}
+	target.WinOrder = r
+}
+
+func Lose(room *Room, target *User) {
+	r := 0
+	for id := range room.Users {
+		if room.Users[id].LoseOrder >= 0 {
+			r += 1
+		}
+	}
+	target.LoseOrder = r
 }
 
 type Rule struct {
@@ -46,14 +77,6 @@ func NewRule() *Rule {
 	rule.WinCorrect = 7
 	rule.LoseWrong = 3
 	return rule
-}
-
-func isWin(u *User) bool {
-	return u.Correct >= rule.WinCorrect
-}
-
-func isLose(u *User) bool {
-	return u.Wrong <= rule.LoseWrong
 }
 
 type Chat struct {

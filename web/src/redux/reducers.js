@@ -1,8 +1,8 @@
 import URI from 'urijs'
 import {
   ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM, RULE_OPEN, SET_RULE,
-  RECV_ANSWERS, RECV_ANSWER_TIMES, RECV_RIGHT,
-  RECV_SELF_ID, RECV_ROOM, RECV_RULE, RECV_MESSAGE
+  RECV_RULE, RECV_ANSWERS, RECV_ANSWER_TIMES, RECV_RIGHT,
+  RECV_SELF_ID, RECV_ROOM, RECV_MESSAGE
 } from './actions'
 
 const initialState = {
@@ -50,6 +50,10 @@ const yquiApp = (state = initialState, action) => {
     return Object.assign({}, state, {
       ruleOpen: false
     })
+  case RECV_RULE:
+    return Object.assign({}, state, {
+      rule: action.rule
+    })
   case RECV_ANSWERS:
     return Object.assign({}, state, {
       answers: action.answers
@@ -69,10 +73,6 @@ const yquiApp = (state = initialState, action) => {
   case RECV_ROOM:
     return Object.assign({}, state, {
       room: action.room
-    })
-  case RECV_RULE:
-    return Object.assign({}, state, {
-      rule: action.rule
     })
   case RECV_MESSAGE:
     return Object.assign({}, state, {

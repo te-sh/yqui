@@ -61,7 +61,8 @@ func HandleMessage() {
 		cmd := <- Received
 		switch (cmd.C) {
 		case "a":
-			if Int64FindIndex(answers, cmd.ID) < 0 {
+			if Int64FindIndex(answers, cmd.ID) < 0 &&
+				room.Users[cmd.ID].WinOrder < 0 && room.Users[cmd.ID].LoseOrder < 0 {
 				if len(answers) == 0 {
 					right = 0
 					Sending <- Message{Type: "sound", Content: "push"}
@@ -79,9 +80,16 @@ func HandleMessage() {
 			player, ok := room.Users[answers[right]]
 			if ok {
 				player.Correct += rule.CorrectByCorrect
+				if player.Correct >= rule.WinCorrect {
+					Win(room, player)
+				}
 			}
 			right = -1
-			Sending <- Message{Type: "sound", Content: "correct"}
+			if player.WinOrder >= 0 {
+				Sending <- Message{Type: "sound", Content: "correct,roundwin"}
+			} else {
+				Sending <- Message{Type: "sound", Content: "correct"}
+			}
 			Sending <- Message{Type: "room", Content: room}
 			Sending <- Message{Type: "right", Content: right}
 		case "f":
@@ -91,6 +99,9 @@ func HandleMessage() {
 			player, ok := room.Users[answers[right]]
 			if ok {
 				player.Wrong += rule.WrongByWrong
+				if player.Wrong >= rule.LoseWrong {
+					Lose(room, player)
+				}
 			}
 			if right < len(answers) - 1 {
 				right += 1
@@ -110,8 +121,11 @@ func HandleMessage() {
 			answerTimes = nil
 			right = -1
 			for id := range room.Users {
-				room.Users[id].Correct = 0
-				room.Users[id].Wrong = 0
+				user := room.Users[id]
+				user.Correct = 0
+				user.Wrong = 0
+				user.WinOrder = -1
+				user.LoseOrder = -1
 			}
 			Sending <- Message{Type: "answers", Content: answers}
 			Sending <- Message{Type: "answerTimes", Content: answerTimes}
@@ -139,7 +153,7 @@ func HandleMessage() {
 func AddClient(c *websocket.Conn, name string) {
 	id := rand.Int63n(1<<53)
 	ids[c] = id
-	room.Users[id] = &User{ID: id, Name: name}
+	room.Users[id] = NewUser(id, name)
 	room.Players = append(room.Players, id)
 
 	Sending <- Message{Type: "room", Content: room}
