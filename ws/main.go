@@ -15,7 +15,7 @@ var rule = NewRule()
 var answers []int64
 var answerTimes []int64
 var right int = -1
-var history = new(History)
+var history = NewHistory()
 
 var Received = make(chan Cmd)
 var Sending = make(chan Message)
@@ -78,38 +78,36 @@ func HandleMessage() {
 			if right < 0 || right >= len(answers) {
 				continue
 			}
-			player, ok := room.Users[answers[right]]
-			if ok {
+			if player, ok := room.Users[answers[right]]; ok {
 				player.Correct += rule.CorrectByCorrect
 				if player.Correct >= rule.WinCorrect {
 					Win(room, player)
 				}
 				AddHistory(history, room)
+				if player.WinOrder >= 0 {
+					Sending <- Message{Type: "sound", Content: "correct,roundwin"}
+				} else {
+					Sending <- Message{Type: "sound", Content: "correct"}
+				}
 			}
 			right = -1
-			if player.WinOrder >= 0 {
-				Sending <- Message{Type: "sound", Content: "correct,roundwin"}
-			} else {
-				Sending <- Message{Type: "sound", Content: "correct"}
-			}
 			Sending <- Message{Type: "room", Content: room}
 			Sending <- Message{Type: "right", Content: right}
 		case "f":
 			if right < 0 || right >= len(answers) {
 				continue
 			}
-			player, ok := room.Users[answers[right]]
-			if ok {
+			if player, ok := room.Users[answers[right]]; ok {
 				player.Wrong += rule.WrongByWrong
 				if player.Wrong >= rule.LoseWrong {
 					Lose(room, player)
 				}
 				AddHistory(history, room)
+				Sending <- Message{Type: "sound", Content: "wrong"}
 			}
 			if right < len(answers) - 1 {
 				right += 1
 			}
-			Sending <- Message{Type: "sound", Content: "wrong"}
 			Sending <- Message{Type: "room", Content: room}
 			Sending <- Message{Type: "right", Content: right}
 		case "r":
@@ -165,6 +163,7 @@ func AddClient(c *websocket.Conn, name string) {
 	ids[c] = id
 	room.Users[id] = NewUser(id, name)
 	room.Players = append(room.Players, id)
+	AddHistoryUser(history, room.Users[id])
 
 	Sending <- Message{Type: "room", Content: room}
 	Sending <- Message{Type: "answers", Content: answers}

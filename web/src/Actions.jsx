@@ -72,6 +72,12 @@ const Actions = ({ ws, selfID, room }) => {
         case 65:
           allClear()
           break
+        case 37:
+          undo()
+          break
+        case 39:
+          redo()
+          break
         default:
           ;
       }

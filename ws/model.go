@@ -1,10 +1,5 @@
 package main
 
-import (
-	"log"
-	"encoding/json"
-)
-
 type Cmd struct {
 	C string `json:"c"`
 	A string `json:"a"`
@@ -73,16 +68,33 @@ type History struct {
 	Curr int
 }
 
+const historyMaxLen = 100
+
+func NewHistory() *History {
+	history := new(History)
+	history.Buffer = append(history.Buffer, make(map[int64]*User))
+	history.Curr = 0
+	return history
+}
+
+func AddHistoryUser(history *History, user *User) {
+	item := *user
+	history.Buffer[history.Curr][user.ID] = &item
+}
+
 func AddHistory(history *History, room *Room) {
-	history.Buffer = history.Buffer[:history.Curr]
+	history.Buffer = history.Buffer[:history.Curr + 1]
 	item := make(map[int64]*User)
 	for id := range room.Users {
 		user := *room.Users[id]
 		item[id] = &user
 	}
 	history.Buffer = append(history.Buffer, item)
+	if len(history.Buffer) > historyMaxLen {
+		history.Curr -= len(history.Buffer) - historyMaxLen
+		history.Buffer = history.Buffer[len(history.Buffer) - historyMaxLen:]
+	}
 	history.Curr += 1
-	log.Println(json.Marshal(history))
 }
 
 func MoveHistory(history *History, room *Room, d int) {
@@ -90,14 +102,15 @@ func MoveHistory(history *History, room *Room, d int) {
 	if i < 0 || i >= len(history.Buffer) {
 		return
 	}
+
 	users := history.Buffer[i]
 	for id := range users {
 		if _, ok := room.Users[id]; ok {
-			room.Users[id] = users[id]
+			user := *users[id]
+			room.Users[id] = &user
 		}
 	}
 	history.Curr = i
-	log.Println(json.Marshal(history))
 }
 
 type Rule struct {
