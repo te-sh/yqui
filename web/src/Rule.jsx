@@ -80,7 +80,7 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
             <Typography>
               正答時
             </Typography>
-            <TextField label="正答ポイント" type="number"
+            <TextField label="ポイント" type="number"
                        value={correctByCorrect}
                        onChange={evt => setCorrectByCorrect(evt.target.value)} />
           </div>
@@ -88,10 +88,10 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
             <Typography>
               誤答時
             </Typography>
-            <TextField label="正答ポイント" type="number"
+            <TextField label="ポイント" type="number"
                        value={correctByWrong}
                        onChange={evt => setCorrectByWrong(evt.target.value)} />
-            <TextField label="誤答ポイント" type="number"
+            <TextField label="バツ" type="number"
                        value={wrongByWrong}
                        onChange={evt => setWrongByWrong(evt.target.value)} />
             <TextField label="休み" type="number"
@@ -104,7 +104,7 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
             </Typography>
             <Checkbox color="default" checked={checkWinCorrect}
                       onChange={evt => setCheckWinCorrect(evt.target.checked)} />
-            <TextField label="正答ポイント" type="number"
+            <TextField label="ポイント" type="number"
                        disabled={!checkWinCorrect}
                        value={winCorrect}
                        onChange={evt => setWinCorrect(evt.target.value)} />
@@ -115,13 +115,13 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
             </Typography>
             <Checkbox color="default" checked={checkLoseCorrect}
                       onChange={evt => setCheckLoseCorrect(evt.target.checked)} />
-            <TextField label="正答ポイント" type="number"
+            <TextField label="ポイント" type="number"
                        disabled={!checkLoseCorrect}
                        value={loseCorrect}
                        onChange={evt => setLoseCorrect(evt.target.value)} />
             <Checkbox color="default" checked={checkLoseWrong}
                       onChange={evt => setCheckLoseWrong(evt.target.checked)} />
-            <TextField label="誤答ポイント" type="number"
+            <TextField label="バツ" type="number"
                        disabled={!checkLoseWrong}
                        value={loseWrong}
                        onChange={evt => setLoseWrong(evt.target.value)} />
