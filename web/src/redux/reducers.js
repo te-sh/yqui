@@ -23,8 +23,14 @@ const initialState = {
   rule: {
     rightNum: 1,
     correctByCorrect: 1,
+    correctByWrong: 0,
     wrongByWrong: 1,
+    lockByWrong: 0,
+    checkWinCorrect: true,
     winCorrect: 7,
+    checkLoseCorrect: false,
+    loseCorrect: 0,
+    checkLoseWrong: true,
     loseWrong: 3
   },
   messages: []

@@ -23,7 +23,7 @@ const Player = ({ player, selfID, answers, right, rule }) => {
 
   const winOrLoseClass = player => classNames(
     'win-or-lose',
-    { 'active': player.winOrder >= 0 || player.loseOrder >= 0 }
+    { 'active': player.winOrder >= 0 || player.loseOrder >= 0 || player.lock > 0 }
   )
 
   const winOrLoseText = player => {
@@ -33,6 +33,8 @@ const Player = ({ player, selfID, answers, right, rule }) => {
           (order === 1 ? 'st' : order === 2 ? 'nd' : order === 3 ? 'rd' : 'th')
     } else if (player.loseOrder >= 0) {
       return 'Lose'
+    } else if (player.lock >= 0) {
+      return 'Lock ' + player.lock
     } else {
       return ''
     }

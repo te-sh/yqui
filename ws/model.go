@@ -17,6 +17,7 @@ type User struct {
 	Name string `json:"name"`
 	Correct int `json:"correct"`
 	Wrong int `json:"wrong"`
+	Lock int `json:"lock"`
 	WinOrder int `json:"winOrder"`
 	LoseOrder int `json:"loseOrder"`
 }
@@ -116,8 +117,14 @@ func MoveHistory(history *History, room *Room, d int) {
 type Rule struct {
 	RightNum int `json:"rightNum"`
 	CorrectByCorrect int `json:"correctByCorrect"`
+	CorrectByWrong int `json:"correctByWrong"`
 	WrongByWrong int `json:"wrongByWrong"`
+	LockByWrong int `json:"lockByWrong"`
+	CheckWinCorrect bool `json:"checkWinCorrect"`
 	WinCorrect int `json:"winCorrect"`
+	CheckLoseCorrect bool  `json:"checkLoseCorrect"`
+	LoseCorrect int `json:"loseCorrect"`
+	CheckLoseWrong bool  `json:"checkLoseWrong"`
 	LoseWrong int `json:"loseWrong"`
 }
 
@@ -125,8 +132,14 @@ func NewRule() *Rule {
 	rule := new(Rule)
 	rule.RightNum = 1
 	rule.CorrectByCorrect = 1
+	rule.CorrectByWrong = 0
 	rule.WrongByWrong = 1
+	rule.LockByWrong = 0
+	rule.CheckWinCorrect = true
 	rule.WinCorrect = 7
+	rule.CheckLoseCorrect = false
+	rule.LoseCorrect = 0
+	rule.CheckLoseWrong = true
 	rule.LoseWrong = 3
 	return rule
 }

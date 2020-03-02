@@ -57,6 +57,15 @@ func Broadcast() {
 	}
 }
 
+func NextQuestion(forceSub bool) {
+	for id := range room.Users {
+		if (forceSub || Int64FindIndex(answers, id) < 0) && room.Users[id].Lock > 0 {
+			room.Users[id].Lock -= 1
+		}
+	}
+	ResetAnswers()
+}
+
 func ResetAnswers() {
 	answers = nil
 	answerTimes = nil
@@ -71,8 +80,9 @@ func HandleMessage() {
 		cmd := <- Received
 		switch (cmd.C) {
 		case "a":
+			user := room.Users[cmd.ID]
 			if Int64FindIndex(answers, cmd.ID) < 0 &&
-				room.Users[cmd.ID].WinOrder < 0 && room.Users[cmd.ID].LoseOrder < 0 {
+				user.WinOrder < 0 && user.LoseOrder < 0 && user.Lock == 0 {
 				if len(answers) == 0 {
 					right = 0
 					Sending <- Message{Type: "sound", Content: "push"}
@@ -89,7 +99,7 @@ func HandleMessage() {
 			}
 			if player, ok := room.Users[answers[right]]; ok {
 				player.Correct += rule.CorrectByCorrect
-				if player.Correct >= rule.WinCorrect {
+				if rule.CheckWinCorrect && player.Correct >= rule.WinCorrect {
 					Win(room, player)
 				}
 				AddHistory(history, room)
@@ -99,15 +109,18 @@ func HandleMessage() {
 					Sending <- Message{Type: "sound", Content: "correct"}
 				}
 			}
-			ResetAnswers()
+			NextQuestion(false)
 			Sending <- Message{Type: "room", Content: room}
 		case "f":
 			if right < 0 || right >= len(answers) {
 				continue
 			}
 			if player, ok := room.Users[answers[right]]; ok {
+				player.Correct += rule.CorrectByWrong
 				player.Wrong += rule.WrongByWrong
-				if player.Wrong >= rule.LoseWrong {
+				player.Lock = rule.LockByWrong
+				if rule.CheckLoseCorrect && player.Correct <= rule.LoseCorrect ||
+					rule.CheckLoseWrong && player.Wrong >= rule.LoseWrong {
 					Lose(room, player)
 				}
 				AddHistory(history, room)
@@ -117,8 +130,11 @@ func HandleMessage() {
 				right += 1
 				Sending <- Message{Type: "right", Content: right}
 			} else {
-				ResetAnswers()
+				NextQuestion(false)
 			}
+			Sending <- Message{Type: "room", Content: room}
+		case "n":
+			NextQuestion(true)
 			Sending <- Message{Type: "room", Content: room}
 		case "r":
 			ResetAnswers()

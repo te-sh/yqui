@@ -24,6 +24,12 @@ const Actions = ({ ws, selfID, room }) => {
     }
   }
 
+  const next = () => {
+    if (ws) {
+      ws.send(JSON.stringify({ c: 'n' }))
+    }
+  }
+
   const reset = () => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'r' }))
@@ -66,6 +72,9 @@ const Actions = ({ ws, selfID, room }) => {
         case 87:
           wrong()
           break
+        case 78:
+          next()
+          break
         case 82:
           reset()
           break
@@ -101,6 +110,10 @@ const Actions = ({ ws, selfID, room }) => {
             onClick={() => wrong()}
             startIcon={<Close />}>
       不正解
+    </Button>,
+    <Button variant="outlined" color="default" size="large" key="next"
+            onClick={() => next()}>
+      次の問題
     </Button>,
     <Button variant="outlined" color="default" size="large" key="reset"
             onClick={() => reset()}>

@@ -40,6 +40,10 @@
   grid-gap: 12px;
 }
 
+.rule .MuiInputBase-root {
+  width: 80pt;
+}
+
 .players {
   padding: 8px;
   grid-column: 2/3;
