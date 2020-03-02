@@ -1,6 +1,7 @@
 import URI from 'urijs'
 import {
-  ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM, RULE_OPEN, RULE_CLOSE,
+  ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM,
+  SETTING_OPEN, SETTING_CLOSE, RULE_OPEN, RULE_CLOSE,
   RECV_RULE, RECV_ANSWERS, RECV_ANSWER_TIMES, RECV_RIGHT,
   RECV_SELF_ID, RECV_ROOM, RECV_MESSAGE
 } from './actions'
@@ -8,6 +9,7 @@ import {
 const initialState = {
   enterRoomOpen: true,
   ruleOpen: false,
+  settingOpen: false,
   ws: null,
   selfID: null,
   room: {
@@ -42,6 +44,14 @@ const yquiApp = (state = initialState, action) => {
     })
   case LEAVE_ROOM:
     return initialState
+  case SETTING_OPEN:
+    return Object.assign({}, state, {
+      settingOpen: true
+    })
+  case SETTING_CLOSE:
+    return Object.assign({}, state, {
+      settingOpen: false
+    })
   case RULE_OPEN:
     return Object.assign({}, state, {
       ruleOpen: true

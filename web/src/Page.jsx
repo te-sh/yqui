@@ -12,6 +12,7 @@ import Players from './Players'
 import Actions from './Actions'
 import EnterRoom from './EnterRoom'
 import Rule from './Rule'
+import Setting from './Setting'
 
 const Page = ({ ws, action }) => {
   if (ws) {
@@ -79,6 +80,7 @@ const Page = ({ ws, action }) => {
       <Actions />
       <EnterRoom />
       <Rule />
+      <Setting />
     </div>
   )
 }

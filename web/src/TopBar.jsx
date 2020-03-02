@@ -1,12 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
-import { ListAlt, SupervisorAccount } from '@material-ui/icons'
-import { ruleOpen } from './redux/actions'
+import { ListAlt, Settings, SupervisorAccount } from '@material-ui/icons'
+import { ruleOpen, settingOpen } from './redux/actions'
 
-const TopBar = ({ ws, selfID, room, ruleOpen }) => {
+const TopBar = ({ ws, selfID, room, ruleOpen, settingOpen }) => {
   const rule = () => {
     ruleOpen()
+  }
+
+  const setting = () => {
+    settingOpen()
   }
 
   const toggleMaster = () => {
@@ -25,6 +29,9 @@ const TopBar = ({ ws, selfID, room, ruleOpen }) => {
         <IconButton color="inherit" onClick={() => rule()}>
           <ListAlt />
         </IconButton>
+        <IconButton color="inherit" onClick={() => setting()}>
+          <Settings />
+        </IconButton>
         <IconButton color={selfID === room.master ? 'secondary' : 'inherit'}
                     disabled={selfID !== room.master && room.master >= 0}
                     onClick={() => toggleMaster()}>
@@ -42,6 +49,7 @@ export default connect(
     room: state.room
   }),
   dispatch => ({
-    ruleOpen: () => dispatch(ruleOpen())
+    ruleOpen: () => dispatch(ruleOpen()),
+    settingOpen: () => dispatch(settingOpen())
   })
 )(TopBar)

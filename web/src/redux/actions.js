@@ -1,6 +1,8 @@
 export const ENTER_ROOM_OPEN = 'ENTER_ROOM_OPEN'
 export const ENTER_ROOM = 'ENTER_ROOM'
 export const LEAVE_ROOM = 'LEAVE_ROOM'
+export const SETTING_OPEN = 'SETTING_OPEN'
+export const SETTING_CLOSE = 'SETTING_CLOSE'
 export const RULE_OPEN = 'RULE_OPEN'
 export const RULE_CLOSE = 'RULE_CLOSE'
 export const RECV_RULE = 'RECV_RULE'
@@ -17,6 +19,14 @@ export const enterRoomOpen = () => {
 
 export const enterRoom = name => {
   return { type: ENTER_ROOM, name }
+}
+
+export const settingOpen = () => {
+  return { type: SETTING_OPEN }
+}
+
+export const settingClose = () => {
+  return { type: SETTING_CLOSE }
 }
 
 export const leaveRoom = () => {

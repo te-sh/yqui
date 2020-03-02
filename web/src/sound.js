@@ -26,11 +26,15 @@ for (let name of sounds) {
 const playSound = names => {
   let t = 0
   for (let name of names.split(',')) {
-    let source = context.createBufferSource()
+    const source = context.createBufferSource()
     source.buffer = buffer[name]
-    source.connect(context.destination)
+
+    const gainNode = context.createGain()
+    source.connect(gainNode);
+    gainNode.connect(context.destination)
+    gainNode.gain.value = parseInt(localStorage.getItem('volume') || '100') / 100.0
+
     source.start(t)
-    console.log(source)
     t += source.buffer.duration
   }
 }
