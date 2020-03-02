@@ -49,22 +49,16 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
             aria-labelledby="form-dialog-title">
       <form onSubmit={evt => submit(evt)}>
         <DialogTitle id="form-dialog-title">ルール</DialogTitle>
-        <DialogContent>
+        <DialogContent className="rule">
           <TextField label="正答時正答ポイント" type="number"
                      value={correctByCorrect}
                      onChange={evt => setCorrectByCorrect(evt.target.value)} />
-        </DialogContent>
-        <DialogContent>
           <TextField label="誤答時誤答ポイント" type="number"
                      value={wrongByWrong}
                      onChange={evt => setWrongByWrong(evt.target.value)} />
-        </DialogContent>
-        <DialogContent>
           <TextField label="勝ち抜け正答ポイント" type="number"
                      value={winCorrect}
                      onChange={evt => setWinCorrect(evt.target.value)} />
-        </DialogContent>
-        <DialogContent>
           <TextField label="失格誤答ポイント" type="number"
                      value={loseWrong}
                      onChange={evt => setLoseWrong(evt.target.value)} />
