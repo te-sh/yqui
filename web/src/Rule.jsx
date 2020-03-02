@@ -6,12 +6,14 @@ import {
 import { ruleClose } from './redux/actions'
 
 const Rule = ({ open, ws, rule, ruleClose }) => {
+  const [rightNum, setRightNum] = React.useState(0)
   const [correctByCorrect, setCorrectByCorrect] = React.useState(0)
   const [wrongByWrong, setWrongByWrong] = React.useState(0)
   const [winCorrect, setWinCorrect] = React.useState(0)
   const [loseWrong, setLoseWrong] = React.useState(0)
 
   const onEnter = () => {
+    setRightNum(rule.rightNum)
     setCorrectByCorrect(rule.correctByCorrect)
     setWrongByWrong(rule.wrongByWrong)
     setWinCorrect(rule.winCorrect)
@@ -26,6 +28,7 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
       ws.send(JSON.stringify({
         c: 'l',
         a: JSON.stringify({
+          rightNum: parse(rightNum),
           correctByCorrect: parse(correctByCorrect),
           wrongByWrong: parse(wrongByWrong),
           winCorrect: parse(winCorrect),
@@ -50,6 +53,9 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
       <form onSubmit={evt => submit(evt)}>
         <DialogTitle id="form-dialog-title">ルール</DialogTitle>
         <DialogContent className="rule">
+          <TextField label="解答権人数" type="number"
+                     value={rightNum}
+                     onChange={evt => setRightNum(evt.target.value)} />
           <TextField label="正答時正答ポイント" type="number"
                      value={correctByCorrect}
                      onChange={evt => setCorrectByCorrect(evt.target.value)} />

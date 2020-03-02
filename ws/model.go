@@ -114,6 +114,7 @@ func MoveHistory(history *History, room *Room, d int) {
 }
 
 type Rule struct {
+	RightNum int `json:"rightNum"`
 	CorrectByCorrect int `json:"correctByCorrect"`
 	WrongByWrong int `json:"wrongByWrong"`
 	WinCorrect int `json:"winCorrect"`
@@ -122,6 +123,7 @@ type Rule struct {
 
 func NewRule() *Rule {
 	rule := new(Rule)
+	rule.RightNum = 1
 	rule.CorrectByCorrect = 1
 	rule.WrongByWrong = 1
 	rule.WinCorrect = 7

@@ -21,6 +21,7 @@ const initialState = {
   answerTimes: [],
   right: -1,
   rule: {
+    rightNum: 1,
     correctByCorrect: 1,
     wrongByWrong: 1,
     winCorrect: 7,

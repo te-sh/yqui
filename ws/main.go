@@ -57,6 +57,15 @@ func Broadcast() {
 	}
 }
 
+func ResetAnswers() {
+	answers = nil
+	answerTimes = nil
+	right = -1
+	Sending <- Message{Type: "answers", Content: answers}
+	Sending <- Message{Type: "answerTimes", Content: answerTimes}
+	Sending <- Message{Type: "right", Content: right}
+}
+
 func HandleMessage() {
 	for {
 		cmd := <- Received
@@ -90,9 +99,8 @@ func HandleMessage() {
 					Sending <- Message{Type: "sound", Content: "correct"}
 				}
 			}
-			right = -1
+			ResetAnswers()
 			Sending <- Message{Type: "room", Content: room}
-			Sending <- Message{Type: "right", Content: right}
 		case "f":
 			if right < 0 || right >= len(answers) {
 				continue
@@ -105,18 +113,15 @@ func HandleMessage() {
 				AddHistory(history, room)
 				Sending <- Message{Type: "sound", Content: "wrong"}
 			}
-			if right < len(answers) - 1 {
+			if right < len(answers) - 1 && right < rule.RightNum - 1 {
 				right += 1
+				Sending <- Message{Type: "right", Content: right}
+			} else {
+				ResetAnswers()
 			}
 			Sending <- Message{Type: "room", Content: room}
-			Sending <- Message{Type: "right", Content: right}
 		case "r":
-			answers = nil
-			answerTimes = nil
-			right = -1
-			Sending <- Message{Type: "answers", Content: answers}
-			Sending <- Message{Type: "answerTimes", Content: answerTimes}
-			Sending <- Message{Type: "right", Content: right}
+			ResetAnswers()
 		case "e":
 			answers = nil
 			answerTimes = nil

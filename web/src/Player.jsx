@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 
-const Player = ({ player, selfID, answers, right }) => {
+const Player = ({ player, selfID, answers, right, rule }) => {
   const order = answers ? answers.findIndex(answer => answer === player.id) : -1
 
   const playerClass = classNames(
@@ -16,6 +16,11 @@ const Player = ({ player, selfID, answers, right }) => {
     { 'self': selfID === player.id }
   )
 
+  const orderClass = classNames(
+    'content',
+    { 'has-right': order < rule.rightNum }
+  )
+
   const winOrLoseClass = player => classNames(
     'win-or-lose',
     { 'active': player.winOrder >= 0 || player.loseOrder >= 0 }
@@ -25,7 +30,7 @@ const Player = ({ player, selfID, answers, right }) => {
     if (player.winOrder >= 0) {
       let order = player.winOrder + 1
       return order.toString() +
-        (order === 1 ? 'st' : order === 2 ? 'nd' : order === 3 ? 'rd' : 'th')
+          (order === 1 ? 'st' : order === 2 ? 'nd' : order === 3 ? 'rd' : 'th')
     } else if (player.loseOrder >= 0) {
       return 'Lose'
     } else {
@@ -42,7 +47,7 @@ const Player = ({ player, selfID, answers, right }) => {
       </Box>
       <Box className="answer-order">
         <Box className="decorate">
-          <Typography align="center" className="content">
+          <Typography align="center" className={orderClass}>
             {order >= 0 ? order + 1 : ""}
           </Typography>
         </Box>
@@ -70,6 +75,7 @@ export default connect(
   state => ({
     selfID: state.selfID,
     answers: state.answers,
-    right: state.right
+    right: state.right,
+    rule: state.rule
   })
 )(Player)
