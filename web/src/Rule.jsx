@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField
 } from '@material-ui/core'
-import { setRule } from './redux/actions'
+import { ruleClose } from './redux/actions'
 
-const Rule = ({ open, ws, rule, setRule }) => {
+const Rule = ({ open, ws, rule, ruleClose }) => {
   const [correctByCorrect, setCorrectByCorrect] = React.useState(0)
   const [wrongByWrong, setWrongByWrong] = React.useState(0)
   const [winCorrect, setWinCorrect] = React.useState(0)
@@ -19,17 +19,24 @@ const Rule = ({ open, ws, rule, setRule }) => {
   }
 
   const submit = evt => {
-    evt.preventDefault();
-    setRule()
+    evt.preventDefault()
+    ruleClose()
 
     if (ws) {
       ws.send(JSON.stringify({
         c: 'l',
         a: JSON.stringify({
-          correctByCorrect, wrongByWrong, winCorrect, loseWrong
+          correctByCorrect: parse(correctByCorrect),
+          wrongByWrong: parse(wrongByWrong),
+          winCorrect: parse(winCorrect),
+          loseWrong: parse(loseWrong)
         })
       }))
     }
+  }
+
+  const cancel = evt => {
+    ruleClose()
   }
 
   const parse = text => {
@@ -45,26 +52,29 @@ const Rule = ({ open, ws, rule, setRule }) => {
         <DialogContent>
           <TextField label="正答時正答ポイント" type="number"
                      value={correctByCorrect}
-                     onChange={evt => setCorrectByCorrect(parse(evt.target.value))} />
+                     onChange={evt => setCorrectByCorrect(evt.target.value)} />
         </DialogContent>
         <DialogContent>
           <TextField label="誤答時誤答ポイント" type="number"
                      value={wrongByWrong}
-                     onChange={evt => setWrongByWrong(parse(evt.target.value))} />
+                     onChange={evt => setWrongByWrong(evt.target.value)} />
         </DialogContent>
         <DialogContent>
           <TextField label="勝ち抜け正答ポイント" type="number"
                      value={winCorrect}
-                     onChange={evt => setWinCorrect(parse(evt.target.value))} />
+                     onChange={evt => setWinCorrect(evt.target.value)} />
         </DialogContent>
         <DialogContent>
           <TextField label="失格誤答ポイント" type="number"
                      value={loseWrong}
-                     onChange={evt => setLoseWrong(parse(evt.target.value))} />
+                     onChange={evt => setLoseWrong(evt.target.value)} />
         </DialogContent>
         <DialogActions>
           <Button type="submit" color="primary">
             設定
+          </Button>
+          <Button color="secondary" onClick={() => cancel()}>
+            閉じる
           </Button>
         </DialogActions>
       </form>
@@ -79,6 +89,6 @@ export default connect(
     rule: state.rule
   }),
   dispatch => ({
-    setRule: rule => dispatch(setRule(rule))
+    ruleClose: () => dispatch(ruleClose())
   })
 )(Rule)

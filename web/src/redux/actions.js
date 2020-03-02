@@ -2,7 +2,7 @@ export const ENTER_ROOM_OPEN = 'ENTER_ROOM_OPEN'
 export const ENTER_ROOM = 'ENTER_ROOM'
 export const LEAVE_ROOM = 'LEAVE_ROOM'
 export const RULE_OPEN = 'RULE_OPEN'
-export const SET_RULE = 'SET_ROOM'
+export const RULE_CLOSE = 'RULE_CLOSE'
 export const RECV_RULE = 'RECV_RULE'
 export const RECV_ANSWERS = 'RECV_ANSWERS'
 export const RECV_ANSWER_TIMES = 'RECV_ANSWER_TIMES'
@@ -27,8 +27,8 @@ export const ruleOpen = () => {
   return { type: RULE_OPEN }
 }
 
-export const setRule = () => {
-  return { type: SET_RULE }
+export const ruleClose = () => {
+  return { type: RULE_CLOSE }
 }
 
 export const recvRule = rule => {
