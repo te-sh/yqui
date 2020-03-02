@@ -6,14 +6,14 @@ import classNames from 'classnames'
 const Player = ({ player, selfID, answers, right }) => {
   const order = answers ? answers.findIndex(answer => answer === player.id) : -1
 
+  const playerClass = classNames(
+    'player',
+    { 'right': right >= 0 && order === right }
+  )
+
   const nameClass = player => classNames(
     'content',
     { 'self': selfID === player.id }
-  )
-
-  const orderClass = classNames(
-    'decorate',
-    { 'right': right >= 0 && order === right }
   )
 
   const winOrLoseClass = player => classNames(
@@ -34,14 +34,14 @@ const Player = ({ player, selfID, answers, right }) => {
   }
 
   return (
-    <Paper className="player">
+    <Paper className={playerClass}>
       <Box className="player-name">
         <Typography align="center" className={nameClass(player)}>
           {player.name}
         </Typography>
       </Box>
       <Box className="answer-order">
-        <Box className={orderClass}>
+        <Box className="decorate">
           <Typography align="center" className="content">
             {order >= 0 ? order + 1 : ""}
           </Typography>

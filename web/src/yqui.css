@@ -72,6 +72,10 @@
   grid-template-columns: 35px 1fr 35px;
 }
 
+.player.right {
+  background-color: #ffcdd2;
+}
+
 .player-name {
   grid-column: 1/4;
   grid-row: 1/2;
