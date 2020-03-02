@@ -15,6 +15,7 @@ var rule = NewRule()
 var answers []int64
 var answerTimes []int64
 var right int = -1
+var history = new(History)
 
 var Received = make(chan Cmd)
 var Sending = make(chan Message)
@@ -83,6 +84,7 @@ func HandleMessage() {
 				if player.Correct >= rule.WinCorrect {
 					Win(room, player)
 				}
+				AddHistory(history, room)
 			}
 			right = -1
 			if player.WinOrder >= 0 {
@@ -102,6 +104,7 @@ func HandleMessage() {
 				if player.Wrong >= rule.LoseWrong {
 					Lose(room, player)
 				}
+				AddHistory(history, room)
 			}
 			if right < len(answers) - 1 {
 				right += 1
@@ -127,9 +130,16 @@ func HandleMessage() {
 				user.WinOrder = -1
 				user.LoseOrder = -1
 			}
+			AddHistory(history, room)
 			Sending <- Message{Type: "answers", Content: answers}
 			Sending <- Message{Type: "answerTimes", Content: answerTimes}
 			Sending <- Message{Type: "right", Content: right}
+			Sending <- Message{Type: "room", Content: room}
+		case "u":
+			MoveHistory(history, room, -1)
+			Sending <- Message{Type: "room", Content: room}
+		case "o":
+			MoveHistory(history, room, +1)
 			Sending <- Message{Type: "room", Content: room}
 		case "l":
 			json.Unmarshal([]byte(cmd.A), &rule)

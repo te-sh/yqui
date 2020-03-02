@@ -36,6 +36,18 @@ const Actions = ({ ws, selfID, room }) => {
     }
   }
 
+  const undo = () => {
+    if (ws) {
+      ws.send(JSON.stringify({ c: 'u' }))
+    }
+  }
+
+  const redo = () => {
+    if (ws) {
+      ws.send(JSON.stringify({ c: 'o' }))
+    }
+  }
+
   const onKeyDown = (evt) => {
     const keyCode = evt.keyCode
     if (isPlayer()) {
@@ -91,6 +103,14 @@ const Actions = ({ ws, selfID, room }) => {
     <Button variant="outlined" color="default" size="large" key="all-clear"
             onClick={() => allClear()}>
       オールクリア
+    </Button>,
+    <Button variant="outlined" color="default" size="large" key="undo"
+            onClick={() => undo()}>
+      Undo
+    </Button>,
+    <Button variant="outlined" color="default" size="large" key="redo"
+            onClick={() => redo()}>
+      Redo
     </Button>
   ]
 

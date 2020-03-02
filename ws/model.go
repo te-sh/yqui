@@ -1,5 +1,10 @@
 package main
 
+import (
+	"log"
+	"encoding/json"
+)
+
 type Cmd struct {
 	C string `json:"c"`
 	A string `json:"a"`
@@ -61,6 +66,38 @@ func Lose(room *Room, target *User) {
 		}
 	}
 	target.LoseOrder = r
+}
+
+type History struct {
+	Buffer []map[int64]*User
+	Curr int
+}
+
+func AddHistory(history *History, room *Room) {
+	history.Buffer = history.Buffer[:history.Curr]
+	item := make(map[int64]*User)
+	for id := range room.Users {
+		user := *room.Users[id]
+		item[id] = &user
+	}
+	history.Buffer = append(history.Buffer, item)
+	history.Curr += 1
+	log.Println(json.Marshal(history))
+}
+
+func MoveHistory(history *History, room *Room, d int) {
+	i := history.Curr + d
+	if i < 0 || i >= len(history.Buffer) {
+		return
+	}
+	users := history.Buffer[i]
+	for id := range users {
+		if _, ok := room.Users[id]; ok {
+			room.Users[id] = users[id]
+		}
+	}
+	history.Curr = i
+	log.Println(json.Marshal(history))
 }
 
 type Rule struct {
