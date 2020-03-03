@@ -1,0 +1,24 @@
+{
+  "extends": "eslint:recommended",
+  "globals": {
+    "console": true,
+    "localStorage": true,
+    "WebSocket": true,
+    "window": true,
+    "XMLHttpRequest": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    },
+    "ecmaVersion": 2015,
+    "sourceType": "module"
+  },
+  "rules": {
+    "react/jsx-uses-vars": 1
+  }
+}
