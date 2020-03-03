@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core'
 import { settingClose } from './redux/actions'
 
-const Setting = ({ open, rule, settingClose }) => {
+const Setting = ({ open, settingClose }) => {
   const [volume, setVolume] = React.useState(0)
 
   const onEnter = () => {
@@ -18,7 +18,7 @@ const Setting = ({ open, rule, settingClose }) => {
     settingClose()
   }
 
-  const cancel = evt => {
+  const cancel = _evt => {
     settingClose()
   }
 
@@ -51,8 +51,7 @@ const Setting = ({ open, rule, settingClose }) => {
 
 export default connect(
   state => ({
-    open: state.settingOpen,
-    rule: state.rule
+    open: state.settingOpen
   }),
   dispatch => ({
     settingClose: () => dispatch(settingClose())

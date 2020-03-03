@@ -17,13 +17,13 @@ import Setting from './Setting'
 const Page = ({ ws, action }) => {
   if (ws) {
     if (!ws.onopen) {
-      ws.onopen = evt => {
+      ws.onopen = _evt => {
         console.log('ws open')
       }
     }
 
     if (!ws.onclose) {
-      ws.onclose = evt => {
+      ws.onclose = _evt => {
         console.log('ws close')
         action.leaveRoom()
       }
@@ -56,7 +56,7 @@ const Page = ({ ws, action }) => {
             action.recvMessage(data.content)
             break
           default:
-            ;
+            break
         }
       }
     }

@@ -4,7 +4,7 @@ import store from './redux/store'
 import Page from './Page'
 import './yqui.css'
 
-const App = props => {
+const App = () => {
   return (
     <Provider store={store}>
       <Page />

@@ -55,7 +55,7 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
     }
   }
 
-  const cancel = evt => {
+  const cancel = _evt => {
     ruleClose()
   }
 

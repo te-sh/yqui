@@ -62,7 +62,7 @@ const Actions = ({ ws, selfID, attendees }) => {
           answer()
           break
         default:
-          ;
+          break
       }
     } else {
       switch (keyCode) {
@@ -88,7 +88,7 @@ const Actions = ({ ws, selfID, attendees }) => {
           redo()
           break
         default:
-          ;
+          break
       }
     }
   }
