@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import playSound from './sound'
 import {
-  leaveRoom, recvRule, recvAnswers, recvAnswerTimes,
-  recvRight, recvSelfID, recvRoom, recvMessage
+  leaveRoom, recvSelfID, recvAttendees, recvScores,
+  recvButtons, recvRule, recvMessage
 } from './redux/actions'
 import TopBar from './TopBar'
 import Chat from './Chat'
@@ -37,23 +37,20 @@ const Page = ({ ws, action }) => {
           case 'sound':
             playSound(data.content)
             break
-          case 'rule':
-            action.recvRule(data.content)
-            break
-          case 'answers':
-            action.recvAnswers(data.content)
-            break
-          case 'answerTimes':
-            action.recvAnswerTimes(data.content)
-            break
-          case 'right':
-            action.recvRight(data.content)
-            break
           case 'selfID':
             action.recvSelfID(data.content)
             break
-          case 'room':
-            action.recvRoom(data.content)
+          case 'attendees':
+            action.recvAttendees(data.content)
+            break
+          case 'scores':
+            action.recvScores(data.content)
+            break
+          case 'buttons':
+            action.recvButtons(data.content)
+            break
+          case 'rule':
+            action.recvRule(data.content)
             break
           case 'chat':
             action.recvMessage(data.content)
@@ -91,12 +88,11 @@ export default connect(
   }),
   dispatch => ({ action: {
     leaveRoom: () => dispatch(leaveRoom()),
-    recvRule: rule => dispatch(recvRule(rule)),
-    recvAnswers: answers => dispatch(recvAnswers(answers)),
-    recvAnswerTimes: answerTimes => dispatch(recvAnswerTimes(answerTimes)),
-    recvRight: right => dispatch(recvRight(right)),
     recvSelfID: selfID => dispatch(recvSelfID(selfID)),
-    recvRoom: room => dispatch(recvRoom(room)),
+    recvAttendees: attendees => dispatch(recvAttendees(attendees)),
+    recvScores: scores => dispatch(recvScores(scores)),
+    recvButtons: buttons => dispatch(recvButtons(buttons)),
+    recvRule: rule => dispatch(recvRule(rule)),
     recvMessage: message => dispatch(recvMessage(message))
   }})
 )(Page)

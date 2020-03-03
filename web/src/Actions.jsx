@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 
-const Actions = ({ ws, selfID, room }) => {
-  const isPlayer = () => selfID !== room.master
+const Actions = ({ ws, selfID, attendees }) => {
+  const isPlayer = selfID !== attendees.master
 
   const answer = () => {
     if (ws) {
@@ -56,7 +56,7 @@ const Actions = ({ ws, selfID, room }) => {
 
   const onKeyDown = (evt) => {
     const keyCode = evt.keyCode
-    if (isPlayer()) {
+    if (isPlayer) {
       switch (keyCode) {
         case 13:
           answer()
@@ -137,7 +137,7 @@ const Actions = ({ ws, selfID, room }) => {
     <Paper>
       <div className="actions" tabIndex="0"
            onKeyDown={evt => onKeyDown(evt)}>
-        {isPlayer() ? forPlayer : forMaster }
+        {isPlayer ? forPlayer : forMaster }
       </div>
     </Paper>
   )
@@ -147,6 +147,6 @@ export default connect(
   state => ({
     ws: state.ws,
     selfID: state.selfID,
-    room: state.room
+    attendees: state.attendees
   })
 )(Actions)

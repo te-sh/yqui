@@ -5,12 +5,11 @@ export const SETTING_OPEN = 'SETTING_OPEN'
 export const SETTING_CLOSE = 'SETTING_CLOSE'
 export const RULE_OPEN = 'RULE_OPEN'
 export const RULE_CLOSE = 'RULE_CLOSE'
-export const RECV_RULE = 'RECV_RULE'
-export const RECV_ANSWERS = 'RECV_ANSWERS'
-export const RECV_ANSWER_TIMES = 'RECV_ANSWER_TIMES'
-export const RECV_RIGHT = 'RECV_RIGHT'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
-export const RECV_ROOM = 'RECV_ROOM'
+export const RECV_ATTENDEES = 'RECV_ATTENDEES'
+export const RECV_SCORES = 'RECV_SCORES'
+export const RECV_BUTTONS = 'RECV_BUTTONS'
+export const RECV_RULE = 'RECV_RULE'
 export const RECV_MESSAGE = 'RECV_MESSAGE'
 
 export const enterRoomOpen = () => {
@@ -41,28 +40,24 @@ export const ruleClose = () => {
   return { type: RULE_CLOSE }
 }
 
-export const recvRule = rule => {
-  return { type: RECV_RULE, rule }
-}
-
-export const recvAnswers = answers => {
-  return { type: RECV_ANSWERS, answers }
-}
-
-export const recvAnswerTimes = answerTimes => {
-  return { type: RECV_ANSWER_TIMES, answerTimes }
-}
-
-export const recvRight = right => {
-  return { type: RECV_RIGHT, right }
-}
-
 export const recvSelfID = selfID => {
   return { type: RECV_SELF_ID, selfID }
 }
 
-export const recvRoom = room => {
-  return { type: RECV_ROOM, room }
+export const recvAttendees = attendees => {
+  return { type: RECV_ATTENDEES, attendees }
+}
+
+export const recvScores = scores => {
+  return { type: RECV_SCORES, scores }
+}
+
+export const recvButtons = buttons => {
+  return { type: RECV_BUTTONS, buttons }
+}
+
+export const recvRule = rule => {
+  return { type: RECV_RULE, rule }
 }
 
 export const recvMessage = message => {

@@ -4,7 +4,7 @@ import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
 import { ListAlt, Settings, SupervisorAccount } from '@material-ui/icons'
 import { ruleOpen, settingOpen } from './redux/actions'
 
-const TopBar = ({ ws, selfID, room, ruleOpen, settingOpen }) => {
+const TopBar = ({ ws, selfID, attendees, ruleOpen, settingOpen }) => {
   const rule = () => {
     ruleOpen()
   }
@@ -32,8 +32,8 @@ const TopBar = ({ ws, selfID, room, ruleOpen, settingOpen }) => {
         <IconButton color="inherit" onClick={() => setting()}>
           <Settings />
         </IconButton>
-        <IconButton color={selfID === room.master ? 'secondary' : 'inherit'}
-                    disabled={selfID !== room.master && room.master >= 0}
+        <IconButton color={selfID === attendees.master ? 'secondary' : 'inherit'}
+                    disabled={selfID !== attendees.master && attendees.master >= 0}
                     onClick={() => toggleMaster()}>
           <SupervisorAccount />
         </IconButton>
@@ -46,7 +46,7 @@ export default connect(
   state => ({
     ws: state.ws,
     selfID: state.selfID,
-    room: state.room
+    attendees: state.attendees
   }),
   dispatch => ({
     ruleOpen: () => dispatch(ruleOpen()),

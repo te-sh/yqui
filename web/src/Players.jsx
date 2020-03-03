@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import { Grid, Paper } from '@material-ui/core'
 import Player from './Player'
 
-const Players = ({ room }) => {
-  const list = room.players.map(player => (
+const Players = ({ attendees }) => {
+  const list = attendees.players.map(player => (
     <Grid item key={player}>
-      <Player player={room.users[player]} />
+      <Player player={player} />
     </Grid>
   ))
+
   return (
     <Paper className="players">
       <Grid container justify="center" alignItems="center">
@@ -20,6 +21,6 @@ const Players = ({ room }) => {
 
 export default connect(
   state => ({
-    room: state.room
+    attendees: state.attendees
   })
 )(Players)

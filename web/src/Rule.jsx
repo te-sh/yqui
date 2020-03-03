@@ -8,30 +8,30 @@ import { ruleClose } from './redux/actions'
 
 const Rule = ({ open, ws, rule, ruleClose }) => {
   const [rightNum, setRightNum] = React.useState(0)
-  const [correctByCorrect, setCorrectByCorrect] = React.useState(0)
-  const [correctByWrong, setCorrectByWrong] = React.useState(0)
-  const [wrongByWrong, setWrongByWrong] = React.useState(0)
-  const [lockByWrong, setLockByWrong] = React.useState(0)
-  const [checkWinCorrect, setCheckWinCorrect] = React.useState(true)
-  const [winCorrect, setWinCorrect] = React.useState(0)
-  const [checkLoseCorrect, setCheckLoseCorrect] = React.useState(false)
-  const [loseCorrect, setLoseCorrect] = React.useState(0)
-  const [checkLoseWrong, setCheckLoseWrong] = React.useState(true)
-  const [loseWrong, setLoseWrong] = React.useState(0)
+  const [pointCorrect, setPointCorrect] = React.useState(0)
+  const [pointWrong, setPointWrong] = React.useState(0)
+  const [batsuWrong, setBatsuWrong] = React.useState(0)
+  const [lockWrong, setLockWrong] = React.useState(0)
+  const [winPointActive, setWinPointActive] = React.useState(true)
+  const [winPointValue, setWinPointValue] = React.useState(0)
+  const [losePointActive, setLosePointActive] = React.useState(false)
+  const [losePointValue, setLosePointValue] = React.useState(0)
+  const [loseBatsuActive, setLoseBatsuActive] = React.useState(true)
+  const [loseBatsuValue, setLoseBatsuValue] = React.useState(0)
 
 
   const onEnter = () => {
     setRightNum(rule.rightNum)
-    setCorrectByCorrect(rule.correctByCorrect)
-    setCorrectByWrong(rule.correctByWrong)
-    setWrongByWrong(rule.wrongByWrong)
-    setLockByWrong(rule.lockByWrong)
-    setCheckWinCorrect(rule.checkWinCorrect)
-    setWinCorrect(rule.winCorrect)
-    setCheckLoseCorrect(rule.checkLoseCorrect)
-    setLoseCorrect(rule.loseCorrect)
-    setCheckLoseWrong(rule.checkLoseWrong)
-    setLoseWrong(rule.loseWrong)
+    setPointCorrect(rule.pointCorrect)
+    setPointWrong(rule.pointWrong)
+    setBatsuWrong(rule.batsuWrong)
+    setLockWrong(rule.lockWrong)
+    setWinPointActive(rule.winPoint.active)
+    setWinPointValue(rule.winPoint.value)
+    setLosePointActive(rule.losePoint.active)
+    setLosePointValue(rule.losePoint.value)
+    setLoseBatsuActive(rule.loseBatsu.active)
+    setLoseBatsuValue(rule.loseBatsu.value)
   }
 
   const submit = evt => {
@@ -43,16 +43,13 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
         c: 'l',
         a: JSON.stringify({
           rightNum: parse(rightNum),
-          correctByCorrect: parse(correctByCorrect),
-          correctByWrong: parse(correctByWrong),
-          wrongByWrong: parse(wrongByWrong),
-          lockByWrong: parse(lockByWrong),
-          checkWinCorrect: checkWinCorrect,
-          winCorrect: parse(winCorrect),
-          checkLoseCorrect: checkLoseCorrect,
-          loseCorrect: parse(loseCorrect),
-          checkLoseWrong: checkLoseWrong,
-          loseWrong: parse(loseWrong)
+          pointCorrect: parse(pointCorrect),
+          pointWrong: parse(pointWrong),
+          batsuWrong: parse(batsuWrong),
+          lockWrong: parse(lockWrong),
+          winPoint: { active: winPointActive, value: parse(winPointValue) },
+          losePoint: { active: losePointActive, value: parse(losePointValue) },
+          loseBatsu: { active: loseBatsuActive, value: parse(loseBatsuValue) }
         })
       }))
     }
@@ -81,50 +78,50 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
               正答時
             </Typography>
             <TextField label="ポイント" type="number"
-                       value={correctByCorrect}
-                       onChange={evt => setCorrectByCorrect(evt.target.value)} />
+                       value={pointCorrect}
+                       onChange={evt => setPointCorrect(evt.target.value)} />
           </div>
           <div>
             <Typography>
               誤答時
             </Typography>
             <TextField label="ポイント" type="number"
-                       value={correctByWrong}
-                       onChange={evt => setCorrectByWrong(evt.target.value)} />
+                       value={pointWrong}
+                       onChange={evt => setPointWrong(evt.target.value)} />
             <TextField label="バツ" type="number"
-                       value={wrongByWrong}
-                       onChange={evt => setWrongByWrong(evt.target.value)} />
+                       value={batsuWrong}
+                       onChange={evt => setBatsuWrong(evt.target.value)} />
             <TextField label="休み" type="number"
-                       value={lockByWrong}
-                       onChange={evt => setLockByWrong(evt.target.value)} />
+                       value={lockWrong}
+                       onChange={evt => setLockWrong(evt.target.value)} />
           </div>
           <div>
             <Typography>
               勝ち抜け
             </Typography>
-            <Checkbox color="default" checked={checkWinCorrect}
-                      onChange={evt => setCheckWinCorrect(evt.target.checked)} />
+            <Checkbox color="default" checked={winPointActive}
+                      onChange={evt => setWinPointActive(evt.target.checked)} />
             <TextField label="ポイント" type="number"
-                       disabled={!checkWinCorrect}
-                       value={winCorrect}
-                       onChange={evt => setWinCorrect(evt.target.value)} />
+                       disabled={!winPointActive}
+                       value={winPointValue}
+                       onChange={evt => setWinPointValue(evt.target.value)} />
           </div>
           <div>
             <Typography>
               失格
             </Typography>
-            <Checkbox color="default" checked={checkLoseCorrect}
-                      onChange={evt => setCheckLoseCorrect(evt.target.checked)} />
+            <Checkbox color="default" checked={losePointActive}
+                      onChange={evt => setLosePointActive(evt.target.checked)} />
             <TextField label="ポイント" type="number"
-                       disabled={!checkLoseCorrect}
-                       value={loseCorrect}
-                       onChange={evt => setLoseCorrect(evt.target.value)} />
-            <Checkbox color="default" checked={checkLoseWrong}
-                      onChange={evt => setCheckLoseWrong(evt.target.checked)} />
+                       disabled={!losePointActive}
+                       value={losePointValue}
+                       onChange={evt => setLosePointValue(evt.target.value)} />
+            <Checkbox color="default" checked={loseBatsuActive}
+                      onChange={evt => setLoseBatsuActive(evt.target.checked)} />
             <TextField label="バツ" type="number"
-                       disabled={!checkLoseWrong}
-                       value={loseWrong}
-                       onChange={evt => setLoseWrong(evt.target.value)} />
+                       disabled={!loseBatsuActive}
+                       value={loseBatsuValue}
+                       onChange={evt => setLoseBatsuValue(evt.target.value)} />
           </div>
         </DialogContent>
         <DialogActions>

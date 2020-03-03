@@ -2,8 +2,8 @@ import URI from 'urijs'
 import {
   ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM,
   SETTING_OPEN, SETTING_CLOSE, RULE_OPEN, RULE_CLOSE,
-  RECV_RULE, RECV_ANSWERS, RECV_ANSWER_TIMES, RECV_RIGHT,
-  RECV_SELF_ID, RECV_ROOM, RECV_MESSAGE
+  RECV_SELF_ID, RECV_ATTENDEES, RECV_SCORES, RECV_BUTTONS,
+  RECV_RULE, RECV_MESSAGE
 } from './actions'
 
 const initialState = {
@@ -12,27 +12,18 @@ const initialState = {
   settingOpen: false,
   ws: null,
   selfID: null,
-  room: {
+  attendees: {
     users: {},
     players: [],
-    master: -1,
+    master: -1
   },
-  answers: [],
-  answerTimes: [],
-  right: -1,
-  rule: {
-    rightNum: 1,
-    correctByCorrect: 1,
-    correctByWrong: 0,
-    wrongByWrong: 1,
-    lockByWrong: 0,
-    checkWinCorrect: true,
-    winCorrect: 7,
-    checkLoseCorrect: false,
-    loseCorrect: 0,
-    checkLoseWrong: true,
-    loseWrong: 3
+  scores: {},
+  buttons: {
+    pushers: [],
+    pusherTimes: [],
+    right: -1
   },
+  rule: {},
   messages: []
 }
 
@@ -67,29 +58,25 @@ const yquiApp = (state = initialState, action) => {
     return Object.assign({}, state, {
       ruleOpen: false
     })
-  case RECV_RULE:
-    return Object.assign({}, state, {
-      rule: action.rule
-    })
-  case RECV_ANSWERS:
-    return Object.assign({}, state, {
-      answers: action.answers
-    })
-  case RECV_ANSWER_TIMES:
-    return Object.assign({}, state, {
-      answerTimes: action.answerTimes
-    })
-  case RECV_RIGHT:
-    return Object.assign({}, state, {
-      right: action.right
-    })
   case RECV_SELF_ID:
     return Object.assign({}, state, {
       selfID: action.selfID
     })
-  case RECV_ROOM:
+  case RECV_ATTENDEES:
     return Object.assign({}, state, {
-      room: action.room
+      attendees: action.attendees
+    })
+  case RECV_SCORES:
+    return Object.assign({}, state, {
+      scores: action.scores
+    })
+  case RECV_BUTTONS:
+    return Object.assign({}, state, {
+      buttons: action.buttons
+    })
+  case RECV_RULE:
+    return Object.assign({}, state, {
+      rule: action.rule
     })
   case RECV_MESSAGE:
     return Object.assign({}, state, {

@@ -3,17 +3,18 @@ import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 
-const Player = ({ player, selfID, answers, right, rule }) => {
-  const order = answers ? answers.findIndex(answer => answer === player.id) : -1
+const Player = ({ player, selfID, attendees, scores, buttons, rule }) => {
+  const order = buttons.pushers ? buttons.pushers.indexOf(player) : -1
+  const score = scores[player] || {}
 
   const playerClass = classNames(
     'player',
-    { 'right': right >= 0 && order === right }
+    { 'right': buttons.right >= 0 && buttons.right === order }
   )
 
-  const nameClass = player => classNames(
+  const nameClass = classNames(
     'content',
-    { 'self': selfID === player.id }
+    { 'self': player === selfID }
   )
 
   const orderClass = classNames(
@@ -21,20 +22,20 @@ const Player = ({ player, selfID, answers, right, rule }) => {
     { 'has-right': order < rule.rightNum }
   )
 
-  const winOrLoseClass = player => classNames(
+  const winOrLoseClass = classNames(
     'win-or-lose',
-    { 'active': player.winOrder >= 0 || player.loseOrder >= 0 || player.lock > 0 }
+    { 'active': score.win >= 0 || score.lose >= 0 || score.lock > 0 }
   )
 
-  const winOrLoseText = player => {
-    if (player.winOrder >= 0) {
-      let order = player.winOrder + 1
-      return order.toString() +
-          (order === 1 ? 'st' : order === 2 ? 'nd' : order === 3 ? 'rd' : 'th')
-    } else if (player.loseOrder >= 0) {
+  const winOrLoseText = () => {
+    if (score.win >= 0) {
+      let d = score.win + 1
+      return d.toString() +
+          (d === 1 ? 'st' : d === 2 ? 'nd' : d === 3 ? 'rd' : 'th')
+    } else if (score.lose >= 0) {
       return 'Lose'
-    } else if (player.lock >= 0) {
-      return 'Lock ' + player.lock
+    } else if (score.lock > 0) {
+      return 'Lock ' + score.lock
     } else {
       return ''
     }
@@ -43,8 +44,8 @@ const Player = ({ player, selfID, answers, right, rule }) => {
   return (
     <Paper className={playerClass}>
       <Box className="player-name">
-        <Typography align="center" className={nameClass(player)}>
-          {player.name}
+        <Typography align="center" className={nameClass}>
+          {attendees.users[player].name}
         </Typography>
       </Box>
       <Box className="answer-order">
@@ -56,17 +57,17 @@ const Player = ({ player, selfID, answers, right, rule }) => {
       </Box>
       <Box className="correct">
         <Typography className="content">
-          {player.correct}
+          {score.point}
         </Typography>
       </Box>
       <Box className="wrong">
         <Typography className="content">
-          {player.wrong}
+          {score.batsu}
         </Typography>
       </Box>
-      <Box className={winOrLoseClass(player)}>
+      <Box className={winOrLoseClass}>
         <Typography className="content">
-          {winOrLoseText(player)}
+          {winOrLoseText()}
         </Typography>
       </Box>
     </Paper>
@@ -76,8 +77,9 @@ const Player = ({ player, selfID, answers, right, rule }) => {
 export default connect(
   state => ({
     selfID: state.selfID,
-    answers: state.answers,
-    right: state.right,
+    attendees: state.attendees,
+    scores: state.scores,
+    buttons: state.buttons,
     rule: state.rule
   })
 )(Player)
