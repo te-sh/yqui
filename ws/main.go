@@ -93,6 +93,9 @@ func HandleMessage() {
 		case "o":
 			room.MoveHistory(+1)
 			Sending <- Message{Type: "scores", Content: room.Scores}
+		case "p":
+			json.Unmarshal([]byte(cmd.A), &room.Attendees.Players)
+			Sending <- Message{Type: "attendees", Content: room.Attendees}
 		case "l":
 			json.Unmarshal([]byte(cmd.A), &room.Rule)
 			Sending <- Message{Type: "rule", Content: room.Rule}

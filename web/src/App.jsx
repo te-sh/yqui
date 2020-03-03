@@ -1,5 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
+import { DndProvider } from 'react-dnd'
+import Backend from 'react-dnd-html5-backend'
 import store from './redux/store'
 import Page from './Page'
 import './yqui.css'
@@ -7,7 +9,9 @@ import './yqui.css'
 const App = () => {
   return (
     <Provider store={store}>
-      <Page />
+      <DndProvider backend={Backend}>
+        <Page />
+      </DndProvider>
     </Provider>
   )
 }

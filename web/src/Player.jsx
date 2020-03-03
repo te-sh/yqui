@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 const Player = ({ player, selfID, attendees, scores, buttons, rule }) => {
   const order = buttons.pushers ? buttons.pushers.indexOf(player) : -1
+  const user = attendees.users[player] || {}
   const score = scores[player] || {}
 
   const playerClass = classNames(
@@ -45,7 +46,7 @@ const Player = ({ player, selfID, attendees, scores, buttons, rule }) => {
     <Paper className={playerClass}>
       <Box className="player-name">
         <Typography align="center" className={nameClass}>
-          {attendees.users[player].name}
+          {user.name}
         </Typography>
       </Box>
       <Box className="answer-order">
