@@ -9,7 +9,13 @@ const Chat = ({ ws }) => {
   const chat = evt => {
     evt.preventDefault()
     if (ws) {
-      ws.send(JSON.stringify({ c: 'c', a: message }))
+      if (message === '') {
+        return;
+      } else if (message.startsWith('!') || message.startsWith('！')) {
+        ws.send(JSON.stringify({ c: 'a' }))
+      } else {
+        ws.send(JSON.stringify({ c: 'c', a: message }))
+      }
       setMessage('')
     }
   }

@@ -58,8 +58,8 @@ func (room *Room) Correct() (win bool) {
 		if win {
 			room.Win(id)
 		}
-		room.AddHistory()
 		room.NextQuiz(false)
+		room.AddHistory()
 	}
 	return
 }
@@ -81,7 +81,6 @@ func (room *Room) Wrong() (lose bool) {
 		if lose {
 			room.Lose(id)
 		}
-		room.AddHistory()
 		if buttons.Right < rule.RightNum - 1 {
 			if buttons.Right < len(buttons.Pushers) - 1 {
 				buttons.Right += 1
@@ -91,6 +90,7 @@ func (room *Room) Wrong() (lose bool) {
 		} else {
 			room.NextQuiz(false)
 		}
+		room.AddHistory()
 	}
 	return
 }

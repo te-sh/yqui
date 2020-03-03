@@ -66,25 +66,25 @@ const Actions = ({ ws, selfID, attendees }) => {
       }
     } else {
       switch (keyCode) {
-        case 67:
+        case 81:
           correct()
           break
         case 87:
           wrong()
           break
-        case 78:
+        case 69:
           next()
           break
         case 82:
           reset()
           break
-        case 65:
+        case 84:
           allClear()
           break
-        case 37:
+        case 89:
           undo()
           break
-        case 39:
+        case 85:
           redo()
           break
         default:
@@ -113,7 +113,7 @@ const Actions = ({ ws, selfID, attendees }) => {
     </Button>,
     <Button variant="outlined" color="default" size="large" key="next"
             onClick={() => next()}>
-      次の問題
+      スルー
     </Button>,
     <Button variant="outlined" color="default" size="large" key="reset"
             onClick={() => reset()}>
