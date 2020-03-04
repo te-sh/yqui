@@ -48,10 +48,10 @@ func (room *Room) ToggleMaster(id int64) {
 func (room *Room) PushButton(id int64, time int64) {
 	score := room.Scores[id]
 	if Int64FindIndex(room.Buttons.Pushers, id) < 0 &&
-		score.Lock == 0 && score.Win == 0 && score.Lose == 0 {
+	   score.Lock == 0 && score.Win == 0 && score.Lose == 0 {
 		if room.Buttons.Right == -1 {
 			room.Buttons.Right = len(room.Buttons.Pushers)
-			room.Broadcast("push", "sound")
+			room.Broadcast("sound", "push")
 		}
 		room.Buttons.Pushers = append(room.Buttons.Pushers, id)
 		room.Buttons.PushTimes = append(room.Buttons.PushTimes, time)
@@ -59,7 +59,7 @@ func (room *Room) PushButton(id int64, time int64) {
 	room.SendButtons()
 }
 
-func (room *Room) Correct() {
+func (room *Room) Correct() (win bool) {
 	buttons := room.Buttons
 	if buttons.Right < 0 || buttons.Right >= len(buttons.Pushers) {
 		return
@@ -69,18 +69,17 @@ func (room *Room) Correct() {
 
 	if score, ok := room.Scores[id]; ok {
 		score.Point += rule.PointCorrect
-		if rule.WinPoint.Active && score.Point >= rule.WinPoint.Value {
+		win = rule.WinPoint.Active && score.Point >= rule.WinPoint.Value
+		if win {
 			room.Win(id)
-			room.Broadcast("sound", "correct,roundwin")
-		} else {
-			room.Broadcast("sound", "correct")
 		}
 		room.NextQuiz(false)
 		room.AddHistory()
 	}
+	return
 }
 
-func (room *Room) Wrong() {
+func (room *Room) Wrong() (lose bool) {
 	buttons := room.Buttons
 	if buttons.Right < 0 || buttons.Right >= len(buttons.Pushers) {
 		return
@@ -92,22 +91,26 @@ func (room *Room) Wrong() {
 		score.Point += rule.PointWrong
 		score.Batsu += rule.BatsuWrong
 		score.Lock = rule.LockWrong
-		if (rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
-		   (rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value) {
+		lose = (rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
+			   (rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)
+		if lose {
 			room.Lose(id)
 		}
-		if buttons.Right < rule.RightNum - 1 {
+		if buttons.Right < rule.RightNum - 1 &&
+		   buttons.Right < len(room.Attendees.Players) - 1 {
 			if buttons.Right < len(buttons.Pushers) - 1 {
 				buttons.Right += 1
 			} else {
 				buttons.Right = -1
 			}
+			room.SendButtons()
+			room.SendScores()
 		} else {
 			room.NextQuiz(false)
 		}
 		room.AddHistory()
 	}
-	room.Broadcast("sound", "wrong")
+	return
 }
 
 func (room *Room) Win(target int64) {

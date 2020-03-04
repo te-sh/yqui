@@ -14,21 +14,27 @@ const MixDisplay = ({ ws, isMaster, attendees, buttons, rule }) => {
     [rule.showPoint]
   )
 
-  console.log(rule, buttons)
+  const pushersNum = buttons.pushers ? buttons.pushers.length : 0
+  const isMultiChance = pushersNum > 0 && pushersNum < rule.rightNum && buttons.right === -1
+
+  const displayClass = classNames(
+    'mix-display',
+    { warning: isMultiChance }
+  )
 
   const ruleText = (() => {
     return {
       chance: (() => {
         if (rule.rightNum === 1) {
           return 'シングルチャンス'
+        } else if (rule.rightNum >= attendees.players.length) {
+          return 'エンドレスチャンス'
         } else if (rule.rightNum === 2) {
           return 'ダブルチャンス'
         } else if (rule.rightNum === 3) {
           return 'トリプルチャンス'
-        } else if (rule.rightNum < attendees.players.length) {
-          return rule.rightNum.toString() + 'チャンス'
         } else {
-          return 'エンドレスチャンス'
+          return rule.rightNum.toString() + 'チャンス'
         }
       })(),
       correct: (() => {
@@ -77,14 +83,24 @@ const MixDisplay = ({ ws, isMaster, attendees, buttons, rule }) => {
     }
   })()
 
+  const ruleClass = classNames(
+    'mix-rule',
+    { 'active': !isMultiChance }
+  )
+
   const actionsClass = classNames(
     'mix-actions',
-    { 'active': isMaster }
+    { 'active': !isMultiChance && isMaster }
+  )
+
+  const multiChanceClass = classNames(
+    'mix-multi-chance',
+    { 'active': isMultiChance }
   )
 
   return (
-    <Paper className="mix-display">
-      <Box className="mix-rule">
+    <Paper className={displayClass}>
+      <Box className={ruleClass}>
         <Typography>
           {ruleText.chance} {ruleText.correct} {ruleText.wrong}
         </Typography>
@@ -100,6 +116,11 @@ const MixDisplay = ({ ws, isMaster, attendees, buttons, rule }) => {
                       onChange={evt => send.showPoint(ws, evt.target.checked)} />
           }
           label="ポイント表示" />
+      </Box>
+      <Box className={multiChanceClass}>
+        <Typography variant="h5">
+          {ruleText.chance}継続中
+        </Typography>
       </Box>
     </Paper>
   )

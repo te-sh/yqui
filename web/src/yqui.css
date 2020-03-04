@@ -42,9 +42,18 @@
   grid-template-rows: auto;
 }
 
+.mix-display.warning {
+  background-color: #ffcdd2;
+}
+
 .mix-display .mix-rule {
   grid-column: 1/2;
   grid-row: 1/2;
+  visibility: hidden;
+}
+
+.mix-display .mix-rule.active {
+  visibility: visible;
 }
 
 .mix-display .mix-actions {
@@ -57,6 +66,19 @@
 }
 
 .mix-display .mix-actions.active {
+  visibility: visible;
+}
+
+.mix-display .mix-multi-chance {
+  grid-column: 1/2;
+  grid-row: 1/2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+}
+
+.mix-display .mix-multi-chance.active {
   visibility: visible;
 }
 

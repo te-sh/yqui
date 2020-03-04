@@ -39,9 +39,15 @@ func HandleMessage() {
 		case "a":
 			room.PushButton(cmd.ID, cmd.Time)
 		case "s":
-			room.Correct()
+			win := room.Correct()
+			if win {
+				room.Broadcast("sound", "correct,roundwin")
+			} else {
+				room.Broadcast("sound", "correct")
+			}
 		case "f":
 			room.Wrong()
+			room.Broadcast("sound", "wrong")
 		case "n":
 			room.NextQuiz(true)
 		case "r":
