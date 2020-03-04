@@ -195,30 +195,3 @@ func (room *Room) MoveHistory(d int) {
 	history.Curr = i
 	room.SendScores()
 }
-
-func (room *Room) SendUsers() {
-	room.Broadcast("users", room.Users)
-}
-
-func (room *Room) SendAttendees() {
-	room.Broadcast("attendees", room.Attendees)
-}
-
-func (room *Room) SendButtons() {
-	room.Broadcast("buttons", room.Buttons)
-}
-
-func (room *Room) SendScores() {
-	subScores := make(map[int64]*Score)
-	for id := range room.Scores {
-		subScore := *room.Scores[id]
-		if !room.Rule.ShowPoint {
-			subScore.Point = 0
-			subScore.Batsu = 0
-		}
-		subScores[id] = &subScore
-	}
-
-	room.SendToMaster("scores", room.Scores)
-	room.SendToPlayers("scores", subScores)
-}

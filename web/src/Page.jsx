@@ -18,14 +18,14 @@ import Setting from './Setting'
 const Page = ({ ws, action }) => {
   if (ws) {
     if (!ws.onopen) {
-      ws.onopen = _evt => {
-        console.log('ws open')
+      ws.onopen = evt => {
+        console.log('ws open', evt)
       }
     }
 
     if (!ws.onclose) {
-      ws.onclose = _evt => {
-        console.log('ws close')
+      ws.onclose = evt => {
+        console.log('ws close', evt)
         action.leaveRoom()
       }
     }
