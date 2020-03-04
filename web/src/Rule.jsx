@@ -4,6 +4,7 @@ import {
   Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
   TextField, Typography
 } from '@material-ui/core'
+import { send } from './communicate'
 import { ruleClose } from './redux/actions'
 
 const Rule = ({ open, ws, rule, ruleClose }) => {
@@ -38,21 +39,16 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
     evt.preventDefault()
     ruleClose()
 
-    if (ws) {
-      ws.send(JSON.stringify({
-        c: 'l',
-        a: JSON.stringify({
-          rightNum: parse(rightNum),
-          pointCorrect: parse(pointCorrect),
-          pointWrong: parse(pointWrong),
-          batsuWrong: parse(batsuWrong),
-          lockWrong: parse(lockWrong),
-          winPoint: { active: winPointActive, value: parse(winPointValue) },
-          losePoint: { active: losePointActive, value: parse(losePointValue) },
-          loseBatsu: { active: loseBatsuActive, value: parse(loseBatsuValue) }
-        })
-      }))
-    }
+    send.rule(ws, {
+      rightNum: parse(rightNum),
+      pointCorrect: parse(pointCorrect),
+      pointWrong: parse(pointWrong),
+      batsuWrong: parse(batsuWrong),
+      lockWrong: parse(lockWrong),
+      winPoint: { active: winPointActive, value: parse(winPointValue) },
+      losePoint: { active: losePointActive, value: parse(losePointValue) },
+      loseBatsu: { active: loseBatsuActive, value: parse(loseBatsuValue) }
+    })
   }
 
   const cancel = _evt => {

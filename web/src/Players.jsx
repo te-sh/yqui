@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Grid, Paper } from '@material-ui/core'
 import update from 'immutability-helper'
 import PlayerDraggable from './PlayerDraggable'
+import { send } from './communicate'
 
 const Players = ({ ws, attendees }) => {
   const [players, setPlayers] = React.useState(attendees.players)
@@ -25,17 +26,11 @@ const Players = ({ ws, attendees }) => {
     [players]
   )
 
-  const droped = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'p', a: JSON.stringify(players) }))
-    }
-  }
-
   const list = players.map((player, index) => (
     <Grid item key={player}>
       <PlayerDraggable player={player} index={index}
                        movePlayer={movePlayer}
-                       droped={() => droped()} />
+                       droped={() => send.playersOrder(ws, players)} />
     </Grid>
   ))
 

@@ -2,22 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { IconButton, Paper, TextField } from '@material-ui/core'
 import { Edit } from '@material-ui/icons'
+import { send } from './communicate'
 
 const Chat = ({ ws }) => {
   const [message, setMessage] = React.useState('')
 
   const chat = evt => {
     evt.preventDefault()
-    if (ws) {
-      if (message === '') {
-        return;
-      } else if (message.startsWith('!') || message.startsWith('！')) {
-        ws.send(JSON.stringify({ c: 'a' }))
-      } else {
-        ws.send(JSON.stringify({ c: 'c', a: message }))
-      }
-      setMessage('')
+    if (message === '') {
+      return;
+    } else if (message.startsWith('!') || message.startsWith('！')) {
+      send.pushButton(ws)
+    } else {
+      send.chat(ws, message)
     }
+    setMessage('')
   }
 
   return (

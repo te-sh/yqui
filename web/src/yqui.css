@@ -3,7 +3,7 @@
   max-height: 100vh;
   background-color: #e0e0e0;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto auto;
   grid-template-columns: 25% 1fr;
   grid-gap: 5px;
 }
@@ -30,18 +30,33 @@
 .messages {
   padding: 8px;
   grid-column: 1/2;
-  grid-row: 3/5;
+  grid-row: 3/6;
 }
 
-.rule {
-  display: grid;
-  grid-template-rows: repeat(4, auto);
-  grid-template-columns: auto;
-  grid-gap: 12px;
+.mix-display {
+  padding: 8px;
+  grid-column: 2/3;
+  grid-row: 4/5;
 }
 
-.rule .MuiInputBase-root {
-  width: 70px;
+.mix-display .mix-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.actions {
+  padding: 16px;
+  grid-column: 2/3;
+  grid-row: 5/6;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions button {
+  margin: 10px;
 }
 
 .players {
@@ -51,20 +66,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.actions {
-  padding: 16px;
-  grid-column: 2/3;
-  grid-row: 4/5;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.actions button {
-  margin: 10px;
 }
 
 .player {
@@ -177,4 +178,15 @@
 .player-status .content {
   font-family: 'Trade Winds';
   font-size: 32px;
+}
+
+.rule {
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  grid-template-columns: auto;
+  grid-gap: 12px;
+}
+
+.rule .MuiInputBase-root {
+  width: 70px;
 }

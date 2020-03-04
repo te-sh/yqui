@@ -2,21 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
 import { ListAlt, Settings, SupervisorAccount } from '@material-ui/icons'
+import { send } from './communicate'
 import { ruleOpen, settingOpen } from './redux/actions'
 
-const TopBar = ({ ws, selfID, attendees, ruleOpen, settingOpen }) => {
+const TopBar = ({ ws, attendees, isMaster, ruleOpen, settingOpen }) => {
   const rule = () => {
     ruleOpen()
   }
 
   const setting = () => {
     settingOpen()
-  }
-
-  const toggleMaster = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'm' }))
-    }
   }
 
   return (
@@ -32,9 +27,9 @@ const TopBar = ({ ws, selfID, attendees, ruleOpen, settingOpen }) => {
         <IconButton color="inherit" onClick={() => setting()}>
           <Settings />
         </IconButton>
-        <IconButton color={selfID === attendees.master ? 'secondary' : 'inherit'}
-                    disabled={selfID !== attendees.master && attendees.master >= 0}
-                    onClick={() => toggleMaster()}>
+        <IconButton color={isMaster ? 'secondary' : 'inherit'}
+                    disabled={!isMaster && attendees.master >= 0}
+                    onClick={() => send.toggleMaster(ws)}>
           <SupervisorAccount />
         </IconButton>
       </Toolbar>
@@ -45,8 +40,8 @@ const TopBar = ({ ws, selfID, attendees, ruleOpen, settingOpen }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    selfID: state.selfID,
-    attendees: state.attendees
+    attendees: state.attendees,
+    isMaster: state.isMaster
   }),
   dispatch => ({
     ruleOpen: () => dispatch(ruleOpen()),

@@ -2,90 +2,41 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
+import { send } from './communicate'
 
-const Actions = ({ ws, selfID, attendees }) => {
-  const isPlayer = selfID !== attendees.master
-
-  const answer = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'a' }))
-    }
-  }
-
-  const correct = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 's' }))
-    }
-  }
-
-  const wrong = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'f' }))
-    }
-  }
-
-  const next = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'n' }))
-    }
-  }
-
-  const reset = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'r' }))
-    }
-  }
-
-  const allClear = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'e' }))
-    }
-  }
-
-  const undo = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'u' }))
-    }
-  }
-
-  const redo = () => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'o' }))
-    }
-  }
-
+const Actions = ({ ws, isMaster }) => {
   const onKeyDown = (evt) => {
     const keyCode = evt.keyCode
-    if (isPlayer) {
+    if (isMaster) {
       switch (keyCode) {
-        case 13:
-          answer()
+        case 81:
+          send.correct(ws)
+          break
+        case 87:
+          send.wrong(ws)
+          break
+        case 69:
+          send.through(ws)
+          break
+        case 82:
+          send.reset(ws)
+          break
+        case 84:
+          send.allClear(ws)
+          break
+        case 89:
+          send.undo(ws)
+          break
+        case 85:
+          send.redo(ws)
           break
         default:
           break
       }
     } else {
       switch (keyCode) {
-        case 81:
-          correct()
-          break
-        case 87:
-          wrong()
-          break
-        case 69:
-          next()
-          break
-        case 82:
-          reset()
-          break
-        case 84:
-          allClear()
-          break
-        case 89:
-          undo()
-          break
-        case 85:
-          redo()
+        case 13:
+          send.pushButton(ws)
           break
         default:
           break
@@ -93,51 +44,51 @@ const Actions = ({ ws, selfID, attendees }) => {
     }
   }
 
-  const forPlayer = (
-    <Button variant="outlined" color="primary" size="large"
-            onClick={() => answer()}>
-      早押し
-    </Button>
-  )
-
   const forMaster = [
     <Button variant="outlined" color="primary" size="large" key="correct"
-            onClick={() => correct()}
+            onClick={() => send.correct(ws)}
             startIcon={<RadioButtonUnchecked />}>
       正解
     </Button>,
     <Button variant="outlined" color="secondary" size="large" key="wrong"
-            onClick={() => wrong()}
+            onClick={() => send.wrong(ws)}
             startIcon={<Close />}>
       不正解
     </Button>,
-    <Button variant="outlined" color="default" size="large" key="next"
-            onClick={() => next()}>
+    <Button variant="outlined" color="default" size="large" key="through"
+            onClick={() => send.through(ws)}>
       スルー
     </Button>,
     <Button variant="outlined" color="default" size="large" key="reset"
-            onClick={() => reset()}>
+            onClick={() => send.reset(ws)}>
       リセット
     </Button>,
     <Button variant="outlined" color="default" size="large" key="all-clear"
-            onClick={() => allClear()}>
+            onClick={() => send.allClear(ws)}>
       オールクリア
     </Button>,
     <Button variant="outlined" color="default" size="large" key="undo"
-            onClick={() => undo()}>
+            onClick={() => send.undo(ws)}>
       Undo
     </Button>,
     <Button variant="outlined" color="default" size="large" key="redo"
-            onClick={() => redo()}>
+            onClick={() => send.redo(ws)}>
       Redo
     </Button>
   ]
+
+  const forPlayer = (
+    <Button variant="outlined" color="primary" size="large"
+            onClick={() => send.pushButton(ws)}>
+      早押し
+    </Button>
+  )
 
   return (
     <Paper>
       <div className="actions" tabIndex="0"
            onKeyDown={evt => onKeyDown(evt)}>
-        {isPlayer ? forPlayer : forMaster }
+        {isMaster ? forMaster : forPlayer }
       </div>
     </Paper>
   )
@@ -146,7 +97,6 @@ const Actions = ({ ws, selfID, attendees }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    selfID: state.selfID,
-    attendees: state.attendees
+    isMaster: state.isMaster
   })
 )(Actions)

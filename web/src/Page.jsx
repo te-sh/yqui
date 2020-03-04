@@ -9,6 +9,7 @@ import TopBar from './TopBar'
 import Chat from './Chat'
 import Messages from './Messages'
 import Players from './Players'
+import MixDisplay from './MixDisplay'
 import Actions from './Actions'
 import EnterRoom from './EnterRoom'
 import Rule from './Rule'
@@ -74,6 +75,7 @@ const Page = ({ ws, action }) => {
       <Chat />
       <Messages />
       <Players />
+      <MixDisplay />
       <Actions />
       <EnterRoom />
       <Rule />

@@ -99,6 +99,7 @@ func HandleMessage() {
 		case "l":
 			json.Unmarshal([]byte(cmd.A), &room.Rule)
 			Sending <- Message{Type: "rule", Content: room.Rule}
+		case "d":
 		case "m":
 			room.ToggleMaster(cmd.ID)
 			Sending <- Message{Type: "attendees", Content: room.Attendees}
