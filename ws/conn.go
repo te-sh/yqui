@@ -66,8 +66,10 @@ func (room *Room) SendToOne(id int64, typ string, cnt interface {}) {
 
 func (room *Room) SendToMaster(typ string, cnt interface {}) {
 	log.Println("write: ", typ, cnt)
-	msg := Message{Type: typ, Content: cnt}
-	room.Users[room.Attendees.Master].Conn.Message <- msg
+	if id := room.Attendees.Master; id != -1 {
+		msg := Message{Type: typ, Content: cnt}
+		room.Users[id].Conn.Message <- msg
+	}
 }
 
 func (room *Room) SendToPlayers(typ string, cnt interface {}) {

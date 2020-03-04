@@ -4,7 +4,7 @@ import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 import { ordial } from './util'
 
-const Player = ({ player, selfID, users, scores, buttons, rule }) => {
+const Player = ({ player, selfID, isMaster, users, scores, buttons, rule }) => {
   const order = buttons.pushers ? buttons.pushers.indexOf(player) : -1
   const user = users[player] || {}
   const score = scores[player] || {}
@@ -23,6 +23,10 @@ const Player = ({ player, selfID, users, scores, buttons, rule }) => {
     'content',
     { 'has-right': order < rule.rightNum }
   )
+
+  const pointText = isMaster || rule.showPoint ? score.point : '-'
+
+  const batsuText = isMaster || rule.showPoint ? score.batsu : '-'
 
   const statusClass = classNames(
     'player-status',
@@ -61,12 +65,12 @@ const Player = ({ player, selfID, users, scores, buttons, rule }) => {
       </Box>
       <Box className="correct">
         <Typography className="content">
-          {score.point}
+          {pointText}
         </Typography>
       </Box>
       <Box className="wrong">
         <Typography className="content">
-          {score.batsu}
+          {batsuText}
         </Typography>
       </Box>
       <Box className={statusClass}>
@@ -81,6 +85,7 @@ const Player = ({ player, selfID, users, scores, buttons, rule }) => {
 export default connect(
   state => ({
     selfID: state.selfID,
+    isMaster: state.isMaster,
     users: state.users,
     scores: state.scores,
     buttons: state.buttons,

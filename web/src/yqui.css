@@ -43,6 +43,11 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  visibility: hidden;
+}
+
+.mix-display .mix-actions.active {
+  visibility: visible;
 }
 
 .actions {

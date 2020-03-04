@@ -12,10 +12,10 @@ func (room *Room) JoinUser(conn *Conn, name string) int64 {
 	room.SendToOne(id, "selfID", id)
 	room.SendToOne(id, "rule", room.Rule)
 
-	room.Broadcast("users", room.Users)
-	room.Broadcast("attendees", room.Attendees)
-	room.Broadcast("buttons", room.Buttons)
-	room.Broadcast("scores", room.Scores)
+	room.SendUsers()
+	room.SendAttendees()
+	room.SendButtons()
+	room.SendScores()
 
 	return id
 }
@@ -29,9 +29,9 @@ func (room *Room) LeaveUser(id int64) {
 	}
 	delete(room.Scores, id)
 
-	room.Broadcast("attendees", room.Attendees)
-	room.Broadcast("buttons", room.Buttons)
-	room.Broadcast("scores", room.Scores)
+	room.SendAttendees()
+	room.SendButtons()
+	room.SendScores()
 }
 
 func (room *Room) ToggleMaster(id int64) {
@@ -42,7 +42,7 @@ func (room *Room) ToggleMaster(id int64) {
 		room.Attendees.Master = id
 		room.Attendees.Players = Int64Remove(room.Attendees.Players, id)
 	}
-	room.Broadcast("attendees", room.Attendees)
+	room.SendAttendees()
 }
 
 func (room *Room) PushButton(id int64, time int64) {
@@ -56,7 +56,7 @@ func (room *Room) PushButton(id int64, time int64) {
 		room.Buttons.Pushers = append(room.Buttons.Pushers, id)
 		room.Buttons.PushTimes = append(room.Buttons.PushTimes, time)
 	}
-	room.Broadcast("buttons", room.Buttons)
+	room.SendButtons()
 }
 
 func (room *Room) Correct() {
@@ -128,14 +128,14 @@ func (room *Room) NextQuiz(forceSub bool) {
 		}
 	}
 	room.ResetButtons()
-	room.Broadcast("scores", room.Scores)
+	room.SendScores()
 }
 
 func (room *Room) ResetButtons() {
 	room.Buttons.Pushers = nil
 	room.Buttons.PushTimes = nil
 	room.Buttons.Right = -1
-	room.Broadcast("buttons", room.Buttons)
+	room.SendButtons()
 }
 
 func (room *Room) AllClear() {
@@ -151,9 +151,8 @@ func (room *Room) AllClear() {
 	room.WinNum = 0
 	room.LoseNum = 0
 	room.AddHistory()
-	room.Broadcast("scores", room.Scores)
+	room.SendScores()
 }
-
 
 func (room *Room) AddHistory() {
 	history := room.History
@@ -194,5 +193,32 @@ func (room *Room) MoveHistory(d int) {
 	room.LoseNum = item.LoseNum
 
 	history.Curr = i
-	room.Broadcast("scores", room.Scores)
+	room.SendScores()
+}
+
+func (room *Room) SendUsers() {
+	room.Broadcast("users", room.Users)
+}
+
+func (room *Room) SendAttendees() {
+	room.Broadcast("attendees", room.Attendees)
+}
+
+func (room *Room) SendButtons() {
+	room.Broadcast("buttons", room.Buttons)
+}
+
+func (room *Room) SendScores() {
+	subScores := make(map[int64]*Score)
+	for id := range room.Scores {
+		subScore := *room.Scores[id]
+		if !room.Rule.ShowPoint {
+			subScore.Point = 0
+			subScore.Batsu = 0
+		}
+		subScores[id] = &subScore
+	}
+
+	room.SendToMaster("scores", room.Scores)
+	room.SendToPlayers("scores", subScores)
 }
