@@ -6,6 +6,7 @@ export const SETTING_CLOSE = 'SETTING_CLOSE'
 export const RULE_OPEN = 'RULE_OPEN'
 export const RULE_CLOSE = 'RULE_CLOSE'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
+export const RECV_USERS = 'RECV_USERS'
 export const RECV_ATTENDEES = 'RECV_ATTENDEES'
 export const RECV_SCORES = 'RECV_SCORES'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
@@ -42,6 +43,10 @@ export const ruleClose = () => {
 
 export const recvSelfID = selfID => {
   return { type: RECV_SELF_ID, selfID }
+}
+
+export const recvUsers = users => {
+  return { type: RECV_USERS, users }
 }
 
 export const recvAttendees = attendees => {

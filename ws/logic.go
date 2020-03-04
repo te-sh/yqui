@@ -1,23 +1,37 @@
 package main
 
-func (room *Room) JoinUser(name string) int64 {
-	user := NewUser(name)
+func (room *Room) JoinUser(conn *Conn, name string) int64 {
+	user := NewUser(conn, name)
 	id := user.ID
-	room.Attendees.Users[id] = user
+
+	room.Users[id] = user
 	room.Attendees.Players = append(room.Attendees.Players, id)
 	room.Scores[id] = NewScore()
 	room.History.Items[room.History.Curr].Scores[id] = NewScore()
+
+	room.SendToOne(id, "selfID", id)
+	room.SendToOne(id, "rule", room.Rule)
+
+	room.Broadcast("users", room.Users)
+	room.Broadcast("attendees", room.Attendees)
+	room.Broadcast("buttons", room.Buttons)
+	room.Broadcast("scores", room.Scores)
+
 	return id
 }
 
 func (room *Room) LeaveUser(id int64) {
-	delete(room.Scores, id)
+	delete(room.Users, id)
 	if room.Attendees.Master == id {
 		room.Attendees.Master = -1
 	} else {
 		room.Attendees.Players = Int64Remove(room.Attendees.Players, id)
 	}
-	delete(room.Attendees.Users, id)
+	delete(room.Scores, id)
+
+	room.Broadcast("attendees", room.Attendees)
+	room.Broadcast("buttons", room.Buttons)
+	room.Broadcast("scores", room.Scores)
 }
 
 func (room *Room) ToggleMaster(id int64) {
@@ -28,23 +42,24 @@ func (room *Room) ToggleMaster(id int64) {
 		room.Attendees.Master = id
 		room.Attendees.Players = Int64Remove(room.Attendees.Players, id)
 	}
+	room.Broadcast("attendees", room.Attendees)
 }
 
-func (room *Room) PushButton(id int64, time int64) (sound bool) {
+func (room *Room) PushButton(id int64, time int64) {
 	score := room.Scores[id]
 	if Int64FindIndex(room.Buttons.Pushers, id) < 0 &&
 		score.Lock == 0 && score.Win == 0 && score.Lose == 0 {
-		sound = room.Buttons.Right == -1
-		if sound {
+		if room.Buttons.Right == -1 {
 			room.Buttons.Right = len(room.Buttons.Pushers)
+			room.Broadcast("push", "sound")
 		}
 		room.Buttons.Pushers = append(room.Buttons.Pushers, id)
 		room.Buttons.PushTimes = append(room.Buttons.PushTimes, time)
 	}
-	return
+	room.Broadcast("buttons", room.Buttons)
 }
 
-func (room *Room) Correct() (win bool) {
+func (room *Room) Correct() {
 	buttons := room.Buttons
 	if buttons.Right < 0 || buttons.Right >= len(buttons.Pushers) {
 		return
@@ -54,17 +69,18 @@ func (room *Room) Correct() (win bool) {
 
 	if score, ok := room.Scores[id]; ok {
 		score.Point += rule.PointCorrect
-		win = rule.WinPoint.Active && score.Point >= rule.WinPoint.Value
-		if win {
+		if rule.WinPoint.Active && score.Point >= rule.WinPoint.Value {
 			room.Win(id)
+			room.Broadcast("sound", "correct,roundwin")
+		} else {
+			room.Broadcast("sound", "correct")
 		}
 		room.NextQuiz(false)
 		room.AddHistory()
 	}
-	return
 }
 
-func (room *Room) Wrong() (lose bool) {
+func (room *Room) Wrong() {
 	buttons := room.Buttons
 	if buttons.Right < 0 || buttons.Right >= len(buttons.Pushers) {
 		return
@@ -76,9 +92,8 @@ func (room *Room) Wrong() (lose bool) {
 		score.Point += rule.PointWrong
 		score.Batsu += rule.BatsuWrong
 		score.Lock = rule.LockWrong
-		lose = (rule.LosePoint.Active && score.Point <= rule.LosePoint.Value ||
-			    rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)
-		if lose {
+		if (rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
+		   (rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value) {
 			room.Lose(id)
 		}
 		if buttons.Right < rule.RightNum - 1 {
@@ -92,7 +107,7 @@ func (room *Room) Wrong() (lose bool) {
 		}
 		room.AddHistory()
 	}
-	return
+	room.Broadcast("sound", "wrong")
 }
 
 func (room *Room) Win(target int64) {
@@ -113,12 +128,14 @@ func (room *Room) NextQuiz(forceSub bool) {
 		}
 	}
 	room.ResetButtons()
+	room.Broadcast("scores", room.Scores)
 }
 
 func (room *Room) ResetButtons() {
 	room.Buttons.Pushers = nil
 	room.Buttons.PushTimes = nil
 	room.Buttons.Right = -1
+	room.Broadcast("buttons", room.Buttons)
 }
 
 func (room *Room) AllClear() {
@@ -134,6 +151,7 @@ func (room *Room) AllClear() {
 	room.WinNum = 0
 	room.LoseNum = 0
 	room.AddHistory()
+	room.Broadcast("scores", room.Scores)
 }
 
 
@@ -176,4 +194,5 @@ func (room *Room) MoveHistory(d int) {
 	room.LoseNum = item.LoseNum
 
 	history.Curr = i
+	room.Broadcast("scores", room.Scores)
 }

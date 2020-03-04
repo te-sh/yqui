@@ -5,6 +5,7 @@ import (
 )
 
 type Room struct {
+	Users map[int64]*User
 	Attendees *Attendees
 	Scores map[int64]*Score
 	WinNum int
@@ -16,6 +17,7 @@ type Room struct {
 
 func NewRoom() *Room {
 	room := new(Room)
+	room.Users = make(map[int64]*User)
 	room.Attendees = NewAttendees()
 	room.Scores = make(map[int64]*Score)
 	room.WinNum = 0
@@ -27,26 +29,26 @@ func NewRoom() *Room {
 }
 
 type Attendees struct {
-	Users map[int64]*User `json:"users"`
 	Players []int64 `json:"players"`
 	Master int64 `json:"master"`
 }
 
 func NewAttendees() *Attendees {
 	attendees := new(Attendees)
-	attendees.Users = make(map[int64]*User)
 	attendees.Master = -1
 	return attendees
 }
 
 type User struct {
 	ID int64 `json:"id"`
+	Conn *Conn `json:"-"`
 	Name string `json:"name"`
 }
 
-func NewUser(name string) *User {
+func NewUser(conn *Conn, name string) *User {
 	user := new(User)
 	user.ID = rand.Int63n(int64(1)<<53)
+	user.Conn = conn
 	user.Name = name
 	return user
 }

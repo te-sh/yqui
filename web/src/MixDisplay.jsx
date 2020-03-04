@@ -6,7 +6,7 @@ import { send } from './communicate'
 const Misc = ({ ws }) => {
   return (
     <Paper className="mix-display">
-      <div class="mix-actions">
+      <div className="mix-actions">
         <FormControlLabel
           control={
             <Checkbox color="default"

@@ -4,9 +4,9 @@ import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 import { ordial } from './util'
 
-const Player = ({ player, selfID, attendees, scores, buttons, rule }) => {
+const Player = ({ player, selfID, users, scores, buttons, rule }) => {
   const order = buttons.pushers ? buttons.pushers.indexOf(player) : -1
-  const user = attendees.users[player] || {}
+  const user = users[player] || {}
   const score = scores[player] || {}
 
   const playerClass = classNames(
@@ -81,7 +81,7 @@ const Player = ({ player, selfID, attendees, scores, buttons, rule }) => {
 export default connect(
   state => ({
     selfID: state.selfID,
-    attendees: state.attendees,
+    users: state.users,
     scores: state.scores,
     buttons: state.buttons,
     rule: state.rule

@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import playSound from './sound'
 import {
-  leaveRoom, recvSelfID, recvAttendees, recvScores,
-  recvButtons, recvRule, recvMessage
+  leaveRoom, recvSelfID, recvUsers, recvAttendees,
+  recvScores, recvButtons, recvRule, recvMessage
 } from './redux/actions'
 import TopBar from './TopBar'
 import Chat from './Chat'
@@ -40,6 +40,9 @@ const Page = ({ ws, action }) => {
             break
           case 'selfID':
             action.recvSelfID(data.content)
+            break
+          case 'users':
+            action.recvUsers(data.content)
             break
           case 'attendees':
             action.recvAttendees(data.content)
@@ -91,6 +94,7 @@ export default connect(
   dispatch => ({ action: {
     leaveRoom: () => dispatch(leaveRoom()),
     recvSelfID: selfID => dispatch(recvSelfID(selfID)),
+    recvUsers: users => dispatch(recvUsers(users)),
     recvAttendees: attendees => dispatch(recvAttendees(attendees)),
     recvScores: scores => dispatch(recvScores(scores)),
     recvButtons: buttons => dispatch(recvButtons(buttons)),

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"time"
 	"encoding/json"
@@ -9,11 +10,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var ids = make(map[*websocket.Conn]int64)
 var room = NewRoom()
-
 var Received = make(chan Cmd)
-var Sending = make(chan Message)
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
@@ -21,35 +19,17 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func Ping() {
-	ticker := time.NewTicker(30 * time.Second)
-	defer ticker.Stop()
-
-	for {
-		<- ticker.C
-		log.Println("ping")
-		for c := range ids {
-			err := c.WriteMessage(websocket.PingMessage, []byte{})
-			if err != nil {
-				log.Println("err ping: ", err)
-				return
-			}
-		}
-	}
+type Cmd struct {
+	C string `json:"c"`
+	A string `json:"a"`
+	ID int64 `json:"-"`
+	Time int64 `json:"-"`
 }
 
-func Broadcast() {
-	for {
-		msg := <- Sending
-		log.Println("write: ", msg)
-		for c := range ids {
-			err := c.WriteJSON(msg)
-			if err != nil {
-				log.Println("err write: ", err)
-				return
-			}
-		}
-	}
+type Chat struct {
+	Name string `json:"name"`
+	Text string `json:"text"`
+	Time int64 `json:"time"`
 }
 
 func HandleMessage() {
@@ -57,79 +37,36 @@ func HandleMessage() {
 		cmd := <- Received
 		switch (cmd.C) {
 		case "a":
-			sound := room.PushButton(cmd.ID, cmd.Time)
-			if sound {
-				Sending <- Message{Type: "sound", Content: "push"}
-			}
-			Sending <- Message{Type: "buttons", Content: room.Buttons}
+			room.PushButton(cmd.ID, cmd.Time)
 		case "s":
-			win := room.Correct()
-			if win {
-				Sending <- Message{Type: "sound", Content: "correct,roundwin"}
-			} else {
-				Sending <- Message{Type: "sound", Content: "correct"}
-			}
-			Sending <- Message{Type: "scores", Content: room.Scores}
-			Sending <- Message{Type: "buttons", Content: room.Buttons}
+			room.Correct()
 		case "f":
 			room.Wrong()
-			Sending <- Message{Type: "sound", Content: "wrong"}
-			Sending <- Message{Type: "scores", Content: room.Scores}
-			Sending <- Message{Type: "buttons", Content: room.Buttons}
 		case "n":
 			room.NextQuiz(true)
-			Sending <- Message{Type: "scores", Content: room.Scores}
-			Sending <- Message{Type: "buttons", Content: room.Buttons}
 		case "r":
 			room.ResetButtons()
-			Sending <- Message{Type: "buttons", Content: room.Buttons}
 		case "e":
 			room.AllClear()
-			Sending <- Message{Type: "scores", Content: room.Scores}
-			Sending <- Message{Type: "buttons", Content: room.Buttons}
 		case "u":
 			room.MoveHistory(-1)
-			Sending <- Message{Type: "scores", Content: room.Scores}
 		case "o":
 			room.MoveHistory(+1)
-			Sending <- Message{Type: "scores", Content: room.Scores}
 		case "p":
 			json.Unmarshal([]byte(cmd.A), &room.Attendees.Players)
-			Sending <- Message{Type: "attendees", Content: room.Attendees}
+			room.Broadcast("attendees", room.Attendees)
 		case "l":
 			json.Unmarshal([]byte(cmd.A), &room.Rule)
-			Sending <- Message{Type: "rule", Content: room.Rule}
+			room.Broadcast("rule", room.Rule)
 		case "d":
 		case "m":
 			room.ToggleMaster(cmd.ID)
-			Sending <- Message{Type: "attendees", Content: room.Attendees}
-			Sending <- Message{Type: "scores", Content: room.Scores}
 		case "c":
-			name := room.Attendees.Users[cmd.ID].Name
+			name := room.Users[cmd.ID].Name
 			chat := Chat{Name: name, Text: cmd.A, Time: cmd.Time}
-			Sending <- Message{Type: "chat", Content: chat}
+			room.Broadcast("chat", chat)
 		}
 	}
-}
-
-func AddClient(c *websocket.Conn, name string) {
-	id := room.JoinUser(name)
-	ids[c] = id
-
-	Sending <- Message{Type: "attendees", Content: room.Attendees}
-	Sending <- Message{Type: "buttons", Content: room.Buttons}
-	Sending <- Message{Type: "scores", Content: room.Scores}
-	Sending <- Message{Type: "rule", Content: room.Rule}
-}
-
-func RemoveClient(c *websocket.Conn) {
-	id := ids[c]
-	room.LeaveUser(id)
-	delete(ids, c)
-
-	Sending <- Message{Type: "attendees", Content: room.Attendees}
-	Sending <- Message{Type: "buttons", Content: room.Buttons}
-	Sending <- Message{Type: "scores", Content: room.Scores}
 }
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
@@ -145,19 +82,20 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	}
 	defer c.Close()
 
+	ctx := context.Background()
+
+	conn := NewConn(c)
+	cctx, cancelConn := context.WithCancel(ctx)
+	go conn.Activate(cctx)
+	defer cancelConn()
+
 	c.SetCloseHandler(func(code int, text string) error {
 		log.Println("close: ", text)
 		return nil
 	})
 
-	AddClient(c, name)
-	defer RemoveClient(c)
-
-	err2 := c.WriteJSON(Message{Type: "selfID", Content: ids[c]})
-	if err2 != nil {
-		log.Println("err write: ", err2)
-		return
-	}
+	id := room.JoinUser(conn, name)
+	defer room.LeaveUser(id)
 
 	for {
 		var cmd Cmd
@@ -167,7 +105,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		log.Println("received: ", cmd)
-		cmd.ID = ids[c]
+		cmd.ID = id
 		cmd.Time = time.Now().UnixNano() / 1000
 		Received <- cmd
 	}
@@ -177,8 +115,6 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	go HandleMessage()
-	go Broadcast()
-	go Ping()
 
 	http.HandleFunc("/", HandleConnection)
 	log.Fatal(http.ListenAndServe(":8000", nil))

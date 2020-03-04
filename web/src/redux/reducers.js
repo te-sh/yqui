@@ -2,8 +2,8 @@ import URI from 'urijs'
 import {
   ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM,
   SETTING_OPEN, SETTING_CLOSE, RULE_OPEN, RULE_CLOSE,
-  RECV_SELF_ID, RECV_ATTENDEES, RECV_SCORES, RECV_BUTTONS,
-  RECV_RULE, RECV_MESSAGE
+  RECV_SELF_ID, RECV_USERS, RECV_ATTENDEES, RECV_SCORES,
+  RECV_BUTTONS, RECV_RULE, RECV_MESSAGE
 } from './actions'
 
 const initialState = {
@@ -12,8 +12,8 @@ const initialState = {
   settingOpen: false,
   ws: null,
   selfID: null,
+  users: {},
   attendees: {
-    users: {},
     players: [],
     master: -1
   },
@@ -63,6 +63,10 @@ const yquiApp = (state = initialState, action) => {
     return Object.assign({}, state, {
       selfID: action.selfID,
       isMaster: action.selfID === state.attendees.master
+    })
+  case RECV_USERS:
+    return Object.assign({}, state, {
+      users: action.users
     })
   case RECV_ATTENDEES:
     return Object.assign({}, state, {
