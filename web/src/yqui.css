@@ -37,9 +37,19 @@
   padding: 8px;
   grid-column: 2/3;
   grid-row: 4/5;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+}
+
+.mix-display .mix-rule {
+  grid-column: 1/2;
+  grid-row: 1/2;
 }
 
 .mix-display .mix-actions {
+  grid-column: 1/2;
+  grid-row: 1/2;
   display: flex;
   justify-content: flex-end;
   align-items: center;
