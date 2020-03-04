@@ -4,7 +4,7 @@ const context = new AudioContext()
 let buffer = {}
 const sounds = ['push', 'correct', 'wrong', 'roundwin']
 
-function loadSound(name, url) {
+const loadSound = (name, url) => {
   var request = new XMLHttpRequest()
   request.open('GET', url, true)
   request.responseType = 'arraybuffer'

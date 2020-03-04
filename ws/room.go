@@ -7,6 +7,8 @@ import (
 type Room struct {
 	Attendees *Attendees
 	Scores map[int64]*Score
+	WinNum int
+	LoseNum int
 	Buttons *Buttons
 	Rule *Rule
 	History *History
@@ -16,6 +18,8 @@ func NewRoom() *Room {
 	room := new(Room)
 	room.Attendees = NewAttendees()
 	room.Scores = make(map[int64]*Score)
+	room.WinNum = 0
+	room.LoseNum = 0
 	room.Buttons = NewButtons()
 	room.Rule = NewRule()
 	room.History = NewHistory()
@@ -60,8 +64,8 @@ func NewScore() *Score {
 	score.Point = 0
 	score.Batsu = 0
 	score.Lock = 0
-	score.Win = -1
-	score.Lose = -1
+	score.Win = 0
+	score.Lose = 0
 	return score
 }
 
@@ -107,15 +111,29 @@ func NewRule() *Rule {
 }
 
 type History struct {
-	Buffer []map[int64]*Score
+	Items []*HistoryItem
 	Curr int
+}
+
+type HistoryItem struct {
+	Scores map[int64]*Score
+	WinNum int
+	LoseNum int
 }
 
 const HistoryMaxLen = 100
 
 func NewHistory() *History {
 	history := new(History)
-	history.Buffer = append(history.Buffer, make(map[int64]*Score))
+	history.Items = append(history.Items, NewHistoryItem())
 	history.Curr = 0
 	return history
+}
+
+func NewHistoryItem() *HistoryItem {
+	item := new(HistoryItem)
+	item.Scores = make(map[int64]*Score)
+	item.WinNum = 0
+	item.LoseNum = 0
+	return item
 }

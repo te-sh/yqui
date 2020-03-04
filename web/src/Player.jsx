@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
+import { ordial } from './util'
 
 const Player = ({ player, selfID, attendees, scores, buttons, rule }) => {
   const order = buttons.pushers ? buttons.pushers.indexOf(player) : -1
@@ -23,24 +24,26 @@ const Player = ({ player, selfID, attendees, scores, buttons, rule }) => {
     { 'has-right': order < rule.rightNum }
   )
 
-  const winOrLoseClass = classNames(
-    'win-or-lose',
-    { 'active': score.win >= 0 || score.lose >= 0 || score.lock > 0 }
+  const statusClass = classNames(
+    'player-status',
+    {
+      'win': score.win > 0,
+      'lose': score.lose > 0,
+      'lock': score.lock > 0
+    }
   )
 
-  const winOrLoseText = () => {
-    if (score.win >= 0) {
-      let d = score.win + 1
-      return d.toString() +
-          (d === 1 ? 'st' : d === 2 ? 'nd' : d === 3 ? 'rd' : 'th')
-    } else if (score.lose >= 0) {
+  const statusText = (() => {
+    if (score.win > 0) {
+      return ordial(score.win)
+    } else if (score.lose > 0) {
       return 'Lose'
     } else if (score.lock > 0) {
       return 'Lock ' + score.lock
     } else {
       return ''
     }
-  }
+  })()
 
   return (
     <Paper className={playerClass}>
@@ -66,9 +69,9 @@ const Player = ({ player, selfID, attendees, scores, buttons, rule }) => {
           {score.batsu}
         </Typography>
       </Box>
-      <Box className={winOrLoseClass}>
+      <Box className={statusClass}>
         <Typography className="content">
-          {winOrLoseText()}
+          {statusText}
         </Typography>
       </Box>
     </Paper>

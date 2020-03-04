@@ -6,7 +6,7 @@ func (room *Room) JoinUser(name string) int64 {
 	room.Attendees.Users[id] = user
 	room.Attendees.Players = append(room.Attendees.Players, id)
 	room.Scores[id] = NewScore()
-	room.History.Buffer[room.History.Curr][id] = NewScore()
+	room.History.Items[room.History.Curr].Scores[id] = NewScore()
 	return id
 }
 
@@ -33,7 +33,7 @@ func (room *Room) ToggleMaster(id int64) {
 func (room *Room) PushButton(id int64, time int64) (sound bool) {
 	score := room.Scores[id]
 	if Int64FindIndex(room.Buttons.Pushers, id) < 0 &&
-		score.Lock == 0 && score.Win < 0 && score.Lose < 0 {
+		score.Lock == 0 && score.Win == 0 && score.Lose == 0 {
 		sound = room.Buttons.Right == -1
 		if sound {
 			room.Buttons.Right = len(room.Buttons.Pushers)
@@ -96,23 +96,13 @@ func (room *Room) Wrong() (lose bool) {
 }
 
 func (room *Room) Win(target int64) {
-	r := 0
-	for id := range room.Scores {
-		if room.Scores[id].Win >= 0 {
-			r += 1
-		}
-	}
-	room.Scores[target].Win = r
+	room.WinNum += 1
+	room.Scores[target].Win = room.WinNum
 }
 
 func (room *Room) Lose(target int64) {
-	r := 0
-	for id := range room.Scores {
-		if room.Scores[id].Lose >= 0 {
-			r += 1
-		}
-	}
-	room.Scores[target].Lose = r
+	room.LoseNum += 1
+	room.Scores[target].Lose = room.LoseNum
 }
 
 func (room *Room) NextQuiz(forceSub bool) {
@@ -138,43 +128,52 @@ func (room *Room) AllClear() {
 		score.Point = 0
 		score.Batsu = 0
 		score.Lock = 0
-		score.Win = -1
-		score.Lose = -1
+		score.Win = 0
+		score.Lose = 0
 	}
+	room.WinNum = 0
+	room.LoseNum = 0
 	room.AddHistory()
 }
 
 
 func (room *Room) AddHistory() {
 	history := room.History
-	history.Buffer = history.Buffer[:history.Curr + 1]
-	newScores := make(map[int64]*Score)
+	history.Items = history.Items[:history.Curr + 1]
+
+	item := NewHistoryItem()
 	for id := range room.Scores {
-		newScore := *room.Scores[id]
-		newScores[id] = &newScore
+		score := *room.Scores[id]
+		item.Scores[id] = &score
 	}
-	history.Buffer = append(history.Buffer, newScores)
+	item.WinNum = room.WinNum
+	item.LoseNum = room.LoseNum
+
+	history.Items = append(history.Items, item)
 	history.Curr += 1
 
-	if len(history.Buffer) > HistoryMaxLen {
-		history.Curr -= len(history.Buffer) - HistoryMaxLen
-		history.Buffer = history.Buffer[len(history.Buffer) - HistoryMaxLen:]
+	if len(history.Items) > HistoryMaxLen {
+		history.Curr -= len(history.Items) - HistoryMaxLen
+		history.Items = history.Items[len(history.Items) - HistoryMaxLen:]
 	}
 }
 
 func (room *Room) MoveHistory(d int) {
 	history := room.History
 	i := history.Curr + d
-	if i < 0 || i >= len(history.Buffer) {
+	if i < 0 || i >= len(history.Items) {
 		return
 	}
 
-	scores := history.Buffer[i]
-	for id := range scores {
+	item := history.Items[i]
+	for id := range item.Scores {
 		if _, ok := room.Scores[id]; ok {
-			score := *scores[id]
+			score := *item.Scores[id]
 			room.Scores[id] = &score
 		}
 	}
+	room.WinNum = item.WinNum
+	room.LoseNum = item.LoseNum
+
 	history.Curr = i
 }
