@@ -59,6 +59,8 @@ func HandleMessage() {
 			json.Unmarshal([]byte(cmd.A), &room.Rule)
 			room.Broadcast("rule", room.Rule)
 		case "d":
+			room.Rule.ShowPoint = cmd.A == "true"
+			room.Broadcast("rule", room.Rule)
 		case "m":
 			room.ToggleMaster(cmd.ID)
 		case "c":

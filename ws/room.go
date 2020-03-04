@@ -92,6 +92,7 @@ type Rule struct {
 	WinPoint ActiveAndValue `json:"winPoint"`
 	LosePoint ActiveAndValue `json:"losePoint"`
 	LoseBatsu ActiveAndValue `json:"loseBatsu"`
+	ShowPoint bool `json:"showPoint"`
 }
 
 type ActiveAndValue struct {
@@ -109,6 +110,7 @@ func NewRule() *Rule {
 	rule.WinPoint = ActiveAndValue{true, 7}
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}
+	rule.ShowPoint = true
 	return rule
 }
 
