@@ -44,7 +44,7 @@ func (conn *Conn) Activate(ctx context.Context) error {
 				log.Println("err ping: ", err)
 				return err
 			}
-		case <- ctx.Done():
+		case <-ctx.Done():
 			return nil
 		}
 	}

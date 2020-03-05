@@ -24,10 +24,10 @@ const Actions = ({ ws, isMaster }) => {
         case 84:
           send.allClear(ws)
           break
-        case 89:
+        case 37:
           send.undo(ws)
           break
-        case 85:
+        case 39:
           send.redo(ws)
           break
         default:

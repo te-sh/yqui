@@ -34,7 +34,7 @@ type Chat struct {
 
 func HandleMessage() {
 	for {
-		cmd := <- Received
+		cmd := <-Received
 		switch (cmd.C) {
 		case "a":
 			room.PushButton(cmd.ID, cmd.Time)
