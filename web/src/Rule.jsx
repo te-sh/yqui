@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core'
 import { send } from './communicate'
 import { ruleClose } from './redux/actions'
+import './Rule.scss'
 
 const Rule = ({ open, ws, rule, ruleClose }) => {
   const [rightNum, setRightNum] = React.useState(0)

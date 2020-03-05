@@ -1,25 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Paper, Typography } from '@material-ui/core'
+import './Messages.scss'
 
 const Messages = ({ messages }) => {
   const rowContent = (message) => {
     switch (message.type) {
       case "message":
         return (
-          <Typography key={message.time}>
+          <Typography>
             {message.name} &gt; {message.text}
           </Typography>
         )
       case "join":
         return (
-          <Typography key={message.time} className="message-system">
+          <Typography className="message-system">
             {message.name}さんが入室しました
           </Typography>
         )
       case "leave":
         return (
-          <Typography key={message.time} className="message-system">
+          <Typography className="message-system">
             {message.name}さんが退室しました
           </Typography>
         )
@@ -30,7 +31,7 @@ const Messages = ({ messages }) => {
 
   const row = (message) => {
     return (
-      <div className="message">
+      <div key={message.time} className="message">
         {rowContent(message)}
       </div>
     )

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 import { ordial } from './util'
+import './Player.scss'
 
 const Player = ({ player, selfID, isMaster, users, scores, buttons, rule }) => {
   const order = buttons.pushers ? buttons.pushers.indexOf(player) : -1

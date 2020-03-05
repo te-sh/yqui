@@ -1,0 +1,10 @@
+.rule {
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  grid-template-columns: auto;
+  grid-gap: 12px;
+
+  .MuiInputBase-root {
+    width: 70px;
+  }
+}

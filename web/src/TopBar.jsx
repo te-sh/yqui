@@ -4,6 +4,7 @@ import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
 import { ListAlt, Settings, SupervisorAccount } from '@material-ui/icons'
 import { send } from './communicate'
 import { ruleOpen, settingOpen } from './redux/actions'
+import './TopBar.scss'
 
 const TopBar = ({ ws, attendees, isMaster, ruleOpen, settingOpen }) => {
   const rule = () => {
@@ -15,7 +16,7 @@ const TopBar = ({ ws, attendees, isMaster, ruleOpen, settingOpen }) => {
   }
 
   return (
-    <AppBar position="static" className="app-bar">
+    <AppBar position="static" className="top-bar">
       <Toolbar>
         <Typography variant="h6">
           Yqui

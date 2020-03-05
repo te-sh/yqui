@@ -1,0 +1,9 @@
+.page {
+  height: 100vh;
+  max-height: 100vh;
+  background-color: #e0e0e0;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  grid-template-columns: 25% 1fr;
+  grid-gap: 5px;
+}

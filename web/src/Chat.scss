@@ -1,0 +1,10 @@
+.chat {
+  padding: 4px;
+  grid-column: 1/2;
+  grid-row: 2/3;
+
+  .chat-input {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+}

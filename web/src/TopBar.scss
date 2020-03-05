@@ -1,0 +1,7 @@
+.top-bar {
+  grid-column: 1/3;
+
+  .toolbar-grow {
+    flex-grow: 1;
+  }
+}

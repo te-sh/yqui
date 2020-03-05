@@ -4,7 +4,6 @@ import { DndProvider } from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import store from './redux/store'
 import Page from './Page'
-import './yqui.css'
 
 const App = () => {
   return (

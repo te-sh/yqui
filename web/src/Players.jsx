@@ -4,6 +4,7 @@ import { Grid, Paper } from '@material-ui/core'
 import update from 'immutability-helper'
 import PlayerDraggable from './PlayerDraggable'
 import { send } from './communicate'
+import './Players.scss'
 
 const Players = ({ ws, attendees }) => {
   const [players, setPlayers] = React.useState(attendees.players)

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Box, Checkbox, FormControlLabel, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 import { send } from './communicate'
+import './MixDisplay.scss'
 
 const MixDisplay = ({ ws, isMaster, attendees, buttons, rule }) => {
   const [showPoint, setShowPoint] = React.useState(true)

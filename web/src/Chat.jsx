@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { IconButton, Paper, TextField } from '@material-ui/core'
 import { Edit } from '@material-ui/icons'
 import { send } from './communicate'
+import './Chat.scss'
 
 const Chat = ({ ws }) => {
   const [message, setMessage] = React.useState('')

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import { send } from './communicate'
+import './Actions.scss'
 
 const Actions = ({ ws, isMaster }) => {
   const onKeyDown = (evt) => {

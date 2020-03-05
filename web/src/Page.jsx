@@ -14,6 +14,7 @@ import Actions from './Actions'
 import EnterRoom from './EnterRoom'
 import Rule from './Rule'
 import Setting from './Setting'
+import './Page.scss'
 
 const Page = ({ ws, action }) => {
   if (ws) {
