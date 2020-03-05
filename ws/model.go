@@ -141,3 +141,10 @@ func NewHistoryItem() *HistoryItem {
 	item.LoseNum = 0
 	return item
 }
+
+type Chat struct {
+	Type string `json:"type"`
+	Time int64 `json:"time"`
+	Name string `json:"name"`
+	Text string `json:"text,omitempty"`
+}

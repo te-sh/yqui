@@ -33,6 +33,14 @@
   grid-row: 3/6;
 }
 
+.messages .message {
+  margin-bottom: 8px;
+}
+
+.messages .message .message-system {
+  color: #2979ff;
+}
+
 .mix-display {
   padding: 8px;
   grid-column: 2/3;

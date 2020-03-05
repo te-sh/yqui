@@ -98,6 +98,10 @@ const MixDisplay = ({ ws, isMaster, attendees, buttons, rule }) => {
     { 'active': isMultiChance }
   )
 
+  const changeShowPoint = evt => {
+    send.rule(ws, { showPoint: evt.target.checked })
+  }
+
   return (
     <Paper className={displayClass}>
       <Box className={ruleClass}>
@@ -113,7 +117,7 @@ const MixDisplay = ({ ws, isMaster, attendees, buttons, rule }) => {
           control={
             <Checkbox color="default"
                       checked={showPoint}
-                      onChange={evt => send.showPoint(ws, evt.target.checked)} />
+                      onChange={evt => changeShowPoint(evt)} />
           }
           label="ポイント表示" />
       </Box>

@@ -1,6 +1,6 @@
 package main
 
-func (room *Room) JoinUser(conn *Conn, name string) int64 {
+func (room *Room) JoinUser(conn *Conn, name string, time int64) int64 {
 	user := NewUser(conn, name)
 	id := user.ID
 
@@ -17,10 +17,15 @@ func (room *Room) JoinUser(conn *Conn, name string) int64 {
 	room.SendButtons()
 	room.SendScores()
 
+	chat := Chat{Type: "join", Time: time, Name: name}
+	room.Broadcast("chat", chat)
+
 	return id
 }
 
-func (room *Room) LeaveUser(id int64) {
+func (room *Room) LeaveUser(id int64, time int64) {
+	name := room.Users[id].Name
+
 	delete(room.Users, id)
 	if room.Attendees.Master == id {
 		room.Attendees.Master = -1
@@ -32,6 +37,9 @@ func (room *Room) LeaveUser(id int64) {
 	room.SendAttendees()
 	room.SendButtons()
 	room.SendScores()
+
+	chat := Chat{Type: "leave", Time: time, Name: name}
+	room.Broadcast("chat", chat)
 }
 
 func (room *Room) ToggleMaster(id int64) {

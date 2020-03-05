@@ -58,7 +58,7 @@ export const send = {
   },
   rule: (ws, rule) => {
     if (ws) {
-      ws.send(JSON.stringify({ c: 'l', a: JSON.stringify(rule) }))
+      ws.send(JSON.stringify({ c: 'l', a: rule }))
     }
   },
   chat: (ws, text) => {
@@ -66,14 +66,9 @@ export const send = {
       ws.send(JSON.stringify({ c: 'c', a: text }))
     }
   },
-  showPoint: (ws, show) => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'd', a: show.toString() }))
-    }
-  },
   playersOrder: (ws, players) => {
     if (ws) {
-      ws.send(JSON.stringify({ c: 'p', a: JSON.stringify(players) }))
+      ws.send(JSON.stringify({ c: 'p', a: players }))
     }
   }
 }

@@ -21,15 +21,9 @@ var upgrader = websocket.Upgrader{
 
 type Cmd struct {
 	C string `json:"c"`
-	A string `json:"a"`
+	A json.RawMessage `json:"a"`
 	ID int64 `json:"-"`
 	Time int64 `json:"-"`
-}
-
-type Chat struct {
-	Name string `json:"name"`
-	Text string `json:"text"`
-	Time int64 `json:"time"`
 }
 
 func HandleMessage() {
@@ -59,19 +53,17 @@ func HandleMessage() {
 		case "o":
 			room.MoveHistory(+1)
 		case "p":
-			json.Unmarshal([]byte(cmd.A), &room.Attendees.Players)
+			json.Unmarshal(cmd.A, &room.Attendees.Players)
 			room.Broadcast("attendees", room.Attendees)
 		case "l":
-			json.Unmarshal([]byte(cmd.A), &room.Rule)
-			room.Broadcast("rule", room.Rule)
-		case "d":
-			room.Rule.ShowPoint = cmd.A == "true"
+			json.Unmarshal(cmd.A, &room.Rule)
 			room.Broadcast("rule", room.Rule)
 		case "m":
 			room.ToggleMaster(cmd.ID)
 		case "c":
 			name := room.Users[cmd.ID].Name
-			chat := Chat{Name: name, Text: cmd.A, Time: cmd.Time}
+			chat := Chat{Type: "message", Time: cmd.Time, Name: name}
+			json.Unmarshal(cmd.A, &chat.Text)
 			room.Broadcast("chat", chat)
 		}
 	}
@@ -102,8 +94,8 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 
-	id := room.JoinUser(conn, name)
-	defer room.LeaveUser(id)
+	id := room.JoinUser(conn, name, NowMilliSec())
+	defer room.LeaveUser(id, NowMilliSec())
 
 	for {
 		var cmd Cmd
@@ -114,9 +106,13 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		}
 		log.Println("received: ", cmd)
 		cmd.ID = id
-		cmd.Time = time.Now().UnixNano() / 1000
+		cmd.Time = NowMilliSec()
 		Received <- cmd
 	}
+}
+
+func NowMilliSec() int64 {
+	return time.Now().UnixNano() / 1000
 }
 
 func main() {
