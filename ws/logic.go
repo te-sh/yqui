@@ -57,6 +57,10 @@ func (room *Room) Pushed(id int64) bool {
 	return Int64FindIndex(room.Buttons.Pushers, id) >= 0
 }
 
+func (room *Room) Answered(id int64) bool {
+	return Int64FindIndex(room.Buttons.Answerers, id) >= 0
+}
+
 func (room *Room) CanPush(id int64) bool {
 	score := room.Scores[id]
 	return !room.Pushed(id) && score.Lock == 0 && score.Win == 0 && score.Lose == 0
@@ -83,7 +87,7 @@ func (room *Room) Correct() (win bool) {
 
 	if score, ok := room.Scores[id]; ok {
 		win = room.CorrectScore(score)
-		room.NextQuiz(false)
+		room.NextQuiz()
 		room.AddHistory()
 	}
 	return
@@ -121,7 +125,7 @@ func (room *Room) Wrong() (lose bool) {
 			room.SendButtons()
 			room.SendScores()
 		} else {
-			room.NextQuiz(false)
+			room.NextQuiz()
 		}
 		room.AddHistory()
 	}
@@ -142,10 +146,10 @@ func (room *Room) LoseScore(score *Score) (lose bool) {
 	return
 }
 
-func (room *Room) NextQuiz(forceSub bool) {
+func (room *Room) NextQuiz() {
 	for id := range room.Scores {
 		score := room.Scores[id]
-		if (forceSub || !room.Pushed(id)) && score.Lock > 0 {
+		if !room.Answered(id) && score.Lock > 0 {
 			score.Lock -= 1
 		}
 	}
