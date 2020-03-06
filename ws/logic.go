@@ -53,10 +53,17 @@ func (room *Room) ToggleMaster(id int64) {
 	room.SendAttendees()
 }
 
-func (room *Room) PushButton(id int64, time int64) {
+func (room *Room) Pushed(id int64) bool {
+	return Int64FindIndex(room.Buttons.Pushers, id) >= 0
+}
+
+func (room *Room) CanPush(id int64) bool {
 	score := room.Scores[id]
-	if Int64FindIndex(room.Buttons.Pushers, id) < 0 &&
-	   score.Lock == 0 && score.Win == 0 && score.Lose == 0 {
+	return !room.Pushed(id) && score.Lock == 0 && score.Win == 0 && score.Lose == 0
+}
+
+func (room *Room) PushButton(id int64, time int64) {
+	if room.CanPush(id) {
 		if room.Buttons.Right == -1 {
 			room.Buttons.Right = len(room.Buttons.Pushers)
 			room.Broadcast("sound", "push")
@@ -134,7 +141,7 @@ func (room *Room) Lose(target int64) {
 func (room *Room) NextQuiz(forceSub bool) {
 	for id := range room.Scores {
 		score := room.Scores[id]
-		if (forceSub || Int64FindIndex(room.Buttons.Pushers, id) < 0) && score.Lock > 0 {
+		if (forceSub || !room.Pushed(id)) && score.Lock > 0 {
 			score.Lock -= 1
 		}
 	}
