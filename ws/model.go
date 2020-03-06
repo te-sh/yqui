@@ -53,37 +53,6 @@ func NewUser(conn *Conn, name string) *User {
 	return user
 }
 
-type Score struct {
-	Point int `json:"point"`
-	Batsu int `json:"batsu"`
-	Lock int `json:"lock"`
-	Win int `json:"win"`
-	Lose int `json:"lose"`
-}
-
-func NewScore() *Score {
-	score := new(Score)
-	score.Point = 0
-	score.Batsu = 0
-	score.Lock = 0
-	score.Win = 0
-	score.Lose = 0
-	return score
-}
-
-type Buttons struct {
-	Pushers []int64 `json:"pushers"`
-	PushTimes []int64 `json:"pushTimes"`
-	Answerers []int64 `json:"answered"`
-	Right int `json:"right"`
-}
-
-func NewButtons() *Buttons {
-	buttons := new(Buttons)
-	buttons.Right = -1
-	return buttons
-}
-
 type Rule struct {
 	RightNum int `json:"rightNum"`
 	PointCorrect int `json:"pointCorrect"`

@@ -22,6 +22,7 @@ const initialState = {
   buttons: {
     pushers: [],
     pusherTimes: [],
+    answerers: [],
     right: -1
   },
   rule: {
@@ -88,6 +89,9 @@ const yquiApp = (state = initialState, action) => {
       scores: action.scores
     })
   case RECV_BUTTONS:
+    action.buttons.pushers = action.buttons.pushers || []
+    action.buttons.pushTimes = action.buttons.pushTimes || []
+    action.buttons.answerers = action.buttons.answerers || []
     return Object.assign({}, state, {
       buttons: action.buttons
     })

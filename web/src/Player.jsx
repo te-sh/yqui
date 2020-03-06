@@ -6,7 +6,7 @@ import { ordial } from './util'
 import './Player.scss'
 
 const Player = ({ player, selfID, isMaster, users, scores, buttons, rule }) => {
-  const order = buttons.pushers ? buttons.pushers.indexOf(player) : -1
+  const order = buttons.pushers.indexOf(player)
   const user = users[player] || {}
   const score = scores[player] || {}
 

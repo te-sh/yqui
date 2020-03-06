@@ -53,21 +53,8 @@ func (room *Room) ToggleMaster(id int64) {
 	room.SendAttendees()
 }
 
-func (room *Room) Pushed(id int64) bool {
-	return Int64FindIndex(room.Buttons.Pushers, id) >= 0
-}
-
-func (room *Room) Answered(id int64) bool {
-	return Int64FindIndex(room.Buttons.Answerers, id) >= 0
-}
-
-func (room *Room) CanPush(id int64) bool {
-	score := room.Scores[id]
-	return !room.Pushed(id) && score.Lock == 0 && score.Win == 0 && score.Lose == 0
-}
-
 func (room *Room) PushButton(id int64, time int64) {
-	if room.CanPush(id) {
+	if !room.Buttons.Pushed(id) && room.Scores[id].CanPush() {
 		if room.Buttons.Right == -1 {
 			room.Buttons.Right = len(room.Buttons.Pushers)
 			room.Broadcast("sound", "push")
@@ -86,20 +73,9 @@ func (room *Room) Correct() (win bool) {
 	id := buttons.Pushers[buttons.Right]
 
 	if score, ok := room.Scores[id]; ok {
-		win = room.CorrectScore(score)
+		win = score.Correct(room.Rule)
 		room.NextQuiz(true)
 		room.AddHistory()
-	}
-	return
-}
-
-func (room *Room) CorrectScore(score *Score) (win bool) {
-	rule := room.Rule
-	score.Point += rule.PointCorrect
-	win = rule.WinPoint.Active && score.Point >= rule.WinPoint.Value
-	if win {
-		room.WinNum += 1
-		score.Win = room.WinNum
 	}
 	return
 }
@@ -113,7 +89,7 @@ func (room *Room) Wrong() (lose bool) {
 	rule := room.Rule
 
 	if score, ok := room.Scores[id]; ok {
-		room.LoseScore(score)
+		lose = score.Wrong(rule)
 		room.Buttons.Answerers = append(room.Buttons.Answerers, id)
 		if buttons.Right < rule.RightNum - 1 &&
 		   buttons.Right < len(room.Attendees.Players) - 1 {
@@ -132,24 +108,10 @@ func (room *Room) Wrong() (lose bool) {
 	return
 }
 
-func (room *Room) LoseScore(score *Score) (lose bool) {
-	rule := room.Rule
-	score.Point += rule.PointWrong
-	score.Batsu += rule.BatsuWrong
-	score.Lock = rule.LockWrong
-	lose = (rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
-		   (rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)
-	if lose {
-		room.LoseNum += 1
-		score.Lose = room.LoseNum
-	}
-	return
-}
-
 func (room *Room) NextQuiz(send bool) {
 	for id := range room.Scores {
 		score := room.Scores[id]
-		if !room.Answered(id) && score.Lock > 0 {
+		if !room.Buttons.Answered(id) && score.Lock > 0 {
 			score.Lock -= 1
 		}
 	}
@@ -160,10 +122,7 @@ func (room *Room) NextQuiz(send bool) {
 }
 
 func (room *Room) ResetButtons(send bool) {
-	room.Buttons.Pushers = nil
-	room.Buttons.PushTimes = nil
-	room.Buttons.Answerers = nil
-	room.Buttons.Right = -1
+	room.Buttons.Reset()
 	if send {
 		room.SendButtons()
 	}
@@ -172,12 +131,7 @@ func (room *Room) ResetButtons(send bool) {
 func (room *Room) AllClear() {
 	room.ResetButtons(true)
 	for id := range room.Scores {
-		score := room.Scores[id]
-		score.Point = 0
-		score.Batsu = 0
-		score.Lock = 0
-		score.Win = 0
-		score.Lose = 0
+		room.Scores[id].Reset()
 	}
 	room.WinNum = 0
 	room.LoseNum = 0
@@ -191,8 +145,7 @@ func (room *Room) AddHistory() {
 
 	item := NewHistoryItem()
 	for id := range room.Scores {
-		score := *room.Scores[id]
-		item.Scores[id] = &score
+		item.Scores[id] = room.Scores[id].Clone()
 	}
 	item.WinNum = room.WinNum
 	item.LoseNum = room.LoseNum
@@ -216,8 +169,7 @@ func (room *Room) MoveHistory(d int) {
 	item := history.Items[i]
 	for id := range item.Scores {
 		if _, ok := room.Scores[id]; ok {
-			score := *item.Scores[id]
-			room.Scores[id] = &score
+			room.Scores[id] = item.Scores[id].Clone()
 		}
 	}
 	room.WinNum = item.WinNum
