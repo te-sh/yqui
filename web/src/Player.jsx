@@ -12,7 +12,7 @@ const Player = ({ player, selfID, isMaster, users, scores, buttons, rule }) => {
 
   const playerClass = classNames(
     'player',
-    { 'right': buttons.right >= 0 && buttons.right === order }
+    { 'right': order === buttons.answerers.length }
   )
 
   const nameClass = classNames(

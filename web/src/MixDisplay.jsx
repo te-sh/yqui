@@ -15,8 +15,9 @@ const MixDisplay = ({ ws, isMaster, attendees, buttons, rule }) => {
     [rule.showPoint]
   )
 
-  const pushersNum = buttons.pushers.length
-  const isMultiChance = pushersNum > 0 && pushersNum < rule.rightNum && buttons.right === -1
+  const pushers = buttons.pushers.length
+  const answerers = buttons.answerers.length
+  const isMultiChance = answerers > 0 && pushers == answerers
 
   const displayClass = classNames(
     'mix-display',

@@ -55,8 +55,7 @@ func (room *Room) ToggleMaster(id int64) {
 
 func (room *Room) PushButton(id int64, time int64) {
 	if !room.Buttons.Pushed(id) && room.Scores[id].CanPush() {
-		if room.Buttons.Right == -1 {
-			room.Buttons.Right = len(room.Buttons.Pushers)
+		if room.Buttons.AllAnswered() {
 			room.Broadcast("sound", "push")
 		}
 		room.Buttons.Pushers = append(room.Buttons.Pushers, id)
@@ -67,10 +66,10 @@ func (room *Room) PushButton(id int64, time int64) {
 
 func (room *Room) Correct() (win bool) {
 	buttons := room.Buttons
-	if buttons.Right < 0 || buttons.Right >= len(buttons.Pushers) {
+	id, err := buttons.RightPlayer()
+	if err != nil {
 		return
 	}
-	id := buttons.Pushers[buttons.Right]
 
 	if score, ok := room.Scores[id]; ok {
 		win = score.Correct(room.Rule)
@@ -80,25 +79,28 @@ func (room *Room) Correct() (win bool) {
 	return
 }
 
+func (room *Room) NumCanAnswer() int {
+	r := 0
+	for _, id := range room.Attendees.Players {
+		if !room.Buttons.Answered(id) && room.Scores[id].CanPush() {
+			r += 1
+		}
+	}
+	return r
+}
+
 func (room *Room) Wrong() (lose bool) {
 	buttons := room.Buttons
-	if buttons.Right < 0 || buttons.Right >= len(buttons.Pushers) {
+	id, err := buttons.RightPlayer()
+	if err != nil {
 		return
 	}
-	id := buttons.Pushers[buttons.Right]
-	rule := room.Rule
 
 	if score, ok := room.Scores[id]; ok {
+		rule := room.Rule
 		lose = score.Wrong(rule)
-		room.Buttons.Answerers = append(room.Buttons.Answerers, id)
-		if buttons.Right < rule.RightNum - 1 &&
-		   buttons.Right < len(room.Attendees.Players) - 1 {
-			if buttons.Right < len(buttons.Pushers) - 1 {
-				buttons.Right += 1
-			} else {
-				buttons.Right = -1
-			}
-		} else {
+		buttons.Answerers = append(buttons.Answerers, id)
+		if len(buttons.Answerers) >= rule.RightNum || room.NumCanAnswer() == 0 {
 			room.NextQuiz(false)
 		}
 		room.SendButtons()
