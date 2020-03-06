@@ -80,16 +80,22 @@ func (room *Room) Correct() (win bool) {
 		return
 	}
 	id := buttons.Pushers[buttons.Right]
-	rule := room.Rule
 
 	if score, ok := room.Scores[id]; ok {
-		score.Point += rule.PointCorrect
-		win = rule.WinPoint.Active && score.Point >= rule.WinPoint.Value
-		if win {
-			room.Win(id)
-		}
+		win = room.CorrectScore(score)
 		room.NextQuiz(false)
 		room.AddHistory()
+	}
+	return
+}
+
+func (room *Room) CorrectScore(score *Score) (win bool) {
+	rule := room.Rule
+	score.Point += rule.PointCorrect
+	win = rule.WinPoint.Active && score.Point >= rule.WinPoint.Value
+	if win {
+		room.WinNum += 1
+		score.Win = room.WinNum
 	}
 	return
 }
@@ -103,14 +109,8 @@ func (room *Room) Wrong() (lose bool) {
 	rule := room.Rule
 
 	if score, ok := room.Scores[id]; ok {
-		score.Point += rule.PointWrong
-		score.Batsu += rule.BatsuWrong
-		score.Lock = rule.LockWrong
-		lose = (rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
-			   (rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)
-		if lose {
-			room.Lose(id)
-		}
+		room.LoseScore(score)
+		room.Buttons.Answerers = append(room.Buttons.Answerers, id)
 		if buttons.Right < rule.RightNum - 1 &&
 		   buttons.Right < len(room.Attendees.Players) - 1 {
 			if buttons.Right < len(buttons.Pushers) - 1 {
@@ -128,14 +128,18 @@ func (room *Room) Wrong() (lose bool) {
 	return
 }
 
-func (room *Room) Win(target int64) {
-	room.WinNum += 1
-	room.Scores[target].Win = room.WinNum
-}
-
-func (room *Room) Lose(target int64) {
-	room.LoseNum += 1
-	room.Scores[target].Lose = room.LoseNum
+func (room *Room) LoseScore(score *Score) (lose bool) {
+	rule := room.Rule
+	score.Point += rule.PointWrong
+	score.Batsu += rule.BatsuWrong
+	score.Lock = rule.LockWrong
+	lose = (rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
+		   (rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)
+	if lose {
+		room.LoseNum += 1
+		score.Lose = room.LoseNum
+	}
+	return
 }
 
 func (room *Room) NextQuiz(forceSub bool) {
@@ -152,6 +156,7 @@ func (room *Room) NextQuiz(forceSub bool) {
 func (room *Room) ResetButtons() {
 	room.Buttons.Pushers = nil
 	room.Buttons.PushTimes = nil
+	room.Buttons.Answerers = nil
 	room.Buttons.Right = -1
 	room.SendButtons()
 }

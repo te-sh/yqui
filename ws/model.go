@@ -74,6 +74,7 @@ func NewScore() *Score {
 type Buttons struct {
 	Pushers []int64 `json:"pushers"`
 	PushTimes []int64 `json:"pushTimes"`
+	Answerers []int64 `json:"answered"`
 	Right int `json:"right"`
 }
 
