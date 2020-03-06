@@ -43,9 +43,9 @@ func HandleMessage() {
 			room.Wrong()
 			room.Broadcast("sound", "wrong")
 		case "n":
-			room.NextQuiz()
+			room.NextQuiz(true)
 		case "r":
-			room.ResetButtons()
+			room.ResetButtons(true)
 		case "e":
 			room.AllClear()
 		case "u":

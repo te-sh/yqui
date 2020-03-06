@@ -87,7 +87,7 @@ func (room *Room) Correct() (win bool) {
 
 	if score, ok := room.Scores[id]; ok {
 		win = room.CorrectScore(score)
-		room.NextQuiz()
+		room.NextQuiz(true)
 		room.AddHistory()
 	}
 	return
@@ -122,11 +122,11 @@ func (room *Room) Wrong() (lose bool) {
 			} else {
 				buttons.Right = -1
 			}
-			room.SendButtons()
-			room.SendScores()
 		} else {
-			room.NextQuiz()
+			room.NextQuiz(false)
 		}
+		room.SendButtons()
+		room.SendScores()
 		room.AddHistory()
 	}
 	return
@@ -146,27 +146,31 @@ func (room *Room) LoseScore(score *Score) (lose bool) {
 	return
 }
 
-func (room *Room) NextQuiz() {
+func (room *Room) NextQuiz(send bool) {
 	for id := range room.Scores {
 		score := room.Scores[id]
 		if !room.Answered(id) && score.Lock > 0 {
 			score.Lock -= 1
 		}
 	}
-	room.ResetButtons()
-	room.SendScores()
+	room.ResetButtons(send)
+	if send {
+		room.SendScores()
+	}
 }
 
-func (room *Room) ResetButtons() {
+func (room *Room) ResetButtons(send bool) {
 	room.Buttons.Pushers = nil
 	room.Buttons.PushTimes = nil
 	room.Buttons.Answerers = nil
 	room.Buttons.Right = -1
-	room.SendButtons()
+	if send {
+		room.SendButtons()
+	}
 }
 
 func (room *Room) AllClear() {
-	room.ResetButtons()
+	room.ResetButtons(true)
 	for id := range room.Scores {
 		score := room.Scores[id]
 		score.Point = 0
