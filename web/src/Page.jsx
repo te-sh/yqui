@@ -76,8 +76,8 @@ const Page = ({ ws, action }) => {
   return (
     <div className="page">
       <TopBar />
-      <Chat />
       <Messages />
+      <Chat />
       <Players />
       <MixDisplay />
       <Actions />

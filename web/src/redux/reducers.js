@@ -101,7 +101,7 @@ const yquiApp = (state = initialState, action) => {
     })
   case RECV_MESSAGE:
     return Object.assign({}, state, {
-      messages: [action.message].concat(state.messages)
+      messages: state.messages.concat(action.message)
     })
   default:
     return state

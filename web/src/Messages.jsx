@@ -4,6 +4,16 @@ import { Paper, Typography } from '@material-ui/core'
 import './Messages.scss'
 
 const Messages = ({ messages }) => {
+  const ref = React.createRef()
+
+  React.useEffect(
+    () => {
+      let el = ref.current
+      el.scrollTop = el.scrollHeight
+    },
+    [messages, ref]
+  )
+
   const rowContent = (message) => {
     switch (message.type) {
       case "message":
@@ -38,7 +48,7 @@ const Messages = ({ messages }) => {
   }
 
   return (
-    <Paper className="messages" style={{overflowY: 'scroll'}}>
+    <Paper className="messages" ref={ref} style={{overflowY: 'scroll'}}>
       {messages.map(row)}
     </Paper>
   )

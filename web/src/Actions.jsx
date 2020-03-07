@@ -86,8 +86,8 @@ const Actions = ({ ws, isMaster }) => {
   )
 
   return (
-    <Paper>
-      <div className="actions" tabIndex="0"
+    <Paper className="actions">
+      <div tabIndex="0"
            onKeyDown={evt => onKeyDown(evt)}>
         {isMaster ? forMaster : forPlayer }
       </div>
