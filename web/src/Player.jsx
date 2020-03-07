@@ -10,6 +10,11 @@ const Player = ({ player, selfID, isMaster, users, scores, buttons, rule }) => {
   const user = users[player] || {}
   const score = scores[player] || {}
 
+  const answerOrderClass = classNames(
+    'answer-order',
+    { 'pushed': order >= 0 }
+  )
+
   const playerClass = classNames(
     'player',
     { 'right': order === buttons.answerers.length }
@@ -52,7 +57,7 @@ const Player = ({ player, selfID, isMaster, users, scores, buttons, rule }) => {
 
   return (
     <Box className="player-container">
-      <Paper className="answer-order">
+      <Paper className={answerOrderClass}>
         <Typography align="center" className={orderClass}>
           {order >= 0 ? order + 1 : ""}
         </Typography>

@@ -8,6 +8,10 @@
     width: 30px;
     height: 30px;
 
+    &.pushed {
+      background-color: #ffab01;
+    }
+
     .content {
       font-family: 'Odibee Sans';
       font-size: 20px;
