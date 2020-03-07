@@ -48,7 +48,7 @@ const Messages = ({ messages }) => {
   }
 
   return (
-    <Paper className="messages" ref={ref} style={{overflowY: 'scroll'}}>
+    <Paper className="messages" ref={ref}>
       {messages.map(row)}
     </Paper>
   )

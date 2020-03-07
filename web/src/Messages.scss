@@ -2,6 +2,10 @@
   padding: 8px;
   grid-column: 1/2;
   grid-row: 2/5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: hidden;
 
   .message {
     margin-bottom: 8px;

@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle, Slider, Typography
+  Button, Dialog, DialogActions, DialogContent, DialogTitle,
+  FormControl, FormGroup, Slider, Typography
 } from '@material-ui/core'
 import { settingClose } from './redux/actions'
 
@@ -28,13 +29,17 @@ const Setting = ({ open, settingClose }) => {
       <form onSubmit={evt => submit(evt)}>
         <DialogTitle id="form-dialog-title">設定</DialogTitle>
         <DialogContent>
-          <Typography>
-            音量
-          </Typography>
-          <Slider min={0} max={100}
-                  valueLabelDisplay="auto"
-                  marks={[{ value: 0, label: '0%' }, { value: 100, label: '100%' }]}
-                  value={volume} onChange={(evt, newValue) => setVolume(newValue)} />
+          <FormGroup>
+            <FormControl>
+              <Typography>
+                音量
+              </Typography>
+              <Slider min={0} max={100}
+                      valueLabelDisplay="auto"
+                      marks={[{ value: 0, label: '0%' }, { value: 100, label: '100%' }]}
+                      value={volume} onChange={(evt, newValue) => setVolume(newValue)} />
+            </FormControl>
+          </FormGroup>
         </DialogContent>
         <DialogActions>
           <Button type="submit" color="primary">
