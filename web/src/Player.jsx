@@ -51,35 +51,35 @@ const Player = ({ player, selfID, isMaster, users, scores, buttons, rule }) => {
   })()
 
   return (
-    <Paper className={playerClass}>
-      <Box className="player-name">
-        <Typography align="center" className={nameClass}>
-          {user.name}
+    <Box className="player-container">
+      <Paper className="answer-order">
+        <Typography align="center" className={orderClass}>
+          {order >= 0 ? order + 1 : ""}
         </Typography>
-      </Box>
-      <Box className="answer-order">
-        <Box className="decorate">
-          <Typography align="center" className={orderClass}>
-            {order >= 0 ? order + 1 : ""}
+      </Paper>
+      <Paper className={playerClass}>
+        <Box className="player-name">
+          <Typography align="center" className={nameClass}>
+            {user.name}
           </Typography>
         </Box>
-      </Box>
-      <Box className="correct">
-        <Typography className="content">
-          {pointText}
-        </Typography>
-      </Box>
-      <Box className="wrong">
-        <Typography className="content">
-          {batsuText}
-        </Typography>
-      </Box>
-      <Box className={statusClass}>
-        <Typography className="content">
-          {statusText}
-        </Typography>
-      </Box>
-    </Paper>
+        <Box className="correct">
+          <Typography className="content">
+            {pointText}
+          </Typography>
+        </Box>
+        <Box className="wrong">
+          <Typography className="content">
+            {batsuText}
+          </Typography>
+        </Box>
+        <Box className={statusClass}>
+          <Typography className="content">
+            {statusText}
+          </Typography>
+        </Box>
+      </Paper>
+    </Box>
   )
 }
 
