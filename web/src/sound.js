@@ -11,10 +11,9 @@ const loadSound = (name, url) => {
 
   request.onload = () => {
     let data = request.response
-    context.decodeAudioData(data)
-      .then(decoded => {
-        buffer[name] = decoded
-      })
+    context.decodeAudioData(data, decoded => {
+      buffer[name] = decoded
+    })
   }
   request.send()
 }
