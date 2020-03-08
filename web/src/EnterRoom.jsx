@@ -1,21 +1,19 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField
 } from '@material-ui/core'
-import { enterRoom } from './redux/actions'
 
-const EnterRoom = ({ open, enterRoom }) => {
+const EnterRoom = ({ open, submit }) => {
   const [name, setName] = React.useState('')
 
-  const submit = evt => {
-    evt.preventDefault();
-    enterRoom(name)
+  const onSubmit = evt => {
+    evt.preventDefault()
+    submit(name)
   }
 
   return (
     <Dialog open={open} aria-labelledby="form-dialog-title">
-      <form onSubmit={evt => submit(evt)}>
+      <form onSubmit={evt => onSubmit(evt)}>
         <DialogTitle id="form-dialog-title">入室</DialogTitle>
         <DialogContent>
           <TextField id="name" label="ハンドル"
@@ -33,11 +31,4 @@ const EnterRoom = ({ open, enterRoom }) => {
   )
 }
 
-export default connect(
-  state => ({
-    open: state.enterRoomOpen
-  }),
-  dispatch => ({
-    enterRoom: name => dispatch(enterRoom(name))
-  })
-)(EnterRoom)
+export default EnterRoom

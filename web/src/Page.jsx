@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import URI from 'urijs'
 import playSound from './sound'
 import {
-  leaveRoom, recvSelfID, recvUsers, recvAttendees,
+  reset, setWebSocket, recvSelfID, recvUsers, recvAttendees,
   recvScores, recvButtons, recvRule, recvMessage
 } from './redux/actions'
 import TopBar from './TopBar'
@@ -14,60 +15,62 @@ import Actions from './Actions'
 import EnterRoom from './EnterRoom'
 import './Page.scss'
 
+const uri = URI(window.location.href).protocol('ws').pathname('/ws')
+
 const Page = ({ ws, action }) => {
-  if (ws) {
-    if (!ws.onopen) {
-      ws.onopen = evt => {
-        console.log('ws open', evt)
+  const [enterRoomOpen, setEnterRoomOpen] = React.useState(true)
+
+  const enterRoom = name => {
+    setEnterRoomOpen(false)
+
+    ws = new WebSocket(uri.query({ name }).toString())
+    action.setWebSocket(ws)
+
+    ws.onopen = evt => {
+      console.log('ws open', evt)
+    }
+
+    ws.onclose = evt => {
+      console.log('ws close', evt)
+      setEnterRoomOpen(true)
+      action.reset()
+    }
+
+    ws.onmessage = evt => {
+      console.log('ws received: ' + evt.data)
+      let data = JSON.parse(evt.data)
+      switch (data.type) {
+        case 'sound':
+          playSound(data.content)
+          break
+        case 'selfID':
+          action.recvSelfID(data.content)
+          break
+        case 'users':
+          action.recvUsers(data.content)
+          break
+        case 'attendees':
+          action.recvAttendees(data.content)
+          break
+        case 'scores':
+          action.recvScores(data.content)
+          break
+        case 'buttons':
+          action.recvButtons(data.content)
+          break
+        case 'rule':
+          action.recvRule(data.content)
+          break
+        case 'chat':
+          action.recvMessage(data.content)
+          break
+        default:
+          break
       }
     }
 
-    if (!ws.onclose) {
-      ws.onclose = evt => {
-        console.log('ws close', evt)
-        action.leaveRoom()
-      }
-    }
-
-    if (!ws.onmessage) {
-      ws.onmessage = evt => {
-        console.log('ws received: ' + evt.data)
-        let data = JSON.parse(evt.data)
-        switch (data.type) {
-          case 'sound':
-            playSound(data.content)
-            break
-          case 'selfID':
-            action.recvSelfID(data.content)
-            break
-          case 'users':
-            action.recvUsers(data.content)
-            break
-          case 'attendees':
-            action.recvAttendees(data.content)
-            break
-          case 'scores':
-            action.recvScores(data.content)
-            break
-          case 'buttons':
-            action.recvButtons(data.content)
-            break
-          case 'rule':
-            action.recvRule(data.content)
-            break
-          case 'chat':
-            action.recvMessage(data.content)
-            break
-          default:
-            break
-        }
-      }
-    }
-
-    if (!ws.onerror) {
-      ws.onerror = evt => {
-        console.log('ws error: ' + evt.data)
-      }
+    ws.onerror = evt => {
+      console.log('ws error: ' + evt.data)
     }
   }
 
@@ -79,7 +82,7 @@ const Page = ({ ws, action }) => {
       <Players />
       <MixDisplay />
       <Actions />
-      <EnterRoom />
+      <EnterRoom open={enterRoomOpen} submit={enterRoom} />
     </div>
   )
 }
@@ -89,7 +92,8 @@ export default connect(
     ws: state.ws
   }),
   dispatch => ({ action: {
-    leaveRoom: () => dispatch(leaveRoom()),
+    reset: () => dispatch(reset()),
+    setWebSocket: ws => dispatch(setWebSocket(ws)),
     recvSelfID: selfID => dispatch(recvSelfID(selfID)),
     recvUsers: users => dispatch(recvUsers(users)),
     recvAttendees: attendees => dispatch(recvAttendees(attendees)),

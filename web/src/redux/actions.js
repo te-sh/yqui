@@ -1,6 +1,5 @@
-export const ENTER_ROOM_OPEN = 'ENTER_ROOM_OPEN'
-export const ENTER_ROOM = 'ENTER_ROOM'
-export const LEAVE_ROOM = 'LEAVE_ROOM'
+export const RESET = 'RESET'
+export const SET_WEB_SOCKET = 'SET_WEB_SOCKET'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_USERS = 'RECV_USERS'
 export const RECV_ATTENDEES = 'RECV_ATTENDEES'
@@ -9,16 +8,12 @@ export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_RULE = 'RECV_RULE'
 export const RECV_MESSAGE = 'RECV_MESSAGE'
 
-export const enterRoomOpen = () => {
-  return { type: ENTER_ROOM_OPEN }
+export const reset = () => {
+  return { type: RESET }
 }
 
-export const enterRoom = name => {
-  return { type: ENTER_ROOM, name }
-}
-
-export const leaveRoom = () => {
-  return { type: LEAVE_ROOM }
+export const setWebSocket = ws => {
+  return { type: SET_WEB_SOCKET, ws }
 }
 
 export const recvSelfID = selfID => {

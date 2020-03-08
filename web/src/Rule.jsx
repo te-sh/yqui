@@ -131,7 +131,6 @@ const Rule = ({ open, close, ws, rule }) => {
 
 export default connect(
   state => ({
-    open: state.ruleOpen,
     ws: state.ws,
     rule: state.rule
   })

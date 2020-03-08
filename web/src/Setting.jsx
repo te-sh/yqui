@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
   FormControl, FormGroup, Slider, Typography
@@ -49,8 +48,4 @@ const Setting = ({ open, close, settingClose }) => {
   )
 }
 
-export default connect(
-  state => ({
-    open: state.settingOpen
-  })
-)(Setting)
+export default Setting

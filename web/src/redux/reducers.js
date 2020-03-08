@@ -1,12 +1,10 @@
-import URI from 'urijs'
 import {
-  ENTER_ROOM_OPEN, ENTER_ROOM, LEAVE_ROOM,
+  RESET, SET_WEB_SOCKET,
   RECV_SELF_ID, RECV_USERS, RECV_ATTENDEES, RECV_SCORES,
   RECV_BUTTONS, RECV_RULE, RECV_MESSAGE
 } from './actions'
 
 const initialState = {
-  enterRoomOpen: true,
   ws: null,
   selfID: null,
   users: {},
@@ -36,21 +34,14 @@ const initialState = {
   messages: []
 }
 
-const uri = URI(window.location.href).protocol('ws').pathname('/ws')
-
 const yquiApp = (state = initialState, action) => {
   switch (action.type) {
-  case ENTER_ROOM_OPEN:
-    return Object.assign({}, state, {
-      enterRoomOpen: true
-    })
-  case ENTER_ROOM:
-    return Object.assign({}, state, {
-      enterRoomOpen: false,
-      ws: new WebSocket(uri.query({ name: action.name }).toString())
-    })
-  case LEAVE_ROOM:
+  case RESET:
     return initialState
+  case SET_WEB_SOCKET:
+    return Object.assign({}, state, {
+      ws: action.ws
+    })
   case RECV_SELF_ID:
     return Object.assign({}, state, {
       selfID: action.selfID,
