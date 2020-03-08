@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import Player from './Player'
 
@@ -7,7 +7,8 @@ const ItemTypes = {
 }
 
 const PlayerDraggable = ({ player, droped, index, movePlayer }) => {
-  const ref = useRef(null)
+  const ref = React.useRef(null)
+
   const [, drop] = useDrop({
     accept: ItemTypes.PLAYER,
     hover(item, monitor) {
@@ -35,14 +36,17 @@ const PlayerDraggable = ({ player, droped, index, movePlayer }) => {
       droped()
     }
   })
+
   const [{ isDragging }, drag] = useDrag({
     item: { type: ItemTypes.PLAYER, player, index },
     collect: monitor => ({
       isDragging: monitor.isDragging()
     })
   })
+
   const opacity = isDragging ? 0 : 1
   drag(drop(ref))
+
   return (
     <div ref={ref} style={{ cursor: 'move', opacity }}>
       <Player player={player} />

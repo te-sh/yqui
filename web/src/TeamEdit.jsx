@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Paper, Typography } from '@material-ui/core'
+import { Paper } from '@material-ui/core'
+import TeamEditGroup from './TeamEditGroup'
 import './TeamEdit.scss'
 
 const TeamEdit = ({ teamEdit, users, attendees }) => {
@@ -17,24 +18,10 @@ const TeamEdit = ({ teamEdit, users, attendees }) => {
     [teamEdit, attendees]
   )
 
-  const playerElement = player => (
-    <Paper className="player" key={player}>
-      <Typography>
-        {users[player].name}
-      </Typography>
-    </Paper>
-  )
-
   return (
     <Paper className="team-edit">
-      <fieldset className="players users">
-        <legend>参加者</legend>
-        {players.map(playerElement)}
-      </fieldset>
-      <fieldset className="observers users">
-        <legend>観戦者</legend>
-        {observers.map(playerElement)}
-      </fieldset>
+      <TeamEditGroup name="参加者" players={players} source="players" />
+      <TeamEditGroup name="観戦者" players={observers} source="observers" />
     </Paper>
   )
 }
