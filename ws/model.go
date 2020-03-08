@@ -31,6 +31,7 @@ func NewRoom() *Room {
 type Attendees struct {
 	Players []int64 `json:"players"`
 	Master int64 `json:"master"`
+	Observers []int64 `json:"observers"`
 }
 
 func NewAttendees() *Attendees {

@@ -1,0 +1,27 @@
+.team-edit {
+  padding: 8px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
+
+  .players {
+    grid-row: 1/2;
+    grid-column: 1/2;
+  }
+
+  .observers {
+    grid-row: 2/3;
+    grid-column: 1/2;
+  }
+
+  .users {
+    display: flex;
+  }
+
+  .player {
+    width: 150px;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+  }
+}

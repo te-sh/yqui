@@ -10,7 +10,8 @@ const initialState = {
   users: {},
   attendees: {
     players: [],
-    master: -1
+    master: -1,
+    observers: []
   },
   isMaster: false,
   scores: {},
@@ -52,6 +53,8 @@ const yquiApp = (state = initialState, action) => {
       users: action.users
     })
   case RECV_ATTENDEES:
+    action.attendees.players = action.attendees.players || []
+    action.attendees.observers = action.attendees.observers || []
     return Object.assign({}, state, {
       attendees: action.attendees,
       isMaster: state.selfID === action.attendees.master

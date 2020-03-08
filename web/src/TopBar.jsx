@@ -18,10 +18,12 @@ const TopBar = ({ setTeamEdit, ws, attendees, isMaster }) => {
           Yqui
         </Typography>
         <div className="toolbar-grow" />
-        <IconButton color="inherit" onClick={() => setTeamEdit(true)}>
+        <IconButton color="inherit" onClick={() => setTeamEdit(true)}
+                    disabled={!isMaster}>
           <SportsKabaddi />
         </IconButton>
-        <IconButton color="inherit" onClick={() => setRuleOpen(true)}>
+        <IconButton color="inherit" onClick={() => setRuleOpen(true)}
+                    disabled={!isMaster}>
           <ListAlt />
         </IconButton>
         <IconButton color="inherit" onClick={() => setSettingOpen(true)}>

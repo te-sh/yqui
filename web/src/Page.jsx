@@ -10,6 +10,7 @@ import TopBar from './TopBar'
 import Chat from './Chat'
 import Messages from './Messages'
 import Players from './Players'
+import TeamEdit from './TeamEdit'
 import MixDisplay from './MixDisplay'
 import MasterActions from './MasterActions'
 import PlayerActions from './PlayerActions'
@@ -77,6 +78,14 @@ const Page = ({ ws, isMaster, action }) => {
     }
   }
 
+  const main = (() => {
+    if (teamEdit) {
+      return <TeamEdit />
+    } else {
+      return <Players />
+    }
+  })()
+
   const actions = (() => {
     if (teamEdit) {
       return <TeamEditActions setTeamEdit={setTeamEdit} />
@@ -92,7 +101,7 @@ const Page = ({ ws, isMaster, action }) => {
       <TopBar setTeamEdit={setTeamEdit} />
       <Messages />
       <Chat />
-      <Players />
+      {main}
       <MixDisplay />
       {actions}
       <EnterRoom open={enterRoomOpen} submit={enterRoom} />
