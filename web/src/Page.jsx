@@ -11,13 +11,14 @@ import Chat from './Chat'
 import Messages from './Messages'
 import Players from './Players'
 import MixDisplay from './MixDisplay'
-import Actions from './Actions'
+import MasterActions from './MasterActions'
+import PlayerActions from './PlayerActions'
 import EnterRoom from './EnterRoom'
 import './Page.scss'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
-const Page = ({ ws, action }) => {
+const Page = ({ ws, isMaster, action }) => {
   const [enterRoomOpen, setEnterRoomOpen] = React.useState(true)
 
   const enterRoom = name => {
@@ -74,6 +75,14 @@ const Page = ({ ws, action }) => {
     }
   }
 
+  const actions = (() => {
+    if (isMaster) {
+      return <MasterActions />
+    } else {
+      return <PlayerActions />
+    }
+  })()
+
   return (
     <div className="page">
       <TopBar />
@@ -81,7 +90,7 @@ const Page = ({ ws, action }) => {
       <Chat />
       <Players />
       <MixDisplay />
-      <Actions />
+      {actions}
       <EnterRoom open={enterRoomOpen} submit={enterRoom} />
     </div>
   )
@@ -89,7 +98,8 @@ const Page = ({ ws, action }) => {
 
 export default connect(
   state => ({
-    ws: state.ws
+    ws: state.ws,
+    isMaster: state.isMaster
   }),
   dispatch => ({ action: {
     reset: () => dispatch(reset()),
