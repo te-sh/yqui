@@ -4,7 +4,7 @@ import {
   FormControl, FormGroup, Slider, Typography
 } from '@material-ui/core'
 
-const Setting = ({ open, close, settingClose }) => {
+const Setting = ({ open, close }) => {
   const [volume, setVolume] = React.useState(0)
 
   const onEnter = () => {

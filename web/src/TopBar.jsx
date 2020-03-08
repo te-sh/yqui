@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
-import { ListAlt, Settings, SupervisorAccount } from '@material-ui/icons'
+import { ListAlt, Settings, SportsKabaddi, SupervisorAccount } from '@material-ui/icons'
 import { send } from './communicate'
 import Rule from './Rule'
 import Setting from './Setting'
 import './TopBar.scss'
 
-const TopBar = ({ ws, attendees, isMaster }) => {
+const TopBar = ({ setTeamEdit, ws, attendees, isMaster }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
   const [settingOpen, setSettingOpen] = React.useState(false)
 
@@ -18,6 +18,9 @@ const TopBar = ({ ws, attendees, isMaster }) => {
           Yqui
         </Typography>
         <div className="toolbar-grow" />
+        <IconButton color="inherit" onClick={() => setTeamEdit(true)}>
+          <SportsKabaddi />
+        </IconButton>
         <IconButton color="inherit" onClick={() => setRuleOpen(true)}>
           <ListAlt />
         </IconButton>
