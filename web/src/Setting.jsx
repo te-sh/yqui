@@ -4,9 +4,8 @@ import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
   FormControl, FormGroup, Slider, Typography
 } from '@material-ui/core'
-import { settingClose } from './redux/actions'
 
-const Setting = ({ open, settingClose }) => {
+const Setting = ({ open, close, settingClose }) => {
   const [volume, setVolume] = React.useState(0)
 
   const onEnter = () => {
@@ -16,11 +15,7 @@ const Setting = ({ open, settingClose }) => {
   const submit = evt => {
     evt.preventDefault()
     localStorage.setItem('volume', volume)
-    settingClose()
-  }
-
-  const cancel = _evt => {
-    settingClose()
+    close()
   }
 
   return (
@@ -45,7 +40,7 @@ const Setting = ({ open, settingClose }) => {
           <Button type="submit" color="primary">
             設定
           </Button>
-          <Button color="secondary" onClick={() => cancel()}>
+          <Button color="secondary" onClick={close}>
             閉じる
           </Button>
         </DialogActions>
@@ -57,8 +52,5 @@ const Setting = ({ open, settingClose }) => {
 export default connect(
   state => ({
     open: state.settingOpen
-  }),
-  dispatch => ({
-    settingClose: () => dispatch(settingClose())
   })
 )(Setting)

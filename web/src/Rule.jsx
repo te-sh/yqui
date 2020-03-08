@@ -5,10 +5,9 @@ import {
   TextField, Typography
 } from '@material-ui/core'
 import { send } from './communicate'
-import { ruleClose } from './redux/actions'
 import './Rule.scss'
 
-const Rule = ({ open, ws, rule, ruleClose }) => {
+const Rule = ({ open, close, ws, rule }) => {
   const [rightNum, setRightNum] = React.useState(0)
   const [pointCorrect, setPointCorrect] = React.useState(0)
   const [pointWrong, setPointWrong] = React.useState(0)
@@ -38,7 +37,7 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
 
   const submit = evt => {
     evt.preventDefault()
-    ruleClose()
+    close()
 
     send.rule(ws, {
       rightNum: parse(rightNum),
@@ -50,10 +49,6 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
       losePoint: { active: losePointActive, value: parse(losePointValue) },
       loseBatsu: { active: loseBatsuActive, value: parse(loseBatsuValue) }
     })
-  }
-
-  const cancel = _evt => {
-    ruleClose()
   }
 
   const parse = text => {
@@ -125,7 +120,7 @@ const Rule = ({ open, ws, rule, ruleClose }) => {
           <Button type="submit" color="primary">
             設定
           </Button>
-          <Button color="secondary" onClick={() => cancel()}>
+          <Button color="secondary" onClick={close}>
             閉じる
           </Button>
         </DialogActions>
@@ -139,8 +134,5 @@ export default connect(
     open: state.ruleOpen,
     ws: state.ws,
     rule: state.rule
-  }),
-  dispatch => ({
-    ruleClose: () => dispatch(ruleClose())
   })
 )(Rule)

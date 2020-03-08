@@ -12,8 +12,6 @@ import Players from './Players'
 import MixDisplay from './MixDisplay'
 import Actions from './Actions'
 import EnterRoom from './EnterRoom'
-import Rule from './Rule'
-import Setting from './Setting'
 import './Page.scss'
 
 const Page = ({ ws, action }) => {
@@ -82,8 +80,6 @@ const Page = ({ ws, action }) => {
       <MixDisplay />
       <Actions />
       <EnterRoom />
-      <Rule />
-      <Setting />
     </div>
   )
 }
