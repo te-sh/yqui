@@ -80,7 +80,7 @@ const Page = ({ ws, isMaster, action }) => {
 
   const main = (() => {
     if (teamEdit) {
-      return <TeamEdit />
+      return <TeamEdit teamEdit={teamEdit} />
     } else {
       return <Players />
     }

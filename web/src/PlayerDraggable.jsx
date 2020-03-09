@@ -1,10 +1,7 @@
 import React from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+import ItemTypes from './item_types'
 import Player from './Player'
-
-const ItemTypes = {
-  PLAYER: 'Player'
-}
 
 const PlayerDraggable = ({ player, droped, index, movePlayer }) => {
   const ref = React.useRef(null)
