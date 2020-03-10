@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Paper } from '@material-ui/core'
-import { send } from './communicate'
+import { send } from '../communicate'
 import './Actions.scss'
 
-const Actions = ({ ws }) => {
+const Player = ({ ws }) => {
   const onKeyDown = evt => {
     switch (evt.keyCode) {
       case 13:
@@ -29,4 +29,4 @@ export default connect(
   state => ({
     ws: state.ws
   })
-)(Actions)
+)(Player)

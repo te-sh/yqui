@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
-import { send } from './communicate'
+import { send } from '../communicate'
 import './Actions.scss'
 
-const Actions = ({ ws }) => {
+const Master = ({ ws }) => {
   const onKeyDown = evt => {
     switch (evt.keyCode) {
       case 81:
@@ -74,4 +74,4 @@ export default connect(
   state => ({
     ws: state.ws
   })
-)(Actions)
+)(Master)

@@ -12,15 +12,13 @@ import Messages from './Messages'
 import Players from './Players'
 import TeamEdit from './TeamEdit'
 import MixDisplay from './MixDisplay'
-import MasterActions from './MasterActions'
-import PlayerActions from './PlayerActions'
-import TeamEditActions from './TeamEditActions'
+import Actions from './actions/Actions'
 import EnterRoom from './EnterRoom'
 import './Page.scss'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
-const Page = ({ ws, isMaster, action }) => {
+const Page = ({ ws, action }) => {
   const [enterRoomOpen, setEnterRoomOpen] = React.useState(true)
   const [teamEdit, setTeamEdit] = React.useState(false)
 
@@ -86,16 +84,6 @@ const Page = ({ ws, isMaster, action }) => {
     }
   })()
 
-  const actions = (() => {
-    if (teamEdit) {
-      return <TeamEditActions setTeamEdit={setTeamEdit} />
-    } else if (isMaster) {
-      return <MasterActions />
-    } else {
-      return <PlayerActions />
-    }
-  })()
-
   return (
     <div className="page">
       <TopBar setTeamEdit={setTeamEdit} />
@@ -103,7 +91,7 @@ const Page = ({ ws, isMaster, action }) => {
       <Chat />
       {main}
       <MixDisplay />
-      {actions}
+      <Actions teamEdit={teamEdit} />
       <EnterRoom open={enterRoomOpen} submit={enterRoom} />
     </div>
   )

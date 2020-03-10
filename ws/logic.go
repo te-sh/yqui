@@ -5,7 +5,7 @@ func (room *Room) JoinUser(conn *Conn, name string, time int64) int64 {
 	id := user.ID
 
 	room.Users[id] = user
-	room.Attendees.Players = append(room.Attendees.Players, id)
+	room.Attendees.JoinUser(id)
 	room.Scores[id] = NewScore()
 	room.History.Items[room.History.Curr].Scores[id] = NewScore()
 
@@ -27,11 +27,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	name := room.Users[id].Name
 
 	delete(room.Users, id)
-	if room.Attendees.Master == id {
-		room.Attendees.Master = -1
-	} else {
-		room.Attendees.Players = Int64Remove(room.Attendees.Players, id)
-	}
+	room.Attendees.LeaveUser(id)
 	delete(room.Scores, id)
 
 	room.SendAttendees()

@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Paper } from '@material-ui/core'
 import './Actions.scss'
 
-const TeamEditActions = ({ setTeamEdit }) => {
+const TeamEdit = ({ setTeamEdit }) => {
   return (
     <Paper className="actions">
       <Button variant="outlined" color="primary" size="large"
@@ -17,4 +17,4 @@ const TeamEditActions = ({ setTeamEdit }) => {
   )
 }
 
-export default TeamEditActions
+export default TeamEdit

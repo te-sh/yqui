@@ -9,8 +9,8 @@ const initialState = {
   selfID: null,
   users: {},
   attendees: {
-    players: [],
     master: -1,
+    players: [],
     observers: []
   },
   isMaster: false,

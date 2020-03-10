@@ -28,18 +28,6 @@ func NewRoom() *Room {
 	return room
 }
 
-type Attendees struct {
-	Players []int64 `json:"players"`
-	Master int64 `json:"master"`
-	Observers []int64 `json:"observers"`
-}
-
-func NewAttendees() *Attendees {
-	attendees := new(Attendees)
-	attendees.Master = -1
-	return attendees
-}
-
 type User struct {
 	ID int64 `json:"id"`
 	Conn *Conn `json:"-"`
