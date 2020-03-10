@@ -66,7 +66,7 @@ export const send = {
       ws.send(JSON.stringify({ c: 'c', a: text }))
     }
   },
-  playersOrder: (ws, players) => {
+  attendees: (ws, players) => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'p', a: players }))
     }

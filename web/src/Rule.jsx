@@ -35,7 +35,7 @@ const Rule = ({ open, close, ws, rule }) => {
     setLoseBatsuValue(rule.loseBatsu.value)
   }
 
-  const submit = evt => {
+  const onSubmit = evt => {
     evt.preventDefault()
     close()
 
@@ -57,9 +57,9 @@ const Rule = ({ open, close, ws, rule }) => {
   }
 
   return (
-    <Dialog open={open} onEnter={() => onEnter()}
+    <Dialog open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
-      <form onSubmit={evt => submit(evt)}>
+      <form onSubmit={onSubmit}>
         <DialogTitle id="form-dialog-title">ルール</DialogTitle>
         <DialogContent className="rule">
           <TextField label="解答権人数" type="number"

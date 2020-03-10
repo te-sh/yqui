@@ -1,0 +1,36 @@
+.subactions {
+  grid-column: 2/3;
+  grid-row: 3/4;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+
+  &.subactions-alert {
+    background-color: #ffcdd2;
+
+    .content {
+      grid-column: 1/2;
+      grid-row: 1/2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .subactions-rule {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .subactions-actions {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}

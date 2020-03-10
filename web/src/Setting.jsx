@@ -11,16 +11,16 @@ const Setting = ({ open, close }) => {
     setVolume(parseInt(localStorage.getItem('volume') || '100'))
   }
 
-  const submit = evt => {
+  const onSubmit = evt => {
     evt.preventDefault()
     localStorage.setItem('volume', volume)
     close()
   }
 
   return (
-    <Dialog open={open} onEnter={() => onEnter()}
+    <Dialog open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
-      <form onSubmit={evt => submit(evt)}>
+      <form onSubmit={onSubmit}>
         <DialogTitle id="form-dialog-title">設定</DialogTitle>
         <DialogContent>
           <FormGroup>

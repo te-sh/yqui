@@ -13,7 +13,7 @@ const EnterRoom = ({ open, submit }) => {
 
   return (
     <Dialog open={open} aria-labelledby="form-dialog-title">
-      <form onSubmit={evt => onSubmit(evt)}>
+      <form onSubmit={onSubmit}>
         <DialogTitle id="form-dialog-title">入室</DialogTitle>
         <DialogContent>
           <TextField id="name" label="ハンドル"

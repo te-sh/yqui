@@ -31,7 +31,7 @@ const Players = ({ ws, attendees }) => {
     <Grid item key={player}>
       <PlayerDraggable player={player} index={index}
                        movePlayer={movePlayer}
-                       droped={() => send.playersOrder(ws, { players })} />
+                       droped={() => send.attendees(ws, { players })} />
     </Grid>
   ))
 

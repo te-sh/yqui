@@ -11,7 +11,7 @@ import Chat from './Chat'
 import Messages from './Messages'
 import Players from './Players'
 import TeamEdit from './TeamEdit'
-import MixDisplay from './MixDisplay'
+import Subactions from './subactions/Subactions'
 import Actions from './actions/Actions'
 import EnterRoom from './EnterRoom'
 import './Page.scss'
@@ -89,7 +89,7 @@ const Page = ({ ws, editTeam, action }) => {
       <Messages />
       <Chat />
       {main}
-      <MixDisplay />
+      <Subactions />
       <Actions />
       <EnterRoom open={enterRoomOpen} submit={enterRoom} />
     </div>
