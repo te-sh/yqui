@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
-import { ordial } from './util'
+import { ordial } from '../util'
 import './Player.scss'
 
 const Player = ({ player, selfID, isMaster, users, scores, buttons, rule }) => {

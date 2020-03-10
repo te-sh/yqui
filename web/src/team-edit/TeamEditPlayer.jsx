@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { useDrag } from 'react-dnd'
 import { Paper, Typography } from '@material-ui/core'
-import ItemTypes from './item_types'
+import ItemTypes from '../item_types'
 import './TeamEditPlayer.scss'
 
 const TeamEditPlayer = ({ player, source, index, users }) => {

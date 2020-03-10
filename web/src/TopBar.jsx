@@ -4,8 +4,8 @@ import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
 import { ListAlt, Settings, SportsKabaddi, SupervisorAccount } from '@material-ui/icons'
 import { send } from './communicate'
 import { setEditTeam } from './redux/actions'
-import Rule from './Rule'
-import Setting from './Setting'
+import Rule from './dialogs/Rule'
+import Setting from './dialogs/Setting'
 import './TopBar.scss'
 
 const TopBar = ({ ws, attendees, isMaster, setEditTeam }) => {

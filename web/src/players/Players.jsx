@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Grid, Paper } from '@material-ui/core'
 import update from 'immutability-helper'
 import PlayerDraggable from './PlayerDraggable'
-import { send } from './communicate'
+import { send } from '../communicate'
 import './Players.scss'
 
 const Players = ({ ws, attendees }) => {

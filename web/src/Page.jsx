@@ -9,11 +9,11 @@ import {
 import TopBar from './TopBar'
 import Chat from './Chat'
 import Messages from './Messages'
-import Players from './Players'
-import TeamEdit from './TeamEdit'
+import Players from './players/Players'
+import TeamEdit from './team-edit/TeamEdit'
 import Subactions from './subactions/Subactions'
 import Actions from './actions/Actions'
-import EnterRoom from './EnterRoom'
+import EnterRoom from './dialogs/EnterRoom'
 import './Page.scss'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')

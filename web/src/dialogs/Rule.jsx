@@ -4,7 +4,7 @@ import {
   Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
   TextField, Typography
 } from '@material-ui/core'
-import { send } from './communicate'
+import { send } from '../communicate'
 import './Rule.scss'
 
 const Rule = ({ open, close, ws, rule }) => {

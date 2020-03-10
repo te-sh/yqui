@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDrop } from 'react-dnd'
-import ItemTypes from './item_types'
+import ItemTypes from '../item_types'
 import TeamEditPlayer from './TeamEditPlayer'
 
 const TeamEditGroup = ({ name, players, source, dropped }) => {
