@@ -1,18 +1,18 @@
 import React from 'react'
 import { useDrop } from 'react-dnd'
 import ItemTypes from '../item_types'
-import TeamEditPlayer from './TeamEditPlayer'
+import Player from './Player'
 
-const TeamEditGroup = ({ name, players, source, dropped }) => {
+const Group = ({ name, players, source, droped }) => {
   const [, dropRef] = useDrop({
     accept: ItemTypes.PLAYER,
     drop(item, _monitor) {
-      dropped(item, source)
+      droped(item, source)
     }
   })
 
   const playerElement = (player, index) => (
-    <TeamEditPlayer key={player} player={player} source={source} index={index} />
+    <Player key={player} player={player} source={source} index={index} />
   )
 
   return (
@@ -25,4 +25,4 @@ const TeamEditGroup = ({ name, players, source, dropped }) => {
   )
 }
 
-export default TeamEditGroup
+export default Group

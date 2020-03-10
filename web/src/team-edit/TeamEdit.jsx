@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Paper } from '@material-ui/core'
 import update from 'immutability-helper'
-import TeamEditGroup from './TeamEditGroup'
+import Group from './Group'
 import './TeamEdit.scss'
 
 const TeamEdit = ({ teamEdit, attendees }) => {
@@ -19,7 +19,7 @@ const TeamEdit = ({ teamEdit, attendees }) => {
     [teamEdit, attendees]
   )
 
-  const dropped = (item, destination) => {
+  const droped = (item, destination) => {
     if (item.source === destination) {
       return
     }
@@ -49,10 +49,10 @@ const TeamEdit = ({ teamEdit, attendees }) => {
 
   return (
     <Paper className="team-edit">
-      <TeamEditGroup name="参加者" players={players} source="players"
-                     dropped={dropped} />
-      <TeamEditGroup name="観戦者" players={observers} source="observers"
-                     dropped={dropped} />
+      <Group name="参加者" players={players} source="players"
+             droped={droped} />
+      <Group name="観戦者" players={observers} source="observers"
+             droped={droped} />
     </Paper>
   )
 }

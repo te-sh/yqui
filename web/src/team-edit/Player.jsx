@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { useDrag } from 'react-dnd'
 import { Paper, Typography } from '@material-ui/core'
 import ItemTypes from '../item_types'
-import './TeamEditPlayer.scss'
+import './Player.scss'
 
-const TeamEditPlayer = ({ player, source, index, users }) => {
+const Player = ({ player, source, index, users }) => {
   const [{ opacity }, dragRef] = useDrag({
     item: { type: ItemTypes.PLAYER, player, source, index },
     collect: monitor => ({
@@ -27,4 +27,4 @@ export default connect(
   state => ({
     users: state.users
   })
-)(TeamEditPlayer)
+)(Player)
