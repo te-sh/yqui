@@ -18,9 +18,8 @@ import './Page.scss'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
-const Page = ({ ws, action }) => {
+const Page = ({ ws, editTeam, action }) => {
   const [enterRoomOpen, setEnterRoomOpen] = React.useState(true)
-  const [teamEdit, setTeamEdit] = React.useState(false)
 
   const enterRoom = name => {
     setEnterRoomOpen(false)
@@ -77,8 +76,8 @@ const Page = ({ ws, action }) => {
   }
 
   const main = (() => {
-    if (teamEdit) {
-      return <TeamEdit teamEdit={teamEdit} />
+    if (editTeam) {
+      return <TeamEdit />
     } else {
       return <Players />
     }
@@ -86,12 +85,12 @@ const Page = ({ ws, action }) => {
 
   return (
     <div className="page">
-      <TopBar setTeamEdit={setTeamEdit} />
+      <TopBar />
       <Messages />
       <Chat />
       {main}
       <MixDisplay />
-      <Actions teamEdit={teamEdit} />
+      <Actions />
       <EnterRoom open={enterRoomOpen} submit={enterRoom} />
     </div>
   )
@@ -100,7 +99,7 @@ const Page = ({ ws, action }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    isMaster: state.isMaster
+    editTeam: state.editTeam
   }),
   dispatch => ({ action: {
     reset: () => dispatch(reset()),
