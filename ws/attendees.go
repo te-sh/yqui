@@ -3,7 +3,6 @@ package main
 type Attendees struct {
 	Master int64 `json:"master"`
 	Players []int64 `json:"players"`
-	Observers []int64 `json:"observers"`
 }
 
 func NewAttendees() *Attendees {
@@ -21,5 +20,8 @@ func (attendees *Attendees) LeaveUser(id int64) {
 		attendees.Master = -1
 	}
 	attendees.Players = Int64Remove(attendees.Players, id)
-	attendees.Observers = Int64Remove(attendees.Observers, id)
+}
+
+func (attendees *Attendees) IsPlayer(id int64) bool {
+	return Int64FindIndex(attendees.Players, id) >= 0
 }

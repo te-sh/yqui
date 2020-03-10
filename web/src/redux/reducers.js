@@ -86,7 +86,7 @@ const yquiApp = (state = initialState, action) => {
     })
   case SET_EDIT_TEAM:
     return update(state, {
-      editTeam: { $set: action.attendees }
+      editTeam: { $set: action.editTeam }
     })
   default:
     return state

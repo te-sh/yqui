@@ -5,9 +5,9 @@ import { Paper, Typography } from '@material-ui/core'
 import ItemTypes from '../item_types'
 import './Player.scss'
 
-const Player = ({ player, source, index, users }) => {
+const Player = ({ player, teamIndex, playerIndex, users }) => {
   const [{ opacity }, dragRef] = useDrag({
-    item: { type: ItemTypes.PLAYER, player, source, index },
+    item: { type: ItemTypes.PLAYER, player, teamIndex, playerIndex },
     collect: monitor => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
     })

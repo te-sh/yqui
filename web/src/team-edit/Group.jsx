@@ -3,21 +3,22 @@ import { useDrop } from 'react-dnd'
 import ItemTypes from '../item_types'
 import Player from './Player'
 
-const Group = ({ name, players, source, droped }) => {
+const Group = ({ label, players, teamIndex, droped }) => {
   const [, dropRef] = useDrop({
     accept: ItemTypes.PLAYER,
     drop(item, _monitor) {
-      droped(item, source)
+      droped(item, teamIndex)
     }
   })
 
-  const playerElement = (player, index) => (
-    <Player key={player} player={player} source={source} index={index} />
+  const playerElement = (player, playerIndex) => (
+    <Player key={player} player={player}
+            teamIndex={teamIndex} playerIndex={playerIndex} />
   )
 
   return (
     <fieldset className="team-edit-group" ref={dropRef}>
-      <legend>{name}</legend>
+      <legend>{label}</legend>
       <div>
         {players.map(playerElement)}
       </div>

@@ -1,15 +1,19 @@
-const setDiff = (a, b) => {
-  let d = new Set(a)
-  for (var e of b) {
-    d.delete(e)
+export const attendeesToEditTeam = (users, attendees) => {
+  console.log(users, attendees)
+  const set = new Set()
+  for (var userId in users) {
+    set.add(parseInt(userId))
   }
-  return d
+  set.delete(attendees.master)
+  for (var playerId of attendees.players) {
+    set.delete(playerId)
+  }
+  console.log(set)
+  return [Array.from(set.values()), attendees.players]
 }
 
-const mergeEditTeam = (editTeam, attendees) => {
-  let curPlayers = new Set([...editTeam.players, ...editTeam.observers])
-  let newPlayers = new Set([...attendees.players, ...attendees.observers])
-
-  let joinedPlayers = setDiff(newPlayers, curPlayers)
-  let leavedPlayers = setDiff(curPlayers, newPlayers)
+export const editTeamToAttendees = editTeam => {
+  return {
+    players: editTeam[1]
+  }
 }

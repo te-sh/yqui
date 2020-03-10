@@ -4,11 +4,12 @@ import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
 import { ListAlt, Settings, SportsKabaddi, SupervisorAccount } from '@material-ui/icons'
 import { send } from './communicate'
 import { setEditTeam } from './redux/actions'
+import { attendeesToEditTeam } from './team'
 import Rule from './dialogs/Rule'
 import Setting from './dialogs/Setting'
 import './TopBar.scss'
 
-const TopBar = ({ ws, attendees, isMaster, setEditTeam }) => {
+const TopBar = ({ ws, users, attendees, isMaster, editTeam, setEditTeam }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
   const [settingOpen, setSettingOpen] = React.useState(false)
 
@@ -19,19 +20,21 @@ const TopBar = ({ ws, attendees, isMaster, setEditTeam }) => {
           Yqui
         </Typography>
         <div className="toolbar-grow" />
-        <IconButton color="inherit" onClick={() => setEditTeam(attendees)}
-                    disabled={!isMaster}>
+        <IconButton color="inherit"
+                    disabled={!isMaster || !!editTeam}
+                    onClick={() => setEditTeam(attendeesToEditTeam(users, attendees))}>
           <SportsKabaddi />
         </IconButton>
-        <IconButton color="inherit" onClick={() => setRuleOpen(true)}
-                    disabled={!isMaster}>
+        <IconButton color="inherit"
+                    disabled={!isMaster || !!editTeam}
+                    onClick={() => setRuleOpen(true)}>
           <ListAlt />
         </IconButton>
         <IconButton color="inherit" onClick={() => setSettingOpen(true)}>
           <Settings />
         </IconButton>
         <IconButton color={isMaster ? 'secondary' : 'inherit'}
-                    disabled={!isMaster && attendees.master >= 0}
+                    disabled={!isMaster && attendees.master >= 0 || !!editTeam}
                     onClick={() => send.toggleMaster(ws)}>
           <SupervisorAccount />
         </IconButton>
@@ -45,10 +48,12 @@ const TopBar = ({ ws, attendees, isMaster, setEditTeam }) => {
 export default connect(
   state => ({
     ws: state.ws,
+    users: state.users,
     attendees: state.attendees,
-    isMaster: state.isMaster
+    isMaster: state.isMaster,
+    editTeam: state.editTeam
   }),
   dispatch => ({
-    setEditTeam: attendees => dispatch(setEditTeam(attendees))
+    setEditTeam: editTeam => dispatch(setEditTeam(editTeam))
   })
 )(TopBar)

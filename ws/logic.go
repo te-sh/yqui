@@ -50,7 +50,7 @@ func (room *Room) ToggleMaster(id int64) {
 }
 
 func (room *Room) PushButton(id int64, time int64) {
-	if !room.Buttons.Pushed(id) && room.Scores[id].CanPush() {
+	if room.Attendees.IsPlayer(id) && !room.Buttons.Pushed(id) && room.Scores[id].CanPush() {
 		if room.Buttons.AllAnswered() {
 			room.Broadcast("sound", "push")
 		}

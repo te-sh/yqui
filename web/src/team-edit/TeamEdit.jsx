@@ -2,56 +2,29 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Paper } from '@material-ui/core'
 import update from 'immutability-helper'
+import { setEditTeam } from '../redux/actions'
 import Group from './Group'
 import './TeamEdit.scss'
 
-const TeamEdit = ({ teamEdit, attendees }) => {
-  const [players, setPlayers] = React.useState(attendees.players)
-  const [observers, setObservers] = React.useState(attendees.observers)
-
-  React.useEffect(
-    () => {
-      if (!teamEdit) {
-        setPlayers(attendees.players)
-        setObservers(attendees.observers)
-      }
-    },
-    [teamEdit, attendees]
-  )
-
-  const droped = (item, destination) => {
-    if (item.source === destination) {
+const TeamEdit = ({ editTeam, setEditTeam }) => {
+  const droped = (item, destIndex) => {
+    if (item.teamIndex === destIndex) {
       return
     }
 
-    switch (item.source) {
-      case 'players':
-        setPlayers(update(players, { $splice: [[item.index, 1]] }))
-        break
-      case 'observers':
-        setObservers(update(observers, { $splice: [[item.index, 1]] }))
-        break
-      default:
-        break
-    }
-
-    switch (destination) {
-      case 'players':
-        setPlayers(update(players, { $push: [item.player] }))
-        break
-      case 'observers':
-        setObservers(update(observers, { $push: [item.player] }))
-        break
-      default:
-        break
-    }
+    setEditTeam(
+      update(editTeam, {
+        [item.teamIndex]: { $splice: [[item.playerIndex, 1]] },
+        [destIndex]: { $push: [item.player] }
+      })
+    )
   }
 
   return (
     <Paper className="team-edit">
-      <Group name="参加者" players={players} source="players"
+      <Group label="参加者" players={editTeam[1]} teamIndex={1}
              droped={droped} />
-      <Group name="観戦者" players={observers} source="observers"
+      <Group label="観戦者" players={editTeam[0]} teamIndex={0}
              droped={droped} />
     </Paper>
   )
@@ -59,6 +32,9 @@ const TeamEdit = ({ teamEdit, attendees }) => {
 
 export default connect(
   state => ({
-    attendees: state.attendees
+    editTeam: state.editTeam
+  }),
+  dispatch => ({
+    setEditTeam: editTeam => dispatch(setEditTeam(editTeam))
   })
 )(TeamEdit)

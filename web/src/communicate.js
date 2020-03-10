@@ -56,6 +56,11 @@ export const send = {
       ws.send(messages.toggleMaster)
     }
   },
+  attendees: (ws, attendees) => {
+    if (ws) {
+      ws.send(JSON.stringify({ c: 'p', a: attendees }))
+    }
+  },
   rule: (ws, rule) => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'l', a: rule }))
@@ -64,11 +69,6 @@ export const send = {
   chat: (ws, text) => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'c', a: text }))
-    }
-  },
-  attendees: (ws, players) => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'p', a: players }))
     }
   }
 }

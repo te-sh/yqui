@@ -1,12 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Paper } from '@material-ui/core'
+import { send } from '../communicate'
+import { editTeamToAttendees } from '../team'
 import { setEditTeam } from '../redux/actions'
 import './Actions.scss'
 
-const TeamEdit = ({ editTeam, setEditTeam }) => {
-  const submit = () => {
-    console.log(editTeam)
+const TeamEdit = ({ ws, editTeam, setEditTeam }) => {
+  const onSubmit = () => {
+    send.attendees(ws, editTeamToAttendees(editTeam))
     close()
   }
 
@@ -17,7 +19,7 @@ const TeamEdit = ({ editTeam, setEditTeam }) => {
   return (
     <Paper className="actions">
       <Button variant="outlined" color="primary" size="large"
-              onClick={submit}>
+              onClick={onSubmit}>
         設定
       </Button>
       <Button variant="outlined" color="secondary" size="large"
@@ -30,6 +32,7 @@ const TeamEdit = ({ editTeam, setEditTeam }) => {
 
 export default connect(
   state => ({
+    ws: state.ws,
     editTeam: state.editTeam
   }),
   dispatch => ({

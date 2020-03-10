@@ -45,6 +45,6 @@ export const recvChat = chat => {
   return { type: RECV_CHAT, chat }
 }
 
-export const setEditTeam = attendees => {
-  return { type: SET_EDIT_TEAM, attendees }
+export const setEditTeam = editTeam => {
+  return { type: SET_EDIT_TEAM, editTeam }
 }
