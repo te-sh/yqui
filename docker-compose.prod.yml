@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: './web'
+      dockerfile: './Dockerfile.prod'
+    image: te-sh/yqui-web-prod
+    volumes:
+      - '/app/node_modules'
+  ws:
+    build:
+      context: './ws'
+      dockerfile: './Dockerfile.prod'
+    image: te-sh/yqui-ws-prod
+  proxy:
+    image: nginx:1.17.8-alpine
+    ports:
+      - '8085:8085'
+    volumes:
+      - ./proxy.prod.conf:/etc/nginx/conf.d/proxy.conf:ro
+    depends_on:
+      - web
+      - ws
