@@ -4,7 +4,7 @@ import {
   RECV_SELF_ID, RECV_USERS, RECV_ATTENDEES, RECV_SCORES,
   RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAM
 } from './actions'
-import ruleText from './ruleText'
+import { ruleText } from '../util'
 
 const initialState = {
   ws: null,
