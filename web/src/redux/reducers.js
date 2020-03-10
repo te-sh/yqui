@@ -1,8 +1,10 @@
+import update from 'immutability-helper'
 import {
   RESET, SET_WEB_SOCKET,
   RECV_SELF_ID, RECV_USERS, RECV_ATTENDEES, RECV_SCORES,
   RECV_BUTTONS, RECV_RULE, RECV_MESSAGE
 } from './actions'
+import ruleText from './ruleText'
 
 const initialState = {
   ws: null,
@@ -32,6 +34,7 @@ const initialState = {
     loseBatsu: { active: true, value: 3 },
     showPoint: true
   },
+  ruleText: {},
   messages: []
 }
 
@@ -40,43 +43,45 @@ const yquiApp = (state = initialState, action) => {
   case RESET:
     return initialState
   case SET_WEB_SOCKET:
-    return Object.assign({}, state, {
-      ws: action.ws
+    return update(state, {
+      ws: { $set: action.ws }
     })
   case RECV_SELF_ID:
-    return Object.assign({}, state, {
-      selfID: action.selfID,
-      isMaster: action.selfID === state.attendees.master
+    return update(state, {
+      selfID: { $set: action.selfID },
+      isMaster: { $set: action.selfID === state.attendees.master }
     })
   case RECV_USERS:
-    return Object.assign({}, state, {
-      users: action.users
+    return update(state, {
+      users: { $set: action.users }
     })
   case RECV_ATTENDEES:
     action.attendees.players = action.attendees.players || []
     action.attendees.observers = action.attendees.observers || []
-    return Object.assign({}, state, {
-      attendees: action.attendees,
-      isMaster: state.selfID === action.attendees.master
+    return update(state, {
+      attendees: { $set: action.attendees },
+      isMaster: { $set: state.selfID === action.attendees.master },
+      ruleText: { $set: ruleText(state.rule, action.attendees) }
     })
   case RECV_SCORES:
-    return Object.assign({}, state, {
-      scores: action.scores
+    return update(state, {
+      scores: { $set: action.scores }
     })
   case RECV_BUTTONS:
     action.buttons.pushers = action.buttons.pushers || []
     action.buttons.pushTimes = action.buttons.pushTimes || []
     action.buttons.answerers = action.buttons.answerers || []
-    return Object.assign({}, state, {
-      buttons: action.buttons
+    return update(state, {
+      buttons: { $set: action.buttons }
     })
   case RECV_RULE:
-    return Object.assign({}, state, {
-      rule: action.rule
+    return update(state, {
+      rule: { $set: action.rule },
+      ruleText: { $set: ruleText(action.rule, state.attendees) }
     })
   case RECV_MESSAGE:
-    return Object.assign({}, state, {
-      messages: state.messages.concat(action.message)
+    return update(state, {
+      messages: { $push: [action.message] }
     })
   default:
     return state

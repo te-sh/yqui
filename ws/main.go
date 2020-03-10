@@ -53,7 +53,7 @@ func HandleMessage() {
 		case "o":
 			room.MoveHistory(+1)
 		case "p":
-			json.Unmarshal(cmd.A, &room.Attendees.Players)
+			json.Unmarshal(cmd.A, &room.Attendees)
 			room.Broadcast("attendees", room.Attendees)
 		case "l":
 			json.Unmarshal(cmd.A, &room.Rule)
