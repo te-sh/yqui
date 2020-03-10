@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Paper, Typography } from '@material-ui/core'
 import './Messages.scss'
 
-const Messages = ({ messages }) => {
+const Messages = ({ chats }) => {
   const ref = React.createRef()
 
   React.useEffect(
@@ -11,27 +11,27 @@ const Messages = ({ messages }) => {
       let el = ref.current
       el.scrollTop = el.scrollHeight
     },
-    [messages, ref]
+    [chats, ref]
   )
 
-  const rowContent = (message) => {
-    switch (message.type) {
+  const rowContent = (chat) => {
+    switch (chat.type) {
       case "message":
         return (
           <Typography>
-            {message.name} &gt; {message.text}
+            {chat.name} &gt; {chat.text}
           </Typography>
         )
       case "join":
         return (
           <Typography className="message-system">
-            {message.name}さんが入室しました
+            {chat.name}さんが入室しました
           </Typography>
         )
       case "leave":
         return (
           <Typography className="message-system">
-            {message.name}さんが退室しました
+            {chat.name}さんが退室しました
           </Typography>
         )
       default:
@@ -39,23 +39,23 @@ const Messages = ({ messages }) => {
     }
   }
 
-  const row = (message) => {
+  const row = (chat) => {
     return (
-      <div key={message.time} className="message">
-        {rowContent(message)}
+      <div key={chat.time} className="message">
+        {rowContent(chat)}
       </div>
     )
   }
 
   return (
     <Paper className="messages" ref={ref}>
-      {messages.map(row)}
+      {chats.map(row)}
     </Paper>
   )
 }
 
 export default connect(
   state => ({
-    messages: state.messages
+    chats: state.chats
   })
 )(Messages)

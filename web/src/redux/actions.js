@@ -6,7 +6,7 @@ export const RECV_ATTENDEES = 'RECV_ATTENDEES'
 export const RECV_SCORES = 'RECV_SCORES'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_RULE = 'RECV_RULE'
-export const RECV_MESSAGE = 'RECV_MESSAGE'
+export const RECV_CHAT = 'RECV_CHAT'
 export const SET_EDIT_TEAM = 'SET_EDIT_TEAM'
 
 export const reset = () => {
@@ -41,8 +41,8 @@ export const recvRule = rule => {
   return { type: RECV_RULE, rule }
 }
 
-export const recvMessage = message => {
-  return { type: RECV_MESSAGE, message }
+export const recvChat = chat => {
+  return { type: RECV_CHAT, chat }
 }
 
 export const setEditTeam = attendees => {

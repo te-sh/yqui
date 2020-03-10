@@ -2,7 +2,7 @@ import update from 'immutability-helper'
 import {
   RESET, SET_WEB_SOCKET,
   RECV_SELF_ID, RECV_USERS, RECV_ATTENDEES, RECV_SCORES,
-  RECV_BUTTONS, RECV_RULE, RECV_MESSAGE, SET_EDIT_TEAM
+  RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAM
 } from './actions'
 import ruleText from './ruleText'
 
@@ -36,7 +36,7 @@ const initialState = {
   },
   ruleText: {},
   editTeam: null,
-  messages: []
+  chats: []
 }
 
 const yquiApp = (state = initialState, action) => {
@@ -80,9 +80,9 @@ const yquiApp = (state = initialState, action) => {
       rule: { $set: action.rule },
       ruleText: { $set: ruleText(action.rule, state.attendees) }
     })
-  case RECV_MESSAGE:
+  case RECV_CHAT:
     return update(state, {
-      messages: { $push: [action.message] }
+      chats: { $push: [action.chat] }
     })
   case SET_EDIT_TEAM:
     return update(state, {
