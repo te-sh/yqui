@@ -17,7 +17,8 @@ const initialState = {
   attendees: {
     master: -1,
     teamGame: false,
-    players: []
+    players: [],
+    teams: []
   },
   isMaster: false,
   isPlayer: true,

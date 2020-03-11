@@ -1,16 +1,25 @@
 .team-edit {
   padding: 8px;
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 2fr 1fr;
   grid-template-columns: 1fr;
 
-  .players {
-    grid-row: 1/2;
-    grid-column: 1/2;
-  }
+  .team-edit-groups {
+    &.groups-players {
+      grid-row: 1/2;
+      grid-column: 1/2;
+    }
 
-  .observers {
-    grid-row: 2/3;
-    grid-column: 1/2;
+    &.groups-observers {
+      grid-row: 2/3;
+      grid-column: 1/2;
+    }
+
+    display: flex;
+    align-items: stretch;
+
+    .team-edit-group {
+      flex-grow: 1;
+    }
   }
 }

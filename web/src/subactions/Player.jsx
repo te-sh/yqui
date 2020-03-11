@@ -5,7 +5,7 @@ import { Box, Paper, Typography } from '@material-ui/core'
 const Player = ({ ruleText }) => {
   return (
     <Paper className="subactions">
-      <Box className="subactions-rule">
+      <Box className="content subactions-rule">
         <Typography>
           {ruleText.chance} {ruleText.correct} {ruleText.wrong}
         </Typography>

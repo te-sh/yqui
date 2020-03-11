@@ -6,29 +6,22 @@
 
   &.subactions-alert {
     background-color: #ffcdd2;
-
-    .content {
-      grid-column: 1/2;
-      grid-row: 1/2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
   }
 
-  .subactions-rule {
+  .content {
     grid-column: 1/2;
     grid-row: 1/2;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
   }
 
+  .subactions-rule {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .subactions-actions {
-    grid-column: 1/2;
-    grid-row: 1/2;
-    display: flex;
     justify-content: flex-end;
-    align-items: center;
   }
 }

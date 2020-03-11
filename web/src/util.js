@@ -3,7 +3,8 @@ export const isMaster = (selfID, attendees) => (
 )
 
 export const isPlayer = (selfID, attendees) => (
-  attendees.players.includes(selfID)
+  attendees.players.includes(selfID) ||
+  attendees.teams.some(team => team.includes(selfID))
 )
 
 export const normalizeButtons = buttons => {
@@ -14,6 +15,7 @@ export const normalizeButtons = buttons => {
 
 export const normalizeAttendees = attendees => {
   attendees.players = attendees.players || []
+  attendees.teams = attendees.teams || []
 }
 
 export const ordial = x => {

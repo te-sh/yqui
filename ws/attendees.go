@@ -4,6 +4,7 @@ type Attendees struct {
 	Master int64 `json:"master"`
 	TeamGame bool `json:"teamGame"`
 	Players []int64 `json:"players"`
+	Teams [][]int64 `json:"teams"`
 }
 
 func NewAttendees() *Attendees {
