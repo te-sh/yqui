@@ -5,6 +5,7 @@ func (room *Room) JoinUser(conn *Conn, name string, time int64) int64 {
 	id := user.ID
 
 	room.Users[id] = user
+	room.UserIDs = append(room.UserIDs, id)
 	room.Attendees.JoinUser(id)
 	room.Scores[id] = NewScore()
 	room.History.Items[room.History.Curr].Scores[id] = NewScore()
@@ -23,6 +24,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	name := room.Users[id].Name
 
 	delete(room.Users, id)
+	room.UserIDs = Int64Remove(room.UserIDs, id)
 	room.Attendees.LeaveUser(id)
 	delete(room.Scores, id)
 
@@ -32,32 +34,25 @@ func (room *Room) LeaveUser(id int64, time int64) {
 }
 
 func (room *Room) ChangeAttendees() {
-	room.Attendees.RemoveInvalid(room.Users)
+	room.Attendees.RemoveInvalid(room.UserIDs)
 	room.SendAttendees()
 }
 
 func (room *Room) ToggleMaster(id int64) {
-	if room.Attendees.Master == id {
-		room.Attendees.Master = -1
-		room.Attendees.Players = append(room.Attendees.Players, id)
-	} else if room.Attendees.Master < 0 {
-		room.Attendees.Master = id
-		room.Attendees.Players = Int64Remove(room.Attendees.Players, id)
-	}
+	room.Attendees.ToggleMaster(id)
 	room.SendAttendees()
 }
 
 func (room *Room) PushButton(id int64, time int64) {
-	reps, err := room.Attendees.Reps(id)
+	team, err := room.Attendees.Team(id)
 	if err != nil {
 		return
 	}
-	if !room.Buttons.Pushed(id) && room.Scores[reps].CanPush() {
+	if !Int64Any(team, room.Buttons.Pushed) && room.Scores[team[0]].CanPush() {
 		if room.Buttons.AllAnswered() {
 			room.Broadcast("sound", "push")
 		}
-		room.Buttons.Pushers = append(room.Buttons.Pushers, id)
-		room.Buttons.PushTimes = append(room.Buttons.PushTimes, time)
+		room.Buttons.Push(id, time)
 	}
 	room.SendButtons()
 }
@@ -68,12 +63,12 @@ func (room *Room) Correct() (win bool) {
 	if err != nil {
 		return
 	}
-	reps, err := room.Attendees.Reps(id)
+	team, err := room.Attendees.Team(id)
 	if err != nil {
 		return
 	}
 
-	if score, ok := room.Scores[reps]; ok {
+	if score, ok := room.Scores[team[0]]; ok {
 		win = score.Correct(room.Rule, &room.WinNum)
 		room.NextQuiz(true)
 		room.AddHistory()
@@ -83,9 +78,17 @@ func (room *Room) Correct() (win bool) {
 
 func (room *Room) NumCanAnswer() int {
 	r := 0
-	for _, id := range room.Attendees.Players {
-		if !room.Buttons.Answered(id) && room.Scores[id].CanPush() {
-			r += 1
+	if (room.Attendees.TeamGame) {
+		for _, team := range room.Attendees.Teams {
+			if !Int64Any(team, room.Buttons.Answered) && room.Scores[team[0]].CanPush() {
+				r += 1
+			}
+		}
+	} else {
+		for _, id := range room.Attendees.Players {
+			if !room.Buttons.Answered(id) && room.Scores[id].CanPush() {
+				r += 1
+			}
 		}
 	}
 	return r
@@ -97,12 +100,12 @@ func (room *Room) Wrong() (lose bool) {
 	if err != nil {
 		return
 	}
-	reps, err := room.Attendees.Reps(id)
+	team, err := room.Attendees.Team(id)
 	if err != nil {
 		return
 	}
 
-	if score, ok := room.Scores[reps]; ok {
+	if score, ok := room.Scores[team[0]]; ok {
 		rule := room.Rule
 		lose = score.Wrong(rule, &room.LoseNum)
 		buttons.Answerers = append(buttons.Answerers, id)

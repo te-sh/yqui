@@ -21,6 +21,11 @@ func (buttons *Buttons) Reset() {
 	room.Buttons.Answerers = nil
 }
 
+func (buttons *Buttons) Push(id int64, time int64) {
+	buttons.Pushers = append(buttons.Pushers, id)
+	buttons.PushTimes = append(buttons.PushTimes, time)
+}
+
 func (buttons *Buttons) Pushed(id int64) bool {
 	return Int64FindIndex(buttons.Pushers, id) >= 0
 }

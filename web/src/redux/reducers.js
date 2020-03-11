@@ -62,17 +62,16 @@ const yquiApp = (state = initialState, action) => {
   case RECV_ROOM:
     normalizeAttendees(action.room.attendees)
     normalizeButtons(action.room.buttons)
-    var userIDs = Object.keys(action.room.users).map(key => parseInt(key))
     return update(state, {
       users: { $set: action.room.users },
-      userIDs: { $set: userIDs },
+      userIDs: { $set: action.room.userIDs },
       attendees: { $set: action.room.attendees },
       scores: { $set: action.room.scores },
       buttons: { $set: action.room.buttons },
       isMaster: { $set: isMaster(state.selfID, action.room.attendees) },
       isPlayer: { $set: isPlayer(state.selfID, action.room.attendees) },
       ruleText: { $set: ruleText(state.rule, action.room.attendees) },
-      editTeam: { $set: mergeEditTeam(state.editTeam, userIDs, action.room.attendees) }
+      editTeam: { $set: mergeEditTeam(state.editTeam, action.room.userIDs, action.room.attendees) }
     })
   case RECV_ATTENDEES:
     normalizeAttendees(action.attendees)

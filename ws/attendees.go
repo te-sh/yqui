@@ -19,7 +19,9 @@ func NewAttendees() *Attendees {
 }
 
 func (attendees *Attendees) JoinUser(id int64) {
-	attendees.Players = append(attendees.Players, id)
+	if (!attendees.TeamGame) {
+		attendees.Players = append(attendees.Players, id)
+	}
 }
 
 func (attendees *Attendees) LeaveUser(id int64) {
@@ -27,35 +29,43 @@ func (attendees *Attendees) LeaveUser(id int64) {
 		attendees.Master = -1
 	}
 	attendees.Players = Int64Remove(attendees.Players, id)
+	attendees.Teams = IInt64Remove(attendees.Teams, id)
 }
 
-func (attendees *Attendees) RemoveInvalid(users map[int64]*User) {
-	var newPlayers []int64
-	for _, id := range attendees.Players {
-		if _, ok := users[id]; ok {
-			newPlayers = append(newPlayers, id)
+func (attendees *Attendees) ToggleMaster(id int64) {
+	if attendees.Master == id {
+		attendees.Master = -1
+		if (!attendees.TeamGame) {
+			attendees.Players = append(attendees.Players, id)
 		}
+	} else if attendees.Master == -1 {
+		attendees.Master = id
+		attendees.Players = Int64Remove(attendees.Players, id)
+		attendees.Teams = IInt64Remove(attendees.Teams, id)
 	}
-	attendees.Players = newPlayers
 }
 
-func (attendees *Attendees) IsPlayer(id int64) bool {
-	return Int64FindIndex(attendees.Players, id) >= 0
+func (attendees *Attendees) RemoveInvalid(userIDs []int64) {
+	attendees.Players = Int64RemoveIf(attendees.Players, func (id int64) bool {
+		return Int64FindIndex(userIDs, id) < 0
+	})
+	attendees.Teams = IInt64RemoveIf(attendees.Teams, func (id int64) bool {
+		return Int64FindIndex(userIDs, id) < 0
+	})
 }
 
-func (attendees *Attendees) Reps(id int64) (int64, error) {
+func (attendees *Attendees) Team(id int64) ([]int64, error) {
 	if attendees.TeamGame {
-		for _, team := range attendees.Teams {
-			if Int64FindIndex(team, id) >= 0 {
-				return team[0], nil
-			}
+		if i, _ := IInt64FindIndex(attendees.Teams, id); i >= 0 {
+			return attendees.Teams[i], nil
+		} else {
+			return nil, errors.New("Not a player")
 		}
-		return -1, errors.New("Not belongs to any team")
 	} else {
 		if Int64FindIndex(attendees.Players, id) >= 0 {
-			return id, nil
+			return []int64{id}, nil
 		} else {
-			return -1, errors.New("Not a player")
+			return nil, errors.New("Not a player")
 		}
 	}
 }

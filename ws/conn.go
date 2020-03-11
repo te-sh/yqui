@@ -52,6 +52,7 @@ func (conn *Conn) Activate(ctx context.Context) error {
 
 type RoomSub struct {
 	Users map[int64]*User `json:"users"`
+	UserIDs []int64 `json:"userIDs"`
 	Attendees *Attendees `json:"attendees"`
 	Scores map[int64]*Score `json:"scores"`
 	Buttons *Buttons `json:"buttons"`
@@ -60,6 +61,7 @@ type RoomSub struct {
 func (room *Room) SendRoom() {
 	roomSub := RoomSub{
 		Users: room.Users,
+		UserIDs: room.UserIDs,
 		Attendees: room.Attendees,
 		Scores: room.Scores,
 		Buttons: room.Buttons,

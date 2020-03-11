@@ -6,6 +6,7 @@ import (
 
 type Room struct {
 	Users map[int64]*User
+	UserIDs []int64
 	Attendees *Attendees
 	Scores map[int64]*Score
 	WinNum int
