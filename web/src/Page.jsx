@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import URI from 'urijs'
 import playSound from './sound'
 import {
-  reset, setWebSocket, recvSelfID, recvUsers, recvAttendees,
+  reset, setWebSocket, recvSelfID, recvRoom, recvAttendees,
   recvScores, recvButtons, recvRule, recvChat
 } from './redux/actions'
 import TopBar from './TopBar'
@@ -71,7 +71,7 @@ export default connect(
     setWebSocket: ws => dispatch(setWebSocket(ws)),
     recv: {
       selfID: selfID => dispatch(recvSelfID(selfID)),
-      users: users => dispatch(recvUsers(users)),
+      room: room => dispatch(recvRoom(room)),
       attendees: attendees => dispatch(recvAttendees(attendees)),
       scores: scores => dispatch(recvScores(scores)),
       buttons: buttons => dispatch(recvButtons(buttons)),

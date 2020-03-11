@@ -2,12 +2,14 @@ package main
 
 type Attendees struct {
 	Master int64 `json:"master"`
+	TeamGame bool `json:"teamGame"`
 	Players []int64 `json:"players"`
 }
 
 func NewAttendees() *Attendees {
 	attendees := new(Attendees)
 	attendees.Master = -1
+	attendees.TeamGame = false
 	return attendees
 }
 

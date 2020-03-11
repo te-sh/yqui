@@ -50,8 +50,21 @@ func (conn *Conn) Activate(ctx context.Context) error {
 	}
 }
 
-func (room *Room) SendUsers() {
-	room.Broadcast("users", room.Users)
+type RoomSub struct {
+	Users map[int64]*User `json:"users"`
+	Attendees *Attendees `json:"attendees"`
+	Scores map[int64]*Score `json:"scores"`
+	Buttons *Buttons `json:"buttons"`
+}
+
+func (room *Room) SendRoom() {
+	roomSub := RoomSub{
+		Users: room.Users,
+		Attendees: room.Attendees,
+		Scores: room.Scores,
+		Buttons: room.Buttons,
+	}
+	room.Broadcast("room", roomSub)
 }
 
 func (room *Room) SendAttendees() {

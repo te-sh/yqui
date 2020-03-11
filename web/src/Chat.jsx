@@ -5,14 +5,14 @@ import { Edit } from '@material-ui/icons'
 import { send } from './communicate'
 import './Chat.scss'
 
-const Chat = ({ ws, isMaster }) => {
+const Chat = ({ ws, isPlayer }) => {
   const [message, setMessage] = React.useState('')
 
   const chat = evt => {
     evt.preventDefault()
     if (message === '') {
       return;
-    } else if (!isMaster && (message.startsWith('!') || message.startsWith('！'))) {
+    } else if (isPlayer && (message.startsWith('!') || message.startsWith('！'))) {
       send.pushButton(ws)
     } else {
       send.chat(ws, message)
@@ -37,6 +37,6 @@ const Chat = ({ ws, isMaster }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    isMaster: state.isMaster
+    isPlayer: state.isPlayer
   })
 )(Chat)

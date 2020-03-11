@@ -1,19 +1,17 @@
-export const attendeesToEditTeam = (users, attendees) => {
-  console.log(users, attendees)
-  const set = new Set()
-  for (var userId in users) {
-    set.add(parseInt(userId))
+export const attendeesToEditTeam = (userIDs, attendees) => {
+  let observers = userIDs.filter(id => (
+    id !== attendees.master && !attendees.players.includes(id)
+  ))
+
+  return {
+    teamGame: false,
+    teams: [observers, attendees.players]
   }
-  set.delete(attendees.master)
-  for (var playerId of attendees.players) {
-    set.delete(playerId)
-  }
-  console.log(set)
-  return [Array.from(set.values()), attendees.players]
 }
 
 export const editTeamToAttendees = editTeam => {
   return {
-    players: editTeam[1]
+    teamGame: false,
+    players: editTeam.teams[1]
   }
 }

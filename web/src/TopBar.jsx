@@ -9,12 +9,12 @@ import Rule from './dialogs/Rule'
 import Setting from './dialogs/Setting'
 import './TopBar.scss'
 
-const TopBar = ({ ws, users, attendees, isMaster, editTeam, setEditTeam }) => {
+const TopBar = ({ ws, userIDs, attendees, isMaster, editTeam, setEditTeam }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
   const [settingOpen, setSettingOpen] = React.useState(false)
 
   const teamEdit = () => {
-    setEditTeam(attendeesToEditTeam(users, attendees))
+    setEditTeam(attendeesToEditTeam(userIDs, attendees))
   }
 
   return (
@@ -53,7 +53,7 @@ const TopBar = ({ ws, users, attendees, isMaster, editTeam, setEditTeam }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    users: state.users,
+    userIDs: state.userIDs,
     attendees: state.attendees,
     isMaster: state.isMaster,
     editTeam: state.editTeam

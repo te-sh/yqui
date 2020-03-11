@@ -12,11 +12,7 @@ func (room *Room) JoinUser(conn *Conn, name string, time int64) int64 {
 	room.SendToOne(id, "selfID", id)
 	room.SendToOne(id, "rule", room.Rule)
 
-	room.SendUsers()
-	room.SendAttendees()
-	room.SendButtons()
-	room.SendScores()
-
+	room.SendRoom()
 	chat := Chat{Type: "join", Time: time, Name: name}
 	room.Broadcast("chat", chat)
 
@@ -30,13 +26,14 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	room.Attendees.LeaveUser(id)
 	delete(room.Scores, id)
 
-	room.SendUsers()
-	room.SendAttendees()
-	room.SendButtons()
-	room.SendScores()
-
+	room.SendRoom()
 	chat := Chat{Type: "leave", Time: time, Name: name}
 	room.Broadcast("chat", chat)
+}
+
+func (room *Room) ChangeAttendees() {
+	room.Attendees.RemoveInvalid(room.Users)
+	room.SendAttendees()
 }
 
 func (room *Room) ToggleMaster(id int64) {

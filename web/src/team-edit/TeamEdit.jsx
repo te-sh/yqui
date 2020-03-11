@@ -14,17 +14,19 @@ const TeamEdit = ({ editTeam, setEditTeam }) => {
 
     setEditTeam(
       update(editTeam, {
-        [item.teamIndex]: { $splice: [[item.playerIndex, 1]] },
-        [destIndex]: { $push: [item.player] }
+        teams: {
+          [item.teamIndex]: { $splice: [[item.playerIndex, 1]] },
+          [destIndex]: { $push: [item.player] }
+        }
       })
     )
   }
 
   return (
     <Paper className="team-edit">
-      <Group label="参加者" players={editTeam[1]} teamIndex={1}
+      <Group label="参加者" players={editTeam.teams[1]} teamIndex={1}
              droped={droped} />
-      <Group label="観戦者" players={editTeam[0]} teamIndex={0}
+      <Group label="観戦者" players={editTeam.teams[0]} teamIndex={0}
              droped={droped} />
     </Paper>
   )

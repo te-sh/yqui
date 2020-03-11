@@ -1,7 +1,7 @@
 import update from 'immutability-helper'
 import {
   RESET, SET_WEB_SOCKET,
-  RECV_SELF_ID, RECV_USERS, RECV_ATTENDEES, RECV_SCORES,
+  RECV_SELF_ID, RECV_ROOM, RECV_ATTENDEES, RECV_SCORES,
   RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAM
 } from './actions'
 import { isMaster, isPlayer, ruleText } from '../util'
@@ -10,10 +10,11 @@ const initialState = {
   ws: null,
   selfID: null,
   users: {},
+  userIDs: [],
   attendees: {
     master: -1,
-    players: [],
-    observers: []
+    teamGame: false,
+    players: []
   },
   isMaster: false,
   isPlayer: true,
@@ -54,9 +55,19 @@ const yquiApp = (state = initialState, action) => {
       isMaster: { $set: isMaster(action.selfID, state.attendees) },
       isPlayer: { $set: isPlayer(action.selfID, state.attendees) }
     })
-  case RECV_USERS:
+  case RECV_ROOM:
+    action.room.buttons.pushers = action.room.buttons.pushers || []
+    action.room.buttons.pushTimes = action.room.buttons.pushTimes || []
+    action.room.buttons.answerers = action.room.buttons.answerers || []
     return update(state, {
-      users: { $set: action.users }
+      users: { $set: action.room.users },
+      userIDs: { $set: Object.keys(action.room.users).map(key => parseInt(key)) },
+      attendees: { $set: action.room.attendees },
+      scores: { $set: action.room.scores },
+      buttons: { $set: action.room.buttons },
+      isMaster: { $set: isMaster(state.selfID, action.room.attendees) },
+      isPlayer: { $set: isPlayer(state.selfID, action.room.attendees) },
+      ruleText: { $set: ruleText(state.rule, action.room.attendees) }
     })
   case RECV_ATTENDEES:
     action.attendees.players = action.attendees.players || []
