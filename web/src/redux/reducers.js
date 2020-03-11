@@ -4,7 +4,10 @@ import {
   RECV_SELF_ID, RECV_ROOM, RECV_ATTENDEES, RECV_SCORES,
   RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAM
 } from './actions'
-import { isMaster, isPlayer, ruleText } from '../util'
+import {
+  isMaster, isPlayer, normalizeAttendees, normalizeButtons, ruleText
+} from '../util'
+import { mergeEditTeam } from '../team'
 
 const initialState = {
   ws: null,
@@ -56,22 +59,22 @@ const yquiApp = (state = initialState, action) => {
       isPlayer: { $set: isPlayer(action.selfID, state.attendees) }
     })
   case RECV_ROOM:
-    action.room.buttons.pushers = action.room.buttons.pushers || []
-    action.room.buttons.pushTimes = action.room.buttons.pushTimes || []
-    action.room.buttons.answerers = action.room.buttons.answerers || []
+    normalizeAttendees(action.room.attendees)
+    normalizeButtons(action.room.buttons)
+    var userIDs = Object.keys(action.room.users).map(key => parseInt(key))
     return update(state, {
       users: { $set: action.room.users },
-      userIDs: { $set: Object.keys(action.room.users).map(key => parseInt(key)) },
+      userIDs: { $set: userIDs },
       attendees: { $set: action.room.attendees },
       scores: { $set: action.room.scores },
       buttons: { $set: action.room.buttons },
       isMaster: { $set: isMaster(state.selfID, action.room.attendees) },
       isPlayer: { $set: isPlayer(state.selfID, action.room.attendees) },
-      ruleText: { $set: ruleText(state.rule, action.room.attendees) }
+      ruleText: { $set: ruleText(state.rule, action.room.attendees) },
+      editTeam: { $set: mergeEditTeam(state.editTeam, userIDs, action.room.attendees) }
     })
   case RECV_ATTENDEES:
-    action.attendees.players = action.attendees.players || []
-    action.attendees.observers = action.attendees.observers || []
+    normalizeAttendees(action.attendees)
     return update(state, {
       attendees: { $set: action.attendees },
       isMaster: { $set: isMaster(state.selfID, action.attendees) },
@@ -83,9 +86,7 @@ const yquiApp = (state = initialState, action) => {
       scores: { $set: action.scores }
     })
   case RECV_BUTTONS:
-    action.buttons.pushers = action.buttons.pushers || []
-    action.buttons.pushTimes = action.buttons.pushTimes || []
-    action.buttons.answerers = action.buttons.answerers || []
+    normalizeButtons(action.buttons)
     return update(state, {
       buttons: { $set: action.buttons }
     })
