@@ -48,7 +48,11 @@ func (room *Room) ToggleMaster(id int64) {
 }
 
 func (room *Room) PushButton(id int64, time int64) {
-	if room.Attendees.IsPlayer(id) && !room.Buttons.Pushed(id) && room.Scores[id].CanPush() {
+	reps, err := room.Attendees.Reps(id)
+	if err != nil {
+		return
+	}
+	if !room.Buttons.Pushed(id) && room.Scores[reps].CanPush() {
 		if room.Buttons.AllAnswered() {
 			room.Broadcast("sound", "push")
 		}
@@ -64,8 +68,12 @@ func (room *Room) Correct() (win bool) {
 	if err != nil {
 		return
 	}
+	reps, err := room.Attendees.Reps(id)
+	if err != nil {
+		return
+	}
 
-	if score, ok := room.Scores[id]; ok {
+	if score, ok := room.Scores[reps]; ok {
 		win = score.Correct(room.Rule, &room.WinNum)
 		room.NextQuiz(true)
 		room.AddHistory()
@@ -89,8 +97,12 @@ func (room *Room) Wrong() (lose bool) {
 	if err != nil {
 		return
 	}
+	reps, err := room.Attendees.Reps(id)
+	if err != nil {
+		return
+	}
 
-	if score, ok := room.Scores[id]; ok {
+	if score, ok := room.Scores[reps]; ok {
 		rule := room.Rule
 		lose = score.Wrong(rule, &room.LoseNum)
 		buttons.Answerers = append(buttons.Answerers, id)
