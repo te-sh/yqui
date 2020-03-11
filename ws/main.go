@@ -54,6 +54,7 @@ func HandleMessage() {
 			room.MoveHistory(+1)
 		case "p":
 			json.Unmarshal(cmd.A, &room.Attendees)
+			room.Attendees.RemoveInvalid(room.Users)
 			room.Broadcast("attendees", room.Attendees)
 		case "l":
 			json.Unmarshal(cmd.A, &room.Rule)

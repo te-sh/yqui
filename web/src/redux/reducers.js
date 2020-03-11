@@ -4,7 +4,7 @@ import {
   RECV_SELF_ID, RECV_USERS, RECV_ATTENDEES, RECV_SCORES,
   RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAM
 } from './actions'
-import { ruleText } from '../util'
+import { isMaster, isPlayer, ruleText } from '../util'
 
 const initialState = {
   ws: null,
@@ -16,6 +16,7 @@ const initialState = {
     observers: []
   },
   isMaster: false,
+  isPlayer: true,
   scores: {},
   buttons: {
     pushers: [],
@@ -50,7 +51,8 @@ const yquiApp = (state = initialState, action) => {
   case RECV_SELF_ID:
     return update(state, {
       selfID: { $set: action.selfID },
-      isMaster: { $set: action.selfID === state.attendees.master }
+      isMaster: { $set: isMaster(action.selfID, state.attendees) },
+      isPlayer: { $set: isPlayer(action.selfID, state.attendees) }
     })
   case RECV_USERS:
     return update(state, {
@@ -61,7 +63,8 @@ const yquiApp = (state = initialState, action) => {
     action.attendees.observers = action.attendees.observers || []
     return update(state, {
       attendees: { $set: action.attendees },
-      isMaster: { $set: state.selfID === action.attendees.master },
+      isMaster: { $set: isMaster(state.selfID, action.attendees) },
+      isPlayer: { $set: isPlayer(state.selfID, action.attendees) },
       ruleText: { $set: ruleText(state.rule, action.attendees) }
     })
   case RECV_SCORES:

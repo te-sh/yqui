@@ -13,6 +13,10 @@ const TopBar = ({ ws, users, attendees, isMaster, editTeam, setEditTeam }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
   const [settingOpen, setSettingOpen] = React.useState(false)
 
+  const teamEdit = () => {
+    setEditTeam(attendeesToEditTeam(users, attendees))
+  }
+
   return (
     <AppBar position="static" className="top-bar">
       <Toolbar>
@@ -22,7 +26,7 @@ const TopBar = ({ ws, users, attendees, isMaster, editTeam, setEditTeam }) => {
         <div className="toolbar-grow" />
         <IconButton color="inherit"
                     disabled={!isMaster || !!editTeam}
-                    onClick={() => setEditTeam(attendeesToEditTeam(users, attendees))}>
+                    onClick={teamEdit}>
           <SportsKabaddi />
         </IconButton>
         <IconButton color="inherit"
@@ -30,13 +34,14 @@ const TopBar = ({ ws, users, attendees, isMaster, editTeam, setEditTeam }) => {
                     onClick={() => setRuleOpen(true)}>
           <ListAlt />
         </IconButton>
-        <IconButton color="inherit" onClick={() => setSettingOpen(true)}>
-          <Settings />
-        </IconButton>
         <IconButton color={isMaster ? 'secondary' : 'inherit'}
-                    disabled={!isMaster && attendees.master >= 0 || !!editTeam}
+                    disabled={(!isMaster && attendees.master >= 0) || !!editTeam}
                     onClick={() => send.toggleMaster(ws)}>
           <SupervisorAccount />
+        </IconButton>
+        <IconButton color="inherit"
+                    onClick={() => setSettingOpen(true)}>
+          <Settings />
         </IconButton>
       </Toolbar>
       <Rule open={ruleOpen} close={() => setRuleOpen(false)} />

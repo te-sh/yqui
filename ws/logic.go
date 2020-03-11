@@ -30,6 +30,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	room.Attendees.LeaveUser(id)
 	delete(room.Scores, id)
 
+	room.SendUsers()
 	room.SendAttendees()
 	room.SendButtons()
 	room.SendScores()

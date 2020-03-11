@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Paper } from '@material-ui/core'
+import { Box, Button, Paper } from '@material-ui/core'
 import { send } from '../communicate'
 import { editTeamToAttendees } from '../team'
 import { setEditTeam } from '../redux/actions'
@@ -18,14 +18,16 @@ const TeamEdit = ({ ws, editTeam, setEditTeam }) => {
 
   return (
     <Paper className="actions">
-      <Button variant="outlined" color="primary" size="large"
-              onClick={onSubmit}>
-        設定
-      </Button>
-      <Button variant="outlined" color="secondary" size="large"
-              onClick={close}>
-        閉じる
-      </Button>
+      <Box className="content">
+        <Button variant="outlined" color="primary" size="large"
+                onClick={onSubmit}>
+          設定
+        </Button>
+        <Button variant="outlined" color="secondary" size="large"
+                onClick={close}>
+          閉じる
+        </Button>
+      </Box>
     </Paper>
   )
 }
