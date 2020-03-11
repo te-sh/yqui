@@ -8,12 +8,14 @@ import './Players.scss'
 
 const Players = ({ ws, attendees }) => {
   const [players, setPlayers] = React.useState(attendees.players)
+  const [teams, setTeams] = React.useState(attendees.teams)
 
   React.useEffect(
     () => {
       setPlayers(attendees.players)
+      setTeams(attendees.teams)
     },
-    [attendees.players]
+    [attendees.players, attendees.teams]
   )
 
   const movePlayer = React.useCallback(
@@ -27,13 +29,25 @@ const Players = ({ ws, attendees }) => {
     [players]
   )
 
-  const list = players.map((player, index) => (
-    <Grid item key={player}>
-      <PlayerDraggable player={player} index={index}
-                       movePlayer={movePlayer}
-                       droped={() => send.attendees(ws, { players })} />
-    </Grid>
-  ))
+  const list = (() => {
+    if (attendees.teamGame) {
+      return teams.map((team, index) => (
+        <Grid item key={team[0]}>
+          <PlayerDraggable teamGame={attendees.teamGame} team={team} index={index}
+                           movePlayer={movePlayer}
+                           droped={() => send.attendees(ws, { players })} />
+        </Grid>
+      ))
+    } else {
+      return players.map((player, index) => (
+        <Grid item key={player}>
+          <PlayerDraggable teamGame={attendees.teamGame} player={player} index={index}
+                           movePlayer={movePlayer}
+                           droped={() => send.attendees(ws, { players })} />
+        </Grid>
+      ))
+    }
+  })()
 
   return (
     <Paper className="players">

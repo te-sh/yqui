@@ -12,7 +12,7 @@ func Int64Remove(a []int64, b int64) []int64 {
 func Int64RemoveIf(a []int64, f func (int64) bool) []int64 {
 	var b []int64
 	for _, e := range a {
-		if (f(e)) {
+		if (!f(e)) {
 			b = append(b, e)
 		}
 	}

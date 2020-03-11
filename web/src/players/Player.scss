@@ -37,11 +37,6 @@
     .player-name {
       grid-column: 1/4;
       grid-row: 1/2;
-      border-bottom: solid 1px #656565;
-
-      .content.self {
-        font-weight: 700;
-      }
     }
 
     .correct {

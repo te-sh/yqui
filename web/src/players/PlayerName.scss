@@ -1,0 +1,16 @@
+.player-name {
+  border-bottom: solid 1px #656565;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .content {
+    &.pushed {
+      background-color: #ffccbc;
+    }
+
+    &.self {
+      font-weight: 700;
+    }
+  }
+}
