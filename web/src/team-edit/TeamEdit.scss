@@ -17,6 +17,7 @@
 
     display: flex;
     align-items: stretch;
+    flex-wrap: wrap;
 
     .team-edit-group {
       flex-grow: 1;

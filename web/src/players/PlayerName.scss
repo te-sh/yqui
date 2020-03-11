@@ -2,11 +2,12 @@
   border-bottom: solid 1px #656565;
   display: flex;
   flex-direction: column;
-  align-items: center;
 
   .content {
+    text-align: center;
+
     &.pushed {
-      background-color: #ffccbc;
+      background-color: #bbdefd;
     }
 
     &.self {
