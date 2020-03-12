@@ -56,6 +56,11 @@ export const send = {
       ws.send(messages.toggleMaster)
     }
   },
+  user: (ws, user) => {
+    if (ws) {
+      ws.send(JSON.stringify({ c: 'z', a: user }))
+    }
+  },
   attendees: (ws, attendees) => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'p', a: attendees }))

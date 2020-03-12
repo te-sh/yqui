@@ -2,6 +2,7 @@ export const RESET = 'RESET'
 export const SET_WEB_SOCKET = 'SET_WEB_SOCKET'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
+export const RECV_USERS = 'RECV_USERS'
 export const RECV_ATTENDEES = 'RECV_ATTENDEES'
 export const RECV_SCORES = 'RECV_SCORES'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
@@ -23,6 +24,10 @@ export const recvSelfID = selfID => {
 
 export const recvRoom = room => {
   return { type: RECV_ROOM, room }
+}
+
+export const recvUsers = users => {
+  return { type: RECV_USERS, users }
 }
 
 export const recvAttendees = attendees => {

@@ -1,8 +1,8 @@
 import update from 'immutability-helper'
 import {
   RESET, SET_WEB_SOCKET,
-  RECV_SELF_ID, RECV_ROOM, RECV_ATTENDEES, RECV_SCORES,
-  RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAM
+  RECV_SELF_ID, RECV_ROOM, RECV_USERS, RECV_ATTENDEES,
+  RECV_SCORES, RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAM
 } from './actions'
 import {
   isMaster, isPlayer, normalizeAttendees, normalizeButtons, ruleText
@@ -72,6 +72,10 @@ const yquiApp = (state = initialState, action) => {
       isPlayer: { $set: isPlayer(state.selfID, action.room.attendees) },
       ruleText: { $set: ruleText(state.rule, action.room.attendees) },
       editTeam: { $set: mergeEditTeam(state.editTeam, action.room.userIDs, action.room.attendees) }
+    })
+  case RECV_USERS:
+    return update(state, {
+      users: { $set: action.users }
     })
   case RECV_ATTENDEES:
     normalizeAttendees(action.attendees)

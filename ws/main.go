@@ -31,7 +31,10 @@ func HandleMessage() {
 		cmd := <-Received
 		switch (cmd.C) {
 		case "a":
-			room.PushButton(cmd.ID, cmd.Time)
+			ring := room.PushButton(cmd.ID, cmd.Time)
+			if (ring) {
+				room.Broadcast("sound", "push")
+			}
 		case "s":
 			win := room.Correct()
 			if win {
@@ -52,6 +55,10 @@ func HandleMessage() {
 			room.MoveHistory(-1)
 		case "o":
 			room.MoveHistory(+1)
+		case "z":
+			user := new(User)
+			json.Unmarshal(cmd.A, &user)
+			room.UpdateUser(user)
 		case "p":
 			json.Unmarshal(cmd.A, &room.Attendees)
 			room.ChangeAttendees()

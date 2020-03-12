@@ -1,18 +1,24 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle,
-  FormControl, FormGroup, Slider, Typography
+  Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
+  FormControl, FormControlLabel, FormGroup, FormLabel, Slider
 } from '@material-ui/core'
+import { send } from '../communicate'
+import './Setting.scss'
 
-const Setting = ({ open, close }) => {
+const Setting = ({ open, close, ws, selfID, users }) => {
+  const [chatAnswer, setChatAnswer] = React.useState(false)
   const [volume, setVolume] = React.useState(0)
 
   const onEnter = () => {
+    setChatAnswer(users[selfID].chatAnswer)
     setVolume(parseInt(localStorage.getItem('volume') || '100'))
   }
 
   const onSubmit = evt => {
     evt.preventDefault()
+    send.user(ws, { id: selfID, chatAnswer })
     localStorage.setItem('volume', volume)
     close()
   }
@@ -22,12 +28,21 @@ const Setting = ({ open, close }) => {
             aria-labelledby="form-dialog-title">
       <form onSubmit={onSubmit}>
         <DialogTitle id="form-dialog-title">設定</DialogTitle>
-        <DialogContent>
+        <DialogContent className="setting">
           <FormGroup>
             <FormControl>
-              <Typography>
+              <FormControlLabel
+                control={
+                  <Checkbox color="default"
+                            checked={chatAnswer}
+                            onChange={evt => setChatAnswer(evt.target.checked)} />
+                }
+                label="チャット解答マーク" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>
                 音量
-              </Typography>
+              </FormLabel>
               <Slider min={0} max={100}
                       valueLabelDisplay="auto"
                       marks={[{ value: 0, label: '0%' }, { value: 100, label: '100%' }]}
@@ -48,4 +63,10 @@ const Setting = ({ open, close }) => {
   )
 }
 
-export default Setting
+export default connect(
+  state => ({
+    ws: state.ws,
+    selfID: state.selfID,
+    users: state.users
+  })
+)(Setting)

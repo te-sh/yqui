@@ -69,6 +69,10 @@ func (room *Room) SendRoom() {
 	room.Broadcast("room", roomSub)
 }
 
+func (room *Room) SendUsers() {
+	room.Broadcast("users", room.Users)
+}
+
 func (room *Room) SendAttendees() {
 	room.Broadcast("attendees", room.Attendees)
 }

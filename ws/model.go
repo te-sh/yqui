@@ -33,6 +33,7 @@ type User struct {
 	ID int64 `json:"id"`
 	Conn *Conn `json:"-"`
 	Name string `json:"name"`
+	ChatAnswer bool `json:"chatAnswer"`
 }
 
 func NewUser(conn *Conn, name string) *User {

@@ -33,6 +33,13 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	room.Broadcast("chat", chat)
 }
 
+func (room *Room) UpdateUser(user *User) {
+	if curr, ok := room.Users[user.ID]; ok {
+		curr.ChatAnswer = user.ChatAnswer
+		room.SendUsers()
+	}
+}
+
 func (room *Room) ChangeAttendees() {
 	room.Attendees.RemoveInvalid(room.UserIDs)
 	room.SendAttendees()
@@ -43,18 +50,17 @@ func (room *Room) ToggleMaster(id int64) {
 	room.SendAttendees()
 }
 
-func (room *Room) PushButton(id int64, time int64) {
+func (room *Room) PushButton(id int64, time int64) (ring bool) {
 	team, err := room.Attendees.Team(id)
 	if err != nil {
 		return
 	}
 	if !Int64Any(team, room.Buttons.Pushed) && room.Scores[team[0]].CanPush() {
-		if room.Buttons.AllAnswered() {
-			room.Broadcast("sound", "push")
-		}
+		ring = room.Buttons.AllAnswered()
 		room.Buttons.Push(id, time)
 		room.SendButtons()
 	}
+	return
 }
 
 func (room *Room) Correct() (win bool) {
