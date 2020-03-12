@@ -17,17 +17,17 @@ const setAlert = (buttons) => {
   return null
 }
 
-const Subactions = ({ isMaster, buttons, editTeam }) => {
+const Subactions = ({ className, isMaster, buttons, editTeam }) => {
   const alert = setAlert(buttons)
 
   if (alert) {
-    return <Alert alert={alert} />
+    return <Alert className={className} alert={alert} />
   } else if (editTeam) {
-    return <TeamEdit />
+    return <TeamEdit className={className} />
   } else if (isMaster) {
-    return <Master />
+    return <Master className={className} />
   } else {
-    return <Player />
+    return <Player className={className} />
   }
 }
 

@@ -5,7 +5,7 @@ import { Edit } from '@material-ui/icons'
 import { send } from './communicate'
 import './Chat.scss'
 
-const Chat = ({ ws, isPlayer }) => {
+const Chat = ({ className, ws, isPlayer }) => {
   const [message, setMessage] = React.useState('')
 
   const chat = evt => {
@@ -21,7 +21,7 @@ const Chat = ({ ws, isPlayer }) => {
   }
 
   return (
-    <Paper className="chat">
+    <Paper className={className}>
       <form onSubmit={evt => chat(evt)} className="chat-input">
         <TextField id="message" variant="outlined" fullWidth
                    value={message}

@@ -6,7 +6,7 @@ import { editTeamToAttendees } from '../team'
 import { setEditTeam } from '../redux/actions'
 import './Actions.scss'
 
-const TeamEdit = ({ ws, editTeam, setEditTeam }) => {
+const TeamEdit = ({ className, ws, editTeam, setEditTeam }) => {
   const onSubmit = () => {
     send.attendees(ws, editTeamToAttendees(editTeam))
     close()
@@ -17,7 +17,7 @@ const TeamEdit = ({ ws, editTeam, setEditTeam }) => {
   }
 
   return (
-    <Paper className="actions">
+    <Paper className={className}>
       <Box className="content">
         <Button variant="outlined" color="primary" size="large"
                 onClick={onSubmit}>

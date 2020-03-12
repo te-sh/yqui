@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import { Box, Checkbox, FormControlLabel, Paper, Typography } from '@material-ui/core'
 import { send } from '../communicate'
 
-const Master = ({ ws, rule, ruleText }) => {
+const Master = ({ className, ws, rule, ruleText }) => {
   const onToggleShowPoint = evt => {
     send.rule(ws, { showPoint: evt.target.checked })
   }
 
   return (
-    <Paper className="subactions">
+    <Paper className={className}>
       <Box className="content subactions-rule">
         <Typography>
           {ruleText.chance} {ruleText.correct} {ruleText.wrong}

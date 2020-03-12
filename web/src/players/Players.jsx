@@ -2,11 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Grid, Paper } from '@material-ui/core'
 import update from 'immutability-helper'
+import classNames from 'classnames'
 import PlayerDraggable from './PlayerDraggable'
 import { send } from '../communicate'
 import './Players.scss'
 
-const Players = ({ ws, attendees }) => {
+const Players = ({ className, ws, attendees }) => {
   const [items, setItems] = React.useState([])
 
   React.useEffect(
@@ -58,7 +59,7 @@ const Players = ({ ws, attendees }) => {
   ))
 
   return (
-    <Paper className="players">
+    <Paper className={classNames(className, 'players')}>
       <Grid container justify="center" alignItems="center">
         {list}
       </Grid>

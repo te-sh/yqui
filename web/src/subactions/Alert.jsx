@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
+import classNames from 'classnames'
 
-const Alert = ({ alert, ruleText }) => {
+const Alert = ({ className, alert, ruleText }) => {
   const alertText = (() => {
     switch (alert) {
       case 'multiChance':
@@ -12,7 +13,7 @@ const Alert = ({ alert, ruleText }) => {
     }
   })()
   return (
-    <Paper className="subactions subactions-alert">
+    <Paper className={classNames(className, 'subactions-alert')}>
       <Box className="content">
         <Typography variant="h5">
           {alertText}

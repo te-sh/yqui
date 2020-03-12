@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
-import { ordial } from '../util'
 import PlayerName from './PlayerName'
+import PlayerStatus from './PlayerStatus'
 import './Player.scss'
 
 const Player = ({ item, isMaster, scores, buttons, rule }) => {
@@ -46,27 +46,6 @@ const Player = ({ item, isMaster, scores, buttons, rule }) => {
 
   const batsuText = isMaster || rule.showPoint ? score.batsu : '-'
 
-  const statusClass = classNames(
-    'player-status',
-    {
-      'win': score.win > 0,
-      'lose': score.lose > 0,
-      'lock': score.lock > 0
-    }
-  )
-
-  const statusText = (() => {
-    if (score.win > 0) {
-      return ordial(score.win)
-    } else if (score.lose > 0) {
-      return 'Lose'
-    } else if (score.lock > 0) {
-      return 'Lock ' + score.lock
-    } else {
-      return ''
-    }
-  })()
-
   return (
     <Box className="player-container">
       <Paper className={answerOrderClass}>
@@ -87,11 +66,7 @@ const Player = ({ item, isMaster, scores, buttons, rule }) => {
             {batsuText}
           </Typography>
         </Box>
-        <Box className={statusClass}>
-          <Typography className="content">
-            {statusText}
-          </Typography>
-        </Box>
+        <PlayerStatus score={score} className="player-status" />
       </Paper>
     </Box>
   )

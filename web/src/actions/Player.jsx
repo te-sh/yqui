@@ -4,7 +4,7 @@ import { Box, Button, Paper, Typography } from '@material-ui/core'
 import { send } from '../communicate'
 import './Actions.scss'
 
-const Player = ({ ws, isPlayer }) => {
+const Player = ({ className, ws, isPlayer }) => {
   const onKeyDown = evt => {
     if (!isPlayer) {
       return
@@ -21,7 +21,7 @@ const Player = ({ ws, isPlayer }) => {
   const klass = isPlayer ? 'player' : 'observer'
 
   return (
-    <Paper className="actions" tabIndex="0" onKeyDown={onKeyDown}>
+    <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
       <Box className="content"
            style={{ visibility: klass === 'player' ? 'visible' : 'hidden' }}>
         <Button variant="outlined" color="primary" size="large"

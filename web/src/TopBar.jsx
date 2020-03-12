@@ -9,7 +9,7 @@ import Rule from './dialogs/Rule'
 import Setting from './dialogs/Setting'
 import './TopBar.scss'
 
-const TopBar = ({ ws, userIDs, attendees, isMaster, editTeam, setEditTeam }) => {
+const TopBar = ({ className, ws, userIDs, attendees, isMaster, editTeam, setEditTeam }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
   const [settingOpen, setSettingOpen] = React.useState(false)
 
@@ -18,7 +18,7 @@ const TopBar = ({ ws, userIDs, attendees, isMaster, editTeam, setEditTeam }) => 
   }
 
   return (
-    <AppBar position="static" className="top-bar">
+    <AppBar position="static" className={className}>
       <Toolbar>
         <Typography variant="h6">
           Yqui

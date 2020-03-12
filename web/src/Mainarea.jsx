@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import Players from './players/Players'
 import TeamEdit from './team-edit/TeamEdit'
 
-const Mainarea = ({ editTeam }) => {
+const Mainarea = ({ className, editTeam }) => {
   if (editTeam) {
-    return <TeamEdit />
+    return <TeamEdit className={className} />
   } else {
-    return <Players />
+    return <Players className={className} />
   }
 }
 

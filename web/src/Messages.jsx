@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Paper, Typography } from '@material-ui/core'
 import './Messages.scss'
 
-const Messages = ({ chats }) => {
+const Messages = ({ className, chats }) => {
   const ref = React.createRef()
 
   React.useEffect(
@@ -48,7 +48,7 @@ const Messages = ({ chats }) => {
   }
 
   return (
-    <Paper className="messages" ref={ref}>
+    <Paper className={className} ref={ref}>
       {chats.map(row)}
     </Paper>
   )

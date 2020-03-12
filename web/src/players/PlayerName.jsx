@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Icon, Typography } from '@material-ui/core'
-import { Keyboard } from '@material-ui/icons'
+import { KeyboardOutlined } from '@material-ui/icons'
 import classNames from 'classnames'
 import './PlayerName.scss'
 
@@ -12,9 +12,9 @@ const PlayerName = ({ item, right, selfID, users }) => {
     { 'pushed': right === id }
   )
 
-  const chip = (
+  const icon = (
     <Icon fontSize="small">
-      <Keyboard />
+      <KeyboardOutlined />
     </Icon>
   )
 
@@ -22,7 +22,7 @@ const PlayerName = ({ item, right, selfID, users }) => {
     if (item.teamGame) {
       return item.team.map(id => (
         <Box className={nameClass(id)} key={id}>
-          {users[id].chatAnswer ? chip : ''}
+          {users[id].chatAnswer ? icon : ''}
           <Typography>
             {users[id].name}
           </Typography>
@@ -31,7 +31,7 @@ const PlayerName = ({ item, right, selfID, users }) => {
     } else {
       return (
         <Box key={item.player} className={nameClass(item.player)}>
-          {users[item.player].chatAnswer ? chip : ''}
+          {users[item.player].chatAnswer ? icon : ''}
           <Typography>
             {users[item.player].name}
           </Typography>

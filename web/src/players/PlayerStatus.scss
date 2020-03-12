@@ -1,0 +1,29 @@
+.player-status {
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  visibility: hidden;
+
+  &.win, &.lose, &.lock {
+    visibility: visible;
+  }
+
+  &.win {
+    background-color: #81d4fa;
+  }
+
+  &.lose {
+    background-color: #ef9a9a;
+  }
+
+  &.lock {
+    background-color: #e0e0e0;
+  }
+
+  .content {
+    font-family: 'Trade Winds';
+    font-size: 32px;
+  }
+}

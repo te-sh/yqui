@@ -2,12 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper } from '@material-ui/core'
 import update from 'immutability-helper'
+import classNames from 'classnames'
 import { setEditTeam } from '../redux/actions'
 import { normalizeTeams } from '../team'
 import Group from './Group'
 import './TeamEdit.scss'
 
-const TeamEdit = ({ editTeam, setEditTeam }) => {
+const TeamEdit = ({ className, editTeam, setEditTeam }) => {
   const droped = (item, destIndex) => {
     if (item.teamIndex === destIndex) {
       return
@@ -42,7 +43,7 @@ const TeamEdit = ({ editTeam, setEditTeam }) => {
   })()
 
   return (
-    <Paper className="team-edit">
+    <Paper className={classNames(className, 'team-edit')}>
       <Box className="team-edit-groups groups-players">
         {playerGroups}
       </Box>

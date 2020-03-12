@@ -8,7 +8,7 @@ import { toggleTeamGame, teamRandomAssign } from '../team'
 import { setEditTeam } from '../redux/actions'
 import './TeamEdit.scss'
 
-const Master = ({ editTeam, setEditTeam }) => {
+const Master = ({ className, editTeam, setEditTeam }) => {
   const [numTeams, setNumTeams] = React.useState('1')
 
   const onToggleTeamGame = evt => {
@@ -25,7 +25,7 @@ const Master = ({ editTeam, setEditTeam }) => {
   }
 
   return (
-    <Paper className="subactions">
+    <Paper className={className}>
       <Box className="content subactions-team-edit">
         <FormControlLabel
           control={

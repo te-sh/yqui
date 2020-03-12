@@ -5,7 +5,7 @@ import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import { send } from '../communicate'
 import './Actions.scss'
 
-const Master = ({ ws }) => {
+const Master = ({ className, ws }) => {
   const onKeyDown = evt => {
     switch (evt.keyCode) {
       case 81:
@@ -35,7 +35,7 @@ const Master = ({ ws }) => {
   }
 
   return (
-    <Paper className="actions" tabIndex="0" onKeyDown={onKeyDown}>
+    <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
       <Box className="content">
         <Button variant="outlined" color="primary" size="large"
                 onClick={() => send.correct(ws)}

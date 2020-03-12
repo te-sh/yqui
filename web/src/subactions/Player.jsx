@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 
-const Player = ({ ruleText }) => {
+const Player = ({ className, ruleText }) => {
   return (
-    <Paper className="subactions">
+    <Paper className={className}>
       <Box className="content subactions-rule">
         <Typography>
           {ruleText.chance} {ruleText.correct} {ruleText.wrong}

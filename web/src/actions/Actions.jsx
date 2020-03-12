@@ -4,13 +4,13 @@ import Master from './Master'
 import Player from './Player'
 import TeamEdit from './TeamEdit'
 
-const Actions = ({ isMaster, editTeam }) => {
+const Actions = ({ className, isMaster, editTeam }) => {
   if (editTeam) {
-    return <TeamEdit />
+    return <TeamEdit className={className} />
   } else if (isMaster) {
-    return <Master />
+    return <Master className={className} />
   } else {
-    return <Player />
+    return <Player className={className} />
   }
 }
 
