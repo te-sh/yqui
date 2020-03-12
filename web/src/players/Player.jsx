@@ -6,26 +6,26 @@ import { ordial } from '../util'
 import PlayerName from './PlayerName'
 import './Player.scss'
 
-const Player = ({ teamGame, player, team, isMaster, scores, buttons, rule }) => {
+const Player = ({ item, isMaster, scores, buttons, rule }) => {
   const [order, right] = (() => {
-    if (teamGame) {
-      let orders = team.map(id => buttons.pushers.indexOf(id))
+    if (item.teamGame) {
+      let orders = item.team.map(id => buttons.pushers.indexOf(id))
       let i = orders.findIndex(order => order >= 0)
       if (i < 0) {
         return [-1, -1]
       } else {
         let order = orders[i]
-        let right = order === buttons.answerers.length ? team[i] : -1
+        let right = order === buttons.answerers.length ? item.team[i] : -1
         return [order, right]
       }
     } else {
-      let order = buttons.pushers.indexOf(player)
-      let right = order === buttons.answerers.length ? player : -1
+      let order = buttons.pushers.indexOf(item.player)
+      let right = order === buttons.answerers.length ? item.player : -1
       return [order, right]
     }
   })()
 
-  const score = (teamGame ? scores[team[0]] : scores[player]) || {}
+  const score = (item.teamGame ? scores[item.team[0]] : scores[item.player]) || {}
 
   const answerOrderClass = classNames(
     'answer-order',
@@ -76,7 +76,7 @@ const Player = ({ teamGame, player, team, isMaster, scores, buttons, rule }) => 
       </Paper>
       <Paper className={playerClass}>
         <PlayerName className="player-name"
-                    teamGame={teamGame} player={player} team={team} right={right} />
+                    item={item} right={right} />
         <Box className="correct">
           <Typography className="content">
             {pointText}

@@ -53,8 +53,8 @@ func (room *Room) PushButton(id int64, time int64) {
 			room.Broadcast("sound", "push")
 		}
 		room.Buttons.Push(id, time)
+		room.SendButtons()
 	}
-	room.SendButtons()
 }
 
 func (room *Room) Correct() (win bool) {

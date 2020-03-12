@@ -7,47 +7,45 @@ import { send } from '../communicate'
 import './Players.scss'
 
 const Players = ({ ws, attendees }) => {
-  const [players, setPlayers] = React.useState(attendees.players)
-  const [teams, setTeams] = React.useState(attendees.teams)
+  const [items, setItems] = React.useState([])
 
   React.useEffect(
     () => {
-      setPlayers(attendees.players)
-      setTeams(attendees.teams)
+      if (attendees.teamGame) {
+        setItems(attendees.teams.map(team => ({ teamGame: attendees.teamGame, team })))
+      } else {
+        setItems(attendees.players.map(player => ({ teamGame: attendees.teamGame, player })))
+      }
     },
-    [attendees.players, attendees.teams]
+    [attendees]
   )
 
   const movePlayer = React.useCallback(
     (dragIndex, hoverIndex) => {
-      const dragItem = players[dragIndex]
-      const newPlayers = update(players, {
+      const dragItem = items[dragIndex]
+      const newItems = update(items, {
         $splice: [[dragIndex, 1], [hoverIndex, 0, dragItem]]
       })
-      setPlayers(newPlayers)
+      setItems(newItems)
     },
-    [players]
+    [items]
   )
 
-  const list = (() => {
+  const sendAttendees = () => {
     if (attendees.teamGame) {
-      return teams.map((team, index) => (
-        <Grid item key={team[0]}>
-          <PlayerDraggable teamGame={attendees.teamGame} team={team} index={index}
-                           movePlayer={movePlayer}
-                           droped={() => send.attendees(ws, { players })} />
-        </Grid>
-      ))
+      send.attendees(ws, { teams: items.map(item => item.team) })
     } else {
-      return players.map((player, index) => (
-        <Grid item key={player}>
-          <PlayerDraggable teamGame={attendees.teamGame} player={player} index={index}
-                           movePlayer={movePlayer}
-                           droped={() => send.attendees(ws, { players })} />
-        </Grid>
-      ))
+      send.attendees(ws, { players: items.map(item => item.player) })
     }
-  })()
+  }
+
+  const list = items.map((item, index) => (
+    <Grid item key={item.player || item.team[0]}>
+      <PlayerDraggable item={item} index={index}
+                       movePlayer={movePlayer}
+                       droped={sendAttendees} />
+    </Grid>
+  ))
 
   return (
     <Paper className="players">

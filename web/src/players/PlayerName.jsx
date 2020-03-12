@@ -4,24 +4,24 @@ import { Box, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 import './PlayerName.scss'
 
-const PlayerName = ({ teamGame, player, team, right, selfID, users }) => {
+const PlayerName = ({ item, right, selfID, users }) => {
   const nameClass = id => classNames(
     'content',
-    { 'self': player === selfID },
+    { 'self': selfID === id },
     { 'pushed': right === id }
   )
 
   const list = (() => {
-    if (teamGame) {
-      return team.map(id => (
+    if (item.teamGame) {
+      return item.team.map(id => (
         <Typography key={id} className={nameClass(id)}>
           {users[id].name}
         </Typography>
       ))
     } else {
       return (
-        <Typography key={player} className={nameClass(player)}>
-          {users[player].name}
+        <Typography key={item.player} className={nameClass(item.player)}>
+          {users[item.player].name}
         </Typography>
       )
     }
