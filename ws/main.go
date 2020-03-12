@@ -120,7 +120,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 }
 
 func NowMilliSec() int64 {
-	return time.Now().UnixNano() / 1000
+	return time.Now().UnixNano() / 1_000_000
 }
 
 func main() {

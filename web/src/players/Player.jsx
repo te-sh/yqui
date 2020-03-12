@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
+import numbro from 'numbro'
 import PlayerName from './PlayerName'
 import PlayerStatus from './PlayerStatus'
 import './Player.scss'
@@ -32,6 +33,23 @@ const Player = ({ item, isMaster, scores, buttons, rule }) => {
     { 'pushed': order >= 0 }
   )
 
+  const answerSpeed = (() => {
+    if (order >= 0) {
+      const s = buttons.pushTimes[order] - buttons.pushTimes[0];
+      if (s < 1000) {
+        return `${s}ms`
+      } else if (s < 10000) {
+        return `${numbro(s / 1000).format({ mantissa: 2 })}s`
+      } else if (s < 100000) {
+        return `${numbro(s / 1000).format({ mantissa: 1 })}s`
+      } else {
+        return `${numbro(s / 1000).format({ mantissa: 0 })}s`
+      }
+    } else {
+      return ''
+    }
+  })()
+
   const playerClass = classNames(
     'player',
     { 'right': right >= 0 }
@@ -48,11 +66,18 @@ const Player = ({ item, isMaster, scores, buttons, rule }) => {
 
   return (
     <Box className="player-container">
-      <Paper className={answerOrderClass}>
-        <Typography align="center" className={orderClass}>
-          {order >= 0 ? order + 1 : ""}
-        </Typography>
-      </Paper>
+      <Box className="player-above">
+        <Paper className={answerOrderClass}>
+          <Typography align="center" className={orderClass}>
+            {order >= 0 ? order + 1 : ""}
+          </Typography>
+        </Paper>
+        <Box className="answer-speed">
+          <Typography variant="caption">
+            {answerSpeed}
+          </Typography>
+        </Box>
+      </Box>
       <Paper className={playerClass}>
         <PlayerName className="player-name"
                     item={item} right={right} />

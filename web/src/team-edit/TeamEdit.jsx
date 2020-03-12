@@ -31,7 +31,7 @@ const TeamEdit = ({ className, editTeam, setEditTeam }) => {
   const playerGroups = (() => {
     if (editTeam.teamGame) {
       return editTeam.teams.slice(1).map((team, index) => (
-        <Group key={index+1} label={'チーム' + (index+1).toString()}
+        <Group key={index+1} label={`チーム${index + 1}`}
                players={team} teamIndex={index+1} droped={droped} />
       ))
     } else {

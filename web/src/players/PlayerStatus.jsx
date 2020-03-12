@@ -20,7 +20,7 @@ const PlayerStatus = ({ className, score }) => {
     } else if (score.lose > 0) {
       return 'Lose'
     } else if (score.lock > 0) {
-      return 'Lock ' + score.lock
+      return `Lock ${score.lock}`
     } else {
       return ''
     }

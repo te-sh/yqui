@@ -40,14 +40,12 @@ const PlayerName = ({ item, right, selfID, users }) => {
     }
   })()
 
-    const height = 1.5 * item.maxMember
-
-    return (
+  return (
     <Box className="player-name"
-         style={{ height: height.toString() + 'em' }}>
+         style={{ height: `${1.5 * item.maxMember}em` }}>
       {list}
     </Box>
-    )
+  )
 }
 
 export default connect(

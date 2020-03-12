@@ -19,7 +19,7 @@ const loadSound = (name, url) => {
 }
 
 for (let name of sounds) {
-  loadSound(name, '/snd/' + name + '.wav')
+  loadSound(name, `/snd/${name}.wav`)
 }
 
 const playSound = names => {
