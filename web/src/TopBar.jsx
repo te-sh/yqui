@@ -1,17 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
-import { ListAlt, Settings, SportsKabaddi, SupervisorAccount } from '@material-ui/icons'
+import {
+  ListAlt, HelpOutline, Settings, SportsKabaddi, SupervisorAccount
+} from '@material-ui/icons'
 import { send } from './communicate'
 import { setEditTeam } from './redux/actions'
 import { attendeesToEditTeam } from './team'
 import Rule from './dialogs/Rule'
 import Setting from './dialogs/Setting'
+import Help from './dialogs/Help'
 import './TopBar.scss'
 
 const TopBar = ({ className, ws, userIDs, attendees, isMaster, editTeam, setEditTeam }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
   const [settingOpen, setSettingOpen] = React.useState(false)
+  const [helpOpen, setHelpOpen] = React.useState(false)
 
   const teamEdit = () => {
     setEditTeam(attendeesToEditTeam(userIDs, attendees))
@@ -43,9 +47,14 @@ const TopBar = ({ className, ws, userIDs, attendees, isMaster, editTeam, setEdit
                     onClick={() => setSettingOpen(true)}>
           <Settings />
         </IconButton>
+        <IconButton color="inherit"
+                    onClick={() => setHelpOpen(true)}>
+          <HelpOutline />
+        </IconButton>
       </Toolbar>
       <Rule open={ruleOpen} close={() => setRuleOpen(false)} />
       <Setting open={settingOpen} close={() => setSettingOpen(false)} />
+      <Help open={helpOpen} close={() => setHelpOpen(false)} />
     </AppBar>
   )
 }
