@@ -1,8 +1,16 @@
-const AudioContext = window.AudioContext || window.webkitAudioContext
-const context = new AudioContext()
-
+let context
 let buffer = {}
+
 const sounds = ['push', 'correct', 'wrong', 'roundwin']
+
+window.addEventListener('load', () => {
+  const AudioContext = window.AudioContext || window.webkitAudioContext
+  context = new AudioContext()
+
+  for (let name of sounds) {
+    loadSound(name, `/snd/${name}.wav`)
+  }
+})
 
 const loadSound = (name, url) => {
   var request = new XMLHttpRequest()
@@ -18,10 +26,6 @@ const loadSound = (name, url) => {
   request.send()
 }
 
-for (let name of sounds) {
-  loadSound(name, `/snd/${name}.wav`)
-}
-
 const playSound = names => {
   let t = 0
   for (let name of names.split(',')) {
@@ -29,7 +33,7 @@ const playSound = names => {
     source.buffer = buffer[name]
 
     const gainNode = context.createGain()
-    source.connect(gainNode);
+    source.connect(gainNode)
     gainNode.connect(context.destination)
     gainNode.gain.value = parseInt(localStorage.getItem('volume') || '100') / 100.0
 

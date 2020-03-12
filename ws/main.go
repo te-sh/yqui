@@ -78,7 +78,7 @@ func HandleMessage() {
 }
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
-	name := r.FormValue("name");
+	name := r.FormValue("name")
 	if name == "" {
 		return
 	}

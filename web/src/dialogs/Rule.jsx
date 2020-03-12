@@ -20,7 +20,6 @@ const Rule = ({ open, close, ws, rule }) => {
   const [loseBatsuActive, setLoseBatsuActive] = React.useState(true)
   const [loseBatsuValue, setLoseBatsuValue] = React.useState(0)
 
-
   const onEnter = () => {
     setRightNum(rule.rightNum)
     setPointCorrect(rule.pointCorrect)

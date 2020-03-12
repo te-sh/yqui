@@ -11,7 +11,7 @@ const Chat = ({ className, ws, isPlayer }) => {
   const chat = evt => {
     evt.preventDefault()
     if (message === '') {
-      return;
+      return
     } else if (isPlayer && (message.startsWith('!') || message.startsWith('！'))) {
       send.pushButton(ws)
     } else {

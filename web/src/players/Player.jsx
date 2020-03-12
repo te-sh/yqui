@@ -35,7 +35,7 @@ const Player = ({ item, isMaster, scores, buttons, rule }) => {
 
   const answerSpeed = (() => {
     if (order >= 0) {
-      const s = buttons.pushTimes[order] - buttons.pushTimes[0];
+      const s = buttons.pushTimes[order] - buttons.pushTimes[0]
       if (s < 1000) {
         return `${s}ms`
       } else if (s < 10000) {
