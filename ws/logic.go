@@ -1,5 +1,9 @@
 package main
 
+import (
+	"errors"
+)
+
 func (room *Room) JoinUser(conn *Conn, name string, time int64) int64 {
 	user := NewUser(conn, name)
 	id := user.ID
@@ -63,6 +67,24 @@ func (room *Room) PushButton(id int64, time int64) (ring bool) {
 	return
 }
 
+func (room *Room) TargetScore(team []int64) (*Score, []*Score, error) {
+	score, ok := room.Scores[team[0]]
+	if !ok {
+		return nil, nil, errors.New("Not a player")
+	}
+	otherTeams, err := room.Attendees.OtherTeams(team[0])
+	if err != nil {
+		return nil, nil, errors.New("Not a player")
+	}
+	var otherScores []*Score
+	for _, otherTeam := range otherTeams {
+		if team[0] != otherTeam[0] {
+			otherScores = append(otherScores, room.Scores[otherTeam[0]])
+		}
+	}
+	return score, otherScores, nil
+}
+
 func (room *Room) Correct() (win bool) {
 	buttons := room.Buttons
 	id, err := buttons.RightPlayer()
@@ -74,11 +96,16 @@ func (room *Room) Correct() (win bool) {
 		return
 	}
 
-	if score, ok := room.Scores[team[0]]; ok {
-		win = score.Correct(room.Rule, &room.WinNum)
-		room.NextQuiz(true)
-		room.AddHistory()
+	rule := room.Rule
+	score, otherScores, err := room.TargetScore(team)
+	if err != nil {
+		return
 	}
+	win = score.Correct(rule, &room.WinNum, otherScores)
+
+	room.NextQuiz(true)
+	room.AddHistory()
+
 	return
 }
 
@@ -111,17 +138,21 @@ func (room *Room) Wrong() (lose bool) {
 		return
 	}
 
-	if score, ok := room.Scores[team[0]]; ok {
-		rule := room.Rule
-		lose = score.Wrong(rule, &room.LoseNum)
-		buttons.Answerers = append(buttons.Answerers, id)
-		if len(buttons.Answerers) >= rule.RightNum || room.NumCanAnswer() == 0 {
-			room.NextQuiz(false)
-		}
-		room.SendButtons()
-		room.SendScores()
-		room.AddHistory()
+	rule := room.Rule
+	score, otherScores, err := room.TargetScore(team)
+	if err != nil {
+		return
 	}
+	lose = score.Wrong(rule, &room.LoseNum, otherScores)
+
+	buttons.Answerers = append(buttons.Answerers, id)
+	if len(buttons.Answerers) >= rule.RightNum || room.NumCanAnswer() == 0 {
+		room.NextQuiz(false)
+	}
+	room.SendButtons()
+	room.SendScores()
+	room.AddHistory()
+
 	return
 }
 

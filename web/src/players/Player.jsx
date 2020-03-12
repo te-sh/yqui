@@ -28,12 +28,12 @@ const Player = ({ item, isMaster, scores, buttons, rule }) => {
 
   const score = (item.teamGame ? scores[item.team[0]] : scores[item.player]) || {}
 
-  const answerOrderClass = classNames(
-    'answer-order',
+  const pushOrderClass = classNames(
+    'push-order',
     { 'pushed': order >= 0 }
   )
 
-  const answerSpeed = (() => {
+  const pushSpeed = (() => {
     if (order >= 0) {
       const s = buttons.pushTimes[order] - buttons.pushTimes[0]
       if (s < 1000) {
@@ -45,6 +45,14 @@ const Player = ({ item, isMaster, scores, buttons, rule }) => {
       } else {
         return `${numbro(s / 1000).format({ mantissa: 0 })}s`
       }
+    } else {
+      return ''
+    }
+  })()
+
+  const consText = (() => {
+    if (rule.bonusCorrect === "cons" && score.cons > 0) {
+      return `+${score.cons}`
     } else {
       return ''
     }
@@ -67,14 +75,19 @@ const Player = ({ item, isMaster, scores, buttons, rule }) => {
   return (
     <Box className="player-container">
       <Box className="player-above">
-        <Paper className={answerOrderClass}>
+        <Paper className={pushOrderClass}>
           <Typography align="center" className={orderClass}>
             {order >= 0 ? order + 1 : ""}
           </Typography>
         </Paper>
-        <Box className="answer-speed">
+        <Box className="push-speed">
           <Typography variant="caption">
-            {answerSpeed}
+            {pushSpeed}
+          </Typography>
+        </Box>
+        <Box className="cons">
+          <Typography>
+            {consText}
           </Typography>
         </Box>
       </Box>

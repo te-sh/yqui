@@ -47,6 +47,7 @@ func NewUser(conn *Conn, name string) *User {
 type Rule struct {
 	RightNum int `json:"rightNum"`
 	PointCorrect int `json:"pointCorrect"`
+	BonusCorrect string `json:"bonusCorrect"`
 	PointWrong int `json:"pointWrong"`
 	BatsuWrong int `json:"batsuWrong"`
 	LockWrong int `json:"lockWrong"`
@@ -65,6 +66,7 @@ func NewRule() *Rule {
 	rule := new(Rule)
 	rule.RightNum = 1
 	rule.PointCorrect = 1
+	rule.BonusCorrect = "none"
 	rule.PointWrong = 0
 	rule.BatsuWrong = 1
 	rule.LockWrong = 0

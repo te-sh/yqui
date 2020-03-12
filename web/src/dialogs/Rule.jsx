@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
   Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
-  TextField, Typography
+  FormControl, InputLabel, MenuItem, Select, TextField, Typography
 } from '@material-ui/core'
 import { send } from '../communicate'
 import './Rule.scss'
@@ -10,6 +10,7 @@ import './Rule.scss'
 const Rule = ({ open, close, ws, rule }) => {
   const [rightNum, setRightNum] = React.useState(0)
   const [pointCorrect, setPointCorrect] = React.useState(0)
+  const [bonusCorrect, setBonusCorrect] = React.useState('none')
   const [pointWrong, setPointWrong] = React.useState(0)
   const [batsuWrong, setBatsuWrong] = React.useState(0)
   const [lockWrong, setLockWrong] = React.useState(0)
@@ -23,6 +24,7 @@ const Rule = ({ open, close, ws, rule }) => {
   const onEnter = () => {
     setRightNum(rule.rightNum)
     setPointCorrect(rule.pointCorrect)
+    setBonusCorrect(rule.bonusCorrect)
     setPointWrong(rule.pointWrong)
     setBatsuWrong(rule.batsuWrong)
     setLockWrong(rule.lockWrong)
@@ -41,6 +43,7 @@ const Rule = ({ open, close, ws, rule }) => {
     send.rule(ws, {
       rightNum: parse(rightNum),
       pointCorrect: parse(pointCorrect),
+      bonusCorrect: bonusCorrect,
       pointWrong: parse(pointWrong),
       batsuWrong: parse(batsuWrong),
       lockWrong: parse(lockWrong),
@@ -71,6 +74,15 @@ const Rule = ({ open, close, ws, rule }) => {
             <TextField label="ポイント" type="number"
                        value={pointCorrect}
                        onChange={evt => setPointCorrect(evt.target.value)} />
+            <FormControl>
+              <InputLabel id="bonus-correct-label">ボーナス</InputLabel>
+              <Select labelId="bonus-correct-label"
+                      value={bonusCorrect}
+                      onChange={evt => setBonusCorrect(evt.target.value)}>
+                <MenuItem value="none">なし</MenuItem>
+                <MenuItem value="cons">連答</MenuItem>
+              </Select>
+            </FormControl>
           </div>
           <div>
             <Typography>

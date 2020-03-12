@@ -69,3 +69,25 @@ func (attendees *Attendees) Team(id int64) ([]int64, error) {
 		}
 	}
 }
+
+func (attendees *Attendees) OtherTeams(id int64) ([][]int64, error) {
+	if attendees.TeamGame {
+		if i, _ := IInt64FindIndex(attendees.Teams, id); i >= 0 {
+			return append(attendees.Teams[:i], attendees.Teams[i+1:]...), nil
+		} else {
+			return nil, errors.New("Not a player")
+		}
+	} else {
+		if i := Int64FindIndex(attendees.Players, id); i >= 0 {
+			var teams [][]int64
+			for j, player := range attendees.Players {
+				if i != j {
+					teams = append(teams, []int64{player})
+				}
+			}
+			return teams, nil
+		} else {
+			return nil, errors.New("Not a player")
+		}
+	}
+}
