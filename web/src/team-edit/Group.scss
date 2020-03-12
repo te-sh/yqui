@@ -1,3 +1,15 @@
-.team-edit-group {
-  display: flex;
+.MuiFormControl-root.team-edit-group {
+  margin: 3px;
+  min-width: 172px;
+  max-height: calc(100% - 8px);
+  border: solid 1px #b0bec5;
+  border-radius: 5px;
+
+  .content {
+    height: calc(100% - 1em - 8px);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
 }

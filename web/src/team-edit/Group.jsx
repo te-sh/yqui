@@ -1,7 +1,9 @@
 import React from 'react'
 import { useDrop } from 'react-dnd'
+import { Box, FormControl, FormLabel } from '@material-ui/core'
 import ItemTypes from '../item_types'
 import Player from './Player'
+import './Group.scss'
 
 const Group = ({ label, players, teamIndex, droped }) => {
   const [, dropRef] = useDrop({
@@ -17,12 +19,12 @@ const Group = ({ label, players, teamIndex, droped }) => {
   )
 
   return (
-    <fieldset className="team-edit-group" ref={dropRef}>
-      <legend>{label}</legend>
-      <div>
+    <FormControl component="fieldset" className="team-edit-group" ref={dropRef}>
+      <FormLabel component="legend">{label}</FormLabel>
+      <Box className="content">
         {players.map(playerElement)}
-      </div>
-    </fieldset>
+      </Box>
+    </FormControl>
   )
 }
 

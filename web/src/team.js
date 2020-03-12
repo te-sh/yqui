@@ -1,4 +1,5 @@
 import update from 'immutability-helper'
+import { shuffle } from './util'
 
 export const mergeEditTeam = (editTeam, userIDs, attendees) => {
   if (!editTeam) {
@@ -79,4 +80,19 @@ export const toggleTeamGame = (editTeam, teamGame) => {
 export const normalizeTeams = teams => {
   let newTeams = teams.slice(1).filter(team => team.length > 0)
   return [teams[0], ...newTeams, []]
+}
+
+export const numTeamAllPlayers = editTeam => {
+  return editTeam.players.length + editTeam.teams.flat().length
+}
+
+export const teamRandomAssign = (editTeam, n) => {
+  let players = editTeam.teams.flat(), teams = []
+  for (var i = 0; i < n; ++i) {
+    teams.push([])
+  }
+  shuffle(players).forEach((id, i) => teams[i % n].push(id))
+  return update(editTeam, {
+    teams: { $set: [[], ...teams, []] }
+  })
 }

@@ -11,10 +11,20 @@ const Players = ({ ws, attendees }) => {
 
   React.useEffect(
     () => {
+      const maxMember =
+        attendees.teamGame ? Math.max(...attendees.teams.map(team => team.length)) : 1
       if (attendees.teamGame) {
-        setItems(attendees.teams.map(team => ({ teamGame: attendees.teamGame, team })))
+        setItems(attendees.teams.map(team => ({
+          teamGame: attendees.teamGame,
+          team,
+          maxMember
+        })))
       } else {
-        setItems(attendees.players.map(player => ({ teamGame: attendees.teamGame, player })))
+        setItems(attendees.players.map(player => ({
+          teamGame: attendees.teamGame,
+          player,
+          maxMember
+        })))
       }
     },
     [attendees]

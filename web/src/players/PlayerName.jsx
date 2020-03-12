@@ -27,8 +27,11 @@ const PlayerName = ({ item, right, selfID, users }) => {
     }
   })()
 
+  const height = 1.5 * item.maxMember
+
   return (
-    <Box className="player-name">
+    <Box className="player-name"
+         style={{ height: height.toString() + 'em' }}>
       {list}
     </Box>
   )
