@@ -61,9 +61,9 @@ export const send = {
       ws.send(JSON.stringify({ c: 'z', a: user }))
     }
   },
-  attendees: (ws, attendees) => {
+  teams: (ws, teams) => {
     if (ws) {
-      ws.send(JSON.stringify({ c: 'p', a: attendees }))
+      ws.send(JSON.stringify({ c: 'p', a: teams }))
     }
   },
   rule: (ws, rule) => {

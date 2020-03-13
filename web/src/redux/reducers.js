@@ -38,7 +38,7 @@ const initialState = {
     shareButtons: false
   },
   ruleText: {},
-  editTeam: null,
+  editTeams: null,
   chats: []
 }
 

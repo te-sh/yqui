@@ -8,7 +8,7 @@ import './Actions.scss'
 
 const TeamEdit = ({ className, ws, editTeams, setEditTeams }) => {
   const onSubmit = () => {
-    send.attendees(ws, editTeamsToTeams(editTeams))
+    send.teams(ws, editTeamsToTeams(editTeams))
     close()
   }
 
@@ -38,6 +38,6 @@ export default connect(
     editTeams: state.editTeams
   }),
   dispatch => ({
-    setEditTeams: attendees => dispatch(setEditTeams(attendees))
+    setEditTeams: editTeams => dispatch(setEditTeams(editTeams))
   })
 )(TeamEdit)

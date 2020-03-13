@@ -53,7 +53,6 @@ const Player = ({ player, isMaster, scores, buttons, rule }) => {
   )
 
   const pointText = isMaster || rule.showPoint ? score.point : '-'
-
   const batsuText = isMaster || rule.showPoint ? score.batsu : '-'
 
   return (

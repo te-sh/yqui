@@ -1,22 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box } from '@material-ui/core'
+import classNames from 'classnames'
+import { Paper } from '@material-ui/core'
+import update from 'immutability-helper'
+import { send } from '../communicate'
 import Players from './Players'
+import './Teams.scss'
 
-const Teams = ({ className, teams }) => {
+const Teams = ({ className, ws, teams }) => {
+  const updateTeam = (team, teamIndex) => {
+    const newTeams = update(teams, {
+      [teamIndex]: { $set: team }
+    })
+    send.teams(ws, newTeams)
+  }
+
   const list = teams.map((team, index) => (
-    <Players key={team.id} team={team} teamIndex={index} />
+    <Players key={team.id}
+             team={team} teamIndex={index}
+             updateTeam={team => updateTeam(team, index)} />
   ))
 
   return (
-    <Box className={className}>
+    <Paper className={classNames(className, 'teams')}>
       {list}
-    </Box>
+    </Paper>
   )
 }
 
 export default connect(
   state => ({
+    ws: state.ws,
     teams: state.teams
   })
 )(Teams)

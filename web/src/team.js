@@ -33,23 +33,20 @@ export const editTeamsToTeams = editTeams => {
 }
 
 export const normalizeTeams = teams => {
-  let newTeams = teams.slice(1).filter(team => team.length > 0)
+  let newTeams = teams.slice(1).filter(team => team.players.length > 0)
   return [teams[0], ...newTeams, { id: -1, players: [] }]
 }
 
 export const teamRandomAssign = (editTeams, n) => {
   let players = editTeams.flatMap(team => team.players)
-  if (editTeams.length - 1 > n) {
-    editTeams = editTeams.slice(0, n + 1)
-  } else {
-    for (let i = 0; i < n - editTeams.length - 1 ; ++i) {
-      editTeams = editTeams.concat([{ id: -1, players: [] }])
-    }
-  }
-  for (let team of editTeams) {
-    team.players = []
+  let teams = []
+  for (let i = 1; i <= n; ++i) {
+    teams.push({
+      id: i < editTeams.length ? editTeams[i].id : -1,
+      players: []
+    })
   }
 
-  shuffle(players).forEach((id, i) => editTeams[i % n].players.push(id))
-  return editTeams
+  shuffle(players).forEach((id, i) => teams[i % n].players.push(id))
+  return [{ id: -1, players: [] }, ...teams, { id: -1, players: [] }]
 }

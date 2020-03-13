@@ -22,21 +22,19 @@ const TeamEdit = ({ className, editTeams, setEditTeams }) => {
     setEditTeams(normalizeTeams(newEditTeams))
   }
 
-  const playerGroups = (() => {
-    return editTeams.slice(1).map((team, index) => (
-      <Group key={index+1} label={`チーム${index + 1}`}
-             team={team} teamIndex={index+1} droped={droped} />
-    ))
-  })()
+  const list = editTeams.slice(1).map((team, index) => (
+    <Group key={index+1} label={`チーム${index + 1}`}
+           team={team} teamIndex={index+1} droped={droped} />
+  ))
 
   return (
     <Paper className={classNames(className, 'team-edit')}>
       <Box className="team-edit-groups groups-players">
-        {playerGroups}
+        {list}
       </Box>
       <Box className="team-edit-groups groups-observers">
         <Group key={0} label="観戦者"
-               players={editTeams[0]} teamIndex={0} droped={droped} />
+               team={editTeams[0]} teamIndex={0} droped={droped} />
       </Box>
     </Paper>
   )

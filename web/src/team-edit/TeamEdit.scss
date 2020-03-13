@@ -1,8 +1,10 @@
 .team-edit {
   padding: 8px;
   display: grid;
-  grid-template-rows: 65% 35%;
+  grid-template-rows: 1fr 35%;
   grid-template-columns: 1fr;
+  min-height: 0;
+  min-width: 0;
 
   .team-edit-groups {
     &.groups-players {
@@ -15,6 +17,8 @@
       grid-column: 1/2;
     }
 
+    overflow: hidden;
+    min-width: 0;
     display: flex;
     align-items: stretch;
     flex-wrap: wrap;

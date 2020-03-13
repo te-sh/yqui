@@ -17,12 +17,12 @@ const setAlert = (buttons) => {
   return null
 }
 
-const Subactions = ({ className, isMaster, buttons, editTeam }) => {
+const Subactions = ({ className, isMaster, buttons, editTeams }) => {
   const alert = setAlert(buttons)
 
   if (alert) {
     return <Alert className={className} alert={alert} />
-  } else if (editTeam) {
+  } else if (editTeams) {
     return <TeamEdit className={className} />
   } else if (isMaster) {
     return <Master className={className} />
@@ -35,6 +35,6 @@ export default connect(
   state => ({
     isMaster: state.isMaster,
     buttons: state.buttons,
-    editTeam: state.editTeam
+    editTeams: state.editTeams
   })
 )(Subactions)

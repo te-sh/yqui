@@ -24,6 +24,9 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
 	delete(room.Scores, id)
+	if (room.Master == id) {
+		room.Master = -1
+	}
 	room.RemovePlayerFromTeam(id)
 	room.UserIDs = Int64Remove(room.UserIDs, id)
 	delete(room.Users, id)
@@ -69,7 +72,7 @@ func (room *Room) ChangeTeams() {
 	}
 	newTeamScores := make(Scores)
 	for _, team := range room.Teams {
-		if team.ID < -1 {
+		if team.ID < 0 {
 			team.ID = NewID()
 		}
 		for _, id := range team.Players {
@@ -166,7 +169,7 @@ func (room *Room) Wrong() (lose bool) {
 	rule := room.Rule
 	lose = room.Scores.Wrong(id, rule, room.WinLose)
 
-	buttons.Answered(id)
+	buttons.Answer(id)
 	if len(buttons.Answerers) >= rule.RightNum || room.NumCanAnswer() == 0 {
 		room.NextQuiz(false)
 	}

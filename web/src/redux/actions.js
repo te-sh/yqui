@@ -30,7 +30,7 @@ export const recvUsers = users => {
   return { type: RECV_USERS, users }
 }
 
-export const recvAttendees = teams => {
+export const recvTeams = teams => {
   return { type: RECV_TEAMS, teams }
 }
 

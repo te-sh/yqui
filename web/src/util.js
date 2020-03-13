@@ -50,7 +50,7 @@ export const ruleText = (rule, teams) => {
     chance: (() => {
       if (rule.rightNum === 1) {
         return 'シングルチャンス'
-      } else if (rule.rightNum >= teams.map(team => team.players.length).reduce((a, b) => a + b)) {
+      } else if (rule.rightNum >= teams.flatMap(team => team.players).length) {
         return 'エンドレスチャンス'
       } else if (rule.rightNum === 2) {
         return 'ダブルチャンス'

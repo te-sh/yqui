@@ -16,6 +16,7 @@ type Room struct {
 func NewRoom() *Room {
 	room := new(Room)
 	room.Users = make(map[int64]*User)
+	room.Master = -1
 	room.Scores = make(Scores)
 	room.TeamScores = make(Scores)
 	for _, team := range room.Teams {

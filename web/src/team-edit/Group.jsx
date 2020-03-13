@@ -13,16 +13,16 @@ const Group = ({ label, team, teamIndex, droped }) => {
     }
   })
 
-  const playerElement = (player, playerIndex) => (
-    <Player key={player} player={player}
-            teamIndex={teamIndex} playerIndex={playerIndex} />
-  )
+  const list = team.players.map((player, index) => (
+    <Player key={player}
+            player={player} playerIndex={index} teamIndex={teamIndex} />
+  ))
 
   return (
     <FormControl component="fieldset" className="team-edit-group" ref={dropRef}>
       <FormLabel component="legend">{label}</FormLabel>
       <Box className="content">
-        {team.players.map(playerElement)}
+        {list}
       </Box>
     </FormControl>
   )
