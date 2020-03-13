@@ -1,28 +1,27 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box, Icon, Typography } from '@material-ui/core'
-import { KeyboardOutlined } from '@material-ui/icons'
+import { Box, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 import './PlayerName.scss'
 
 const PlayerName = ({ player, right, selfID, users }) => {
-  const nameClass = id => classNames(
+  const nameClass = classNames(
     'content',
-    { 'self': selfID === id },
-    { 'pushed': right === id }
+    { 'pushed': right === player }
   )
 
-  const icon = (
-    <Icon fontSize="small">
-      <KeyboardOutlined />
-    </Icon>
+  const nameMainClass = classNames(
+    'content-main',
+    { 'self': selfID === player }
   )
 
   return (
     <Box className="player-name">
-      <Box className={nameClass(player)}>
-        {users[player].chatAnswer ? icon : ''}
-        <Typography>
+      <Box className={nameClass}>
+        <Typography className={nameMainClass}>
+          <span className="chat-mark">
+            {users[player].chatAnswer ? '©' : ''}
+          </span>
           {users[player].name}
         </Typography>
       </Box>

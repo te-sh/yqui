@@ -11,13 +11,16 @@
       background-color: #ffab91;
     }
 
-    &.self {
-      font-weight: 700;
-    }
+    .content-main {
+      font-size: 0.75em;
 
-    .MuiIcon-root {
-      width: 1.2em;
-      height: 1.2em;
+      &.self {
+        font-weight: 700;
+      }
+
+      .chat-mark {
+        color: blue;
+      }
     }
   }
 }

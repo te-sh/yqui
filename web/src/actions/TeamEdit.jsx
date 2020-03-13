@@ -18,7 +18,7 @@ const TeamEdit = ({ className, ws, editTeams, setEditTeams }) => {
 
   return (
     <Paper className={className}>
-      <Box className="content">
+      <Box className="actions-content">
         <Button variant="outlined" color="primary" size="large"
                 onClick={onSubmit}>
           設定

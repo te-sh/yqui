@@ -16,7 +16,7 @@ const Player = ({ player, teamIndex, playerIndex, users }) => {
   return (
     <Paper className="team-edit-player"
            ref={dragRef} style={{ cursor: 'move', opacity }}>
-      <Typography>
+      <Typography className="team-edit-player-content">
         {users[player].name}
       </Typography>
     </Paper>

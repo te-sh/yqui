@@ -17,7 +17,7 @@ const EnterRoom = ({ open, submit }) => {
         <DialogTitle id="form-dialog-title">入室</DialogTitle>
         <DialogContent>
           <TextField id="name" label="ハンドル"
-                     inputProps={{maxLength: 10}}
+                     inputProps={{maxLength: 9}}
                      value={name}
                      onChange={evt => setName(evt.target.value)} />
         </DialogContent>

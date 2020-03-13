@@ -14,7 +14,7 @@ const Alert = ({ className, alert, ruleText }) => {
   })()
   return (
     <Paper className={classNames(className, 'subactions-alert')}>
-      <Box className="content">
+      <Box className="subactions-content">
         <Typography variant="h5">
           {alertText}
         </Typography>

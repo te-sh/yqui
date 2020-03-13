@@ -1,6 +1,10 @@
 .team-edit-player {
-  width: 150px;
+  width: 120px;
   margin: 5px;
   padding: 5px;
-  text-align: center;
+
+  .team-edit-player-content {
+    text-align: center;
+    font-size: 0.75em;
+  }
 }

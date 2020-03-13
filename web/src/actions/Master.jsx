@@ -36,7 +36,7 @@ const Master = ({ className, ws }) => {
 
   return (
     <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
-      <Box className="content">
+      <Box className="actions-content">
         <Button variant="outlined" color="primary" size="large"
                 onClick={() => send.correct(ws)}
                 startIcon={<RadioButtonUnchecked />}>

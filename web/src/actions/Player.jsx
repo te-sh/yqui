@@ -22,14 +22,14 @@ const Player = ({ className, ws, isPlayer }) => {
 
   return (
     <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
-      <Box className="content"
+      <Box className="actions-content"
            style={{ visibility: klass === 'player' ? 'visible' : 'hidden' }}>
         <Button variant="outlined" color="primary" size="large"
                 onClick={() => send.pushButton(ws)}>
           早押し
         </Button>
       </Box>
-      <Box className="content"
+      <Box className="actions-content"
            style={{ visibility: klass === 'observer' ? 'visible' : 'hidden' }}>
         <Typography variant="h6">
           あなたは観戦者です

@@ -10,7 +10,7 @@ const Master = ({ className, ws, rule, ruleText }) => {
 
   return (
     <Paper className={className}>
-      <Box className="content subactions-rule">
+      <Box className="subactions-content subactions-rule">
         <Typography>
           {ruleText.chance} {ruleText.correct} {ruleText.wrong}
         </Typography>
@@ -18,7 +18,7 @@ const Master = ({ className, ws, rule, ruleText }) => {
           {ruleText.win} {ruleText.lose}
         </Typography>
       </Box>
-      <Box className="content subactions-actions">
+      <Box className="subactions-content subactions-actions">
         <FormControlLabel
           control={
             <Checkbox color="default"

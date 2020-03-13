@@ -28,7 +28,7 @@ const PlayerStatus = ({ className, score }) => {
 
   return (
     <Box className={statusClass}>
-      <Typography className="content">
+      <Typography className="player-status-content">
         {statusText}
       </Typography>
     </Box>

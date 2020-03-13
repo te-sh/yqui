@@ -21,7 +21,7 @@ const Group = ({ label, team, teamIndex, droped }) => {
   return (
     <FormControl component="fieldset" className="team-edit-group" ref={dropRef}>
       <FormLabel component="legend">{label}</FormLabel>
-      <Box className="content">
+      <Box className="team-edit-group-content">
         {list}
       </Box>
     </FormControl>
