@@ -1,54 +1,6 @@
 .player-container {
   margin: 8px;
 
-  .player-above {
-    width: 120px;
-    display: grid;
-    grid-template-rows: auto;
-    grid-template-columns: auto 1fr auto;
-
-    .push-order {
-      grid-row: 1/2;
-      grid-column: 1/2;
-      border-radius: 15px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 30px;
-      height: 30px;
-
-      &.pushed {
-        background-color: #ffccbc;
-      }
-
-      .content {
-        font-family: 'Odibee Sans';
-        font-size: 20px;
-        color: #bdbdbd;
-
-        &.has-right {
-          color: black;
-        }
-      }
-    }
-
-    .push-speed {
-      grid-row: 1/2;
-      grid-column: 2/3;
-      display: flex;
-      align-items: flex-end;
-      color: #bdbdbd;
-    }
-
-    .cons {
-      grid-row: 1/2;
-      grid-column: 3/4;
-      display: flex;
-      align-items: flex-end;
-      color: #f9a825;
-    }
-  }
-
   .player {
     width: 120px;
     padding: 3px;

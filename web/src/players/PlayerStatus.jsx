@@ -5,14 +5,11 @@ import { ordial } from '../util'
 import './PlayerStatus.scss'
 
 const PlayerStatus = ({ className, score }) => {
-  const statusClass = classNames(
-    className,
-    {
-      'win': score.win > 0,
-      'lose': score.lose > 0,
-      'lock': score.lock > 0
-    }
-  )
+  const statusClass = {
+    'win': score.win > 0,
+    'lose': score.lose > 0,
+    'lock': score.lock > 0
+  }
 
   const statusText = (() => {
     if (score.win > 0) {
@@ -27,7 +24,7 @@ const PlayerStatus = ({ className, score }) => {
   })()
 
   return (
-    <Box className={statusClass}>
+    <Box className={classNames(className, statusClass)}>
       <Typography className="player-status-content">
         {statusText}
       </Typography>

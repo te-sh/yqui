@@ -5,20 +5,13 @@ import classNames from 'classnames'
 import './PlayerName.scss'
 
 const PlayerName = ({ player, right, selfID, users }) => {
-  const nameClass = classNames(
-    'content',
-    { 'pushed': right === player }
-  )
-
-  const nameMainClass = classNames(
-    'content-main',
-    { 'self': selfID === player }
-  )
+  const nameClass = { 'pushed': right === player }
+  const nameMainClass = { 'self': selfID === player }
 
   return (
     <Box className="player-name">
-      <Box className={nameClass}>
-        <Typography className={nameMainClass}>
+      <Box className={classNames('player-name-content', nameClass)}>
+        <Typography className={classNames('player-name-content-main', nameMainClass)}>
           <span className="chat-mark">
             {users[player].chatAnswer ? '©' : ''}
           </span>

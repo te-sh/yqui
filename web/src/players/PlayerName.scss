@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
 
-  .content {
+  .player-name-content {
     display: flex;
     justify-content: center;
 
@@ -11,7 +11,7 @@
       background-color: #ffab91;
     }
 
-    .content-main {
+    .player-name-content-main {
       font-size: 0.75em;
 
       &.self {
