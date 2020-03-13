@@ -110,13 +110,15 @@ func (room *Room) SendScores() {
 	}
 	room.SendToMaster("scores", scoresSend)
 
-	for _, score := range scoresSend.Scores {
-		score.Point = 0
-		score.Batsu = 0
-	}
-	for _, teamScore := range scoresSend.TeamScores {
-		teamScore.Point = 0
-		teamScore.Batsu = 0
+	if !room.Rule.ShowPoint {
+		for _, score := range scoresSend.Scores {
+			score.Point = 0
+			score.Batsu = 0
+		}
+		for _, teamScore := range scoresSend.TeamScores {
+			teamScore.Point = 0
+			teamScore.Batsu = 0
+		}
 	}
 	room.SendToPlayers("scores", scoresSend)
 }
