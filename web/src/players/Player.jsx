@@ -7,26 +7,10 @@ import PlayerName from './PlayerName'
 import PlayerStatus from './PlayerStatus'
 import './Player.scss'
 
-const Player = ({ item, isMaster, scores, buttons, rule }) => {
-  const [order, right] = (() => {
-    if (item.teamGame) {
-      let orders = item.team.map(id => buttons.pushers.indexOf(id))
-      let i = orders.findIndex(order => order >= 0)
-      if (i < 0) {
-        return [-1, -1]
-      } else {
-        let order = orders[i]
-        let right = order === buttons.answerers.length ? item.team[i] : -1
-        return [order, right]
-      }
-    } else {
-      let order = buttons.pushers.indexOf(item.player)
-      let right = order === buttons.answerers.length ? item.player : -1
-      return [order, right]
-    }
-  })()
-
-  const score = (item.teamGame ? scores[item.team[0]] : scores[item.player]) || {}
+const Player = ({ player, isMaster, scores, buttons, rule }) => {
+  const order = buttons.pushers.indexOf(player)
+  const right = order === buttons.answerers.length ? player : -1
+  const score = scores[player] || {}
 
   const pushOrderClass = classNames(
     'push-order',
@@ -93,7 +77,7 @@ const Player = ({ item, isMaster, scores, buttons, rule }) => {
       </Box>
       <Paper className={playerClass}>
         <PlayerName className="player-name"
-                    item={item} right={right} />
+                    player={player} right={right} />
         <Box className="correct">
           <Typography className="content">
             {pointText}

@@ -1,16 +1,13 @@
 package main
 
-import (
-	"math/rand"
-)
-
 type Room struct {
 	Users map[int64]*User
 	UserIDs []int64
-	Attendees *Attendees
-	Scores map[int64]*Score
-	WinNum int
-	LoseNum int
+	Teams Teams
+	Master int64
+	Scores Scores
+	TeamScores Scores
+	WinLose *WinLose
 	Buttons *Buttons
 	Rule *Rule
 	History *History
@@ -19,10 +16,12 @@ type Room struct {
 func NewRoom() *Room {
 	room := new(Room)
 	room.Users = make(map[int64]*User)
-	room.Attendees = NewAttendees()
-	room.Scores = make(map[int64]*Score)
-	room.WinNum = 0
-	room.LoseNum = 0
+	room.Scores = make(Scores)
+	room.TeamScores = make(Scores)
+	for _, team := range room.Teams {
+		room.TeamScores[team.ID] = NewScore()
+	}
+	room.WinLose = NewWinLose()
 	room.Buttons = NewButtons()
 	room.Rule = NewRule()
 	room.History = NewHistory()
@@ -32,13 +31,14 @@ func NewRoom() *Room {
 type User struct {
 	ID int64 `json:"id"`
 	Conn *Conn `json:"-"`
+	Team *Team `json:"-"`
 	Name string `json:"name"`
 	ChatAnswer bool `json:"chatAnswer"`
 }
 
 func NewUser(conn *Conn, name string) *User {
 	user := new(User)
-	user.ID = rand.Int63n(int64(1)<<53)
+	user.ID = NewID()
 	user.Conn = conn
 	user.Name = name
 	return user
@@ -55,6 +55,7 @@ type Rule struct {
 	LosePoint ActiveAndValue `json:"losePoint"`
 	LoseBatsu ActiveAndValue `json:"loseBatsu"`
 	ShowPoint bool `json:"showPoint"`
+	ShareButton bool `json:"shareButton"`
 }
 
 type ActiveAndValue struct {
@@ -74,6 +75,7 @@ func NewRule() *Rule {
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}
 	rule.ShowPoint = true
+	rule.ShareButton = false
 	return rule
 }
 
@@ -83,9 +85,9 @@ type History struct {
 }
 
 type HistoryItem struct {
-	Scores map[int64]*Score
-	WinNum int
-	LoseNum int
+	Scores Scores
+	TeamScores Scores
+	WinLose *WinLose
 }
 
 const HistoryMaxLen = 100
@@ -99,9 +101,9 @@ func NewHistory() *History {
 
 func NewHistoryItem() *HistoryItem {
 	item := new(HistoryItem)
-	item.Scores = make(map[int64]*Score)
-	item.WinNum = 0
-	item.LoseNum = 0
+	item.Scores = make(Scores)
+	item.TeamScores = make(Scores)
+	item.WinLose = NewWinLose()
 	return item
 }
 

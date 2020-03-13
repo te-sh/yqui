@@ -2,18 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper } from '@material-ui/core'
 import { send } from '../communicate'
-import { editTeamToAttendees } from '../team'
-import { setEditTeam } from '../redux/actions'
+import { editTeamsToTeams } from '../team'
+import { setEditTeams } from '../redux/actions'
 import './Actions.scss'
 
-const TeamEdit = ({ className, ws, editTeam, setEditTeam }) => {
+const TeamEdit = ({ className, ws, editTeams, setEditTeams }) => {
   const onSubmit = () => {
-    send.attendees(ws, editTeamToAttendees(editTeam))
+    send.attendees(ws, editTeamsToTeams(editTeams))
     close()
   }
 
   const close = () => {
-    setEditTeam(null)
+    setEditTeams(null)
   }
 
   return (
@@ -35,9 +35,9 @@ const TeamEdit = ({ className, ws, editTeam, setEditTeam }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    editTeam: state.editTeam
+    editTeams: state.editTeams
   }),
   dispatch => ({
-    setEditTeam: attendees => dispatch(setEditTeam(attendees))
+    setEditTeams: attendees => dispatch(setEditTeams(attendees))
   })
 )(TeamEdit)

@@ -30,6 +30,10 @@ func (buttons *Buttons) Pushed(id int64) bool {
 	return Int64FindIndex(buttons.Pushers, id) >= 0
 }
 
+func (buttons *Buttons) Answer(id int64) {
+	buttons.Answerers = append(buttons.Answerers, id)
+}
+
 func (buttons *Buttons) Answered(id int64) bool {
 	return Int64FindIndex(buttons.Answerers, id) >= 0
 }

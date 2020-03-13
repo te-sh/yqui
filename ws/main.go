@@ -61,8 +61,8 @@ func HandleMessage() {
 			json.Unmarshal(cmd.A, &user)
 			room.UpdateUser(user)
 		case "p":
-			json.Unmarshal(cmd.A, &room.Attendees)
-			room.ChangeAttendees()
+			json.Unmarshal(cmd.A, &room.Teams)
+			room.ChangeTeams()
 		case "l":
 			json.Unmarshal(cmd.A, &room.Rule)
 			room.Broadcast("rule", room.Rule)

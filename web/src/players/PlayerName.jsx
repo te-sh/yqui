@@ -5,7 +5,7 @@ import { KeyboardOutlined } from '@material-ui/icons'
 import classNames from 'classnames'
 import './PlayerName.scss'
 
-const PlayerName = ({ item, right, selfID, users }) => {
+const PlayerName = ({ player, right, selfID, users }) => {
   const nameClass = id => classNames(
     'content',
     { 'self': selfID === id },
@@ -18,32 +18,14 @@ const PlayerName = ({ item, right, selfID, users }) => {
     </Icon>
   )
 
-  const list = (() => {
-    if (item.teamGame) {
-      return item.team.map(id => (
-        <Box className={nameClass(id)} key={id}>
-          {users[id].chatAnswer ? icon : ''}
-          <Typography>
-            {users[id].name}
-          </Typography>
-        </Box>
-      ))
-    } else {
-      return (
-        <Box key={item.player} className={nameClass(item.player)}>
-          {users[item.player].chatAnswer ? icon : ''}
-          <Typography>
-            {users[item.player].name}
-          </Typography>
-        </Box>
-      )
-    }
-  })()
-
   return (
-    <Box className="player-name"
-         style={{ height: `${1.5 * item.maxMember}em` }}>
-      {list}
+    <Box className="player-name">
+      <Box className={nameClass(player)}>
+        {users[player].chatAnswer ? icon : ''}
+        <Typography>
+          {users[player].name}
+        </Typography>
+      </Box>
     </Box>
   )
 }

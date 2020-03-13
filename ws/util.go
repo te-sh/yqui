@@ -1,5 +1,13 @@
 package main
 
+import (
+	"math/rand"
+)
+
+func NewID() int64 {
+	return rand.Int63n(int64(1)<<53)
+}
+
 func Int64Remove(a []int64, b int64) []int64 {
 	i := Int64FindIndex(a, b)
 	if (i >= 0) {

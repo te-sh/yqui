@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import ItemTypes from '../item_types'
 import Player from './Player'
 
-const PlayerDraggable = ({ item, index, droped, movePlayer }) => {
+const PlayerDraggable = ({ player, playerIndex, teamIndex, droped, movePlayer }) => {
   const ref = React.useRef(null)
 
   const [, drop] = useDrop({
@@ -12,8 +12,11 @@ const PlayerDraggable = ({ item, index, droped, movePlayer }) => {
       if (!ref.current) {
         return
       }
+      if (item.teamIndex !== teamIndex) {
+        return
+      }
       const dragIndex = item.index
-      const hoverIndex = index
+      const hoverIndex = playerIndex
       if (dragIndex === hoverIndex) {
         return
       }
@@ -35,7 +38,7 @@ const PlayerDraggable = ({ item, index, droped, movePlayer }) => {
   })
 
   const [{ isDragging }, drag] = useDrag({
-    item: { type: ItemTypes.PLAYER, item, index },
+    item: { type: ItemTypes.PLAYER, player, playerIndex, teamIndex },
     collect: monitor => ({
       isDragging: monitor.isDragging()
     })
@@ -46,7 +49,7 @@ const PlayerDraggable = ({ item, index, droped, movePlayer }) => {
 
   return (
     <div ref={ref} style={{ cursor: 'move', opacity }}>
-      <Player item={item} />
+      <Player player={player} />
     </div>
   )
 }

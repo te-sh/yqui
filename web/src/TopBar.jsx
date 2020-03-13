@@ -5,20 +5,20 @@ import {
   ListAlt, HelpOutline, Settings, SportsKabaddi, SupervisorAccount
 } from '@material-ui/icons'
 import { send } from './communicate'
-import { setEditTeam } from './redux/actions'
-import { attendeesToEditTeam } from './team'
+import { setEditTeams } from './redux/actions'
+import { teamsToEditTeams } from './team'
 import Rule from './dialogs/Rule'
 import Setting from './dialogs/Setting'
 import Help from './dialogs/Help'
 import './TopBar.scss'
 
-const TopBar = ({ className, ws, userIDs, attendees, isMaster, editTeam, setEditTeam }) => {
+const TopBar = ({ className, ws, userIDs, teams, master, isMaster, editTeams, setEditTeams }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
   const [settingOpen, setSettingOpen] = React.useState(false)
   const [helpOpen, setHelpOpen] = React.useState(false)
 
   const teamEdit = () => {
-    setEditTeam(attendeesToEditTeam(userIDs, attendees))
+    setEditTeams(teamsToEditTeams(userIDs, teams, master))
   }
 
   return (
@@ -29,17 +29,17 @@ const TopBar = ({ className, ws, userIDs, attendees, isMaster, editTeam, setEdit
         </Typography>
         <div className="toolbar-grow" />
         <IconButton color="inherit"
-                    disabled={!isMaster || !!editTeam}
+                    disabled={!isMaster || !!editTeams}
                     onClick={teamEdit}>
           <SportsKabaddi />
         </IconButton>
         <IconButton color="inherit"
-                    disabled={!isMaster || !!editTeam}
+                    disabled={!isMaster || !!editTeams}
                     onClick={() => setRuleOpen(true)}>
           <ListAlt />
         </IconButton>
         <IconButton color={isMaster ? 'secondary' : 'inherit'}
-                    disabled={(!isMaster && attendees.master >= 0) || !!editTeam}
+                    disabled={(!isMaster && master >= 0) || !!editTeams}
                     onClick={() => send.toggleMaster(ws)}>
           <SupervisorAccount />
         </IconButton>
@@ -63,11 +63,12 @@ export default connect(
   state => ({
     ws: state.ws,
     userIDs: state.userIDs,
-    attendees: state.attendees,
+    teams: state.teams,
+    master: state.master,
     isMaster: state.isMaster,
-    editTeam: state.editTeam
+    editTeams: state.editTeams
   }),
   dispatch => ({
-    setEditTeam: editTeam => dispatch(setEditTeam(editTeam))
+    setEditTeams: editTeams => dispatch(setEditTeams(editTeams))
   })
 )(TopBar)

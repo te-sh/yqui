@@ -5,7 +5,7 @@ import ItemTypes from '../item_types'
 import Player from './Player'
 import './Group.scss'
 
-const Group = ({ label, players, teamIndex, droped }) => {
+const Group = ({ label, team, teamIndex, droped }) => {
   const [, dropRef] = useDrop({
     accept: ItemTypes.PLAYER,
     drop(item, _monitor) {
@@ -22,7 +22,7 @@ const Group = ({ label, players, teamIndex, droped }) => {
     <FormControl component="fieldset" className="team-edit-group" ref={dropRef}>
       <FormLabel component="legend">{label}</FormLabel>
       <Box className="content">
-        {players.map(playerElement)}
+        {team.players.map(playerElement)}
       </Box>
     </FormControl>
   )

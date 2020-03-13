@@ -11,14 +11,11 @@ type Score struct {
 
 func NewScore() *Score {
 	score := new(Score)
-	score.Point = 0
-	score.Batsu = 0
-	score.Lock = 0
-	score.Cons = 0
-	score.Win = 0
-	score.Lose = 0
+	score.Reset()
 	return score
 }
+
+type Scores map[int64]*Score
 
 func (score *Score) Clone() *Score {
 	newScore := *score
@@ -38,24 +35,36 @@ func (score *Score) CanPush() bool {
 	return score.Lock == 0 && score.Win == 0 && score.Lose == 0
 }
 
-func (score *Score) Correct(rule *Rule, winNum *int, otherScores []*Score) (win bool) {
+func (scores Scores) Clone() Scores {
+	clone := make(Scores)
+	for id, score := range scores {
+		clone[id] = score.Clone()
+	}
+	return clone
+}
+
+func (scores Scores) Correct(id int64, rule *Rule, winLose *WinLose) (win bool) {
+	score := scores[id]
 	score.Point += rule.PointCorrect
 	if (rule.BonusCorrect == "cons") {
 		score.Point += score.Cons
 		score.Cons += 1
-		for _, otherScore := range otherScores {
-			otherScore.Cons = 0
+		for otherId, otherScore := range scores {
+			if otherId != id {
+				otherScore.Cons = 0
+			}
 		}
 	}
 	win = rule.WinPoint.Active && score.Point >= rule.WinPoint.Value
 	if win {
-		*winNum += 1
-		score.Win = *winNum
+		winLose.WinNum += 1
+		score.Win = winLose.WinNum
 	}
 	return
 }
 
-func (score *Score) Wrong(rule *Rule, loseNum *int, otherScores []*Score) (lose bool) {
+func (scores Scores) Wrong(id int64, rule *Rule, winLose *WinLose) (lose bool) {
+	score := scores[id]
 	score.Point += rule.PointWrong
 	score.Batsu += rule.BatsuWrong
 	score.Lock = rule.LockWrong
@@ -66,8 +75,8 @@ func (score *Score) Wrong(rule *Rule, loseNum *int, otherScores []*Score) (lose 
 		(rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
 		(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)
 	if lose {
-		*loseNum += 1
-		score.Lose = *loseNum
+		winLose.LoseNum += 1
+		score.Lose = winLose.LoseNum
 	}
 	return
 }

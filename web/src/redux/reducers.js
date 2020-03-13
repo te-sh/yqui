@@ -1,11 +1,12 @@
 import update from 'immutability-helper'
 import {
   RESET, SET_WEB_SOCKET,
-  RECV_SELF_ID, RECV_ROOM, RECV_USERS, RECV_ATTENDEES,
-  RECV_SCORES, RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAM
+  RECV_SELF_ID, RECV_ROOM, RECV_USERS, RECV_TEAMS,
+  RECV_SCORES, RECV_BUTTONS, RECV_RULE, RECV_CHAT,
+  SET_EDIT_TEAMS
 } from './actions'
 import {
-  isMaster, isPlayer, normalizeAttendees, normalizeButtons, ruleText
+  isMaster, isPlayer, normalizeTeams, normalizeButtons, ruleText
 } from '../util'
 import { mergeEditTeam } from '../team'
 
@@ -14,15 +15,10 @@ const initialState = {
   selfID: null,
   users: {},
   userIDs: [],
-  attendees: {
-    master: -1,
-    teamGame: false,
-    players: [],
-    teams: []
-  },
-  isMaster: false,
-  isPlayer: true,
+  teams: [],
+  master: -1,
   scores: {},
+  teamScores: {},
   buttons: {
     pushers: [],
     pusherTimes: [],
@@ -38,7 +34,8 @@ const initialState = {
     winPoint: { active: true, value: 7 },
     losePoint: { active: false, value: 0 },
     loseBatsu: { active: true, value: 3 },
-    showPoint: true
+    showPoint: true,
+    shareButtons: false
   },
   ruleText: {},
   editTeam: null,
@@ -46,6 +43,7 @@ const initialState = {
 }
 
 const yquiApp = (state = initialState, action) => {
+  var teams, buttons
   switch (action.type) {
   case RESET:
     return initialState
@@ -56,38 +54,44 @@ const yquiApp = (state = initialState, action) => {
   case RECV_SELF_ID:
     return update(state, {
       selfID: { $set: action.selfID },
-      isMaster: { $set: isMaster(action.selfID, state.attendees) },
-      isPlayer: { $set: isPlayer(action.selfID, state.attendees) }
+      isMaster: { $set: isMaster(action.selfID, state.master) },
+      isPlayer: { $set: isPlayer(action.selfID, state.teams) }
     })
   case RECV_ROOM:
-    normalizeAttendees(action.room.attendees)
-    normalizeButtons(action.room.buttons)
+    teams = normalizeTeams(action.room.teams)
+    buttons = normalizeButtons(action.room.buttons)
     return update(state, {
       users: { $set: action.room.users },
       userIDs: { $set: action.room.userIDs },
-      attendees: { $set: action.room.attendees },
+      teams: { $set: teams },
+      master: { $set: action.room.master },
       scores: { $set: action.room.scores },
-      buttons: { $set: action.room.buttons },
-      isMaster: { $set: isMaster(state.selfID, action.room.attendees) },
-      isPlayer: { $set: isPlayer(state.selfID, action.room.attendees) },
-      ruleText: { $set: ruleText(state.rule, action.room.attendees) },
-      editTeam: { $set: mergeEditTeam(state.editTeam, action.room.userIDs, action.room.attendees) }
+      teamScores: { $set: action.room.teamScores },
+      buttons: { $set: buttons },
+      isMaster: { $set: isMaster(state.selfID, action.room.master) },
+      isPlayer: { $set: isPlayer(state.selfID, teams) },
+      ruleText: { $set: ruleText(state.rule, teams) },
+      editTeams: { $set: mergeEditTeam(state.editTeams, action.room.userIDs, teams, action.room.master) }
     })
   case RECV_USERS:
     return update(state, {
       users: { $set: action.users }
     })
-  case RECV_ATTENDEES:
-    normalizeAttendees(action.attendees)
+  case RECV_TEAMS:
+    teams = normalizeTeams(action.teams.teams)
     return update(state, {
-      attendees: { $set: action.attendees },
-      isMaster: { $set: isMaster(state.selfID, action.attendees) },
-      isPlayer: { $set: isPlayer(state.selfID, action.attendees) },
-      ruleText: { $set: ruleText(state.rule, action.attendees) }
+      teams: { $set: teams },
+      master: { $set: action.teams.master },
+      scores: { $set: action.teams.scores },
+      teamScores: { $set: action.teams.teamScores },
+      isMaster: { $set: isMaster(state.selfID, action.teams.master) },
+      isPlayer: { $set: isPlayer(state.selfID, teams) },
+      ruleText: { $set: ruleText(state.rule, teams) }
     })
   case RECV_SCORES:
     return update(state, {
-      scores: { $set: action.scores }
+      scores: { $set: action.scores.scores },
+      teamScores: { $set: action.scores.teamScores }
     })
   case RECV_BUTTONS:
     normalizeButtons(action.buttons)
@@ -97,15 +101,15 @@ const yquiApp = (state = initialState, action) => {
   case RECV_RULE:
     return update(state, {
       rule: { $set: action.rule },
-      ruleText: { $set: ruleText(action.rule, state.attendees) }
+      ruleText: { $set: ruleText(action.rule, state.teams) }
     })
   case RECV_CHAT:
     return update(state, {
       chats: { $push: [action.chat] }
     })
-  case SET_EDIT_TEAM:
+  case SET_EDIT_TEAMS:
     return update(state, {
-      editTeam: { $set: action.editTeam }
+      editTeams: { $set: action.editTeams }
     })
   default:
     return state

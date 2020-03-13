@@ -3,12 +3,12 @@ export const SET_WEB_SOCKET = 'SET_WEB_SOCKET'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
 export const RECV_USERS = 'RECV_USERS'
-export const RECV_ATTENDEES = 'RECV_ATTENDEES'
+export const RECV_TEAMS = 'RECV_TEAMS'
 export const RECV_SCORES = 'RECV_SCORES'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_RULE = 'RECV_RULE'
 export const RECV_CHAT = 'RECV_CHAT'
-export const SET_EDIT_TEAM = 'SET_EDIT_TEAM'
+export const SET_EDIT_TEAMS = 'SET_EDIT_TEAMS'
 
 export const reset = () => {
   return { type: RESET }
@@ -30,8 +30,8 @@ export const recvUsers = users => {
   return { type: RECV_USERS, users }
 }
 
-export const recvAttendees = attendees => {
-  return { type: RECV_ATTENDEES, attendees }
+export const recvAttendees = teams => {
+  return { type: RECV_TEAMS, teams }
 }
 
 export const recvScores = scores => {
@@ -50,6 +50,6 @@ export const recvChat = chat => {
   return { type: RECV_CHAT, chat }
 }
 
-export const setEditTeam = editTeam => {
-  return { type: SET_EDIT_TEAM, editTeam }
+export const setEditTeams = editTeams => {
+  return { type: SET_EDIT_TEAMS, editTeams }
 }

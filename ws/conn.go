@@ -50,50 +50,75 @@ func (conn *Conn) Activate(ctx context.Context) error {
 	}
 }
 
-type RoomSub struct {
+type RoomSend struct {
 	Users map[int64]*User `json:"users"`
 	UserIDs []int64 `json:"userIDs"`
-	Attendees *Attendees `json:"attendees"`
-	Scores map[int64]*Score `json:"scores"`
+	Teams Teams `json:"teams"`
+	Master int64 `json:"master"`
+	Scores Scores `json:"scores"`
+	TeamScores Scores `json:"teamScores"`
 	Buttons *Buttons `json:"buttons"`
 }
 
 func (room *Room) SendRoom() {
-	roomSub := RoomSub{
+	roomSend := RoomSend{
 		Users: room.Users,
 		UserIDs: room.UserIDs,
-		Attendees: room.Attendees,
+		Teams: room.Teams,
+		Master: room.Master,
 		Scores: room.Scores,
+		TeamScores: room.TeamScores,
 		Buttons: room.Buttons,
 	}
-	room.Broadcast("room", roomSub)
+	room.Broadcast("room", roomSend)
 }
 
 func (room *Room) SendUsers() {
 	room.Broadcast("users", room.Users)
 }
 
-func (room *Room) SendAttendees() {
-	room.Broadcast("attendees", room.Attendees)
+type TeamsSend struct {
+	Teams Teams `json:"teams"`
+	Master int64 `json:"master"`
+	Scores Scores `json:"scores"`
+	TeamScores Scores `json:"teamScores"`
+}
+
+func (room *Room) SendTeams() {
+	teamsSend := TeamsSend{
+		Teams: room.Teams,
+		Master: room.Master,
+		Scores: room.Scores,
+		TeamScores: room.TeamScores,
+	}
+	room.Broadcast("teams", teamsSend)
 }
 
 func (room *Room) SendButtons() {
 	room.Broadcast("buttons", room.Buttons)
 }
 
-func (room *Room) SendScores() {
-	subScores := make(map[int64]*Score)
-	for id := range room.Scores {
-		subScore := *room.Scores[id]
-		if !room.Rule.ShowPoint {
-			subScore.Point = 0
-			subScore.Batsu = 0
-		}
-		subScores[id] = &subScore
-	}
+type ScoresSend struct {
+	Scores Scores `json:"scores"`
+	TeamScores Scores `json:"teamScores"`
+}
 
-	room.SendToMaster("scores", room.Scores)
-	room.SendToPlayers("scores", subScores)
+func (room *Room) SendScores() {
+	scoresSend := ScoresSend{
+		Scores: room.Scores.Clone(),
+		TeamScores: room.TeamScores.Clone(),
+	}
+	room.SendToMaster("scores", scoresSend)
+
+	for _, score := range scoresSend.Scores {
+		score.Point = 0
+		score.Batsu = 0
+	}
+	for _, teamScore := range scoresSend.TeamScores {
+		teamScore.Point = 0
+		teamScore.Batsu = 0
+	}
+	room.SendToPlayers("scores", scoresSend)
 }
 
 func (room *Room) Broadcast(typ string, cnt interface {}) {
@@ -112,7 +137,7 @@ func (room *Room) SendToOne(id int64, typ string, cnt interface {}) {
 
 func (room *Room) SendToMaster(typ string, cnt interface {}) {
 	log.Println("write: ", typ, cnt)
-	if id := room.Attendees.Master; id != -1 {
+	if id := room.Master; id != -1 {
 		msg := Message{Type: typ, Content: cnt}
 		room.Users[id].Conn.Message <- msg
 	}
@@ -121,8 +146,8 @@ func (room *Room) SendToMaster(typ string, cnt interface {}) {
 func (room *Room) SendToPlayers(typ string, cnt interface {}) {
 	log.Println("write: ", typ, cnt)
 	msg := Message{Type: typ, Content: cnt}
-	for id := range room.Users {
-		if id != room.Attendees.Master {
+	for _, id := range room.UserIDs {
+		if id != room.Master {
 			room.Users[id].Conn.Message <- msg
 		}
 	}

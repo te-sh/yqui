@@ -1,21 +1,27 @@
-export const isMaster = (selfID, attendees) => (
-  selfID === attendees.master
+export const isMaster = (selfID, master) => (
+  selfID === master
 )
 
-export const isPlayer = (selfID, attendees) => (
-  attendees.players.includes(selfID) ||
-  attendees.teams.some(team => team.includes(selfID))
+export const isPlayer = (selfID, teams) => (
+  teams.flatMap(team => team.players).includes(selfID)
 )
+
+export const normalizeTeams = teams => {
+  if (teams) {
+    for (let team of teams) {
+      team.players = team.players || []
+    }
+    return teams
+  } else {
+    return []
+  }
+}
 
 export const normalizeButtons = buttons => {
   buttons.pushers = buttons.pushers || []
   buttons.pushTimes = buttons.pushTimes || []
   buttons.answerers = buttons.answerers || []
-}
-
-export const normalizeAttendees = attendees => {
-  attendees.players = attendees.players || []
-  attendees.teams = attendees.teams || []
+  return buttons
 }
 
 export const ordial = x => {
@@ -39,12 +45,12 @@ export const shuffle = ([...array]) => {
   return array
 }
 
-export const ruleText = (rule, attendees) => {
+export const ruleText = (rule, teams) => {
   return {
     chance: (() => {
       if (rule.rightNum === 1) {
         return 'シングルチャンス'
-      } else if (rule.rightNum >= attendees.players.length) {
+      } else if (rule.rightNum >= teams.map(team => team.players.length).reduce((a, b) => a + b)) {
         return 'エンドレスチャンス'
       } else if (rule.rightNum === 2) {
         return 'ダブルチャンス'
