@@ -6,47 +6,24 @@
     padding: 3px;
     display: grid;
     grid-template-rows: auto 1fr;
-    grid-template-columns: 35px 1fr 35px;
+    grid-template-columns: auto;
 
     &.right {
       background-color: #ffe0b2;
     }
 
     .player-name {
-      grid-column: 1/4;
+      grid-column: 1/2;
       grid-row: 1/2;
     }
 
-    .correct {
-      grid-column: 2/3;
+    .player-point {
+      grid-column: 1/2;
       grid-row: 2/3;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #8bc34a;
-
-      .content {
-        font-family: 'Krona One';
-        font-size: 44px;
-      }
-    }
-
-    .wrong {
-      grid-column: 3/4;
-      grid-row: 2/3;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #f44336;
-
-      .content {
-        font-family: 'Krona One';
-        font-size: 32px;
-      }
     }
 
     .player-status {
-      grid-column: 1/4;
+      grid-column: 1/2;
       grid-row: 2/3;
     }
   }
