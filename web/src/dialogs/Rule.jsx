@@ -75,6 +75,95 @@ const Rule = ({ open, close, ws, rule }) => {
     return isNaN(i) ? 0 : i
   }
 
+  const normalRule = (
+    <TabPanel value={tab} index={0}>
+      <FormGroup component="fieldset" className="rule-group">
+        <TextField label="解答権人数" type="number"
+                   value={rightNum}
+                   onChange={evt => setRightNum(evt.target.value)} />
+      </FormGroup>
+      <FormGroup component="fieldset" className="rule-group">
+        <FormLabel component="legend">
+          正答時
+        </FormLabel>
+        <FormGroup row={true}>
+          <TextField label="ポイント" type="number"
+                     value={pointCorrect}
+                     onChange={evt => setPointCorrect(evt.target.value)} />
+          <FormControl>
+            <InputLabel id="bonus-correct-label">ボーナス</InputLabel>
+            <Select labelId="bonus-correct-label"
+                    value={bonusCorrect}
+                    onChange={evt => setBonusCorrect(evt.target.value)}>
+              <MenuItem value="none">なし</MenuItem>
+              <MenuItem value="cons">連答</MenuItem>
+            </Select>
+          </FormControl>
+        </FormGroup>
+      </FormGroup>
+      <FormGroup component="fieldset" className="rule-group">
+        <FormLabel component="legend">
+          誤答時
+        </FormLabel>
+        <FormGroup row={true}>
+          <TextField label="ポイント" type="number"
+                     value={pointWrong}
+                     onChange={evt => setPointWrong(evt.target.value)} />
+          <TextField label="バツ" type="number"
+                     value={batsuWrong}
+                     onChange={evt => setBatsuWrong(evt.target.value)} />
+          <TextField label="休み" type="number"
+                     value={lockWrong}
+                     onChange={evt => setLockWrong(evt.target.value)} />
+        </FormGroup>
+      </FormGroup>
+      <FormGroup component="fieldset" className="rule-group">
+        <FormLabel component="legend">
+          勝ち抜け
+        </FormLabel>
+        <FormGroup row={true}>
+          <Checkbox color="default" checked={winPointActive}
+                    onChange={evt => setWinPointActive(evt.target.checked)} />
+          <TextField label="ポイント" type="number"
+                     disabled={!winPointActive}
+                     value={winPointValue}
+                     onChange={evt => setWinPointValue(evt.target.value)} />
+        </FormGroup>
+      </FormGroup>
+      <FormGroup component="fieldset" className="rule-group">
+        <FormLabel component="legend">
+          失格
+        </FormLabel>
+        <FormGroup row={true}>
+          <Checkbox color="default" checked={losePointActive}
+                    onChange={evt => setLosePointActive(evt.target.checked)} />
+          <TextField label="ポイント" type="number"
+                     disabled={!losePointActive}
+                     value={losePointValue}
+                     onChange={evt => setLosePointValue(evt.target.value)} />
+          <Checkbox color="default" checked={loseBatsuActive}
+                    onChange={evt => setLoseBatsuActive(evt.target.checked)} />
+          <TextField label="バツ" type="number"
+                     disabled={!loseBatsuActive}
+                     value={loseBatsuValue}
+                     onChange={evt => setLoseBatsuValue(evt.target.value)} />
+        </FormGroup>
+      </FormGroup>
+    </TabPanel>
+  )
+
+  const teamRule = (
+    <TabPanel value={tab} index={1}>
+      <FormControlLabel
+        control={
+          <Checkbox color="default"
+                    checked={shareButton}
+                    onChange={evt => setShareButton(evt.target.checked)} />
+        }
+        label="ボタン共有" />
+    </TabPanel>
+  )
+
   return (
     <Dialog open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
@@ -85,89 +174,8 @@ const Rule = ({ open, close, ws, rule }) => {
             <Tab label="通常" />
             <Tab label="チーム" />
           </Tabs>
-          <TabPanel value={tab} index={0}>
-            <FormGroup component="fieldset" className="rule-group">
-              <TextField label="解答権人数" type="number"
-                         value={rightNum}
-                         onChange={evt => setRightNum(evt.target.value)} />
-            </FormGroup>
-            <FormGroup component="fieldset" className="rule-group">
-              <FormLabel component="legend">
-                正答時
-              </FormLabel>
-              <FormGroup row={true}>
-                <TextField label="ポイント" type="number"
-                           value={pointCorrect}
-                           onChange={evt => setPointCorrect(evt.target.value)} />
-                <FormControl>
-                  <InputLabel id="bonus-correct-label">ボーナス</InputLabel>
-                  <Select labelId="bonus-correct-label"
-                          value={bonusCorrect}
-                          onChange={evt => setBonusCorrect(evt.target.value)}>
-                    <MenuItem value="none">なし</MenuItem>
-                    <MenuItem value="cons">連答</MenuItem>
-                  </Select>
-                </FormControl>
-              </FormGroup>
-            </FormGroup>
-            <FormGroup component="fieldset" className="rule-group">
-              <FormLabel component="legend">
-                誤答時
-              </FormLabel>
-              <FormGroup row={true}>
-                <TextField label="ポイント" type="number"
-                           value={pointWrong}
-                           onChange={evt => setPointWrong(evt.target.value)} />
-                <TextField label="バツ" type="number"
-                           value={batsuWrong}
-                           onChange={evt => setBatsuWrong(evt.target.value)} />
-                <TextField label="休み" type="number"
-                           value={lockWrong}
-                           onChange={evt => setLockWrong(evt.target.value)} />
-              </FormGroup>
-            </FormGroup>
-            <FormGroup component="fieldset" className="rule-group">
-              <FormLabel component="legend">
-                勝ち抜け
-              </FormLabel>
-              <FormGroup row={true}>
-                <Checkbox color="default" checked={winPointActive}
-                          onChange={evt => setWinPointActive(evt.target.checked)} />
-                <TextField label="ポイント" type="number"
-                           disabled={!winPointActive}
-                           value={winPointValue}
-                           onChange={evt => setWinPointValue(evt.target.value)} />
-              </FormGroup>
-            </FormGroup>
-            <FormGroup component="fieldset" className="rule-group">
-              <FormLabel component="legend">
-                失格
-              </FormLabel>
-              <FormGroup row={true}>
-                <Checkbox color="default" checked={losePointActive}
-                          onChange={evt => setLosePointActive(evt.target.checked)} />
-                <TextField label="ポイント" type="number"
-                           disabled={!losePointActive}
-                           value={losePointValue}
-                           onChange={evt => setLosePointValue(evt.target.value)} />
-                <Checkbox color="default" checked={loseBatsuActive}
-                          onChange={evt => setLoseBatsuActive(evt.target.checked)} />
-                <TextField label="バツ" type="number"
-                           disabled={!loseBatsuActive}
-                           value={loseBatsuValue}
-                           onChange={evt => setLoseBatsuValue(evt.target.value)} />
-              </FormGroup>
-            </FormGroup>
-          </TabPanel>
-          <TabPanel value={tab} index={1}>
-            <FormControlLabel
-              control={
-                <Checkbox color="default"
-                          checked={shareButton}
-                          onChange={evt => setShareButton(evt.target.checked)} />
-              }
-              label="ボタン共有" />
-          </TabPanel>
+          {normalRule}
+          {teamRule}
         </DialogContent>
         <DialogActions>
           <Button type="submit" color="primary">

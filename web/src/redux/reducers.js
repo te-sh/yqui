@@ -28,6 +28,7 @@ const initialState = {
   rule: {
     rightNum: 1,
     pointCorrect: 1,
+    bonusCorreact: 'none',
     pointWrong: 0,
     batsuWrong: 1,
     lockWrong: 0,
@@ -35,7 +36,9 @@ const initialState = {
     losePoint: { active: false, value: 0 },
     loseBatsu: { active: true, value: 3 },
     showPoint: true,
-    shareButtons: false
+    shareButtons: false,
+    teamPoint: 'sum',
+    teamBatsu: 'sum'
   },
   ruleText: {},
   editTeams: null,
