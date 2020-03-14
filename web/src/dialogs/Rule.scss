@@ -4,12 +4,16 @@
   grid-template-columns: auto;
   grid-gap: 12px;
 
+  .rule-group {
+    margin-bottom: 15px;
+  }
+
   .MuiInputBase-root {
     width: 90px;
   }
 
   .tab-panel {
-    height: 20em;
+    height: 22em;
     padding: 1.5em;
   }
 }

@@ -2,19 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
   Box, Button, Checkbox, Dialog, DialogActions, DialogContent,
-  DialogTitle, FormControl, FormControlLabel, InputLabel,
-  MenuItem, Select, Tabs, Tab, TextField, Typography
+  DialogTitle, FormControl, FormControlLabel, FormGroup, FormLabel,
+  InputLabel, MenuItem, Select, Tabs, Tab, TextField
 } from '@material-ui/core'
 import { send } from '../communicate'
 import './Rule.scss'
 
-const TabPanel = ({ children, value, index, ...other }) => (
+const TabPanel = ({ children, value, index }) => (
   <Box className="tab-panel"
        role="tabpanel"
        hidden={value !== index}
        id={`nav-tabpanel-${index}`}
-       aria-labelledby={`nav-tab-${index}`}
-       {...other}>
+       aria-labelledby={`nav-tab-${index}`}>
     <Box>
       {children}
     </Box>
@@ -87,68 +86,78 @@ const Rule = ({ open, close, ws, rule }) => {
             <Tab label="チーム" />
           </Tabs>
           <TabPanel value={tab} index={0}>
-            <TextField label="解答権人数" type="number"
-                       value={rightNum}
-                       onChange={evt => setRightNum(evt.target.value)} />
-            <div>
-              <Typography>
+            <FormGroup component="fieldset" className="rule-group">
+              <TextField label="解答権人数" type="number"
+                         value={rightNum}
+                         onChange={evt => setRightNum(evt.target.value)} />
+            </FormGroup>
+            <FormGroup component="fieldset" className="rule-group">
+              <FormLabel component="legend">
                 正答時
-              </Typography>
-              <TextField label="ポイント" type="number"
-                         value={pointCorrect}
-                         onChange={evt => setPointCorrect(evt.target.value)} />
-              <FormControl>
-                <InputLabel id="bonus-correct-label">ボーナス</InputLabel>
-                <Select labelId="bonus-correct-label"
-                        value={bonusCorrect}
-                        onChange={evt => setBonusCorrect(evt.target.value)}>
-                  <MenuItem value="none">なし</MenuItem>
-                  <MenuItem value="cons">連答</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <div>
-              <Typography>
+              </FormLabel>
+              <FormGroup row={true}>
+                <TextField label="ポイント" type="number"
+                           value={pointCorrect}
+                           onChange={evt => setPointCorrect(evt.target.value)} />
+                <FormControl>
+                  <InputLabel id="bonus-correct-label">ボーナス</InputLabel>
+                  <Select labelId="bonus-correct-label"
+                          value={bonusCorrect}
+                          onChange={evt => setBonusCorrect(evt.target.value)}>
+                    <MenuItem value="none">なし</MenuItem>
+                    <MenuItem value="cons">連答</MenuItem>
+                  </Select>
+                </FormControl>
+              </FormGroup>
+            </FormGroup>
+            <FormGroup component="fieldset" className="rule-group">
+              <FormLabel component="legend">
                 誤答時
-              </Typography>
-              <TextField label="ポイント" type="number"
-                         value={pointWrong}
-                         onChange={evt => setPointWrong(evt.target.value)} />
-              <TextField label="バツ" type="number"
-                         value={batsuWrong}
-                         onChange={evt => setBatsuWrong(evt.target.value)} />
-              <TextField label="休み" type="number"
-                         value={lockWrong}
-                         onChange={evt => setLockWrong(evt.target.value)} />
-            </div>
-            <div>
-              <Typography>
+              </FormLabel>
+              <FormGroup row={true}>
+                <TextField label="ポイント" type="number"
+                           value={pointWrong}
+                           onChange={evt => setPointWrong(evt.target.value)} />
+                <TextField label="バツ" type="number"
+                           value={batsuWrong}
+                           onChange={evt => setBatsuWrong(evt.target.value)} />
+                <TextField label="休み" type="number"
+                           value={lockWrong}
+                           onChange={evt => setLockWrong(evt.target.value)} />
+              </FormGroup>
+            </FormGroup>
+            <FormGroup component="fieldset" className="rule-group">
+              <FormLabel component="legend">
                 勝ち抜け
-              </Typography>
-              <Checkbox color="default" checked={winPointActive}
-                        onChange={evt => setWinPointActive(evt.target.checked)} />
-              <TextField label="ポイント" type="number"
-                         disabled={!winPointActive}
-                         value={winPointValue}
-                         onChange={evt => setWinPointValue(evt.target.value)} />
-            </div>
-            <div>
-              <Typography>
+              </FormLabel>
+              <FormGroup row={true}>
+                <Checkbox color="default" checked={winPointActive}
+                          onChange={evt => setWinPointActive(evt.target.checked)} />
+                <TextField label="ポイント" type="number"
+                           disabled={!winPointActive}
+                           value={winPointValue}
+                           onChange={evt => setWinPointValue(evt.target.value)} />
+              </FormGroup>
+            </FormGroup>
+            <FormGroup component="fieldset" className="rule-group">
+              <FormLabel component="legend">
                 失格
-              </Typography>
-              <Checkbox color="default" checked={losePointActive}
-                        onChange={evt => setLosePointActive(evt.target.checked)} />
-              <TextField label="ポイント" type="number"
-                         disabled={!losePointActive}
-                         value={losePointValue}
-                         onChange={evt => setLosePointValue(evt.target.value)} />
-              <Checkbox color="default" checked={loseBatsuActive}
-                        onChange={evt => setLoseBatsuActive(evt.target.checked)} />
-              <TextField label="バツ" type="number"
-                         disabled={!loseBatsuActive}
-                         value={loseBatsuValue}
-                         onChange={evt => setLoseBatsuValue(evt.target.value)} />
-            </div>
+              </FormLabel>
+              <FormGroup row={true}>
+                <Checkbox color="default" checked={losePointActive}
+                          onChange={evt => setLosePointActive(evt.target.checked)} />
+                <TextField label="ポイント" type="number"
+                           disabled={!losePointActive}
+                           value={losePointValue}
+                           onChange={evt => setLosePointValue(evt.target.value)} />
+                <Checkbox color="default" checked={loseBatsuActive}
+                          onChange={evt => setLoseBatsuActive(evt.target.checked)} />
+                <TextField label="バツ" type="number"
+                           disabled={!loseBatsuActive}
+                           value={loseBatsuValue}
+                           onChange={evt => setLoseBatsuValue(evt.target.value)} />
+              </FormGroup>
+            </FormGroup>
           </TabPanel>
           <TabPanel value={tab} index={1}>
             <FormControlLabel
