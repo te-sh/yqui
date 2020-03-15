@@ -10,6 +10,10 @@
 
   .MuiInputBase-root {
     width: 90px;
+
+    &.wide-select {
+      width: 10em;
+    }
   }
 
   .tab-panel {

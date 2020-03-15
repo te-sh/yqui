@@ -129,6 +129,7 @@ func (room *Room) Correct() (win bool) {
 
 	rule := room.Rule
 	win = room.Scores.Correct(id, rule, room.WinLose)
+	room.TeamScores.CorrectTeam(room.Users[id].Team, room.Scores, rule, room.WinLose)
 
 	room.NextQuiz(true)
 	room.AddHistory()
@@ -168,6 +169,7 @@ func (room *Room) Wrong() (lose bool) {
 
 	rule := room.Rule
 	lose = room.Scores.Wrong(id, rule, room.WinLose)
+	room.TeamScores.WrongTeam(room.Users[id].Team, room.Scores, rule, room.WinLose)
 
 	buttons.Answer(id)
 	if len(buttons.Answerers) >= rule.RightNum || room.NumCanAnswer() == 0 {

@@ -5,11 +5,12 @@ import {
   DialogTitle, FormControl, FormControlLabel, FormGroup, FormLabel,
   InputLabel, MenuItem, Select, Tabs, Tab, TextField
 } from '@material-ui/core'
+import classNames from 'classnames'
 import { send } from '../communicate'
 import './Rule.scss'
 
-const TabPanel = ({ children, value, index }) => (
-  <Box className="tab-panel"
+const TabPanel = ({ children, value, index, className }) => (
+  <Box className={classNames('tab-panel', className)}
        role="tabpanel"
        hidden={value !== index}
        id={`nav-tabpanel-${index}`}
@@ -35,6 +36,8 @@ const Rule = ({ open, close, ws, rule }) => {
   const [loseBatsuActive, setLoseBatsuActive] = React.useState(true)
   const [loseBatsuValue, setLoseBatsuValue] = React.useState(0)
   const [shareButton, setShareButton] = React.useState(false)
+  const [teamPoint, setTeamPoint] = React.useState('sum')
+  const [teamBatsu, setTeamBatsu] = React.useState('sum')
 
   const onEnter = () => {
     setRightNum(rule.rightNum)
@@ -50,6 +53,8 @@ const Rule = ({ open, close, ws, rule }) => {
     setLoseBatsuActive(rule.loseBatsu.active)
     setLoseBatsuValue(rule.loseBatsu.value)
     setShareButton(rule.shareButton)
+    setTeamPoint(rule.teamPoint)
+    setTeamBatsu(rule.teamBatsu)
   }
 
   const onSubmit = evt => {
@@ -66,7 +71,9 @@ const Rule = ({ open, close, ws, rule }) => {
       winPoint: { active: winPointActive, value: parse(winPointValue) },
       losePoint: { active: losePointActive, value: parse(losePointValue) },
       loseBatsu: { active: loseBatsuActive, value: parse(loseBatsuValue) },
-      shareButton
+      shareButton,
+      teamPoint,
+      teamBatsu
     })
   }
 
@@ -76,7 +83,7 @@ const Rule = ({ open, close, ws, rule }) => {
   }
 
   const normalRule = (
-    <TabPanel value={tab} index={0}>
+    <TabPanel value={tab} index={0} className="normal-rule">
       <FormGroup component="fieldset" className="rule-group">
         <TextField label="解答権人数" type="number"
                    value={rightNum}
@@ -153,14 +160,37 @@ const Rule = ({ open, close, ws, rule }) => {
   )
 
   const teamRule = (
-    <TabPanel value={tab} index={1}>
-      <FormControlLabel
-        control={
-          <Checkbox color="default"
-                    checked={shareButton}
-                    onChange={evt => setShareButton(evt.target.checked)} />
-        }
-        label="ボタン共有" />
+    <TabPanel value={tab} index={1} className="team-rule">
+      <FormGroup className="rule-group">
+        <FormControlLabel
+          control={
+            <Checkbox color="default"
+                      checked={shareButton}
+                      onChange={evt => setShareButton(evt.target.checked)} />
+          }
+          label="ボタン共有" />
+      </FormGroup>
+      <FormGroup className="rule-group">
+        <FormControl>
+          <InputLabel id="team-point-label">ポイント</InputLabel>
+          <Select labelId="team-point-label" className="wide-select"
+                  value={teamPoint}
+                  onChange={evt => setTeamPoint(evt.target.value)}>
+            <MenuItem value="sum">個人ポイントの和</MenuItem>
+            <MenuItem value="mul">個人ポイントの積</MenuItem>
+          </Select>
+        </FormControl>
+      </FormGroup>
+      <FormGroup className="rule-group">
+        <FormControl>
+          <InputLabel id="team-batsu-label">バツ</InputLabel>
+          <Select labelId="team-batsu-label" className="wide-select"
+                  value={teamBatsu}
+                  onChange={evt => setTeamBatsu(evt.target.value)}>
+            <MenuItem value="sum">個人バツの和</MenuItem>
+          </Select>
+        </FormControl>
+      </FormGroup>
     </TabPanel>
   )
 
