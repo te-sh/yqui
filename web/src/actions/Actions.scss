@@ -3,6 +3,10 @@
   display: grid;
   grid-template: auto/auto;
 
+  &:focus {
+    background-color: #f9fbe7;
+  }
+
   .actions-content {
     grid-row: 1/2;
     grid-column: 1/2;
