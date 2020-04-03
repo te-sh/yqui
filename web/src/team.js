@@ -1,5 +1,9 @@
 import { shuffle } from './util'
 
+export const playersOfTeams = teams => (
+  teams.map(team => team.players).reduce((a, c) => a.concat(c), [])
+)
+
 export const mergeEditTeam = (editTeams, userIDs, teams, master) => {
   if (!editTeams) {
     return editTeams
@@ -12,7 +16,7 @@ export const mergeEditTeam = (editTeams, userIDs, teams, master) => {
   newTeams = normalizeTeams(newTeams)
 
   let added = userIDs.filter(id => (
-    id !== master && !newTeams.flatMap(team => team.players).includes(id)
+    id !== master && !playersOfTeams(newTeams).includes(id)
   ))
   newTeams[0].players.push(...added)
 
@@ -38,7 +42,7 @@ export const normalizeTeams = teams => {
 }
 
 export const teamRandomAssign = (editTeams, n) => {
-  let players = editTeams.flatMap(team => team.players)
+  let players = playersOfTeams(editTeams)
   let teams = []
   for (let i = 1; i <= n; ++i) {
     teams.push({

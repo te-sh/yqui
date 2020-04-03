@@ -1,9 +1,11 @@
+import { playersOfTeams } from './team'
+
 export const isMaster = (selfID, master) => (
   selfID === master
 )
 
 export const isPlayer = (selfID, teams) => (
-  teams.flatMap(team => team.players).includes(selfID)
+  playersOfTeams(teams).includes(selfID)
 )
 
 export const normalizeTeams = teams => {
@@ -50,7 +52,7 @@ export const ruleText = (rule, teams) => {
     chance: (() => {
       if (rule.rightNum === 1) {
         return 'シングルチャンス'
-      } else if (rule.rightNum >= teams.flatMap(team => team.players).length) {
+      } else if (rule.rightNum >= playersOfTeams(teams).length) {
         return 'エンドレスチャンス'
       } else if (rule.rightNum === 2) {
         return 'ダブルチャンス'
