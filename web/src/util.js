@@ -63,11 +63,11 @@ export const ruleText = (rule, teams) => {
       }
     })(),
     correct: (() => {
-      if (rule.pointCorrect > 0) {
-        return `正解 ${rule.pointCorrect}ポイント`
-      } else {
-        return ''
+      let text = `正解 ${rule.pointCorrect}ポイント`
+      if (rule.bonusCorrect === 'cons') {
+        text += ` (連答ボーナス)`
       }
+      return text
     })(),
     wrong: (() => {
       if (rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0) {
