@@ -123,6 +123,11 @@ func (room *Room) SendScores() {
 	room.SendToPlayers("scores", scoresSend)
 }
 
+func (room *Room) SendRule() {
+	room.SendScores()
+	room.Broadcast("rule", room.Rule)
+}
+
 func (room *Room) Broadcast(typ string, cnt interface {}) {
 	log.Println("write: ", typ, cnt)
 	msg := Message{Type: typ, Content: cnt}

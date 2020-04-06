@@ -65,7 +65,7 @@ func HandleMessage() {
 			room.ChangeTeams()
 		case "l":
 			json.Unmarshal(cmd.A, &room.Rule)
-			room.Broadcast("rule", room.Rule)
+			room.SendRule()
 		case "m":
 			room.ToggleMaster(cmd.ID)
 		case "c":
