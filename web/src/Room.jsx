@@ -14,11 +14,11 @@ import Mainarea from './Mainarea'
 import Subactions from './subactions/Subactions'
 import Actions from './actions/Actions'
 import EnterRoom from './dialogs/EnterRoom'
-import './Page.scss'
+import './Room.scss'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
-const Page = ({ reset, setWebSocket, recv }) => {
+const Room = ({ reset, setWebSocket, recv }) => {
   const [enterRoomOpen, setEnterRoomOpen] = React.useState(true)
 
   const enterRoom = name => {
@@ -53,7 +53,7 @@ const Page = ({ reset, setWebSocket, recv }) => {
   }
 
   return (
-    <div className="page">
+    <div className="room">
       <TopBar className="top-bar" />
       <Messages className="messages" />
       <Chat className="chat" />
@@ -81,4 +81,4 @@ export default connect(
       chat: chat => dispatch(recvChat(chat))
     }
   })
-)(Page)
+)(Room)

@@ -3,13 +3,13 @@ import { Provider } from 'react-redux'
 import { DndProvider } from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import store from './redux/store'
-import Page from './Page'
+import Root from './Root'
 
 const App = () => {
   return (
     <Provider store={store}>
       <DndProvider backend={Backend}>
-        <Page />
+        <Root />
       </DndProvider>
     </Provider>
   )
