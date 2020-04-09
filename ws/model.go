@@ -19,9 +19,6 @@ func NewRoom() *Room {
 	room.Master = -1
 	room.Scores = make(Scores)
 	room.TeamScores = make(Scores)
-	for _, team := range room.Teams {
-		room.TeamScores[team.ID] = NewScore()
-	}
 	room.WinLose = NewWinLose()
 	room.Buttons = NewButtons()
 	room.Rule = NewRule()
