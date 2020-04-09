@@ -84,34 +84,6 @@ func NewRule() *Rule {
 	return rule
 }
 
-type History struct {
-	Items []*HistoryItem
-	Curr int
-}
-
-type HistoryItem struct {
-	Scores Scores
-	TeamScores Scores
-	WinLose *WinLose
-}
-
-const HistoryMaxLen = 100
-
-func NewHistory() *History {
-	history := new(History)
-	history.Items = append(history.Items, NewHistoryItem())
-	history.Curr = 0
-	return history
-}
-
-func NewHistoryItem() *HistoryItem {
-	item := new(HistoryItem)
-	item.Scores = make(Scores)
-	item.TeamScores = make(Scores)
-	item.WinLose = NewWinLose()
-	return item
-}
-
 type Chat struct {
 	Type string `json:"type"`
 	Time int64 `json:"time"`

@@ -176,7 +176,6 @@ func (room *Room) Wrong() (lose bool) {
 		room.NextQuiz(false)
 	}
 	room.SendButtons()
-	room.SendScores()
 	room.AddHistory()
 
 	return
@@ -190,9 +189,6 @@ func (room *Room) NextQuiz(send bool) {
 		}
 	}
 	room.ResetButtons(send)
-	if send {
-		room.SendScores()
-	}
 }
 
 func (room *Room) ResetButtons(send bool) {
@@ -212,47 +208,14 @@ func (room *Room) AllClear() {
 	}
 	room.WinLose.Reset()
 	room.AddHistory()
-	room.SendScores()
 }
 
 func (room *Room) AddHistory() {
-	history := room.History
-	history.Items = history.Items[:history.Curr + 1]
-
-	item := NewHistoryItem()
-	item.Scores = room.Scores.Clone()
-	item.TeamScores = room.TeamScores.Clone()
-	item.WinLose = room.WinLose.Clone()
-
-	history.Items = append(history.Items, item)
-	history.Curr += 1
-
-	if len(history.Items) > HistoryMaxLen {
-		history.Curr -= len(history.Items) - HistoryMaxLen
-		history.Items = history.Items[len(history.Items) - HistoryMaxLen:]
-	}
+	room.History.AddHistory(room.Scores, room.TeamScores, room.WinLose)
+	room.SendScores()
 }
 
 func (room *Room) MoveHistory(d int) {
-	history := room.History
-	i := history.Curr + d
-	if i < 0 || i >= len(history.Items) {
-		return
-	}
-
-	item := history.Items[i]
-	for id := range item.Scores {
-		if _, ok := room.Scores[id]; ok {
-			room.Scores[id] = item.Scores[id].Clone()
-		}
-	}
-	for id := range item.TeamScores {
-		if _, ok := room.TeamScores[id]; ok {
-			room.TeamScores[id] = item.TeamScores[id].Clone()
-		}
-	}
-	room.WinLose = item.WinLose.Clone()
-
-	history.Curr = i
+	room.History.MoveHistory(d, room.Scores, room.TeamScores, room.WinLose)
 	room.SendScores()
 }
