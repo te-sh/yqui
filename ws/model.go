@@ -34,9 +34,9 @@ type User struct {
 	ChatAnswer bool `json:"chatAnswer"`
 }
 
-func NewUser(conn *Conn, name string) *User {
+func NewUser(id int64, conn *Conn, name string) *User {
 	user := new(User)
-	user.ID = NewID()
+	user.ID = id
 	user.Conn = conn
 	user.Name = name
 	return user

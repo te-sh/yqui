@@ -102,7 +102,9 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 
-	id := room.JoinUser(conn, name, NowMilliSec())
+	id := NewID()
+
+	room.JoinUser(id, conn, name, NowMilliSec())
 	defer room.LeaveUser(id, NowMilliSec())
 
 	for {

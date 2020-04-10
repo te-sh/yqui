@@ -1,8 +1,7 @@
 package main
 
-func (room *Room) JoinUser(conn *Conn, name string, time int64) int64 {
-	user := NewUser(conn, name)
-	id := user.ID
+func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
+	user := NewUser(id, conn, name)
 
 	room.Users[id] = user
 	room.UserIDs = append(room.UserIDs, id)
@@ -16,8 +15,6 @@ func (room *Room) JoinUser(conn *Conn, name string, time int64) int64 {
 	room.SendRoom()
 	chat := Chat{Type: "join", Time: time, Name: name}
 	room.Broadcast("chat", chat)
-
-	return id
 }
 
 func (room *Room) LeaveUser(id int64, time int64) {
