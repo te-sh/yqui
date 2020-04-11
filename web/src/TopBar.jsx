@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, IconButton, Toolbar, Typography, Tooltip } from '@material-ui/core'
 import {
   ExitToApp, ListAlt, HelpOutline,
   Settings, SportsKabaddi, SupervisorAccount
@@ -38,32 +38,57 @@ const TopBar = ({
           Yqui
         </Typography>
         <div className="toolbar-grow" />
-        <IconButton color="inherit"
-                    disabled={!isMaster || !!editTeams}
-                    onClick={teamEdit}>
-          <SportsKabaddi />
-        </IconButton>
-        <IconButton color="inherit"
-                    disabled={!isMaster || !!editTeams}
-                    onClick={() => setRuleOpen(true)}>
-          <ListAlt />
-        </IconButton>
-        <IconButton color={isMaster ? 'secondary' : 'inherit'}
-                    disabled={(!isMaster && master >= 0) || !!editTeams}
-                    onClick={() => send.toggleMaster(ws)}>
-          <SupervisorAccount />
-        </IconButton>
-        <IconButton color="inherit"
-                    onClick={() => setSettingOpen(true)}>
-          <Settings />
-        </IconButton>
-        <IconButton color="inherit"
-                    onClick={() => setHelpOpen(true)}>
-          <HelpOutline />
-        </IconButton>
-        <IconButton color="inherit" onClick={leave}>
-          <ExitToApp />
-        </IconButton>
+        <Tooltip title="チーム">
+          <span>
+            <IconButton color="inherit"
+                        disabled={!isMaster || !!editTeams}
+                        onClick={teamEdit}>
+              <SportsKabaddi />
+            </IconButton>
+          </span>
+        </Tooltip>
+        <Tooltip title="ルール">
+          <span>
+            <IconButton color="inherit"
+                        disabled={!isMaster || !!editTeams}
+                        onClick={() => setRuleOpen(true)}>
+              <ListAlt />
+            </IconButton>
+          </span>
+        </Tooltip>
+        <Tooltip title="司会">
+          <span>
+            <IconButton color={isMaster ? 'secondary' : 'inherit'}
+                        disabled={(!isMaster && master >= 0) || !!editTeams}
+                        onClick={() => send.toggleMaster(ws)}>
+              <SupervisorAccount />
+            </IconButton>
+          </span>
+        </Tooltip>
+        <Tooltip title="設定">
+          <span>
+            <IconButton color="inherit"
+                        onClick={() => setSettingOpen(true)}>
+              <Settings />
+            </IconButton>
+          </span>
+        </Tooltip>
+        <Tooltip title="ヘルプ">
+          <span>
+            <IconButton color="inherit"
+                        onClick={() => setHelpOpen(true)}>
+              <HelpOutline />
+            </IconButton>
+          </span>
+        </Tooltip>
+        <Tooltip title="退室">
+          <span>
+            <IconButton color="inherit"
+                        onClick={leave}>
+              <ExitToApp />
+            </IconButton>
+          </span>
+        </Tooltip>
       </Toolbar>
       <Rule open={ruleOpen} close={() => setRuleOpen(false)} />
       <Setting open={settingOpen} close={() => setSettingOpen(false)} />
