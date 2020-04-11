@@ -50,6 +50,10 @@ func (conn *Conn) Activate(ctx context.Context) error {
 	}
 }
 
+func (conn *Conn) SendJoined(roomNo int) {
+	conn.Message <- Message{"joined", roomNo}
+}
+
 type RoomSend struct {
 	Users map[int64]*User `json:"users"`
 	UserIDs []int64 `json:"userIDs"`

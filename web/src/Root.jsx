@@ -3,35 +3,29 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import URI from 'urijs'
 import {
-  reset, setWebSocket,
+  reset, setWebSocket, recvJoined,
   recvSelfID, recvRoom, recvUsers, recvTeams,
   recvScores, recvButtons, recvRule, recvChat
 } from './redux/actions'
-import { send } from './communicate'
 import playSound from './sound'
+import Rooms from './Rooms'
 import Room from './Room'
-import EnterRoom from './dialogs/EnterRoom'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
 const Root = ({ reset, setWebSocket, recv }) => {
-  const [enterRoomOpen, setEnterRoomOpen] = React.useState(true)
-
-  const enterRoom = name => {
-    setEnterRoomOpen(false)
-
+  const createWebSocket = () => {
     const ws = new WebSocket(uri.toString())
     setWebSocket(ws)
 
     ws.onopen = evt => {
       console.log('ws open', evt)
-      send.join(ws, { roomNo: 0, name })
     }
 
     ws.onclose = evt => {
       console.log('ws close', evt)
-      setEnterRoomOpen(true)
       reset()
+      createWebSocket()
     }
 
     ws.onmessage = evt => {
@@ -49,10 +43,12 @@ const Root = ({ reset, setWebSocket, recv }) => {
     }
   }
 
+  createWebSocket()
+
   return (
     <Router>
-      <Route exact path="/" component={Room}></Route>
-      <EnterRoom open={enterRoomOpen} submit={enterRoom} />
+      <Route exact path="/" component={Rooms}></Route>
+      <Route path="/room/:roomNo" component={Room}></Route>
     </Router>
   )
 }
@@ -63,6 +59,7 @@ export default connect(
     reset: () => dispatch(reset()),
     setWebSocket: ws => dispatch(setWebSocket(ws)),
     recv: {
+      joined: roomNo => dispatch(recvJoined(roomNo)),
       selfID: selfID => dispatch(recvSelfID(selfID)),
       room: room => dispatch(recvRoom(room)),
       users: users => dispatch(recvUsers(users)),

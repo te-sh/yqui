@@ -39,6 +39,7 @@ func JoinUser(id int64, conn *Conn, cmd Cmd) {
 			id2room[id] = room
 			id2conn[id] = conn
 			room.JoinUser(id, conn, join.Name, NowMilliSec())
+			conn.SendJoined(join.RoomNo)
 		}
 	}
 }

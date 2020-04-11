@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { Box } from '@material-ui/core'
 import TopBar from './TopBar'
 import Chat from './Chat'
 import Messages from './Messages'
@@ -7,17 +9,31 @@ import Subactions from './subactions/Subactions'
 import Actions from './actions/Actions'
 import './Room.scss'
 
-const Room = () => {
+const Room = ({ history, roomNo }) => {
+  React.useEffect(
+    () => {
+      if (roomNo === null) {
+        history.push('/')
+      }
+    },
+    [history, roomNo]
+  )
+
   return (
-    <div className="room">
+    <Box className="room">
       <TopBar className="top-bar" />
       <Messages className="messages" />
       <Chat className="chat" />
       <Mainarea className="mainarea" />
       <Subactions className="subactions" />
       <Actions className="actions" />
-    </div>
+    </Box>
   )
 }
 
-export default Room
+export default connect(
+  state => ({
+    roomNo: state.roomNo
+  })
+)(Room)
+
