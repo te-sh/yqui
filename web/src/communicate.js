@@ -1,4 +1,5 @@
 const messages = {
+  leave: JSON.stringify({ c: 'x' }),
   pushButton: JSON.stringify({ c: 'a' }),
   correct: JSON.stringify({ c: 's' }),
   wrong: JSON.stringify({ c: 'f' }),
@@ -14,6 +15,11 @@ export const send = {
   join: (ws, join) => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'j', a: join }))
+    }
+  },
+  leave: ws => {
+    if (ws) {
+      ws.send(messages.leave)
     }
   },
   pushButton: ws => {

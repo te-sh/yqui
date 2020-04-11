@@ -92,15 +92,17 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		}
 		log.Println("received: ", cmd)
 
-		if (cmd.C == "j") {
+		switch (cmd.C) {
+		case "j":
 			JoinUser(id, conn, cmd)
 			defer LeaveUser(id)
-			continue
+		case "x":
+			LeaveUser(id)
+		default:
+			cmd.ID = id
+			cmd.Time = NowMilliSec()
+			Received <- cmd
 		}
-
-		cmd.ID = id
-		cmd.Time = NowMilliSec()
-		Received <- cmd
 	}
 }
 
