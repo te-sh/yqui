@@ -25,7 +25,7 @@ const Root = ({ reset, setWebSocket, recv }) => {
 
     ws.onopen = evt => {
       console.log('ws open', evt)
-      send.join(ws, { name })
+      send.join(ws, { roomNo: 0, name })
     }
 
     ws.onclose = evt => {

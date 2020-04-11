@@ -10,6 +10,7 @@ import (
 
 var rooms = [...]*Room{NewRoom()}
 var id2room = make(map[int64]*Room)
+var id2conn = make(map[int64]*Conn)
 var Received = make(chan Cmd)
 
 var upgrader = websocket.Upgrader{
@@ -26,19 +27,25 @@ type Cmd struct {
 }
 
 type Join struct {
+	RoomNo int `json:"roomNo"`
 	Name string `json:"name"`
 }
 
 func JoinUser(id int64, conn *Conn, cmd Cmd) {
 	var join Join
 	json.Unmarshal(cmd.A, &join)
-	room := rooms[0]
-	id2room[id] = room
-	room.JoinUser(id, conn, join.Name, NowMilliSec())
+	if 0 <= join.RoomNo && join.RoomNo < len(rooms) {
+		if room := rooms[join.RoomNo]; room != nil {
+			id2room[id] = room
+			id2conn[id] = conn
+			room.JoinUser(id, conn, join.Name, NowMilliSec())
+		}
+	}
 }
 
 func LeaveUser(id int64) {
 	if room, ok := id2room[id]; ok {
+		delete(id2room, id)
 		delete(id2room, id)
 		room.LeaveUser(id, NowMilliSec())
 	}
@@ -48,51 +55,7 @@ func HandleMessage() {
 	for {
 		cmd := <-Received
 		if room, ok := id2room[cmd.ID]; ok {
-			switch (cmd.C) {
-			case "a":
-				ring := room.PushButton(cmd.ID, cmd.Time)
-				if (ring) {
-					room.Broadcast("sound", "push")
-				}
-			case "s":
-				win := room.Correct()
-				if win {
-					room.Broadcast("sound", "correct,roundwin")
-				} else {
-					room.Broadcast("sound", "correct")
-				}
-			case "f":
-				room.Wrong()
-				room.Broadcast("sound", "wrong")
-			case "n":
-				room.NextQuiz()
-				room.AddHistory()
-			case "r":
-				room.ResetButtons()
-			case "e":
-				room.AllClear()
-			case "u":
-				room.MoveHistory(-1)
-			case "o":
-				room.MoveHistory(+1)
-			case "z":
-				user := new(User)
-				json.Unmarshal(cmd.A, &user)
-				room.UpdateUser(user)
-			case "p":
-				json.Unmarshal(cmd.A, &room.Teams)
-				room.ChangeTeams()
-			case "l":
-				json.Unmarshal(cmd.A, &room.Rule)
-				room.SendRule()
-			case "m":
-				room.ToggleMaster(cmd.ID)
-			case "c":
-				name := room.Users[cmd.ID].Name
-				chat := Chat{Type: "message", Time: cmd.Time, Name: name}
-				json.Unmarshal(cmd.A, &chat.Text)
-				room.Broadcast("chat", chat)
-			}
+			room.RunCommand(cmd)
 		}
 	}
 }
