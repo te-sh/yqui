@@ -50,6 +50,33 @@ func (conn *Conn) Activate(ctx context.Context) error {
 	}
 }
 
+type RoomSummary struct {
+	NumUsers int `json:"numUsers"`
+}
+
+func makeRoomsSend(rooms [numRooms]*Room) [numRooms]*RoomSummary {
+	var roomsSend [numRooms]*RoomSummary
+	for i, room := range rooms {
+		roomSummary := RoomSummary{
+			NumUsers: len(room.Users),
+		}
+		roomsSend[i] = &roomSummary
+	}
+	return roomsSend
+}
+
+func SendRooms(id2conn map[int64]*Conn, rooms [numRooms]*Room) {
+	roomsSend := makeRoomsSend(rooms)
+	for _, conn := range id2conn {
+		conn.Message <- Message{"rooms", roomsSend}
+	}
+}
+
+func (conn *Conn) SendRooms(rooms [numRooms]*Room) {
+	roomsSend := makeRoomsSend(rooms)
+	conn.Message <- Message{"rooms", roomsSend}
+}
+
 func (conn *Conn) SendJoined(roomNo int) {
 	conn.Message <- Message{"joined", roomNo}
 }

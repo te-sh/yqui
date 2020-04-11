@@ -7,7 +7,7 @@ import {
 import { send } from './communicate'
 import EnterRoom from './dialogs/EnterRoom'
 
-const Rooms = ({ history, ws, roomNo }) => {
+const Rooms = ({ history, ws, rooms, roomNo }) => {
   const [enterRoomOpen, setEnterRoomOpen] = React.useState(false)
 
   const enterRoom = (roomNo, name) => {
@@ -28,6 +28,23 @@ const Rooms = ({ history, ws, roomNo }) => {
     [history, roomNo]
   )
 
+  const rows = rooms.map((room, i) => (
+    <TableRow key={i}>
+      <TableCell>
+        Room{i + 1}
+      </TableCell>
+      <TableCell>
+        {room.numUsers}
+      </TableCell>
+      <TableCell>
+        <Button variant="outlined" color="primary"
+                onClick={() => setEnterRoomOpen(true)}>
+          入室
+        </Button>
+      </TableCell>
+    </TableRow>
+  ))
+
   return (
     <Box>
       <Box>
@@ -43,17 +60,7 @@ const Rooms = ({ history, ws, roomNo }) => {
         <TableContainer component={Paper}>
           <Table>
             <TableBody>
-              <TableRow>
-                <TableCell>
-                  Room1
-                </TableCell>
-                <TableCell>
-                  <Button variant="outlined" color="primary"
-                          onClick={() => setEnterRoomOpen(true)}>
-                    入室
-                  </Button>
-                </TableCell>
-              </TableRow>
+              {rows}
             </TableBody>
           </Table>
         </TableContainer>
@@ -67,6 +74,7 @@ const Rooms = ({ history, ws, roomNo }) => {
 export default connect(
   state => ({
     ws: state.ws,
+    rooms: state.rooms,
     roomNo: state.roomNo
   })
 )(Rooms)

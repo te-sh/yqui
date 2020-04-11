@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import URI from 'urijs'
 import {
-  reset, setWebSocket, recvJoined,
+  reset, setWebSocket, recvRooms, recvJoined,
   recvSelfID, recvRoom, recvUsers, recvTeams,
   recvScores, recvButtons, recvRule, recvChat
 } from './redux/actions'
@@ -24,6 +24,7 @@ const Root = ({ reset, setWebSocket, recv }) => {
 
     ws.onclose = evt => {
       console.log('ws close', evt)
+      setWebSocket(null)
       reset()
       createWebSocket()
     }
@@ -59,6 +60,7 @@ export default connect(
     reset: () => dispatch(reset()),
     setWebSocket: ws => dispatch(setWebSocket(ws)),
     recv: {
+      rooms: rooms => dispatch(recvRooms(rooms)),
       joined: roomNo => dispatch(recvJoined(roomNo)),
       selfID: selfID => dispatch(recvSelfID(selfID)),
       room: room => dispatch(recvRoom(room)),

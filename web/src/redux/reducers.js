@@ -1,6 +1,6 @@
 import update from 'immutability-helper'
 import {
-  RESET, SET_WEB_SOCKET, RECV_JOINED,
+  RESET, SET_WEB_SOCKET, RECV_ROOMS, RECV_JOINED,
   RECV_SELF_ID, RECV_ROOM, RECV_USERS, RECV_TEAMS,
   RECV_SCORES, RECV_BUTTONS, RECV_RULE, RECV_CHAT,
   SET_EDIT_TEAMS
@@ -12,6 +12,7 @@ import { mergeEditTeam } from '../team'
 
 const initialState = {
   ws: null,
+  rooms: [],
   roomNo: null,
   selfID: null,
   users: {},
@@ -50,10 +51,17 @@ const yquiApp = (state = initialState, action) => {
   var teams, buttons
   switch (action.type) {
   case RESET:
-    return initialState
+    return update(initialState, {
+      ws: { $set: state.ws },
+      rooms: { $set: state.rooms }
+    })
   case SET_WEB_SOCKET:
     return update(state, {
       ws: { $set: action.ws }
+    })
+  case RECV_ROOMS:
+    return update(state, {
+      rooms: { $set: action.rooms }
     })
   case RECV_JOINED:
     return update(state, {

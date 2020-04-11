@@ -8,7 +8,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var rooms = [...]*Room{NewRoom()}
+const numRooms = 1
+var rooms = [numRooms]*Room{NewRoom()}
 var id2room = make(map[int64]*Room)
 var id2conn = make(map[int64]*Conn)
 var Received = make(chan Cmd)
@@ -37,9 +38,9 @@ func JoinUser(id int64, conn *Conn, cmd Cmd) {
 	if 0 <= join.RoomNo && join.RoomNo < len(rooms) {
 		if room := rooms[join.RoomNo]; room != nil {
 			id2room[id] = room
-			id2conn[id] = conn
 			room.JoinUser(id, conn, join.Name, NowMilliSec())
 			conn.SendJoined(join.RoomNo)
+			SendRooms(id2conn, rooms)
 		}
 	}
 }
@@ -47,8 +48,8 @@ func JoinUser(id int64, conn *Conn, cmd Cmd) {
 func LeaveUser(id int64) {
 	if room, ok := id2room[id]; ok {
 		delete(id2room, id)
-		delete(id2room, id)
 		room.LeaveUser(id, NowMilliSec())
+		SendRooms(id2conn, rooms)
 	}
 }
 
@@ -81,7 +82,12 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 
+
 	id := NewID()
+	id2conn[id] = conn
+	defer delete(id2conn, id)
+
+	conn.SendRooms(rooms)
 
 	for {
 		var cmd Cmd
