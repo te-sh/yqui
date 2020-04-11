@@ -8,8 +8,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-const numRooms = 1
-var rooms = [numRooms]*Room{NewRoom()}
+const numRooms = 3
+var rooms = [numRooms]*Room{NewRoom(), NewRoom(), NewRoom()}
 var id2room = make(map[int64]*Room)
 var id2conn = make(map[int64]*Conn)
 var Received = make(chan Cmd)

@@ -1,28 +1,34 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  AppBar, Box, Button, Paper, Table, TableBody,
-  TableCell, TableContainer, TableRow, Toolbar, Typography
+  AppBar, Box, Button, Paper, Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow, Toolbar, Typography
 } from '@material-ui/core'
 import { send } from './communicate'
 import EnterRoom from './dialogs/EnterRoom'
 
 const Rooms = ({ history, ws, rooms, roomNo }) => {
   const [enterRoomOpen, setEnterRoomOpen] = React.useState(false)
+  const [enterRoomNo, setEnterRoomNo] = React.useState(0)
 
-  const enterRoom = (roomNo, name) => {
-    enterRoomClose()
-    send.join(ws, { roomNo, name })
+  const openEnterRoom = roomNo => {
+    setEnterRoomNo(roomNo)
+    setEnterRoomOpen(true)
   }
 
-  const enterRoomClose = () => {
+  const closeEnterRoom = () => {
     setEnterRoomOpen(false)
+  }
+
+  const enterRoom = name => {
+    closeEnterRoom()
+    send.join(ws, { roomNo: enterRoomNo, name })
   }
 
   React.useEffect(
     () => {
       if (roomNo !== null) {
-        history.push(`/room/${roomNo}`)
+        history.push(`/room/${roomNo + 1}`)
       }
     },
     [history, roomNo]
@@ -38,7 +44,7 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
       </TableCell>
       <TableCell>
         <Button variant="outlined" color="primary"
-                onClick={() => setEnterRoomOpen(true)}>
+                onClick={() => openEnterRoom(i)}>
           入室
         </Button>
       </TableCell>
@@ -59,14 +65,21 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
       <Box>
         <TableContainer component={Paper}>
           <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>部屋</TableCell>
+                <TableCell>人数</TableCell>
+                <TableCell />
+              </TableRow>
+            </TableHead>
             <TableBody>
               {rows}
             </TableBody>
           </Table>
         </TableContainer>
       </Box>
-      <EnterRoom open={enterRoomOpen} close={enterRoomClose}
-                 submit={name => enterRoom(0, name)} />
+      <EnterRoom open={enterRoomOpen}
+                 submit={enterRoom} close={closeEnterRoom} />
     </Box>
   )
 }
