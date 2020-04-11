@@ -14,7 +14,7 @@ import Help from './dialogs/Help'
 import './TopBar.scss'
 
 const TopBar = ({
-  className, ws, userIDs, teams, master,
+  className, ws, roomNo, userIDs, teams, master,
   isMaster, editTeams, setEditTeams, reset
 }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
@@ -26,7 +26,6 @@ const TopBar = ({
   }
 
   const leave = () => {
-    console.log('leave')
     send.leave(ws)
     reset()
   }
@@ -36,6 +35,9 @@ const TopBar = ({
       <Toolbar>
         <Typography variant="h6">
           Yqui
+        </Typography>
+        <Typography className="room-no">
+          Room {roomNo + 1}
         </Typography>
         <div className="toolbar-grow" />
         <Tooltip title="チーム">
@@ -100,6 +102,7 @@ const TopBar = ({
 export default connect(
   state => ({
     ws: state.ws,
+    roomNo: state.roomNo,
     userIDs: state.userIDs,
     teams: state.teams,
     master: state.master,

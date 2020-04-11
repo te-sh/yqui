@@ -3,7 +3,7 @@ import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField
 } from '@material-ui/core'
 
-const EnterRoom = ({ open, submit }) => {
+const EnterRoom = ({ open, close, submit }) => {
   const [name, setName] = React.useState('')
 
   const onSubmit = evt => {
@@ -24,6 +24,9 @@ const EnterRoom = ({ open, submit }) => {
         <DialogActions>
           <Button type="submit" color="primary" disabled={name.length === 0}>
             入室
+          </Button>
+          <Button color="secondary" onClick={close}>
+            キャンセル
           </Button>
         </DialogActions>
       </form>
