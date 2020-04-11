@@ -7,6 +7,7 @@ import {
   recvSelfID, recvRoom, recvUsers, recvTeams,
   recvScores, recvButtons, recvRule, recvChat
 } from './redux/actions'
+import { send } from './communicate'
 import playSound from './sound'
 import Room from './Room'
 import EnterRoom from './dialogs/EnterRoom'
@@ -19,11 +20,12 @@ const Root = ({ reset, setWebSocket, recv }) => {
   const enterRoom = name => {
     setEnterRoomOpen(false)
 
-    const ws = new WebSocket(uri.query({ name }).toString())
+    const ws = new WebSocket(uri.toString())
     setWebSocket(ws)
 
     ws.onopen = evt => {
       console.log('ws open', evt)
+      send.join(ws, { name })
     }
 
     ws.onclose = evt => {

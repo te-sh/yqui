@@ -2,7 +2,16 @@ package main
 
 import (
 	"math/rand"
+	"time"
 )
+
+func SetRandSeed() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+func NowMilliSec() int64 {
+	return time.Now().UnixNano() / 1_000_000
+}
 
 func NewID() int64 {
 	return rand.Int63n(int64(1)<<53)

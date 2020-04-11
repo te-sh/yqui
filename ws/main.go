@@ -3,14 +3,13 @@ package main
 import (
 	"context"
 	"log"
-	"time"
 	"encoding/json"
-	"math/rand"
 	"net/http"
 	"github.com/gorilla/websocket"
 )
 
-var room = NewRoom()
+var rooms = [...]*Room{NewRoom()}
+var id2room = make(map[int64]*Room)
 var Received = make(chan Cmd)
 
 var upgrader = websocket.Upgrader{
@@ -26,63 +25,79 @@ type Cmd struct {
 	Time int64 `json:"-"`
 }
 
+type Join struct {
+	Name string `json:"name"`
+}
+
+func JoinUser(id int64, conn *Conn, cmd Cmd) {
+	var join Join
+	json.Unmarshal(cmd.A, &join)
+	room := rooms[0]
+	id2room[id] = room
+	room.JoinUser(id, conn, join.Name, NowMilliSec())
+}
+
+func LeaveUser(id int64) {
+	if room, ok := id2room[id]; ok {
+		delete(id2room, id)
+		room.LeaveUser(id, NowMilliSec())
+	}
+}
+
 func HandleMessage() {
 	for {
 		cmd := <-Received
-		switch (cmd.C) {
-		case "a":
-			ring := room.PushButton(cmd.ID, cmd.Time)
-			if (ring) {
-				room.Broadcast("sound", "push")
+		if room, ok := id2room[cmd.ID]; ok {
+			switch (cmd.C) {
+			case "a":
+				ring := room.PushButton(cmd.ID, cmd.Time)
+				if (ring) {
+					room.Broadcast("sound", "push")
+				}
+			case "s":
+				win := room.Correct()
+				if win {
+					room.Broadcast("sound", "correct,roundwin")
+				} else {
+					room.Broadcast("sound", "correct")
+				}
+			case "f":
+				room.Wrong()
+				room.Broadcast("sound", "wrong")
+			case "n":
+				room.NextQuiz()
+				room.AddHistory()
+			case "r":
+				room.ResetButtons()
+			case "e":
+				room.AllClear()
+			case "u":
+				room.MoveHistory(-1)
+			case "o":
+				room.MoveHistory(+1)
+			case "z":
+				user := new(User)
+				json.Unmarshal(cmd.A, &user)
+				room.UpdateUser(user)
+			case "p":
+				json.Unmarshal(cmd.A, &room.Teams)
+				room.ChangeTeams()
+			case "l":
+				json.Unmarshal(cmd.A, &room.Rule)
+				room.SendRule()
+			case "m":
+				room.ToggleMaster(cmd.ID)
+			case "c":
+				name := room.Users[cmd.ID].Name
+				chat := Chat{Type: "message", Time: cmd.Time, Name: name}
+				json.Unmarshal(cmd.A, &chat.Text)
+				room.Broadcast("chat", chat)
 			}
-		case "s":
-			win := room.Correct()
-			if win {
-				room.Broadcast("sound", "correct,roundwin")
-			} else {
-				room.Broadcast("sound", "correct")
-			}
-		case "f":
-			room.Wrong()
-			room.Broadcast("sound", "wrong")
-		case "n":
-			room.NextQuiz()
-			room.AddHistory()
-		case "r":
-			room.ResetButtons()
-		case "e":
-			room.AllClear()
-		case "u":
-			room.MoveHistory(-1)
-		case "o":
-			room.MoveHistory(+1)
-		case "z":
-			user := new(User)
-			json.Unmarshal(cmd.A, &user)
-			room.UpdateUser(user)
-		case "p":
-			json.Unmarshal(cmd.A, &room.Teams)
-			room.ChangeTeams()
-		case "l":
-			json.Unmarshal(cmd.A, &room.Rule)
-			room.SendRule()
-		case "m":
-			room.ToggleMaster(cmd.ID)
-		case "c":
-			name := room.Users[cmd.ID].Name
-			chat := Chat{Type: "message", Time: cmd.Time, Name: name}
-			json.Unmarshal(cmd.A, &chat.Text)
-			room.Broadcast("chat", chat)
 		}
 	}
 }
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
-	name := r.FormValue("name")
-	if name == "" {
-		return
-	}
-
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("err upgrade: ", err)
@@ -104,9 +119,6 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 
 	id := NewID()
 
-	room.JoinUser(id, conn, name, NowMilliSec())
-	defer room.LeaveUser(id, NowMilliSec())
-
 	for {
 		var cmd Cmd
 		err := c.ReadJSON(&cmd)
@@ -115,19 +127,21 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		log.Println("received: ", cmd)
+
+		if (cmd.C == "j") {
+			JoinUser(id, conn, cmd)
+			defer LeaveUser(id)
+			continue
+		}
+
 		cmd.ID = id
 		cmd.Time = NowMilliSec()
 		Received <- cmd
 	}
 }
 
-func NowMilliSec() int64 {
-	return time.Now().UnixNano() / 1_000_000
-}
-
 func main() {
-	rand.Seed(time.Now().UnixNano())
-
+	SetRandSeed()
 	go HandleMessage()
 
 	http.HandleFunc("/", HandleConnection)

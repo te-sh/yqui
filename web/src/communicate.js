@@ -11,6 +11,11 @@ const messages = {
 }
 
 export const send = {
+  join: (ws, join) => {
+    if (ws) {
+      ws.send(JSON.stringify({ c: 'j', a: join }))
+    }
+  },
   pushButton: ws => {
     if (ws) {
       ws.send(messages.pushButton)

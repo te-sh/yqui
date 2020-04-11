@@ -16,9 +16,9 @@ func NewButtons() *Buttons {
 }
 
 func (buttons *Buttons) Reset() {
-	room.Buttons.Pushers = nil
-	room.Buttons.PushTimes = nil
-	room.Buttons.Answerers = nil
+	buttons.Pushers = nil
+	buttons.PushTimes = nil
+	buttons.Answerers = nil
 }
 
 func (buttons *Buttons) Push(id int64, time int64) {
