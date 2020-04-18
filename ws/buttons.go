@@ -21,6 +21,13 @@ func (buttons *Buttons) Reset() {
 	buttons.Answerers = nil
 }
 
+func (buttons *Buttons) Leave(id int64) {
+	i := Int64FindIndex(buttons.Pushers, id)
+	buttons.Pushers = Int64RemoveAt(buttons.Pushers, i)
+	buttons.PushTimes = Int64RemoveAt(buttons.PushTimes, i)
+	buttons.Answerers = Int64Remove(buttons.Answerers, id)
+}
+
 func (buttons *Buttons) Push(id int64, time int64) {
 	buttons.Pushers = append(buttons.Pushers, id)
 	buttons.PushTimes = append(buttons.PushTimes, time)

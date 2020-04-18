@@ -28,6 +28,11 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	room.UserIDs = Int64Remove(room.UserIDs, id)
 	delete(room.Users, id)
 
+	room.Buttons.Leave(id)
+	if room.NoCanAnswer() {
+		room.NextQuiz()
+	}
+
 	room.SendRoom()
 	chat := Chat{Type: "leave", Time: time, Name: user.Name}
 	room.Broadcast("chat", chat)
@@ -157,6 +162,10 @@ func (room *Room) NumCanAnswer() int {
 	return r
 }
 
+func (room *Room) NoCanAnswer() bool {
+	return len(room.Buttons.Answerers) >= room.Rule.RightNum || room.NumCanAnswer() == 0
+}
+
 func (room *Room) Wrong() (lose bool) {
 	buttons := room.Buttons
 	id, err := buttons.RightPlayer()
@@ -169,7 +178,7 @@ func (room *Room) Wrong() (lose bool) {
 	room.TeamScores.WrongTeam(room.Users[id].Team, room.Scores, rule, room.WinLose)
 
 	buttons.Answer(id)
-	if len(buttons.Answerers) >= rule.RightNum || room.NumCanAnswer() == 0 {
+	if room.NoCanAnswer() {
 		room.NextQuiz()
 	} else {
 		room.SendButtons()
