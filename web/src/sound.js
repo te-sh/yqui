@@ -8,7 +8,7 @@ window.addEventListener('load', () => {
   context = new AudioContext()
 
   for (let name of sounds) {
-    loadSound(name, `/snd/${name}.wav`)
+    loadSound(name, `/snd/${name}.mp3`)
   }
 })
 
