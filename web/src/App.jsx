@@ -1,14 +1,14 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { DndProvider } from 'react-dnd'
-import Backend from 'react-dnd-html5-backend'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import store from './redux/store'
 import Root from './Root'
 
 const App = () => {
   return (
     <Provider store={store}>
-      <DndProvider backend={Backend}>
+      <DndProvider backend={HTML5Backend}>
         <Root />
       </DndProvider>
     </Provider>
