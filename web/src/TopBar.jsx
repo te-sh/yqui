@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, IconButton, Toolbar, Typography, Tooltip } from '@material-ui/core'
 import {
-  ExitToApp, ListAlt, HelpOutline,
-  Settings, SportsKabaddi, SupervisorAccount
+  Close, HelpOutline, ListAlt, Portrait,
+  Settings, SupervisorAccount
 } from '@material-ui/icons'
 import { send } from './communicate'
 import { reset, setEditTeams } from './redux/actions'
@@ -45,7 +45,7 @@ const TopBar = ({
             <IconButton color="inherit"
                         disabled={!isMaster || !!editTeams}
                         onClick={teamEdit}>
-              <SportsKabaddi />
+              <SupervisorAccount />
             </IconButton>
           </span>
         </Tooltip>
@@ -63,7 +63,7 @@ const TopBar = ({
             <IconButton color={isMaster ? 'secondary' : 'inherit'}
                         disabled={(!isMaster && master >= 0) || !!editTeams}
                         onClick={() => send.toggleMaster(ws)}>
-              <SupervisorAccount />
+              <Portrait />
             </IconButton>
           </span>
         </Tooltip>
@@ -87,7 +87,7 @@ const TopBar = ({
           <span>
             <IconButton color="inherit"
                         onClick={leave}>
-              <ExitToApp />
+              <Close />
             </IconButton>
           </span>
         </Tooltip>
