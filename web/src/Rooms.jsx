@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core'
 import { send } from './communicate'
 import EnterRoom from './dialogs/EnterRoom'
+import './Rooms.scss'
 
 const Rooms = ({ history, ws, rooms, roomNo }) => {
   const [enterRoomOpen, setEnterRoomOpen] = React.useState(false)
@@ -77,6 +78,11 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
             </TableBody>
           </Table>
         </TableContainer>
+      </Box>
+      <Box>
+        <p className="copyright">
+          Yqui では効果音に<a href="https://pocket-se.info/">ポケットサウンド</a>を使用しています
+        </p>
       </Box>
       <EnterRoom open={enterRoomOpen}
                  submit={enterRoom} close={closeEnterRoom} />
