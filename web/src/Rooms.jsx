@@ -81,7 +81,7 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
       </Box>
       <Box>
         <p className="copyright">
-          Yqui では効果音に<a href="https://pocket-se.info/">ポケットサウンド</a>を使用しています
+          Yqui では効果音の一部に<a href="https://pocket-se.info/">ポケットサウンド</a>を使用しています
         </p>
       </Box>
       <EnterRoom open={enterRoomOpen}
