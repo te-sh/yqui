@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, IconButton, Toolbar, Typography, Tooltip } from '@material-ui/core'
 import {
-  Close, HelpOutline, ListAlt, Portrait,
-  Settings, SupervisorAccount
+  Close, HelpOutline, PlaylistAddCheck,
+  Portrait, Settings, SupervisorAccount
 } from '@material-ui/icons'
 import { send } from './communicate'
 import { reset, setEditTeams } from './redux/actions'
@@ -54,7 +54,7 @@ const TopBar = ({
             <IconButton color="inherit"
                         disabled={!isMaster || !!editTeams}
                         onClick={() => setRuleOpen(true)}>
-              <ListAlt />
+              <PlaylistAddCheck />
             </IconButton>
           </span>
         </Tooltip>
