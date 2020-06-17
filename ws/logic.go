@@ -33,6 +33,11 @@ func (room *Room) LeaveUser(id int64, time int64) {
 		room.NextQuiz()
 	}
 
+	if len(room.UserIDs) == 0 {
+		room.Rule = NewRule()
+		room.WinLose = NewWinLose()
+	}
+
 	room.SendRoom()
 	chat := Chat{Type: "leave", Time: time, Name: user.Name}
 	room.Broadcast("chat", chat)
