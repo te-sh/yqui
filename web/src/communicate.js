@@ -8,7 +8,8 @@ const messages = {
   allClear: JSON.stringify({ c: 'e' }),
   undo: JSON.stringify({ c: 'u' }),
   redo: JSON.stringify({ c: 'o' }),
-  toggleMaster: JSON.stringify({ c: 'm' })
+  toggleMaster: JSON.stringify({ c: 'm' }),
+  boardLock: JSON.stringify({ c: 'k' })
 }
 
 export const send = {
@@ -75,6 +76,11 @@ export const send = {
   teams: (ws, teams) => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'p', a: teams }))
+    }
+  },
+  boardLock: (ws) => {
+    if (ws) {
+      ws.send(messages.boardLock)
     }
   },
   boardText: (ws, text) => {

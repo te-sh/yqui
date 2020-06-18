@@ -4,7 +4,7 @@ import { Button, Paper, TextField } from '@material-ui/core'
 import { send } from '../communicate'
 import './Boardactions.scss'
 
-const Player = ({ className, ws }) => {
+const Player = ({ className, ws, boardLock }) => {
   const [answer, setAnswer] = React.useState('')
 
   const sendAnswer = (evt) => {
@@ -17,9 +17,11 @@ const Player = ({ className, ws }) => {
     <Paper className={className}>
       <form onSubmit={evt => sendAnswer(evt)} className="boardactions-content">
         <TextField id="message" variant="outlined" size="small"
+                   disabled={boardLock}
                    value={answer}
                    onChange={evt => setAnswer(evt.target.value)} />
-        <Button type="submit" variant="outlined" color="default" size="large">
+        <Button type="submit" variant="outlined" color="default" size="large"
+                disabled={boardLock}>
           ボード回答
         </Button>
       </form>
@@ -30,6 +32,6 @@ const Player = ({ className, ws }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    isPlayer: state.isPlayer
+    boardLock: state.boardLock
   })
 )(Player)

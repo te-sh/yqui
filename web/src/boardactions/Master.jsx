@@ -9,7 +9,7 @@ const Master = ({ className, ws }) => {
     <Paper className={className}>
       <Box className="boardactions-content">
         <Button variant="outlined" color="default" size="large"
-                onClick={() => send.correct(ws)}>
+                onClick={() => send.boardLock(ws)}>
           回答ロック
         </Button>
       </Box>

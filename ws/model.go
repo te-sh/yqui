@@ -6,6 +6,7 @@ type Room struct {
 	Teams Teams
 	Master int64
 	Boards map[int64]*Board
+	BoardLock bool
 	Scores Scores
 	TeamScores Scores
 	WinLose *WinLose
@@ -19,6 +20,7 @@ func NewRoom() *Room {
 	room.Users = make(map[int64]*User)
 	room.Master = -1
 	room.Boards = make(map[int64]*Board)
+	room.BoardLock = false
 	room.Scores = make(Scores)
 	room.TeamScores = make(Scores)
 	room.WinLose = NewWinLose()

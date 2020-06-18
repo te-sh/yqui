@@ -20,6 +20,7 @@ const initialState = {
   teams: [],
   master: -1,
   boards: {},
+  boardLock: false,
   scores: {},
   teamScores: {},
   buttons: {
@@ -108,7 +109,8 @@ const yquiApp = (state = initialState, action) => {
     })
   case RECV_BOARDS:
     return update(state, {
-      boards: { $set: action.boards }
+      boards: { $set: action.boards.content },
+      boardLock: { $set: action.boards.lock }
     })
   case RECV_BOARD:
     console.log(action)

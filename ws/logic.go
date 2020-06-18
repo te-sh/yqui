@@ -215,6 +215,7 @@ func (room *Room) ResetBoards() {
 	for id, _ := range room.Boards {
 		room.Boards[id] = NewBoard()
 	}
+	room.BoardLock = false
 	room.SendBoards()
 }
 
