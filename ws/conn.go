@@ -125,11 +125,6 @@ func (room *Room) SendTeams() {
 	room.Broadcast("teams", teamsSend)
 }
 
-type BoardsSend struct {
-	Content map[int64]*Board `json:"content"`
-	Lock bool `json:"lock"`
-}
-
 func (room *Room) SendBoards() {
 	for id, _ := range room.Boards {
 		boards := make(map[int64]*Board)
@@ -140,9 +135,12 @@ func (room *Room) SendBoards() {
 				boards[id2] = NewBoard()
 			}
 		}
-		boardsSend := BoardsSend{Content: boards, Lock: room.BoardLock}
-		room.SendToOne(id, "boards", boardsSend)
+		room.SendToOne(id, "boards", boards)
 	}
+}
+
+func (room *Room) SendBoardLock() {
+	room.Broadcast("boardLock", room.BoardLock)
 }
 
 type BoardSend struct {

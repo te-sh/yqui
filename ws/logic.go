@@ -14,6 +14,7 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.SendToOne(id, "rule", room.Rule)
 
 	room.SendBoards()
+	room.SendBoardLock()
 	room.SendRoom()
 	chat := Chat{Type: "join", Time: time, Name: name}
 	room.Broadcast("chat", chat)
@@ -217,6 +218,7 @@ func (room *Room) ResetBoards() {
 	}
 	room.BoardLock = false
 	room.SendBoards()
+	room.SendBoardLock()
 }
 
 func (room *Room) AllClear() {
