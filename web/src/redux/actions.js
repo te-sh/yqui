@@ -6,6 +6,8 @@ export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
 export const RECV_USERS = 'RECV_USERS'
 export const RECV_TEAMS = 'RECV_TEAMS'
+export const RECV_BOARDS = 'RECV_BOARDS'
+export const RECV_BOARD = 'RECV_BOARD'
 export const RECV_SCORES = 'RECV_SCORES'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_RULE = 'RECV_RULE'
@@ -42,6 +44,14 @@ export const recvUsers = users => {
 
 export const recvTeams = teams => {
   return { type: RECV_TEAMS, teams }
+}
+
+export const recvBoards = boards => {
+  return { type: RECV_BOARDS, boards }
+}
+
+export const recvBoard = board => {
+  return { type: RECV_BOARD, board }
 }
 
 export const recvScores = scores => {

@@ -6,7 +6,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { Dvr, RadioButtonUnchecked } from '@material-ui/icons'
 import './Board.scss'
 
-const Board = ({ className, isMaster }) => {
+const Board = ({ className, isMaster, board }) => {
   const buttons = (
     <Box className="board-buttons">
       <ToggleButtonGroup size="small">
@@ -23,6 +23,7 @@ const Board = ({ className, isMaster }) => {
   return (
     <Box className={className}>
       <Box className="board-text">
+        { board.text }
       </Box>
       { isMaster ? buttons : null }
     </Box>

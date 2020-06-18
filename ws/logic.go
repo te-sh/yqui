@@ -6,12 +6,14 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.Users[id] = user
 	room.UserIDs = append(room.UserIDs, id)
 	room.AddPlayerToDefaultTeam(id)
+	room.Boards[id] = NewBoard()
 	room.Scores[id] = NewScore()
 	room.History.Items[room.History.Curr].Scores[id] = NewScore()
 
 	room.SendToOne(id, "selfID", id)
 	room.SendToOne(id, "rule", room.Rule)
 
+	room.SendBoards()
 	room.SendRoom()
 	chat := Chat{Type: "join", Time: time, Name: name}
 	room.Broadcast("chat", chat)
@@ -21,6 +23,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
 	delete(room.Scores, id)
+	delete(room.Boards, id)
 	if (room.Master == id) {
 		room.Master = -1
 	}
@@ -206,6 +209,13 @@ func (room *Room) NextQuiz() {
 func (room *Room) ResetButtons() {
 	room.Buttons.Reset()
 	room.SendButtons()
+}
+
+func (room *Room) ResetBoards() {
+	for id, _ := range room.Boards {
+		room.Boards[id] = NewBoard()
+	}
+	room.SendBoards()
 }
 
 func (room *Room) AllClear() {

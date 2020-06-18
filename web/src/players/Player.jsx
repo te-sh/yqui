@@ -9,9 +9,10 @@ import PlayerStatus from './PlayerStatus'
 import Board from './Board'
 import './Player.scss'
 
-const Player = ({ player, scores, buttons, rule }) => {
+const Player = ({ player, boards, scores, buttons, rule }) => {
   const order = buttons.pushers.indexOf(player)
   const right = order === buttons.answerers.length ? player : -1
+  const board = boards[player] || {}
   const score = scores[player] || {}
 
   const playerClass = classNames(
@@ -27,7 +28,7 @@ const Player = ({ player, scores, buttons, rule }) => {
                     player={player} right={right} />
         <PlayerPoint score={score} className="player-point" />
         <PlayerStatus score={score} className="player-status" />
-        { rule.board ? <Board className="board" /> : null }
+        { rule.board ? <Board className="board" board={board} /> : null }
       </Paper>
     </Box>
   )
@@ -36,6 +37,7 @@ const Player = ({ player, scores, buttons, rule }) => {
 export default connect(
   state => ({
     selfID: state.selfID,
+    boards: state.boards,
     scores: state.scores,
     buttons: state.buttons,
     rule: state.rule

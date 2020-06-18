@@ -5,6 +5,7 @@ type Room struct {
 	UserIDs []int64
 	Teams Teams
 	Master int64
+	Boards map[int64]*Board
 	Scores Scores
 	TeamScores Scores
 	WinLose *WinLose
@@ -17,6 +18,7 @@ func NewRoom() *Room {
 	room := new(Room)
 	room.Users = make(map[int64]*User)
 	room.Master = -1
+	room.Boards = make(map[int64]*Board)
 	room.Scores = make(Scores)
 	room.TeamScores = make(Scores)
 	room.WinLose = NewWinLose()
@@ -40,6 +42,20 @@ func NewUser(id int64, conn *Conn, name string) *User {
 	user.Conn = conn
 	user.Name = name
 	return user
+}
+
+type Board struct {
+	Text string `json:"text"`
+	Correct bool `json:"correct"`
+	Open bool `json:"open"`
+}
+
+func NewBoard() *Board {
+	board := new(Board)
+	board.Text = ""
+	board.Correct = false
+	board.Open = false
+	return board
 }
 
 type Rule struct {

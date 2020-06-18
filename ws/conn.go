@@ -125,6 +125,36 @@ func (room *Room) SendTeams() {
 	room.Broadcast("teams", teamsSend)
 }
 
+func (room *Room) SendBoards() {
+	for id, _ := range room.Boards {
+		boardsSend := make(map[int64]*Board)
+		for id2, board := range room.Boards {
+			if id == room.Master || id == id2 || board.Open {
+				boardsSend[id2] = board
+			} else {
+				boardsSend[id2] = NewBoard()
+			}
+		}
+		room.SendToOne(id, "boards", boardsSend)
+	}
+}
+
+type BoardSend struct {
+	ID int64 `json:"id"`
+	Content *Board `json:"content"`
+}
+
+func (room *Room) SendBoard(id int64) {
+	board := room.Boards[id]
+	boardSend := BoardSend{ID: id, Content: board}
+	if board.Open {
+		room.Broadcast("board", boardSend)
+	} else {
+		room.SendToOne(id, "board", boardSend)
+		room.SendToMaster("board", boardSend)
+	}
+}
+
 func (room *Room) SendButtons() {
 	room.Broadcast("buttons", room.Buttons)
 }

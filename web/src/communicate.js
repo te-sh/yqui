@@ -77,6 +77,11 @@ export const send = {
       ws.send(JSON.stringify({ c: 'p', a: teams }))
     }
   },
+  boardText: (ws, text) => {
+    if (ws) {
+      ws.send(JSON.stringify({ c: 't', a: text }))
+    }
+  },
   rule: (ws, rule) => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'l', a: rule }))

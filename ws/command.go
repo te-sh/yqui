@@ -23,9 +23,11 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.Broadcast("sound", "wrong")
 	case "n":
 		room.NextQuiz()
+		room.ResetBoards()
 		room.AddHistory()
 	case "r":
 		room.ResetButtons()
+		room.ResetBoards()
 	case "e":
 		room.AllClear()
 	case "u":
@@ -39,6 +41,9 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "p":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()
+	case "t":
+		json.Unmarshal(cmd.A, &room.Boards[cmd.ID].Text)
+		room.SendBoard(cmd.ID)
 	case "l":
 		json.Unmarshal(cmd.A, &room.Rule)
 		room.SendRule()

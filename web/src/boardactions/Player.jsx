@@ -1,12 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Button, Paper, TextField } from '@material-ui/core'
+import { send } from '../communicate'
 import './Boardactions.scss'
 
-const Player = ({ className }) => {
+const Player = ({ className, ws }) => {
   const [answer, setAnswer] = React.useState('')
 
   const sendAnswer = (evt) => {
-    console.log(evt)
+    evt.preventDefault()
+    send.boardText(ws, answer)
+    setAnswer('')
   }
 
   return (
@@ -23,4 +27,9 @@ const Player = ({ className }) => {
   )
 }
 
-export default Player
+export default connect(
+  state => ({
+    ws: state.ws,
+    isPlayer: state.isPlayer
+  })
+)(Player)
