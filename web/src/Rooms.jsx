@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  AppBar, Box, Button, Paper, Table, TableBody, TableCell,
+  AppBar, Box, Button, Link, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Toolbar, Typography
 } from '@material-ui/core'
 import { send } from './communicate'
@@ -80,9 +80,9 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
         </TableContainer>
       </Box>
       <Box>
-        <p className="copyright">
-          Yqui では効果音の一部に<a href="https://pocket-se.info/">ポケットサウンド</a>を使用しています
-        </p>
+        <Typography className="copyright">
+          Yqui では効果音の一部に<Link href="https://pocket-se.info/">ポケットサウンド</Link>を使用しています
+        </Typography>
       </Box>
       <EnterRoom open={enterRoomOpen}
                  submit={enterRoom} close={closeEnterRoom} />

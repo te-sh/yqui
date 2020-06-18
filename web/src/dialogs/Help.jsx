@@ -13,6 +13,9 @@ const Help = ({ open, close }) => {
         <Typography variant="h6">
           早押しの方法
         </Typography>
+        <Typography>
+          以下の方法のうち, お好みの方法を選んでください.
+        </Typography>
         <ul>
           <li>
             <Typography>
