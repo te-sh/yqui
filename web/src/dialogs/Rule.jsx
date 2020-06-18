@@ -38,6 +38,7 @@ const Rule = ({ open, close, ws, rule }) => {
   const [shareButton, setShareButton] = React.useState(false)
   const [teamPoint, setTeamPoint] = React.useState('sum')
   const [teamBatsu, setTeamBatsu] = React.useState('sum')
+  const [board, setBoard] = React.useState(false)
 
   const onEnter = () => {
     setRightNum(rule.rightNum)
@@ -55,6 +56,7 @@ const Rule = ({ open, close, ws, rule }) => {
     setShareButton(rule.shareButton)
     setTeamPoint(rule.teamPoint)
     setTeamBatsu(rule.teamBatsu)
+    setBoard(rule.board)
   }
 
   const onSubmit = evt => {
@@ -73,7 +75,8 @@ const Rule = ({ open, close, ws, rule }) => {
       loseBatsu: { active: loseBatsuActive, value: parse(loseBatsuValue) },
       shareButton,
       teamPoint,
-      teamBatsu
+      teamBatsu,
+      board
     })
   }
 
@@ -194,6 +197,20 @@ const Rule = ({ open, close, ws, rule }) => {
     </TabPanel>
   )
 
+  const boardRule = (
+    <TabPanel value={tab} index={2} className="board-rule">
+      <FormGroup className="rule-group">
+        <FormControlLabel
+          control={
+            <Checkbox color="default"
+                      checked={board}
+                      onChange={evt => setBoard(evt.target.checked)} />
+          }
+          label="ボード" />
+      </FormGroup>
+    </TabPanel>
+  )
+
   return (
     <Dialog open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
@@ -203,9 +220,11 @@ const Rule = ({ open, close, ws, rule }) => {
           <Tabs value={tab} onChange={(evt, newTab) => setTab(newTab)}>
             <Tab label="通常" />
             <Tab label="チーム" />
+            <Tab label="ボード" />
           </Tabs>
           {normalRule}
           {teamRule}
+          {boardRule}
         </DialogContent>
         <DialogActions>
           <Button type="submit" color="primary">

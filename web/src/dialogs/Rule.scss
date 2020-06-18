@@ -4,6 +4,10 @@
   grid-template-columns: auto;
   grid-gap: 12px;
 
+  .MuiTab-root {
+    min-width: 120px;
+  }
+
   .rule-group {
     margin-bottom: 15px;
   }

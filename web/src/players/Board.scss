@@ -1,0 +1,13 @@
+.board {
+  .board-text {
+    border: solid 1px #b0bec5;
+    height: 8ex;
+  }
+
+  .board-buttons {
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

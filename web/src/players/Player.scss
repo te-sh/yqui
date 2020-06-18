@@ -5,7 +5,7 @@
     width: 120px;
     padding: 3px;
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-columns: auto;
 
     &.right {
@@ -25,6 +25,11 @@
     .player-status {
       grid-column: 1/2;
       grid-row: 2/3;
+    }
+
+    .board {
+      grid-column: 1/2;
+      grid-row: 3/4;
     }
   }
 }
