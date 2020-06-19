@@ -1,7 +1,23 @@
 .board {
   .board-text {
+    padding: 3px;
+    font-size: 0.80em;
     border: solid 1px #b0bec5;
-    height: 8ex;
+    height: 9ex;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.open {
+      color: white;
+      background-color: blue;
+
+      &.correct {
+        background-color: red;
+      }
+    }
   }
 
   .board-buttons {

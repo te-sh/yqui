@@ -4,6 +4,7 @@ import { Box } from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { Dvr, RadioButtonUnchecked } from '@material-ui/icons'
+import classNames from 'classnames'
 import update from 'immutability-helper'
 import { recvBoard } from '../redux/actions'
 import './Board.scss'
@@ -48,7 +49,7 @@ const Board = ({ className, isMaster, player, board, updateBoard }) => {
 
   return (
     <Box className={className}>
-      <Box className="board-text">
+      <Box className={classNames('board-text', { 'correct': board.correct, 'open': board.open })}>
         { board.text }
       </Box>
       { isMaster ? buttons : null }

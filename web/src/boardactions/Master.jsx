@@ -6,7 +6,7 @@ import { send } from '../communicate'
 import { recvBoards } from '../redux/actions'
 import './Boardactions.scss'
 
-const Master = ({ className, ws, boards, updateBoards }) => {
+const Master = ({ className, ws, boards, boardLock, updateBoards }) => {
   const correctAll = () => {
     let newBoards = {}
     for (let player of Object.keys(boards)) {
@@ -32,7 +32,7 @@ const Master = ({ className, ws, boards, updateBoards }) => {
       <Box className="boardactions-content">
         <Button variant="outlined" color="default" size="large"
                 onClick={() => send.boardLock(ws)}>
-          回答ロック
+          { boardLock ? '回答ロック解除' : '回答ロック' }
         </Button>
         <Button variant="outlined" color="default" size="large"
                 onClick={correctAll}>
@@ -41,6 +41,10 @@ const Master = ({ className, ws, boards, updateBoards }) => {
         <Button variant="outlined" color="default" size="large"
                 onClick={openAll}>
           すべてオープン
+        </Button>
+        <Button variant="outlined" color="default" size="large"
+                onClick={() => send.boards(ws, boards)}>
+          オープン
         </Button>
       </Box>
     </Paper>

@@ -41,8 +41,11 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "p":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()
+	case "b":
+		json.Unmarshal(cmd.A, &room.Boards)
+		room.SendBoards()
 	case "k":
-		room.BoardLock = true
+		room.BoardLock = !room.BoardLock
 		room.SendBoardLock()
 	case "t":
 		json.Unmarshal(cmd.A, &room.Boards[cmd.ID].Text)
