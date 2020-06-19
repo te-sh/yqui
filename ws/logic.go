@@ -221,7 +221,7 @@ func (room *Room) ResetBoards() {
 	room.SendBoardLock()
 }
 
-func (room *Room) UpdateBoards(newBoards map[int64]*Board) (correct bool, win bool, lose bool) {
+func (room *Room) UpdateBoards(newBoards map[int64]*Board) (correct bool, win bool) {
 	buttons := room.Buttons
 	first, err := buttons.RightPlayer()
 	if err != nil {
