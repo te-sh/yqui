@@ -43,7 +43,8 @@ const initialState = {
     shareButtons: false,
     teamPoint: 'sum',
     teamBatsu: 'sum',
-    board: false
+    board: false,
+    boardPointCorrect: 1
   },
   ruleText: {},
   editTeams: null,

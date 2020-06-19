@@ -39,6 +39,7 @@ const Rule = ({ open, close, ws, rule }) => {
   const [teamPoint, setTeamPoint] = React.useState('sum')
   const [teamBatsu, setTeamBatsu] = React.useState('sum')
   const [board, setBoard] = React.useState(false)
+  const [boardPointCorrect, setBoardPointCorrect] = React.useState(0)
 
   const onEnter = () => {
     setRightNum(rule.rightNum)
@@ -57,6 +58,7 @@ const Rule = ({ open, close, ws, rule }) => {
     setTeamPoint(rule.teamPoint)
     setTeamBatsu(rule.teamBatsu)
     setBoard(rule.board)
+    setBoardPointCorrect(rule.boardPointCorrect)
   }
 
   const onSubmit = evt => {
@@ -76,7 +78,8 @@ const Rule = ({ open, close, ws, rule }) => {
       shareButton,
       teamPoint,
       teamBatsu,
-      board
+      board,
+      boardCorrectPoint: parse(boardPointCorrect)
     })
   }
 
@@ -207,6 +210,16 @@ const Rule = ({ open, close, ws, rule }) => {
                       onChange={evt => setBoard(evt.target.checked)} />
           }
           label="ボード" />
+      </FormGroup>
+      <FormGroup component="fieldset" className="rule-group">
+        <FormLabel component="legend">
+          正答時
+        </FormLabel>
+        <FormGroup row={true}>
+          <TextField label="ポイント" type="number"
+                     value={pointCorrect}
+                     onChange={evt => setPointCorrect(evt.target.value)} />
+        </FormGroup>
       </FormGroup>
     </TabPanel>
   )

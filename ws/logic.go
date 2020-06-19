@@ -221,6 +221,25 @@ func (room *Room) ResetBoards() {
 	room.SendBoardLock()
 }
 
+func (room *Room) UpdateBoards(newBoards map[int64]*Board) (correct bool, win bool) {
+	var corrects []int64
+	for id, board := range room.Boards {
+		newBoard := newBoards[id]
+		if !board.Open && newBoard.Open && newBoard.Correct ||
+			board.Open && newBoard.Open && !board.Correct && newBoard.Correct {
+			corrects = append(corrects, id)
+		}
+	}
+	correct = len(corrects) > 0
+	if correct {
+		win = room.Scores.CorrectBoard(corrects, room.Rule, room.WinLose)
+	}
+	room.SendScores()
+	room.Boards = newBoards
+	room.SendBoards()
+	return
+}
+
 func (room *Room) AllClear() {
 	room.ResetButtons()
 	for _, score := range room.Scores {

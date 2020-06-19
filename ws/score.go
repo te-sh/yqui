@@ -63,6 +63,26 @@ func (scores Scores) Correct(id int64, rule *Rule, winLose *WinLose) (win bool) 
 	return
 }
 
+func (scores Scores) CorrectBoard(ids []int64, rule *Rule, winLose *WinLose) (win bool) {
+	var wins []int64
+	for _, id := range ids {
+		score := scores[id]
+		score.Point += rule.BoardPointCorrect
+		if rule.WinPoint.Active && score.Point >= rule.WinPoint.Value {
+			wins = append(wins, id)
+		}
+	}
+	win = len(wins) > 0
+	if win {
+		winLose.WinNum += 1
+	}
+	for _, id := range wins {
+		score := scores[id]
+		score.Win = winLose.WinNum
+	}
+	return
+}
+
 func (teamScores Scores) CorrectTeam(team *Team, scores Scores, rule *Rule, winLose *WinLose) {
 	if teamScore, ok := teamScores[team.ID]; ok {
 		switch (rule.TeamPoint) {
