@@ -40,6 +40,7 @@ const Rule = ({ open, close, ws, rule }) => {
   const [teamBatsu, setTeamBatsu] = React.useState('sum')
   const [board, setBoard] = React.useState(false)
   const [boardPointCorrect, setBoardPointCorrect] = React.useState(0)
+  const [boardApplyNormal, setBoardApplyNormal] = React.useState(true)
 
   const onEnter = () => {
     setRightNum(rule.rightNum)
@@ -59,6 +60,7 @@ const Rule = ({ open, close, ws, rule }) => {
     setTeamBatsu(rule.teamBatsu)
     setBoard(rule.board)
     setBoardPointCorrect(rule.boardPointCorrect)
+    setBoardApplyNormal(rule.boardApplyNormal)
   }
 
   const onSubmit = evt => {
@@ -79,7 +81,8 @@ const Rule = ({ open, close, ws, rule }) => {
       teamPoint,
       teamBatsu,
       board,
-      boardCorrectPoint: parse(boardPointCorrect)
+      boardCorrectPoint: parse(boardPointCorrect),
+      boardApplyNormal
     })
   }
 
@@ -220,6 +223,17 @@ const Rule = ({ open, close, ws, rule }) => {
                      value={pointCorrect}
                      onChange={evt => setPointCorrect(evt.target.value)} />
         </FormGroup>
+      </FormGroup>
+      <FormGroup>
+        <FormControl>
+          <FormControlLabel
+            control={
+              <Checkbox color="default"
+                        checked={boardApplyNormal}
+                        onChange={evt => setBoardApplyNormal(evt.target.checked)} />
+            }
+            label="1着に通常ルールを適用" />
+        </FormControl>
       </FormGroup>
     </TabPanel>
   )

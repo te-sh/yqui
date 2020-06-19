@@ -76,6 +76,7 @@ type Rule struct {
 	TeamBatsu string `json:"teamBatsu"`
 	Board bool `json:"board"`
 	BoardPointCorrect int `json:"boardPointCorrect"`
+	BoardApplyNormal bool `json:"boardApplyNormal"`
 }
 
 type ActiveAndValue struct {
@@ -100,6 +101,7 @@ func NewRule() *Rule {
 	rule.TeamBatsu = "sum"
 	rule.Board = false
 	rule.BoardPointCorrect = 1
+	rule.BoardApplyNormal = true
 	return rule
 }
 

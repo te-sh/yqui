@@ -44,7 +44,8 @@ const initialState = {
     teamPoint: 'sum',
     teamBatsu: 'sum',
     board: false,
-    boardPointCorrect: 1
+    boardPointCorrect: 1,
+    boardApplyNormal: true
   },
   ruleText: {},
   editTeams: null,
