@@ -47,13 +47,15 @@ func NewUser(id int64, conn *Conn, name string) *User {
 }
 
 type Board struct {
+	ID int64 `json:"id"`
 	Text string `json:"text"`
 	Correct bool `json:"correct"`
 	Open bool `json:"open"`
 }
 
-func NewBoard() *Board {
+func NewBoard(id int64) *Board {
 	board := new(Board)
+	board.ID = id
 	board.Text = ""
 	board.Correct = false
 	board.Open = false

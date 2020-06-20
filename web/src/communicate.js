@@ -83,14 +83,14 @@ export const send = {
       ws.send(JSON.stringify({ c: 'b', a: boards }))
     }
   },
+  board: (ws, board) => {
+    if (ws) {
+      ws.send(JSON.stringify({ c: 't', a: board }))
+    }
+  },
   boardLock: (ws) => {
     if (ws) {
       ws.send(messages.boardLock)
-    }
-  },
-  boardText: (ws, text) => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 't', a: text }))
     }
   },
   rule: (ws, rule) => {

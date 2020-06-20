@@ -6,7 +6,7 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.Users[id] = user
 	room.UserIDs = append(room.UserIDs, id)
 	room.AddPlayerToDefaultTeam(id)
-	room.Boards[id] = NewBoard()
+	room.Boards[id] = NewBoard(id)
 	room.Scores[id] = NewScore()
 	room.History.Items[room.History.Curr].Scores[id] = NewScore()
 
@@ -214,7 +214,7 @@ func (room *Room) ResetButtons() {
 
 func (room *Room) ResetBoards() {
 	for id, _ := range room.Boards {
-		room.Boards[id] = NewBoard()
+		room.Boards[id] = NewBoard(id)
 	}
 	room.BoardLock = false
 	room.SendBoards()
@@ -222,27 +222,38 @@ func (room *Room) ResetBoards() {
 }
 
 func (room *Room) UpdateBoards(newBoards map[int64]*Board) (correct bool, win bool) {
-	buttons := room.Buttons
-	first, err := buttons.RightPlayer()
-	if err != nil {
-		first = -1
-	}
+	first, _ := room.Buttons.RightPlayer()
 
 	var corrects []int64
 	for id, board := range room.Boards {
 		newBoard := newBoards[id]
-		if !board.Open && newBoard.Open && newBoard.Correct ||
-			board.Open && newBoard.Open && !board.Correct && newBoard.Correct {
+		if !board.Correct && newBoard.Correct {
 			corrects = append(corrects, id)
 		}
 	}
 	correct = len(corrects) > 0
 	if correct {
 		win = room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLose)
+		room.SendScores()
 	}
-	room.SendScores()
+
 	room.Boards = newBoards
 	room.SendBoards()
+	return
+}
+
+func (room *Room) UpdateBoard(newBoard *Board) (correct bool, win bool) {
+	first, _ := room.Buttons.RightPlayer()
+
+	id := newBoard.ID
+	if !room.Boards[id].Correct && newBoard.Correct {
+		correct = true
+		win = room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose)
+		room.SendScores()
+	}
+
+	room.Boards[id] = newBoard
+	room.SendBoard(id)
 	return
 }
 

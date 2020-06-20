@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper, TextField, Typography } from '@material-ui/core'
+import update from 'immutability-helper'
 import { send } from '../communicate'
 import './Actions.scss'
 
-const Player = ({ className, ws, isPlayer, rule, boardLock }) => {
+const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) => {
   const [answer, setAnswer] = React.useState('')
 
   const onKeyDown = evt => {
@@ -24,7 +25,10 @@ const Player = ({ className, ws, isPlayer, rule, boardLock }) => {
 
   const sendAnswer = (evt) => {
     evt.preventDefault()
-    send.boardText(ws, answer)
+    let newBoard = update(boards[selfID], {
+      $set: { text: answer }
+    })
+    send.board(ws, newBoard)
     setAnswer('')
   }
 
@@ -64,8 +68,10 @@ const Player = ({ className, ws, isPlayer, rule, boardLock }) => {
 export default connect(
   state => ({
     ws: state.ws,
+    selfID: state.selfID,
     isPlayer: state.isPlayer,
     rule: state.rule,
+    boards: state.boards,
     boardLock: state.boardLock
   })
 )(Player)

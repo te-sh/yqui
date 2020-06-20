@@ -51,12 +51,12 @@ export const recvBoards = boards => {
   return { type: RECV_BOARDS, boards }
 }
 
-export const recvBoardLock = boardLock => {
-  return { type: RECV_BOARD_LOCK, boardLock }
-}
-
 export const recvBoard = board => {
   return { type: RECV_BOARD, board }
+}
+
+export const recvBoardLock = boardLock => {
+  return { type: RECV_BOARD_LOCK, boardLock }
 }
 
 export const recvScores = scores => {

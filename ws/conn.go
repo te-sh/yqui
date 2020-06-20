@@ -132,31 +132,25 @@ func (room *Room) SendBoards() {
 			if id == room.Master || id == id2 || board.Open {
 				boards[id2] = board
 			} else {
-				boards[id2] = NewBoard()
+				boards[id2] = NewBoard(id2)
 			}
 		}
 		room.SendToOne(id, "boards", boards)
 	}
 }
 
-func (room *Room) SendBoardLock() {
-	room.Broadcast("boardLock", room.BoardLock)
-}
-
-type BoardSend struct {
-	ID int64 `json:"id"`
-	Content *Board `json:"content"`
-}
-
 func (room *Room) SendBoard(id int64) {
 	board := room.Boards[id]
-	boardSend := BoardSend{ID: id, Content: board}
 	if board.Open {
-		room.Broadcast("board", boardSend)
+		room.Broadcast("board", board)
 	} else {
-		room.SendToOne(id, "board", boardSend)
-		room.SendToMaster("board", boardSend)
+		room.SendToOne(id, "board", board)
+		room.SendToMaster("board", board)
 	}
+}
+
+func (room *Room) SendBoardLock() {
+	room.Broadcast("boardLock", room.BoardLock)
 }
 
 func (room *Room) SendButtons() {

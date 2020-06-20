@@ -52,12 +52,20 @@ func (room *Room) RunCommand(cmd Cmd) {
 				room.Broadcast("sound", "correct")
 			}
 		}
+	case "t":
+		newBoard := NewBoard(cmd.ID)
+		json.Unmarshal(cmd.A, newBoard)
+		correct, win := room.UpdateBoard(newBoard)
+		if correct {
+			if win {
+				room.Broadcast("sound", "correct,roundwin")
+			} else {
+				room.Broadcast("sound", "correct")
+			}
+		}
 	case "k":
 		room.BoardLock = !room.BoardLock
 		room.SendBoardLock()
-	case "t":
-		json.Unmarshal(cmd.A, &room.Boards[cmd.ID].Text)
-		room.SendBoard(cmd.ID)
 	case "l":
 		json.Unmarshal(cmd.A, &room.Rule)
 		room.SendRule()

@@ -113,13 +113,13 @@ const yquiApp = (state = initialState, action) => {
     return update(state, {
       boards: { $set: action.boards }
     })
+  case RECV_BOARD:
+    return update(state, {
+      boards: { $merge: { [action.board.id]: action.board } }
+    })
   case RECV_BOARD_LOCK:
     return update(state, {
       boardLock: { $set: action.boardLock }
-    })
-  case RECV_BOARD:
-    return update(state, {
-      boards: { $merge: { [action.board.id]: action.board.content } }
     })
   case RECV_SCORES:
     return update(state, {
