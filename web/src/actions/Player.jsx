@@ -37,7 +37,8 @@ const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) =>
       <TextField id="message" variant="outlined" size="small"
                  disabled={boardLock}
                  value={answer}
-                 onChange={evt => setAnswer(evt.target.value)} />
+                 onChange={evt => setAnswer(evt.target.value)}
+                 onKeyDown={evt => evt.stopPropagation()} />
       <Button type="submit" variant="outlined" color="default" size="large"
               disabled={boardLock}>
         ボード回答
