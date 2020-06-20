@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box } from '@material-ui/core'
+import { Box, Tooltip } from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
@@ -19,6 +19,16 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
     },
     [board]
   )
+
+  const open = () => {
+    if (board.open) {
+      return
+    }
+    const newBoard = update(board, {
+      open: { $set: true }
+    })
+    send.board(ws, newBoard)
+  }
 
   const changeCorrect = (evt, newCorrect) => {
     const newBoard = update(board, {
@@ -47,14 +57,16 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
 
   const boxClass = classNames(
     'board-text',
-    { 'correct': board.correct, 'open': board.open }
+    { 'correct': board.correct, 'open': board.open, 'master': isMaster }
   )
 
   return (
     <Box className={className}>
-      <Box className={boxClass}>
-        { board.text }
-      </Box>
+      <Tooltip title="クリックでオープン">
+        <Box className={boxClass} onClick={open}>
+          { board.text }
+        </Box>
+      </Tooltip>
       { isMaster ? buttons : null }
     </Box>
   )

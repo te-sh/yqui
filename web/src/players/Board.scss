@@ -3,19 +3,29 @@
     padding: 3px;
     font-size: 0.80em;
     border: solid 1px #b0bec5;
+    border-radius: 3px;
     height: 9ex;
     word-break: break-all;
     overflow-wrap: break-word;
+    cursor: default;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    &.open {
-      color: white;
-      background-color: blue;
+    &.master {
+      background-color: #bbdefb;
 
       &.correct {
-        background-color: red;
+        background-color: #ffcdd2;
+      }
+    }
+
+    &.open {
+      color: white;
+      background-color: #1565c0;
+
+      &.correct {
+        background-color: #c62828;
       }
     }
   }
