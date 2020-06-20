@@ -5,14 +5,29 @@ import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import { send } from '../communicate'
 import './Actions.scss'
 
-const Master = ({ className, ws }) => {
+const Master = ({ className, ws, rule, boards, boardLock }) => {
+  const openAll = () => {
+    for (let player of Object.keys(boards)) {
+      boards[player].open = true
+    }
+    send.boards(ws, boards)
+  }
+
   const onKeyDown = evt => {
     switch (evt.keyCode) {
       case 81:
-        send.correct(ws)
+        if (rule.board) {
+          send.boardLock(ws)
+        } else {
+          send.correct(ws)
+        }
         break
       case 87:
-        send.wrong(ws)
+        if (rule.board) {
+          openAll()
+        } else {
+          send.wrong(ws)
+        }
         break
       case 69:
         send.through(ws)
@@ -34,22 +49,41 @@ const Master = ({ className, ws }) => {
     }
   }
 
+  const normalButtons = (
+    <Box>
+      <Button variant="outlined" color="primary" size="large"
+              onClick={() => send.correct(ws)}
+              startIcon={<RadioButtonUnchecked />}>
+        正解
+      </Button>
+      <Button variant="outlined" color="secondary" size="large"
+              onClick={() => send.wrong(ws)}
+              startIcon={<Close />}>
+        不正解
+      </Button>
+    </Box>
+  )
+
+  const boardButtons = (
+    <Box>
+      <Button variant="outlined" color="default" size="large"
+              onClick={() => send.boardLock(ws)}>
+        { boardLock ? '回答ロック解除' : '回答ロック' }
+      </Button>
+      <Button variant="outlined" color="default" size="large"
+              onClick={openAll}>
+        すべてオープン
+      </Button>
+    </Box>
+  )
+
   return (
     <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
       <Box className="actions-content">
-        <Button variant="outlined" color="primary" size="large"
-                onClick={() => send.correct(ws)}
-                startIcon={<RadioButtonUnchecked />}>
-          正解
-        </Button>
-        <Button variant="outlined" color="secondary" size="large"
-                onClick={() => send.wrong(ws)}
-                startIcon={<Close />}>
-          不正解
-        </Button>
+        { rule.board ? boardButtons : normalButtons }
         <Button variant="outlined" color="default" size="large"
                 onClick={() => send.through(ws)}>
-          スルー
+          次の問題
         </Button>
         <Button variant="outlined" color="default" size="large"
                 onClick={() => send.reset(ws)}>
@@ -74,6 +108,9 @@ const Master = ({ className, ws }) => {
 
 export default connect(
   state => ({
-    ws: state.ws
+    ws: state.ws,
+    rule: state.rule,
+    boards: state.boards,
+    boardLock: state.boardLock
   })
 )(Master)

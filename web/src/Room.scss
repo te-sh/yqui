@@ -3,7 +3,7 @@
   max-height: 100vh;
   background-color: #e0e0e0;
   display: grid;
-  grid-template-rows: auto 1fr 72px auto auto auto;
+  grid-template-rows: auto 1fr 72px auto auto;
   grid-template-columns: 25% 1fr;
   grid-gap: 5px;
   min-height: 0;
@@ -29,19 +29,11 @@
     grid-row: 2/4;
     overflow: hidden;
     min-width: 0;
-
-    &.board-available {
-      grid-row: 2/3;
-    }
   }
 
   .subactions {
     grid-column: 2/3;
     grid-row: 4/5;
-
-    &.board-available {
-      grid-row: 3/4;
-    }
   }
 
   .board {

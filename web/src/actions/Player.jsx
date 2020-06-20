@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box, Button, Paper, Typography } from '@material-ui/core'
+import { Box, Button, Paper, TextField, Typography } from '@material-ui/core'
 import { send } from '../communicate'
 import './Actions.scss'
 
-const Player = ({ className, ws, isPlayer }) => {
+const Player = ({ className, ws, isPlayer, rule, boardLock }) => {
+  const [answer, setAnswer] = React.useState('')
+
   const onKeyDown = evt => {
     if (!isPlayer) {
       return
@@ -20,6 +22,25 @@ const Player = ({ className, ws, isPlayer }) => {
 
   const klass = isPlayer ? 'player' : 'observer'
 
+  const sendAnswer = (evt) => {
+    evt.preventDefault()
+    send.boardText(ws, answer)
+    setAnswer('')
+  }
+
+  const boardForm = (
+    <form onSubmit={sendAnswer} className="boardactions-content">
+      <TextField id="message" variant="outlined" size="small"
+                 disabled={boardLock}
+                 value={answer}
+                 onChange={evt => setAnswer(evt.target.value)} />
+      <Button type="submit" variant="outlined" color="default" size="large"
+              disabled={boardLock}>
+        ボード回答
+      </Button>
+    </form>
+  )
+
   return (
     <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
       <Box className="actions-content"
@@ -28,6 +49,7 @@ const Player = ({ className, ws, isPlayer }) => {
                 onClick={() => send.pushButton(ws)}>
           早押し
         </Button>
+        { rule.board ? boardForm : null }
       </Box>
       <Box className="actions-content"
            style={{ visibility: klass === 'observer' ? 'visible' : 'hidden' }}>
@@ -42,6 +64,8 @@ const Player = ({ className, ws, isPlayer }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    isPlayer: state.isPlayer
+    isPlayer: state.isPlayer,
+    rule: state.rule,
+    boardLock: state.boardLock
   })
 )(Player)
