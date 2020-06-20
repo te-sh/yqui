@@ -23,13 +23,14 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.Broadcast("sound", "wrong")
 	case "n":
 		room.NextQuiz()
-		room.ResetBoards()
 		room.AddHistory()
+		room.ResetBoards()
 	case "r":
 		room.ResetButtons()
 		room.ResetBoards()
 	case "e":
 		room.AllClear()
+		room.ResetBoards()
 	case "u":
 		room.MoveHistory(-1)
 	case "o":

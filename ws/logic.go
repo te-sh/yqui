@@ -235,6 +235,7 @@ func (room *Room) UpdateBoards(newBoards map[int64]*Board) (correct bool, win bo
 	if correct {
 		win = room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLose)
 		room.SendScores()
+		room.AddHistory()
 	}
 
 	room.Boards = newBoards
@@ -250,6 +251,7 @@ func (room *Room) UpdateBoard(newBoard *Board) (correct bool, win bool) {
 		correct = true
 		win = room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose)
 		room.SendScores()
+		room.AddHistory()
 	}
 
 	room.Boards[id] = newBoard
