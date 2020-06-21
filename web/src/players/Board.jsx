@@ -41,6 +41,18 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
     }
   }
 
+  const box = isMaster || !board.open ? (
+    <Tooltip title="クリックでオープン">
+      <Box className={boxClass} onClick={open}>
+        { board.text }
+      </Box>
+    </Tooltip>
+  ) : (
+    <Box className={boxClass}>
+      { board.text }
+    </Box>
+  )
+
   const buttons = (
     <Box className="board-buttons">
       <ToggleButtonGroup size="small" exclusive
@@ -62,11 +74,7 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
 
   return (
     <Box className={className}>
-      <Tooltip title="クリックでオープン">
-        <Box className={boxClass} onClick={open}>
-          { board.text }
-        </Box>
-      </Tooltip>
+      { box }
       { isMaster ? buttons : null }
     </Box>
   )
