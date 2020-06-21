@@ -30,7 +30,30 @@ func (boards Boards) Corrects(newBoards Boards) []int64 {
 
 func (boards Boards) Correct(newBoard *Board) bool {
 	id := newBoard.ID
-	board := boards[id]
-	return !board.Open && newBoard.Open && newBoard.Correct ||
-		board.Open && !board.Correct && newBoard.Correct
+	if board, ok := boards[id]; ok {
+		return !board.Open && newBoard.Open && newBoard.Correct ||
+			board.Open && !board.Correct && newBoard.Correct
+	} else {
+		return false
+	}
+}
+
+func (boards Boards) Wrongs(newBoards Boards) []int64 {
+	var wrongs []int64
+	for id, newBoard := range newBoards {
+		if boards.Wrong(newBoard) {
+			wrongs = append(wrongs, id)
+		}
+	}
+	return wrongs
+}
+
+func (boards Boards) Wrong(newBoard *Board) bool {
+	id := newBoard.ID
+	if board, ok := boards[id]; ok {
+		return !board.Open && newBoard.Open && !newBoard.Correct ||
+			board.Open && board.Correct && !newBoard.Correct
+	} else {
+		return false
+	}
 }

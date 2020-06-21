@@ -45,7 +45,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "b":
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)
-		correct, win := room.UpdateBoards(newBoards)
+		correct, win, _, _ := room.UpdateBoards(newBoards)
 		if correct {
 			if win {
 				room.Broadcast("sound", "correct,roundwin")
@@ -56,7 +56,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "t":
 		newBoard := NewBoard(cmd.ID)
 		json.Unmarshal(cmd.A, newBoard)
-		correct, win := room.UpdateBoard(newBoard)
+		correct, win, _, _ := room.UpdateBoard(newBoard)
 		if correct {
 			if win {
 				room.Broadcast("sound", "correct,roundwin")
