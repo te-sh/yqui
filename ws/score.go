@@ -43,7 +43,7 @@ func (scores Scores) Clone() Scores {
 	return clone
 }
 
-func (scores Scores) Correct(id int64, rule *Rule, winLose *WinLose) (win bool) {
+func (scores Scores) SetCorrect(id int64, rule *Rule) {
 	score := scores[id]
 	score.Point += rule.PointCorrect
 	if (rule.BonusCorrect == "cons") {
@@ -55,22 +55,12 @@ func (scores Scores) Correct(id int64, rule *Rule, winLose *WinLose) (win bool) 
 			}
 		}
 	}
-	win = rule.WinPoint.Active && score.Point >= rule.WinPoint.Value
-	if win {
-		winLose.WinNum += 1
-		score.Win = winLose.WinNum
-	}
-	return
 }
 
-func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (win bool) {
+func (scores Scores) SetWin(ids []int64, rule *Rule, winLose *WinLose) (win bool) {
 	var wins []int64
 	for _, id := range ids {
 		score := scores[id]
-		score.Point += rule.BoardPointCorrect
-		if rule.BoardApplyNormal && id == first {
-			score.Point += rule.PointCorrect
-		}
 		if rule.WinPoint.Active && score.Point >= rule.WinPoint.Value {
 			wins = append(wins, id)
 		}
@@ -78,11 +68,48 @@ func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose 
 	win = len(wins) > 0
 	if win {
 		winLose.WinNum += 1
+		for _, id := range wins {
+			score := scores[id]
+			score.Win = winLose.WinNum
+		}
 	}
-	for _, id := range wins {
+	return
+}
+
+func (scores Scores) SetWrong(id int64, rule *Rule) {
+	score := scores[id]
+	score.Point += rule.PointWrong
+	score.Batsu += rule.BatsuWrong
+	score.Lock = rule.LockWrong
+	if (rule.BonusCorrect == "cons") {
+		score.Cons = 0
+	}
+	return
+}
+
+func (scores Scores) SetLose(ids []int64, rule *Rule, winLose *WinLose) (lose bool) {
+	var loses []int64
+	for _, id := range ids {
 		score := scores[id]
-		score.Win = winLose.WinNum
+		if ((rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
+			(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)) {
+			loses = append(loses, id)
+		}
 	}
+	lose = len(loses) > 0
+	if lose {
+		winLose.LoseNum += 1
+		for _, id := range loses {
+			score := scores[id]
+			score.Lose = winLose.LoseNum
+		}
+	}
+	return
+}
+
+func (scores Scores) Correct(id int64, rule *Rule, winLose *WinLose) (win bool) {
+	scores.SetCorrect(id, rule)
+	win = scores.SetWin([]int64{id}, rule, winLose)
 	return
 }
 
@@ -106,20 +133,8 @@ func (teamScores Scores) CorrectTeam(team *Team, scores Scores, rule *Rule, winL
 }
 
 func (scores Scores) Wrong(id int64, rule *Rule, winLose *WinLose) (lose bool) {
-	score := scores[id]
-	score.Point += rule.PointWrong
-	score.Batsu += rule.BatsuWrong
-	score.Lock = rule.LockWrong
-	if (rule.BonusCorrect == "cons") {
-		score.Cons = 0
-	}
-	lose =
-		(rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
-		(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)
-	if lose {
-		winLose.LoseNum += 1
-		score.Lose = winLose.LoseNum
-	}
+	scores.SetWrong(id, rule)
+	lose = scores.SetLose([]int64{id}, rule, winLose)
 	return
 }
 
@@ -134,4 +149,26 @@ func (teamScores Scores) WrongTeam(team *Team, scores Scores, rule *Rule, winLos
 			teamScore.Batsu = r
 		}
 	}
+}
+
+func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (win bool) {
+	for _, id := range ids {
+		score := scores[id]
+		score.Point += rule.BoardPointCorrect
+		if rule.BoardApplyNormal && id == first {
+			scores.SetCorrect(first, rule)
+		}
+	}
+	win = scores.SetWin(ids, rule, winLose)
+	return
+}
+
+func (scores Scores) WrongBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (lose bool) {
+	for _, id := range ids {
+		if rule.BoardApplyNormal && id == first {
+			scores.SetWrong(first, rule)
+		}
+	}
+	lose = scores.SetLose(ids, rule, winLose)
+	return
 }

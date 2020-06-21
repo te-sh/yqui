@@ -221,23 +221,17 @@ func (room *Room) ResetBoards() {
 	room.SendBoardLock()
 }
 
-func (room *Room) UpdateBoards(newBoards map[int64]*Board) (correct bool, win bool) {
+func (room *Room) UpdateBoards(newBoards Boards) (correct bool, win bool) {
 	first, _ := room.Buttons.RightPlayer()
 
-	var corrects []int64
-	for id, board := range room.Boards {
-		newBoard := newBoards[id]
-		if !board.Correct && newBoard.Correct {
-			corrects = append(corrects, id)
-		}
-	}
+	corrects := room.Boards.Corrects(newBoards)
 	correct = len(corrects) > 0
 	if correct {
 		win = room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLose)
-		room.SendScores()
 		room.AddHistory()
 	}
 
+	room.SendScores()
 	room.Boards = newBoards
 	room.SendBoards()
 	return
@@ -247,13 +241,13 @@ func (room *Room) UpdateBoard(newBoard *Board) (correct bool, win bool) {
 	first, _ := room.Buttons.RightPlayer()
 
 	id := newBoard.ID
-	if !room.Boards[id].Correct && newBoard.Correct {
-		correct = true
+	correct = room.Boards.Correct(newBoard)
+	if correct {
 		win = room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose)
-		room.SendScores()
 		room.AddHistory()
 	}
 
+	room.SendScores()
 	room.Boards[id] = newBoard
 	room.SendBoard(id)
 	return

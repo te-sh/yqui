@@ -46,7 +46,7 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
     { 'correct': board.correct, 'open': board.open, 'master': isMaster }
   )
 
-  const box = isMaster || !board.open ? (
+  const box = isMaster && !board.open ? (
     <Tooltip title="クリックでオープン">
       <Box className={boxClass} onClick={open}>
         { board.text }

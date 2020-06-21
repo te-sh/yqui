@@ -127,7 +127,7 @@ func (room *Room) SendTeams() {
 
 func (room *Room) SendBoards() {
 	for id, _ := range room.Boards {
-		boards := make(map[int64]*Board)
+		boards := make(Boards)
 		for id2, board := range room.Boards {
 			if id == room.Master || id == id2 || board.Open {
 				boards[id2] = board

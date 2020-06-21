@@ -43,7 +43,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()
 	case "b":
-		newBoards := make(map[int64]*Board)
+		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)
 		correct, win := room.UpdateBoards(newBoards)
 		if correct {
