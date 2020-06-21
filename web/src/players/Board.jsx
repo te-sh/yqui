@@ -41,6 +41,11 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
     }
   }
 
+  const boxClass = classNames(
+    'board-text',
+    { 'correct': board.correct, 'open': board.open, 'master': isMaster }
+  )
+
   const box = isMaster || !board.open ? (
     <Tooltip title="クリックでオープン">
       <Box className={boxClass} onClick={open}>
@@ -65,11 +70,6 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
         </ToggleButton>
       </ToggleButtonGroup>
     </Box>
-  )
-
-  const boxClass = classNames(
-    'board-text',
-    { 'correct': board.correct, 'open': board.open, 'master': isMaster }
   )
 
   return (
