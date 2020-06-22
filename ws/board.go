@@ -18,6 +18,23 @@ func NewBoard(id int64) *Board {
 
 type Boards map[int64]*Board
 
+func (boards Boards) Opens(newBoards Boards) bool {
+	open := false
+	for _, newBoard := range newBoards {
+		open = open || boards.Open(newBoard)
+	}
+	return open
+}
+
+func (boards Boards) Open(newBoard *Board) bool {
+	id := newBoard.ID
+	if board, ok := boards[id]; ok {
+		return !board.Open && newBoard.Open
+	} else {
+		return false
+	}
+}
+
 func (boards Boards) Corrects(newBoards Boards) []int64 {
 	var corrects []int64
 	for id, newBoard := range newBoards {

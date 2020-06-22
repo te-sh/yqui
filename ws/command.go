@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"encoding/json"
 )
 
@@ -45,13 +46,19 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "b":
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)
-		correct, win, wrong, _ := room.UpdateBoards(newBoards)
-		room.Broadcast("sound", BoardOpenSounds(correct, win, wrong))
+		open, correct, win, wrong, _ := room.UpdateBoards(newBoards)
+		sounds := BoardOpenSounds(open, correct, win, wrong)
+		if sounds != "" {
+			room.Broadcast("sound", sounds)
+		}
 	case "t":
 		newBoard := NewBoard(cmd.ID)
 		json.Unmarshal(cmd.A, newBoard)
-		correct, win, wrong, _ := room.UpdateBoard(newBoard)
-		room.Broadcast("sound", BoardOpenSounds(correct, win, wrong))
+		open, correct, win, wrong, _ := room.UpdateBoard(newBoard)
+		sounds := BoardOpenSounds(open, correct, win, wrong)
+		if sounds != "" {
+			room.Broadcast("sound", sounds)
+		}
 	case "k":
 		room.BoardLock = !room.BoardLock
 		room.SendBoardLock()
@@ -68,16 +75,19 @@ func (room *Room) RunCommand(cmd Cmd) {
 	}
 }
 
-func BoardOpenSounds(correct bool, win bool, wrong bool) string {
-	sounds := "open"
+func BoardOpenSounds(open bool, correct bool, win bool, wrong bool) string {
+	var sounds []string
+	if (open) {
+		sounds = append(sounds, "open")
+	}
 	if (correct) {
-		sounds += ",correct"
+		sounds = append(sounds, "correct")
 	}
 	if (wrong) {
-		sounds += ",wrong"
+		sounds = append(sounds, "wrong")
 	}
 	if (win) {
-		sounds += ",roundwin"
+		sounds = append(sounds, "roundwin")
 	}
-	return sounds
+	return strings.Join(sounds, ",")
 }
