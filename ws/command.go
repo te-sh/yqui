@@ -45,25 +45,13 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "b":
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)
-		correct, win, _, _ := room.UpdateBoards(newBoards)
-		if correct {
-			if win {
-				room.Broadcast("sound", "correct,roundwin")
-			} else {
-				room.Broadcast("sound", "correct")
-			}
-		}
+		correct, win, wrong, _ := room.UpdateBoards(newBoards)
+		room.Broadcast("sound", BoardOpenSounds(correct, win, wrong))
 	case "t":
 		newBoard := NewBoard(cmd.ID)
 		json.Unmarshal(cmd.A, newBoard)
-		correct, win, _, _ := room.UpdateBoard(newBoard)
-		if correct {
-			if win {
-				room.Broadcast("sound", "correct,roundwin")
-			} else {
-				room.Broadcast("sound", "correct")
-			}
-		}
+		correct, win, wrong, _ := room.UpdateBoard(newBoard)
+		room.Broadcast("sound", BoardOpenSounds(correct, win, wrong))
 	case "k":
 		room.BoardLock = !room.BoardLock
 		room.SendBoardLock()
@@ -78,4 +66,18 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, &chat.Text)
 		room.Broadcast("chat", chat)
 	}
+}
+
+func BoardOpenSounds(correct bool, win bool, wrong bool) string {
+	sounds := "open"
+	if (correct) {
+		sounds += ",correct"
+	}
+	if (wrong) {
+		sounds += ",wrong"
+	}
+	if (win) {
+		sounds += ",roundwin"
+	}
+	return sounds
 }

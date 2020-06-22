@@ -1,7 +1,7 @@
 let context
 let buffer = {}
 
-const sounds = ['push', 'correct', 'wrong', 'roundwin']
+const sounds = ['push', 'correct', 'wrong', 'roundwin', 'open']
 
 window.addEventListener('load', () => {
   const AudioContext = window.AudioContext || window.webkitAudioContext
@@ -37,7 +37,7 @@ const playSound = names => {
     gainNode.connect(context.destination)
     gainNode.gain.value = parseInt(localStorage.getItem('volume') || '100') / 100.0
 
-    source.start(t)
+    source.start(context.currentTime + t)
     t += source.buffer.duration
   }
 }

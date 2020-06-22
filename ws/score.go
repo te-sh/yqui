@@ -146,22 +146,24 @@ func (teamScores Scores) CalcTeam(team *Team, scores Scores, rule *Rule, winLose
 	}
 }
 
-func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (win bool) {
+func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (correct bool, win bool) {
 	for _, id := range ids {
 		score := scores[id]
 		score.Point += rule.BoardPointCorrect
 		if rule.BoardApplyNormal && id == first {
 			scores.SetCorrect(first, rule)
+			correct = true
 		}
 	}
 	win = scores.SetWin(ids, rule, winLose)
 	return
 }
 
-func (scores Scores) WrongBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (lose bool) {
+func (scores Scores) WrongBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (wrong bool, lose bool) {
 	for _, id := range ids {
 		if rule.BoardApplyNormal && id == first {
 			scores.SetWrong(first, rule)
+			wrong = true
 		}
 	}
 	lose = scores.SetLose(ids, rule, winLose)

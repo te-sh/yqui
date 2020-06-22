@@ -224,15 +224,11 @@ func (room *Room) ResetBoards() {
 func (room *Room) UpdateBoards(newBoards Boards) (correct bool, win bool, wrong bool, lose bool) {
 	first, _ := room.Buttons.RightPlayer()
 
-	corrects := room.Boards.Corrects(newBoards)
-	correct = len(corrects) > 0
-	if correct {
-		win = room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLose)
+	if corrects := room.Boards.Corrects(newBoards); len(corrects) > 0 {
+		correct, win = room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLose)
 	}
-	wrongs := room.Boards.Wrongs(newBoards)
-	wrong = len(wrongs) > 0
-	if wrong {
-		lose = room.Scores.WrongBoard(wrongs, first, room.Rule, room.WinLose)
+	if wrongs := room.Boards.Wrongs(newBoards); len(wrongs) > 0 {
+		wrong, lose = room.Scores.WrongBoard(wrongs, first, room.Rule, room.WinLose)
 	}
 
 	if correct || wrong {
@@ -249,13 +245,11 @@ func (room *Room) UpdateBoard(newBoard *Board) (correct bool, win bool, wrong bo
 	first, _ := room.Buttons.RightPlayer()
 
 	id := newBoard.ID
-	correct = room.Boards.Correct(newBoard)
-	if correct {
-		win = room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose)
+	if room.Boards.Correct(newBoard) {
+		correct, win = room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose)
 	}
-	wrong = room.Boards.Wrong(newBoard)
-	if wrong {
-		lose = room.Scores.WrongBoard([]int64{id}, first, room.Rule, room.WinLose)
+	if room.Boards.Wrong(newBoard) {
+		wrong, lose = room.Scores.WrongBoard([]int64{id}, first, room.Rule, room.WinLose)
 	}
 
 	if correct || wrong {
