@@ -2,8 +2,8 @@
   .board-text {
     padding: 3px;
     font-size: 0.80em;
-    border: solid 1px #b0bec5;
-    border-radius: 3px;
+    border: solid 3px #546e7a;
+    border-radius: 5px;
     height: 9ex;
     word-break: break-all;
     overflow-wrap: break-word;
@@ -13,19 +13,23 @@
     justify-content: center;
 
     &.master {
-      background-color: #bbdefb;
-
       &.correct {
         background-color: #ffcdd2;
+      }
+      &.wrong {
+        background-color: #bbdefb;
       }
     }
 
     &.open {
-      color: white;
-      background-color: #1565c0;
-
+      border-color: #fdd835;
       &.correct {
+        color: white;
         background-color: #c62828;
+      }
+      &.wrong {
+        color: white;
+        background-color: #1565c0;
       }
     }
   }

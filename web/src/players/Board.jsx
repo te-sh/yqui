@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Box, Tooltip } from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
-import { Close, RadioButtonUnchecked } from '@material-ui/icons'
+import { Close, RadioButtonUnchecked, Remove } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
 import { recvBoard } from '../redux/actions'
@@ -42,8 +42,12 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
   }
 
   const boxClass = classNames(
-    'board-text',
-    { 'correct': board.correct, 'open': board.open, 'master': isMaster }
+    'board-text', {
+      'correct': board.correct === 'correct',
+      'wrong': board.correct === 'wrong',
+      'open': board.open,
+      'master': isMaster
+    }
   )
 
   const box = isMaster && !board.open ? (
@@ -63,10 +67,13 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
       <ToggleButtonGroup size="small" exclusive
                          value={correct} onChange={changeCorrect}>
         <ToggleButton value="correct" aria-label="correct">
-          <RadioButtonUnchecked />
+          <RadioButtonUnchecked fontSize="small" />
+        </ToggleButton>
+        <ToggleButton value="none" aria-label="none">
+          <Remove fontSize="small" />
         </ToggleButton>
         <ToggleButton value="wrong" aria-label="wrong">
-          <Close />
+          <Close fontSize="small" />
         </ToggleButton>
       </ToggleButtonGroup>
     </Box>
