@@ -220,7 +220,7 @@ const Rule = ({ open, close, ws, rule }) => {
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
-                     value={pointCorrect}
+                     value={boardPointCorrect}
                      onChange={evt => setPointCorrect(evt.target.value)} />
         </FormGroup>
       </FormGroup>

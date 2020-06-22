@@ -11,7 +11,7 @@ import { send } from '../communicate'
 import './Board.scss'
 
 const Board = ({ className, ws, isMaster, board, updateBoard }) => {
-  const [correct, setCorrect] = React.useState(false)
+  const [correct, setCorrect] = React.useState('none')
 
   React.useEffect(
     () => {
@@ -62,10 +62,10 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
     <Box className="board-buttons">
       <ToggleButtonGroup size="small" exclusive
                          value={correct} onChange={changeCorrect}>
-        <ToggleButton value={true} aria-label="correct">
+        <ToggleButton value="correct" aria-label="correct">
           <RadioButtonUnchecked />
         </ToggleButton>
-        <ToggleButton value={false} aria-label="wrong">
+        <ToggleButton value="wrong" aria-label="wrong">
           <Close />
         </ToggleButton>
       </ToggleButtonGroup>

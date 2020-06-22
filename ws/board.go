@@ -3,7 +3,7 @@ package main
 type Board struct {
 	ID int64 `json:"id"`
 	Text string `json:"text"`
-	Correct bool `json:"correct"`
+	Correct string `json:"correct"`
 	Open bool `json:"open"`
 }
 
@@ -11,7 +11,7 @@ func NewBoard(id int64) *Board {
 	board := new(Board)
 	board.ID = id
 	board.Text = ""
-	board.Correct = false
+	board.Correct = "none"
 	board.Open = false
 	return board
 }
@@ -31,8 +31,8 @@ func (boards Boards) Corrects(newBoards Boards) []int64 {
 func (boards Boards) Correct(newBoard *Board) bool {
 	id := newBoard.ID
 	if board, ok := boards[id]; ok {
-		return !board.Open && newBoard.Open && newBoard.Correct ||
-			board.Open && !board.Correct && newBoard.Correct
+		return (!board.Open && newBoard.Open && newBoard.Correct == "correct") ||
+			(board.Open && board.Correct != "correct" && newBoard.Correct == "correct")
 	} else {
 		return false
 	}
@@ -51,8 +51,8 @@ func (boards Boards) Wrongs(newBoards Boards) []int64 {
 func (boards Boards) Wrong(newBoard *Board) bool {
 	id := newBoard.ID
 	if board, ok := boards[id]; ok {
-		return !board.Open && newBoard.Open && !newBoard.Correct ||
-			board.Open && board.Correct && !newBoard.Correct
+		return (!board.Open && newBoard.Open && newBoard.Correct == "wrong") ||
+			(board.Open && board.Correct != "wrong" && newBoard.Correct == "wrong")
 	} else {
 		return false
 	}
