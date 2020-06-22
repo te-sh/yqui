@@ -113,40 +113,35 @@ func (scores Scores) Correct(id int64, rule *Rule, winLose *WinLose) (win bool) 
 	return
 }
 
-func (teamScores Scores) CorrectTeam(team *Team, scores Scores, rule *Rule, winLose *WinLose) {
-	if teamScore, ok := teamScores[team.ID]; ok {
-		switch (rule.TeamPoint) {
-		case "sum":
-			r := 0
-			for _, id := range team.Players {
-				r += scores[id].Point
-			}
-			teamScore.Point = r
-		case "mul":
-			r := 1
-			for _, id := range team.Players {
-				r *= scores[id].Point
-			}
-			teamScore.Point = r
-		}
-	}
-}
-
 func (scores Scores) Wrong(id int64, rule *Rule, winLose *WinLose) (lose bool) {
 	scores.SetWrong(id, rule)
 	lose = scores.SetLose([]int64{id}, rule, winLose)
 	return
 }
 
-func (teamScores Scores) WrongTeam(team *Team, scores Scores, rule *Rule, winLose *WinLose) {
+func (teamScores Scores) CalcTeam(team *Team, scores Scores, rule *Rule, winLose *WinLose) {
 	if teamScore, ok := teamScores[team.ID]; ok {
+		switch (rule.TeamPoint) {
+		case "sum":
+			p := 0
+			for _, id := range team.Players {
+				p += scores[id].Point
+			}
+			teamScore.Point = p
+		case "mul":
+			p := 1
+			for _, id := range team.Players {
+				p *= scores[id].Point
+			}
+			teamScore.Point = p
+		}
 		switch (rule.TeamBatsu) {
 		case "sum":
-			r := 0
+			b := 0
 			for _, id := range team.Players {
-				r += scores[id].Batsu
+				b += scores[id].Batsu
 			}
-			teamScore.Batsu = r
+			teamScore.Batsu = b
 		}
 	}
 }
