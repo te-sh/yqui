@@ -5,6 +5,7 @@ import (
 	"log"
 	"encoding/json"
 	"net/http"
+	"gopkg.in/natefinch/lumberjack.v2"
 	"github.com/gorilla/websocket"
 )
 
@@ -113,6 +114,13 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	log.SetOutput(&lumberjack.Logger{
+		Filename:   "./log/yqui.log",
+		MaxSize:    100,
+		MaxBackups: 5,
+		Compress:   true,
+	})
+
 	SetRandSeed()
 	go HandleMessage()
 

@@ -4,6 +4,7 @@ WORKDIR /app
 
 ADD . ./
 RUN apk add git \
+ && go get gopkg.in/natefinch/lumberjack.v2 \
  && go get github.com/gorilla/websocket \
  && go build
 
