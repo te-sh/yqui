@@ -2,7 +2,7 @@
   .board-text {
     padding: 3px;
     font-size: 0.80em;
-    border: solid 3px #546e7a;
+    border: solid 3px #e0e0e0;
     border-radius: 5px;
     height: 9ex;
     word-break: break-all;
@@ -22,7 +22,7 @@
     }
 
     &.open {
-      border-color: #fdd835;
+      border-color: #424242;
       &.correct {
         color: white;
         background-color: #c62828;
