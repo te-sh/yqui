@@ -43,6 +43,9 @@ const initialState = {
     shareButtons: false,
     teamPoint: 'sum',
     teamBatsu: 'sum',
+    teamWinPoint: { active: true, value: 7 },
+    teamLosePoint: { active: false, value: 0 },
+    teamLoseBatsu: { active: true, value: 3 },
     board: false,
     boardPointCorrect: 1,
     boardApplyNormal: true

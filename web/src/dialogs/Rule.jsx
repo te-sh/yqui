@@ -38,6 +38,12 @@ const Rule = ({ open, close, ws, rule }) => {
   const [shareButton, setShareButton] = React.useState(false)
   const [teamPoint, setTeamPoint] = React.useState('sum')
   const [teamBatsu, setTeamBatsu] = React.useState('sum')
+  const [teamWinPointActive, setTeamWinPointActive] = React.useState(true)
+  const [teamWinPointValue, setTeamWinPointValue] = React.useState(0)
+  const [teamLosePointActive, setTeamLosePointActive] = React.useState(false)
+  const [teamLosePointValue, setTeamLosePointValue] = React.useState(0)
+  const [teamLoseBatsuActive, setTeamLoseBatsuActive] = React.useState(true)
+  const [teamLoseBatsuValue, setTeamLoseBatsuValue] = React.useState(0)
   const [board, setBoard] = React.useState(false)
   const [boardPointCorrect, setBoardPointCorrect] = React.useState(0)
   const [boardApplyNormal, setBoardApplyNormal] = React.useState(true)
@@ -58,6 +64,12 @@ const Rule = ({ open, close, ws, rule }) => {
     setShareButton(rule.shareButton)
     setTeamPoint(rule.teamPoint)
     setTeamBatsu(rule.teamBatsu)
+    setTeamWinPointActive(rule.teamWinPoint.active)
+    setTeamWinPointValue(rule.teamWinPoint.value)
+    setTeamLosePointActive(rule.teamLosePoint.active)
+    setTeamLosePointValue(rule.teamLosePoint.value)
+    setTeamLoseBatsuActive(rule.teamLoseBatsu.active)
+    setTeamLoseBatsuValue(rule.teamLoseBatsu.value)
     setBoard(rule.board)
     setBoardPointCorrect(rule.boardPointCorrect)
     setBoardApplyNormal(rule.boardApplyNormal)
@@ -80,6 +92,9 @@ const Rule = ({ open, close, ws, rule }) => {
       shareButton,
       teamPoint,
       teamBatsu,
+      teamWinPoint: { active: teamWinPointActive, value: parse(teamWinPointValue) },
+      teamLosePoint: { active: teamLosePointActive, value: parse(teamLosePointValue) },
+      teamLoseBatsu: { active: teamLoseBatsuActive, value: parse(teamLoseBatsuValue) },
       board,
       boardPointCorrect: parse(boardPointCorrect),
       boardApplyNormal
@@ -199,6 +214,38 @@ const Rule = ({ open, close, ws, rule }) => {
             <MenuItem value="sum">個人バツの和</MenuItem>
           </Select>
         </FormControl>
+      </FormGroup>
+      <FormGroup component="fieldset" className="rule-group">
+        <FormLabel component="legend">
+          勝ち抜け
+        </FormLabel>
+        <FormGroup row={true}>
+          <Checkbox color="default" checked={teamWinPointActive}
+                    onChange={evt => setTeamWinPointActive(evt.target.checked)} />
+          <TextField label="ポイント" type="number"
+                     disabled={!teamWinPointActive}
+                     value={teamWinPointValue}
+                     onChange={evt => setTeamWinPointValue(evt.target.value)} />
+        </FormGroup>
+      </FormGroup>
+      <FormGroup component="fieldset" className="rule-group">
+        <FormLabel component="legend">
+          失格
+        </FormLabel>
+        <FormGroup row={true}>
+          <Checkbox color="default" checked={teamLosePointActive}
+                    onChange={evt => setTeamLosePointActive(evt.target.checked)} />
+          <TextField label="ポイント" type="number"
+                     disabled={!teamLosePointActive}
+                     value={teamLosePointValue}
+                     onChange={evt => setTeamLosePointValue(evt.target.value)} />
+          <Checkbox color="default" checked={teamLoseBatsuActive}
+                    onChange={evt => setTeamLoseBatsuActive(evt.target.checked)} />
+          <TextField label="バツ" type="number"
+                     disabled={!teamLoseBatsuActive}
+                     value={teamLoseBatsuValue}
+                     onChange={evt => setTeamLoseBatsuValue(evt.target.value)} />
+        </FormGroup>
       </FormGroup>
     </TabPanel>
   )
