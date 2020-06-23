@@ -6,6 +6,7 @@ import update from 'immutability-helper'
 import { send } from '../communicate'
 import Players from './Players'
 import PlayerPoint from './PlayerPoint'
+import PlayerStatus from './PlayerStatus'
 import './Teams.scss'
 
 const Teams = ({ className, ws, teams, teamScores }) => {
@@ -18,19 +19,26 @@ const Teams = ({ className, ws, teams, teamScores }) => {
 
   const multiTeamClass = { 'multi-team': teams.length > 1 }
 
-  const list = teams.map((team, index) => (
-    <Box key={team.id}
-         className={classNames('team', multiTeamClass)}>
-      <Box className="team-point" hidden={teams.length <= 1}>
-        <Typography align="center">
-          チーム得点
-        </Typography>
-        <PlayerPoint score={teamScores[team.id]} />
+  const list = teams.map((team, index) => {
+    let teamScore = teamScores[team.id]
+
+    return (
+      <Box key={team.id}
+           className={classNames('team', multiTeamClass)}>
+        <Box className="team-point" hidden={teams.length <= 1}>
+          <Typography align="center">
+            チーム得点
+          </Typography>
+          <Paper className="player">
+            <PlayerPoint score={teamScore} />
+            <PlayerStatus score={teamScore} className="player-status" />
+          </Paper>
+        </Box>
+        <Players team={team} teamIndex={index}
+                 updateTeam={team => updateTeam(team, index)} />
       </Box>
-      <Players team={team} teamIndex={index}
-               updateTeam={team => updateTeam(team, index)} />
-    </Box>
-  ))
+    )
+  })
 
   return (
     <Paper className={classNames(className, 'teams')}>
