@@ -13,6 +13,8 @@ services:
       context: './ws'
       dockerfile: './Dockerfile.prod'
     image: te-sh/yqui-ws-prod
+    volumes:
+      - './ws/log:/app/log'
   proxy:
     image: nginx:1.19.0-alpine
     ports:
