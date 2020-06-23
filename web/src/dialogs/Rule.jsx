@@ -81,7 +81,7 @@ const Rule = ({ open, close, ws, rule }) => {
       teamPoint,
       teamBatsu,
       board,
-      boardCorrectPoint: parse(boardPointCorrect),
+      boardPointCorrect: parse(boardPointCorrect),
       boardApplyNormal
     })
   }
