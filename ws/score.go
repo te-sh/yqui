@@ -119,29 +119,31 @@ func (scores Scores) Wrong(id int64, rule *Rule, winLose *WinLose) (lose bool) {
 	return
 }
 
-func (teamScores Scores) CalcTeam(team *Team, scores Scores, rule *Rule, winLose *WinLose) {
-	if teamScore, ok := teamScores[team.ID]; ok {
-		switch (rule.TeamPoint) {
-		case "sum":
-			p := 0
-			for _, id := range team.Players {
-				p += scores[id].Point
+func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLose *WinLose) {
+	for _, team := range teams {
+		if teamScore, ok := teamScores[team.ID]; ok {
+			switch (rule.TeamPoint) {
+			case "sum":
+				p := 0
+				for _, id := range team.Players {
+					p += scores[id].Point
+				}
+				teamScore.Point = p
+			case "mul":
+				p := 1
+				for _, id := range team.Players {
+					p *= scores[id].Point
+				}
+				teamScore.Point = p
 			}
-			teamScore.Point = p
-		case "mul":
-			p := 1
-			for _, id := range team.Players {
-				p *= scores[id].Point
+			switch (rule.TeamBatsu) {
+			case "sum":
+				b := 0
+				for _, id := range team.Players {
+					b += scores[id].Batsu
+				}
+				teamScore.Batsu = b
 			}
-			teamScore.Point = p
-		}
-		switch (rule.TeamBatsu) {
-		case "sum":
-			b := 0
-			for _, id := range team.Players {
-				b += scores[id].Batsu
-			}
-			teamScore.Batsu = b
 		}
 	}
 }

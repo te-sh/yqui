@@ -140,7 +140,7 @@ func (room *Room) Correct() (win bool) {
 
 	rule := room.Rule
 	win = room.Scores.Correct(id, rule, room.WinLose)
-	room.TeamScores.CalcTeam(room.Users[id].Team, room.Scores, rule, room.WinLose)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLose)
 
 	room.NextQuiz()
 	room.AddHistory()
@@ -184,7 +184,7 @@ func (room *Room) Wrong() (lose bool) {
 
 	rule := room.Rule
 	lose = room.Scores.Wrong(id, rule, room.WinLose)
-	room.TeamScores.CalcTeam(room.Users[id].Team, room.Scores, rule, room.WinLose)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLose)
 
 	buttons.Answer(id)
 	if room.NoCanAnswer() {
@@ -231,6 +231,8 @@ func (room *Room) UpdateBoards(newBoards Boards) (open bool, correct bool, win b
 	if wrongs := room.Boards.Wrongs(newBoards); len(wrongs) > 0 {
 		wrong, lose = room.Scores.WrongBoard(wrongs, first, room.Rule, room.WinLose)
 	}
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose)
+
 	if correct || wrong {
 		room.AddHistory()
 	}
@@ -252,6 +254,8 @@ func (room *Room) UpdateBoard(newBoard *Board) (open bool, correct bool, win boo
 	if room.Boards.Wrong(newBoard) {
 		wrong, lose = room.Scores.WrongBoard([]int64{id}, first, room.Rule, room.WinLose)
 	}
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose)
+
 	if correct || wrong {
 		room.AddHistory()
 	}
