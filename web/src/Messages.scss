@@ -2,11 +2,15 @@
   padding: 8px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  overflow-y: hidden;
+  overflow-y: scroll;
+
+  .message:first-child {
+    margin-top: auto;
+  }
 
   .message {
     margin-bottom: 8px;
+    overflow-wrap: anywhere;
 
     .message-system {
       color: #2979ff;
