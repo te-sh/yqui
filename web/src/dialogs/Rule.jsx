@@ -94,6 +94,7 @@ const Rule = ({ open, close, ws, rule }) => {
       teamShareButton,
       teamPoint,
       teamBatsu,
+      teamShareLock,
       teamWinPoint: { active: teamWinPointActive, value: parse(teamWinPointValue) },
       teamLosePoint: { active: teamLosePointActive, value: parse(teamLosePointValue) },
       teamLoseBatsu: { active: teamLoseBatsuActive, value: parse(teamLoseBatsuValue) },
