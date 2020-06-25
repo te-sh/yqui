@@ -6,8 +6,8 @@ import './RuleDisplay.scss'
 const ButtonRule = ({ rule, teams }) => {
   const chance = chanceText(rule, teams)
 
-  const shareButton = (() => {
-    if (teams.length > 1 && rule.shareButton) {
+  const teamShareButton = (() => {
+    if (teams.length > 1 && rule.teamShareButton) {
       return 'チームでボタンを共有'
     } else {
       return null
@@ -18,7 +18,7 @@ const ButtonRule = ({ rule, teams }) => {
     <Box>
       <Typography variant="caption">ボタン</Typography>
       <Typography>{chance}</Typography>
-      {shareButton ? <Typography>{shareButton}</Typography> : null}
+      {teamShareButton ? <Typography>{teamShareButton}</Typography> : null}
     </Box>
   )
 }

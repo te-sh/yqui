@@ -35,7 +35,7 @@ const Rule = ({ open, close, ws, rule }) => {
   const [losePointValue, setLosePointValue] = React.useState(0)
   const [loseBatsuActive, setLoseBatsuActive] = React.useState(true)
   const [loseBatsuValue, setLoseBatsuValue] = React.useState(0)
-  const [shareButton, setShareButton] = React.useState(false)
+  const [teamShareButton, setTeamShareButton] = React.useState(false)
   const [teamPoint, setTeamPoint] = React.useState('sum')
   const [teamBatsu, setTeamBatsu] = React.useState('sum')
   const [teamShareLock, setTeamShareLock] = React.useState(true)
@@ -62,7 +62,7 @@ const Rule = ({ open, close, ws, rule }) => {
     setLosePointValue(rule.losePoint.value)
     setLoseBatsuActive(rule.loseBatsu.active)
     setLoseBatsuValue(rule.loseBatsu.value)
-    setShareButton(rule.shareButton)
+    setTeamShareButton(rule.teamShareButton)
     setTeamPoint(rule.teamPoint)
     setTeamBatsu(rule.teamBatsu)
     setTeamShareLock(rule.teamShareLock)
@@ -91,7 +91,7 @@ const Rule = ({ open, close, ws, rule }) => {
       winPoint: { active: winPointActive, value: parse(winPointValue) },
       losePoint: { active: losePointActive, value: parse(losePointValue) },
       loseBatsu: { active: loseBatsuActive, value: parse(loseBatsuValue) },
-      shareButton,
+      teamShareButton,
       teamPoint,
       teamBatsu,
       teamWinPoint: { active: teamWinPointActive, value: parse(teamWinPointValue) },
@@ -191,8 +191,8 @@ const Rule = ({ open, close, ws, rule }) => {
         <FormControlLabel
           control={
             <Checkbox color="default"
-                      checked={shareButton}
-                      onChange={evt => setShareButton(evt.target.checked)} />
+                      checked={teamShareButton}
+                      onChange={evt => setTeamShareButton(evt.target.checked)} />
           }
           label="ボタン共有" />
       </FormGroup>

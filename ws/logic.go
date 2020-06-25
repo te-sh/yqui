@@ -114,7 +114,7 @@ func (room *Room) ToggleMaster(id int64) {
 }
 
 func (room *Room) Pushed(user *User) bool {
-	if room.Rule.ShareButton {
+	if room.Rule.TeamShareButton {
 		return Int64Any(user.Team.Players, room.Buttons.Pushed)
 	} else {
 		return room.Buttons.Pushed(user.ID)
@@ -155,7 +155,7 @@ func (room *Room) NumCanAnswer() int {
 		if !room.TeamScores[team.ID].CanPush() {
 			continue
 		}
-		if room.Rule.ShareButton {
+		if room.Rule.TeamShareButton {
 			if Int64Any(team.Players, func (id int64) bool {
 				return !room.Buttons.Answered(id) && room.Scores[id].CanPush()
 			}) {
