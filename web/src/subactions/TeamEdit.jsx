@@ -5,8 +5,15 @@ import { playersOfTeams, teamRandomAssign } from '../team'
 import { setEditTeams } from '../redux/actions'
 import './TeamEdit.scss'
 
-const Master = ({ className, editTeams, setEditTeams }) => {
+const Master = ({ className, teams, editTeams, setEditTeams }) => {
   const [numTeams, setNumTeams] = React.useState('1')
+
+  React.useEffect(
+    () => {
+      setNumTeams(teams.length)
+    },
+    [teams]
+  )
 
   const validNumTeams = (() => {
     const n = parseInt(numTeams)
@@ -37,6 +44,7 @@ const Master = ({ className, editTeams, setEditTeams }) => {
 
 export default connect(
   state => ({
+    teams: state.teams,
     editTeams: state.editTeams
   }),
   dispatch => ({
