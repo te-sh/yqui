@@ -6,7 +6,7 @@ import {
   RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAMS
 } from './actions'
 import {
-  isMaster, isPlayer, normalizeTeams, normalizeButtons, ruleText
+  isMaster, isPlayer, normalizeTeams, normalizeButtons
 } from '../util'
 import { mergeEditTeam } from '../team'
 
@@ -50,7 +50,6 @@ const initialState = {
     boardPointCorrect: 1,
     boardApplyNormal: true
   },
-  ruleText: {},
   editTeams: null,
   chats: []
 }
@@ -94,7 +93,6 @@ const yquiApp = (state = initialState, action) => {
       buttons: { $set: buttons },
       isMaster: { $set: isMaster(state.selfID, action.room.master) },
       isPlayer: { $set: isPlayer(state.selfID, teams) },
-      ruleText: { $set: ruleText(state.rule, teams) },
       editTeams: { $set: mergeEditTeam(state.editTeams, action.room.userIDs, teams, action.room.master) }
     })
   case RECV_USERS:
@@ -109,8 +107,7 @@ const yquiApp = (state = initialState, action) => {
       scores: { $set: action.teams.scores },
       teamScores: { $set: action.teams.teamScores },
       isMaster: { $set: isMaster(state.selfID, action.teams.master) },
-      isPlayer: { $set: isPlayer(state.selfID, teams) },
-      ruleText: { $set: ruleText(state.rule, teams) }
+      isPlayer: { $set: isPlayer(state.selfID, teams) }
     })
   case RECV_BOARDS:
     return update(state, {
@@ -136,8 +133,7 @@ const yquiApp = (state = initialState, action) => {
     })
   case RECV_RULE:
     return update(state, {
-      rule: { $set: action.rule },
-      ruleText: { $set: ruleText(action.rule, state.teams) }
+      rule: { $set: action.rule }
     })
   case RECV_CHAT:
     return update(state, {

@@ -1,24 +1,13 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Box, Paper, Typography } from '@material-ui/core'
+import { Box, Paper } from '@material-ui/core'
 
-const Player = ({ className, ruleText }) => {
+const Player = ({ className }) => {
   return (
     <Paper className={className}>
-      <Box className="subactions-content subactions-rule">
-        <Typography>
-          {ruleText.chance} {ruleText.correct} {ruleText.wrong}
-        </Typography>
-        <Typography>
-          {ruleText.win} {ruleText.lose}
-        </Typography>
+      <Box className="subactions-content">
       </Box>
     </Paper>
   )
 }
 
-export default connect(
-  state => ({
-    ruleText: state.ruleText
-  })
-)(Player)
+export default Player

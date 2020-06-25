@@ -8,12 +8,16 @@ import TeamScoreRule from './TeamScoreRule'
 import './RuleDisplay.scss'
 
 const RuleDisplay = ({ className, rule, teams }) => {
+  const showBoardRule = rule.board
+  const showScoreRule = (rule.board && rule.boardApplyNormal) || !rule.board
+  const showTeamScoreRule = teams.length > 1
+
   return (
     <Paper className={className}>
       <ButtonRule rule={rule} teams={teams} />
-      {rule.board ? <BoardScoreRule rule={rule} /> : null}
-      {rule.board && rule.boardApplyNormal ? <ScoreRule rule={rule} teams={teams} /> : null}
-      {teams.length > 1 ? <TeamScoreRule rule={rule} /> : null}
+      {showBoardRule ? <BoardScoreRule rule={rule} /> : null}
+      {showScoreRule ? <ScoreRule rule={rule} teams={teams} /> : null}
+      {showTeamScoreRule ? <TeamScoreRule rule={rule} /> : null}
     </Paper>
   )
 }

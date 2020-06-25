@@ -1,24 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box, Checkbox, FormControlLabel, Paper, Typography } from '@material-ui/core'
+import { Box, Checkbox, FormControlLabel, Paper } from '@material-ui/core'
 import { send } from '../communicate'
 
-const Master = ({ className, ws, rule, ruleText }) => {
+const Master = ({ className, ws, rule }) => {
   const onToggleShowPoint = evt => {
     send.rule(ws, { showPoint: evt.target.checked })
   }
 
   return (
     <Paper className={className}>
-      <Box className="subactions-content subactions-rule">
-        <Typography>
-          {ruleText.chance} {ruleText.correct} {ruleText.wrong}
-        </Typography>
-        <Typography>
-          {ruleText.win} {ruleText.lose}
-        </Typography>
-      </Box>
-      <Box className="subactions-content subactions-actions">
+      <Box className="subactions-content">
         <FormControlLabel
           control={
             <Checkbox color="default"
@@ -34,7 +26,6 @@ const Master = ({ className, ws, rule, ruleText }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    rule: state.rule,
-    ruleText: state.ruleText
+    rule: state.rule
   })
 )(Master)

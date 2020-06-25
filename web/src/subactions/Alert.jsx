@@ -2,12 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
+import { chanceText } from '../util'
 
-const Alert = ({ className, alert, ruleText }) => {
+const Alert = ({ className, alert, rule, teams }) => {
   const alertText = (() => {
     switch (alert) {
       case 'multiChance':
-        return ruleText.chance + '継続中'
+        return chanceText(rule, teams) + '継続中'
       default:
         return ''
     }
@@ -25,6 +26,7 @@ const Alert = ({ className, alert, ruleText }) => {
 
 export default connect(
   state => ({
-    ruleText: state.ruleText
+    rule: state.ruleText,
+    teams: state.teams
   })
 )(Alert)

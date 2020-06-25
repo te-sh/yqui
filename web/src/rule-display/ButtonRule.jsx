@@ -1,22 +1,10 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import { playersOfTeams } from '../team'
+import { chanceText } from '../util'
 import './RuleDisplay.scss'
 
 const ButtonRule = ({ rule, teams }) => {
-  const chance = (() => {
-    if (rule.rightNum === 1) {
-      return 'シングルチャンス'
-    } else if (rule.rightNum >= playersOfTeams(teams).length) {
-      return 'エンドレスチャンス'
-    } else if (rule.rightNum === 2) {
-      return 'ダブルチャンス'
-    } else if (rule.rightNum === 3) {
-      return 'トリプルチャンス'
-    } else {
-      return `${rule.rightNum}チャンス`
-    }
-  })()
+  const chance = chanceText(rule, teams)
 
   const shareButton = (() => {
     if (teams.length > 1 && rule.shareButton) {
