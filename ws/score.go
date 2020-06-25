@@ -183,6 +183,15 @@ func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLos
 				}
 				teamScore.Batsu = b
 			}
+			if (rule.TeamShareLock) {
+				l := 0
+				for _, id := range team.Players {
+					if l < scores[id].Lock {
+						l = scores[id].Lock
+					}
+				}
+				teamScore.Lock = l
+			}
 		}
 	}
 	win = teamScores.SetTeamWin(rule, winLose)

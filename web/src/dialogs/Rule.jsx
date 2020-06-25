@@ -38,6 +38,7 @@ const Rule = ({ open, close, ws, rule }) => {
   const [shareButton, setShareButton] = React.useState(false)
   const [teamPoint, setTeamPoint] = React.useState('sum')
   const [teamBatsu, setTeamBatsu] = React.useState('sum')
+  const [teamShareLock, setTeamShareLock] = React.useState(true)
   const [teamWinPointActive, setTeamWinPointActive] = React.useState(true)
   const [teamWinPointValue, setTeamWinPointValue] = React.useState(0)
   const [teamLosePointActive, setTeamLosePointActive] = React.useState(false)
@@ -64,6 +65,7 @@ const Rule = ({ open, close, ws, rule }) => {
     setShareButton(rule.shareButton)
     setTeamPoint(rule.teamPoint)
     setTeamBatsu(rule.teamBatsu)
+    setTeamShareLock(rule.teamShareLock)
     setTeamWinPointActive(rule.teamWinPoint.active)
     setTeamWinPointValue(rule.teamWinPoint.value)
     setTeamLosePointActive(rule.teamLosePoint.active)
@@ -214,6 +216,15 @@ const Rule = ({ open, close, ws, rule }) => {
             <MenuItem value="sum">個人バツの和</MenuItem>
           </Select>
         </FormControl>
+      </FormGroup>
+      <FormGroup className="rule-group">
+        <FormControlLabel
+          control={
+            <Checkbox color="default"
+                      checked={teamShareLock}
+                      onChange={evt => setTeamShareLock(evt.target.checked)} />
+          }
+          label="休み共有" />
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
         <FormLabel component="legend">

@@ -43,6 +43,7 @@ const initialState = {
     shareButtons: false,
     teamPoint: 'sum',
     teamBatsu: 'sum',
+    teamShareLock: true,
     teamWinPoint: { active: true, value: 7 },
     teamLosePoint: { active: false, value: 0 },
     teamLoseBatsu: { active: true, value: 3 },

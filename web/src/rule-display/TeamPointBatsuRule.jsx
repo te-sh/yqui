@@ -29,10 +29,21 @@ const TeamPointBatsuRule = ({ rule }) => {
     return text
   })()
 
+  const lock = (() => {
+    let text = '休み'
+    if (rule.teamShareLock) {
+      text += ' 共有する'
+    } else {
+      text += ' 共有しない'
+    }
+    return text
+  })()
+
   return (
     <Box>
       <Typography>{point}</Typography>
       <Typography>{batsu}</Typography>
+      <Typography>{lock}</Typography>
     </Box>
   )
 }

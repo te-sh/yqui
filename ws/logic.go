@@ -206,6 +206,7 @@ func (room *Room) NextQuiz() {
 			score.Lock -= 1
 		}
 	}
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose)
 	room.ResetButtons()
 }
 
