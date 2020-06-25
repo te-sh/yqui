@@ -159,6 +159,9 @@ func (scores Scores) Wrong(id int64, rule *Rule, winLose *WinLose) (lose bool) {
 }
 
 func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLose *WinLose) (win bool, lose bool) {
+	if len(teams) == 1 {
+		return
+	}
 	for _, team := range teams {
 		if teamScore, ok := teamScores[team.ID]; ok {
 			switch (rule.TeamPoint) {
