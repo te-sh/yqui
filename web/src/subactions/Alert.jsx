@@ -26,7 +26,7 @@ const Alert = ({ className, alert, rule, teams }) => {
 
 export default connect(
   state => ({
-    rule: state.ruleText,
+    rule: state.rule,
     teams: state.teams
   })
 )(Alert)
