@@ -35,6 +35,7 @@ const Rule = ({ open, close, ws, rule }) => {
   const [losePointValue, setLosePointValue] = React.useState(0)
   const [loseBatsuActive, setLoseBatsuActive] = React.useState(true)
   const [loseBatsuValue, setLoseBatsuValue] = React.useState(0)
+  const [team, setTeam] = React.useState(false)
   const [teamShareButton, setTeamShareButton] = React.useState(false)
   const [teamPoint, setTeamPoint] = React.useState('sum')
   const [teamBatsu, setTeamBatsu] = React.useState('sum')
@@ -62,6 +63,7 @@ const Rule = ({ open, close, ws, rule }) => {
     setLosePointValue(rule.losePoint.value)
     setLoseBatsuActive(rule.loseBatsu.active)
     setLoseBatsuValue(rule.loseBatsu.value)
+    setTeam(rule.Team)
     setTeamShareButton(rule.teamShareButton)
     setTeamPoint(rule.teamPoint)
     setTeamBatsu(rule.teamBatsu)
@@ -91,6 +93,7 @@ const Rule = ({ open, close, ws, rule }) => {
       winPoint: { active: winPointActive, value: parse(winPointValue) },
       losePoint: { active: losePointActive, value: parse(losePointValue) },
       loseBatsu: { active: loseBatsuActive, value: parse(loseBatsuValue) },
+      team,
       teamShareButton,
       teamPoint,
       teamBatsu,
@@ -192,6 +195,15 @@ const Rule = ({ open, close, ws, rule }) => {
         <FormControlLabel
           control={
             <Checkbox color="default"
+                      checked={team}
+                      onChange={evt => setTeam(evt.target.checked)} />
+          }
+          label="チーム戦" />
+      </FormGroup>
+      <FormGroup className="rule-group">
+        <FormControlLabel
+          control={
+            <Checkbox color="default" disabled={!team}
                       checked={teamShareButton}
                       onChange={evt => setTeamShareButton(evt.target.checked)} />
           }
@@ -200,7 +212,7 @@ const Rule = ({ open, close, ws, rule }) => {
       <FormGroup className="rule-group">
         <FormControl>
           <InputLabel id="team-point-label">ポイント</InputLabel>
-          <Select labelId="team-point-label" className="wide-select"
+          <Select labelId="team-point-label" className="wide-select" disabled={!team}
                   value={teamPoint}
                   onChange={evt => setTeamPoint(evt.target.value)}>
             <MenuItem value="sum">個人ポイントの和</MenuItem>
@@ -211,7 +223,7 @@ const Rule = ({ open, close, ws, rule }) => {
       <FormGroup className="rule-group">
         <FormControl>
           <InputLabel id="team-batsu-label">バツ</InputLabel>
-          <Select labelId="team-batsu-label" className="wide-select"
+          <Select labelId="team-batsu-label" className="wide-select" disabled={!team}
                   value={teamBatsu}
                   onChange={evt => setTeamBatsu(evt.target.value)}>
             <MenuItem value="sum">個人バツの和</MenuItem>
@@ -221,7 +233,7 @@ const Rule = ({ open, close, ws, rule }) => {
       <FormGroup className="rule-group">
         <FormControlLabel
           control={
-            <Checkbox color="default"
+            <Checkbox color="default" disabled={!team}
                       checked={teamShareLock}
                       onChange={evt => setTeamShareLock(evt.target.checked)} />
           }
@@ -232,10 +244,11 @@ const Rule = ({ open, close, ws, rule }) => {
           勝ち抜け
         </FormLabel>
         <FormGroup row={true}>
-          <Checkbox color="default" checked={teamWinPointActive}
+          <Checkbox color="default" disabled={!team}
+                    checked={teamWinPointActive}
                     onChange={evt => setTeamWinPointActive(evt.target.checked)} />
           <TextField label="ポイント" type="number"
-                     disabled={!teamWinPointActive}
+                     disabled={!team || !teamWinPointActive}
                      value={teamWinPointValue}
                      onChange={evt => setTeamWinPointValue(evt.target.value)} />
         </FormGroup>
@@ -245,16 +258,18 @@ const Rule = ({ open, close, ws, rule }) => {
           失格
         </FormLabel>
         <FormGroup row={true}>
-          <Checkbox color="default" checked={teamLosePointActive}
+          <Checkbox color="default" disabled={!team}
+                    checked={teamLosePointActive}
                     onChange={evt => setTeamLosePointActive(evt.target.checked)} />
           <TextField label="ポイント" type="number"
-                     disabled={!teamLosePointActive}
+                     disabled={!team || !teamLosePointActive}
                      value={teamLosePointValue}
                      onChange={evt => setTeamLosePointValue(evt.target.value)} />
-          <Checkbox color="default" checked={teamLoseBatsuActive}
+          <Checkbox color="default" disabled={!team}
+                    checked={teamLoseBatsuActive}
                     onChange={evt => setTeamLoseBatsuActive(evt.target.checked)} />
           <TextField label="バツ" type="number"
-                     disabled={!teamLoseBatsuActive}
+                     disabled={!team || !teamLoseBatsuActive}
                      value={teamLoseBatsuValue}
                      onChange={evt => setTeamLoseBatsuValue(evt.target.value)} />
         </FormGroup>

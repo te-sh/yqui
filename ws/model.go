@@ -57,6 +57,7 @@ type Rule struct {
 	LosePoint ActiveAndValue `json:"losePoint"`
 	LoseBatsu ActiveAndValue `json:"loseBatsu"`
 	ShowPoint bool `json:"showPoint"`
+	Team bool `json:"team"`
 	TeamShareButton bool `json:"teamShareButton"`
 	TeamPoint string `json:"teamPoint"`
 	TeamBatsu string `json:"teamBatsu"`
@@ -86,6 +87,7 @@ func NewRule() *Rule {
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}
 	rule.ShowPoint = true
+	rule.Team = false
 	rule.TeamShareButton = false
 	rule.TeamPoint = "sum"
 	rule.TeamBatsu = "sum"

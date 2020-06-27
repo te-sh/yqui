@@ -40,6 +40,7 @@ const initialState = {
     losePoint: { active: false, value: 0 },
     loseBatsu: { active: true, value: 3 },
     showPoint: true,
+    team: false,
     teamShareButtons: false,
     teamPoint: 'sum',
     teamBatsu: 'sum',
