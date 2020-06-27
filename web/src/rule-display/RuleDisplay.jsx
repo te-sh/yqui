@@ -10,13 +10,13 @@ import './RuleDisplay.scss'
 const RuleDisplay = ({ className, rule, teams }) => {
   const showBoardRule = rule.board
   const showScoreRule = (rule.board && rule.boardApplyNormal) || !rule.board
-  const showTeamScoreRule = teams.length > 1
+  const showTeamScoreRule = rule.team
 
   return (
     <Paper className={className}>
       <ButtonRule rule={rule} teams={teams} />
       {showBoardRule ? <BoardScoreRule rule={rule} /> : null}
-      {showScoreRule ? <ScoreRule rule={rule} teams={teams} /> : null}
+      {showScoreRule ? <ScoreRule rule={rule} /> : null}
       {showTeamScoreRule ? <TeamScoreRule rule={rule} /> : null}
     </Paper>
   )

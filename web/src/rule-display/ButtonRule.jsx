@@ -7,7 +7,7 @@ const ButtonRule = ({ rule, teams }) => {
   const chance = chanceText(rule, teams)
 
   const teamShareButton = (() => {
-    if (teams.length > 1 && rule.teamShareButton) {
+    if (rule.team && rule.teamShareButton) {
       return 'チームでボタンを共有'
     } else {
       return null

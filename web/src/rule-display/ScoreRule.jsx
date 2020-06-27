@@ -3,11 +3,11 @@ import { Box, Typography } from '@material-ui/core'
 import CorrectWrongRule from './CorrectWrongRule'
 import WinLoseRule from './WinLoseRule'
 
-const ScoreRule = ({ rule, teams }) => {
+const ScoreRule = ({ rule }) => {
   const title = (() => {
     if (rule.board) {
       return '1着スコア'
-    } else if (teams.length > 1) {
+    } else if (rule.team) {
       return '個人スコア'
     } else {
       return 'スコア'
