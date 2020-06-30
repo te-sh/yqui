@@ -16,7 +16,6 @@ const initialState = {
   roomNo: null,
   selfID: null,
   users: {},
-  userIDs: [],
   teams: [],
   master: -1,
   boards: {},
@@ -87,7 +86,6 @@ const yquiApp = (state = initialState, action) => {
     buttons = normalizeButtons(action.room.buttons)
     return update(state, {
       users: { $set: action.room.users },
-      userIDs: { $set: action.room.userIDs },
       teams: { $set: teams },
       master: { $set: action.room.master },
       scores: { $set: action.room.scores },
@@ -95,7 +93,7 @@ const yquiApp = (state = initialState, action) => {
       buttons: { $set: buttons },
       isMaster: { $set: isMaster(state.selfID, action.room.master) },
       isPlayer: { $set: isPlayer(state.selfID, teams) },
-      editTeams: { $set: mergeEditTeam(state.editTeams, action.room.userIDs, teams, action.room.master) }
+      editTeams: { $set: mergeEditTeam(state.editTeams, action.room.users, teams, action.room.master) }
     })
   case RECV_USERS:
     return update(state, {

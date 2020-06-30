@@ -1,8 +1,7 @@
 package main
 
 type Room struct {
-	Users map[int64]*User
-	UserIDs []int64
+	Users Users
 	Teams Teams
 	Master int64
 	Boards Boards
@@ -17,7 +16,7 @@ type Room struct {
 
 func NewRoom() *Room {
 	room := new(Room)
-	room.Users = make(map[int64]*User)
+	room.Users = make(Users)
 	room.Master = -1
 	room.Boards = make(Boards)
 	room.BoardLock = false

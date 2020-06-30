@@ -83,7 +83,6 @@ func (conn *Conn) SendJoined(roomNo int) {
 
 type RoomSend struct {
 	Users map[int64]*User `json:"users"`
-	UserIDs []int64 `json:"userIDs"`
 	Teams Teams `json:"teams"`
 	Master int64 `json:"master"`
 	Scores Scores `json:"scores"`
@@ -94,7 +93,6 @@ type RoomSend struct {
 func (room *Room) SendRoom() {
 	roomSend := RoomSend{
 		Users: room.Users,
-		UserIDs: room.UserIDs,
 		Teams: room.Teams,
 		Master: room.Master,
 		Scores: room.Scores,
@@ -212,9 +210,9 @@ func (room *Room) SendToMaster(typ string, cnt interface {}) {
 func (room *Room) SendToPlayers(typ string, cnt interface {}) {
 	log.Println("write: ", typ, cnt)
 	msg := Message{Type: typ, Content: cnt}
-	for _, id := range room.UserIDs {
+	for id, user := range room.Users {
 		if id != room.Master {
-			room.Users[id].Conn.Message <- msg
+			user.Conn.Message <- msg
 		}
 	}
 }

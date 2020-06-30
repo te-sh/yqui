@@ -4,18 +4,18 @@ export const playersOfTeams = teams => (
   teams.map(team => team.players).reduce((a, c) => a.concat(c), [])
 )
 
-export const mergeEditTeam = (editTeams, userIDs, teams, master) => {
+export const mergeEditTeam = (editTeams, users, teams, master) => {
   if (!editTeams) {
     return editTeams
   }
 
   let newTeams = editTeams.map(team => ({
     id: team.id,
-    players: team.players.filter(id => userIDs.includes(id))
+    players: team.players.filter(id => Object.keys(users).includes(id))
   }))
   newTeams = normalizeTeams(newTeams)
 
-  let added = userIDs.filter(id => (
+  let added = Object.keys(users).filter(id => (
     id !== master && !playersOfTeams(newTeams).includes(id)
   ))
   newTeams[0].players.push(...added)
@@ -23,8 +23,8 @@ export const mergeEditTeam = (editTeams, userIDs, teams, master) => {
   return newTeams
 }
 
-export const teamsToEditTeams = (userIDs, teams, master) => {
-  let observers = userIDs.filter(id => (
+export const teamsToEditTeams = (users, teams, master) => {
+  let observers = Object.keys(users).filter(id => (
     id !== master &&
     !teams.some(team => team.players.includes(id))
   ))

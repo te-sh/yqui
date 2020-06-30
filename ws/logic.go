@@ -4,7 +4,6 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	user := NewUser(id, conn, name)
 
 	room.Users[id] = user
-	room.UserIDs = append(room.UserIDs, id)
 	room.AddPlayerToDefaultTeam(id)
 	room.Boards[id] = NewBoard(id)
 	room.Scores[id] = NewScore()
@@ -29,7 +28,6 @@ func (room *Room) LeaveUser(id int64, time int64) {
 		room.Master = -1
 	}
 	room.RemovePlayerFromTeam(id)
-	room.UserIDs = Int64Remove(room.UserIDs, id)
 	delete(room.Users, id)
 
 	room.Buttons.Leave(id)
@@ -37,7 +35,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 		room.NextQuiz()
 	}
 
-	if len(room.UserIDs) == 0 {
+	if len(room.Users) == 0 {
 		room.Rule = NewRule()
 		room.WinLose = NewWinLose()
 	}

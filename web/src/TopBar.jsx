@@ -14,7 +14,7 @@ import Help from './dialogs/Help'
 import './TopBar.scss'
 
 const TopBar = ({
-  className, ws, roomNo, userIDs, teams, master,
+  className, ws, roomNo, users, teams, master,
   isMaster, editTeams, setEditTeams, reset
 }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
@@ -22,7 +22,7 @@ const TopBar = ({
   const [helpOpen, setHelpOpen] = React.useState(false)
 
   const teamEdit = () => {
-    setEditTeams(teamsToEditTeams(userIDs, teams, master))
+    setEditTeams(teamsToEditTeams(users, teams, master))
   }
 
   const leave = () => {
@@ -103,7 +103,7 @@ export default connect(
   state => ({
     ws: state.ws,
     roomNo: state.roomNo,
-    userIDs: state.userIDs,
+    users: state.users,
     teams: state.teams,
     master: state.master,
     isMaster: state.isMaster,

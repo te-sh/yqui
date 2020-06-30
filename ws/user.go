@@ -15,3 +15,5 @@ func NewUser(id int64, conn *Conn, name string) *User {
 	user.Name = name
 	return user
 }
+
+type Users map[int64]*User
