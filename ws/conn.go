@@ -27,6 +27,8 @@ func NewConn(ws *websocket.Conn) *Conn {
 }
 
 func (conn *Conn) Activate(ctx context.Context) error {
+	defer LogPanic()
+
 	ticker := time.NewTicker(PingInterval * time.Second)
 	defer ticker.Stop()
 

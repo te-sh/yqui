@@ -5,7 +5,6 @@ import (
 	"log"
 	"encoding/json"
 	"net/http"
-	"gopkg.in/natefinch/lumberjack.v2"
 	"github.com/gorilla/websocket"
 )
 
@@ -55,6 +54,8 @@ func LeaveUser(id int64) {
 }
 
 func HandleMessage() {
+	defer LogPanic()
+
 	for {
 		cmd := <-Received
 		if room, ok := id2room[cmd.ID]; ok {
@@ -64,6 +65,8 @@ func HandleMessage() {
 }
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
+	defer LogPanic()
+
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("err upgrade: ", err)
@@ -82,7 +85,6 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		log.Println("close: ", text)
 		return nil
 	})
-
 
 	id := NewID()
 	id2conn[id] = conn
@@ -114,13 +116,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	log.SetOutput(&lumberjack.Logger{
-		Filename:   "./log/yqui.log",
-		MaxSize:    100,
-		MaxBackups: 5,
-		Compress:   true,
-	})
-
+	LogInit()
 	SetRandSeed()
 	go HandleMessage()
 
