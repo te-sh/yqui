@@ -15,6 +15,7 @@ services:
     image: te-sh/yqui-ws-prod
     volumes:
       - './ws/log:/app/log'
+    restart: on-failure
   proxy:
     image: nginx:1.19.0-alpine
     ports:
