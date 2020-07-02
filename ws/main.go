@@ -8,10 +8,12 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+type Conns map[int64]*Conn
+
 const numRooms = 5
 var rooms = [numRooms]*Room{NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom()}
 var id2room = make(map[int64]*Room)
-var id2conn = make(map[int64]*Conn)
+var id2conn = make(Conns)
 var Received = make(chan Cmd)
 
 var upgrader = websocket.Upgrader{
@@ -40,7 +42,7 @@ func JoinUser(id int64, conn *Conn, cmd Cmd) {
 			id2room[id] = room
 			room.JoinUser(id, conn, join.Name, NowMilliSec())
 			conn.SendJoined(join.RoomNo)
-			SendRooms(id2conn, rooms)
+			id2conn.SendRooms(rooms)
 		}
 	}
 }
@@ -49,7 +51,7 @@ func LeaveUser(id int64) {
 	if room, ok := id2room[id]; ok {
 		delete(id2room, id)
 		room.LeaveUser(id, NowMilliSec())
-		SendRooms(id2conn, rooms)
+		id2conn.SendRooms(rooms)
 	}
 }
 
