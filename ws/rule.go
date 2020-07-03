@@ -14,9 +14,7 @@ type PlayerRule struct {
 	PointWrong int `json:"pointWrong"`
 	BatsuWrong int `json:"batsuWrong"`
 	LockWrong int `json:"lockWrong"`
-	WinPoint ActiveAndValue `json:"winPoint"`
-	LosePoint ActiveAndValue `json:"losePoint"`
-	LoseBatsu ActiveAndValue `json:"loseBatsu"`
+	WinLoseRule
 }
 
 type TeamRule struct {
@@ -25,15 +23,19 @@ type TeamRule struct {
 	Point string `json:"point"`
 	Batsu string `json:"batsu"`
 	ShareLock bool `json:"shareLock"`
-	WinPoint ActiveAndValue `json:"winPoint"`
-	LosePoint ActiveAndValue `json:"losePoint"`
-	LoseBatsu ActiveAndValue `json:"loseBatsu"`
+	WinLoseRule
 }
 
 type BoardRule struct {
 	Active bool `json:"active"`
 	PointCorrect int `json:"pointCorrect"`
 	ApplyNormal bool `json:"applyNormal"`
+}
+
+type WinLoseRule struct {
+	WinPoint ActiveAndValue `json:"winPoint"`
+	LosePoint ActiveAndValue `json:"losePoint"`
+	LoseBatsu ActiveAndValue `json:"loseBatsu"`
 }
 
 type ActiveAndValue struct {
