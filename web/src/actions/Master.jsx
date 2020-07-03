@@ -16,14 +16,14 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
   const onKeyDown = evt => {
     switch (evt.keyCode) {
       case 81:
-        if (rule.board) {
+        if (rule.board.active) {
           send.boardLock(ws)
         } else {
           send.correct(ws)
         }
         break
       case 87:
-        if (rule.board) {
+        if (rule.board.active) {
           openAll()
         } else {
           send.wrong(ws)
@@ -80,7 +80,7 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
   return (
     <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
       <Box className="actions-content">
-        { rule.board ? boardButtons : normalButtons }
+        { rule.board.active ? boardButtons : normalButtons }
         <Button variant="outlined" color="default" size="large"
                 onClick={() => send.through(ws)}>
           次の問題

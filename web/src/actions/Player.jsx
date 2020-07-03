@@ -54,7 +54,7 @@ const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) =>
                 onClick={() => send.pushButton(ws)}>
           早押し
         </Button>
-        { rule.board ? boardForm : null }
+        { rule.board.active ? boardForm : null }
       </Box>
       <Box className="actions-content"
            style={{ visibility: klass === 'observer' ? 'visible' : 'hidden' }}>
