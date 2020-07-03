@@ -11,15 +11,19 @@ type Rule struct {
 	LosePoint ActiveAndValue `json:"losePoint"`
 	LoseBatsu ActiveAndValue `json:"loseBatsu"`
 	ShowPoint bool `json:"showPoint"`
-	Team bool `json:"team"`
-	TeamShareButton bool `json:"teamShareButton"`
-	TeamPoint string `json:"teamPoint"`
-	TeamBatsu string `json:"teamBatsu"`
-	TeamShareLock bool `json:"teamShareLock"`
-	TeamWinPoint ActiveAndValue `json:"teamWinPoint"`
-	TeamLosePoint ActiveAndValue `json:"teamLosePoint"`
-	TeamLoseBatsu ActiveAndValue `json:"teamLoseBatsu"`
+	Team *TeamRule `json:"team"`
 	Board *BoardRule `json:"board"`
+}
+
+type TeamRule struct {
+	Active bool `json:"active"`
+	ShareButton bool `json:"shareButton"`
+	Point string `json:"point"`
+	Batsu string `json:"batsu"`
+	ShareLock bool `json:"shareLock"`
+	WinPoint ActiveAndValue `json:"winPoint"`
+	LosePoint ActiveAndValue `json:"losePoint"`
+	LoseBatsu ActiveAndValue `json:"loseBatsu"`
 }
 
 type BoardRule struct {
@@ -45,15 +49,21 @@ func NewRule() *Rule {
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}
 	rule.ShowPoint = true
-	rule.Team = false
-	rule.TeamShareButton = false
-	rule.TeamPoint = "sum"
-	rule.TeamBatsu = "sum"
-	rule.TeamShareLock = true
-	rule.TeamWinPoint = ActiveAndValue{true, 7}
-	rule.TeamLosePoint = ActiveAndValue{false, 0}
-	rule.TeamLoseBatsu = ActiveAndValue{true, 3}
+	rule.Team = NewTeamRule()
 	rule.Board = NewBoardRule()
+	return rule
+}
+
+func NewTeamRule() *TeamRule {
+	rule := new(TeamRule)
+	rule.Active = false
+	rule.ShareButton = false
+	rule.Point = "sum"
+	rule.Batsu = "sum"
+	rule.ShareLock = true
+	rule.WinPoint = ActiveAndValue{true, 7}
+	rule.LosePoint = ActiveAndValue{false, 0}
+	rule.LoseBatsu = ActiveAndValue{true, 3}
 	return rule
 }
 

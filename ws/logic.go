@@ -112,7 +112,7 @@ func (room *Room) ToggleMaster(id int64) {
 }
 
 func (room *Room) Pushed(user *User) bool {
-	if room.Rule.Team && room.Rule.TeamShareButton {
+	if room.Rule.Team.Active && room.Rule.Team.ShareButton {
 		return Int64Any(user.Team.Players, room.Buttons.Pushed)
 	} else {
 		return room.Buttons.Pushed(user.ID)
@@ -122,7 +122,7 @@ func (room *Room) Pushed(user *User) bool {
 func (room *Room) PushButton(id int64, time int64) (ring bool) {
 	user := room.Users[id]
 	if !room.Pushed(user) && room.Scores[id].CanPush() &&
-		(!room.Rule.Team || room.TeamScores[user.Team.ID].CanPush()) {
+		(!room.Rule.Team.Active || room.TeamScores[user.Team.ID].CanPush()) {
 		ring = room.Buttons.AllAnswered()
 		room.Buttons.Push(id, time)
 		room.SendButtons()
@@ -151,10 +151,10 @@ func (room *Room) Correct() (win bool) {
 func (room *Room) NumCanAnswer() int {
 	r := 0
 	for _, team := range room.Teams {
-		if room.Rule.Team && !room.TeamScores[team.ID].CanPush() {
+		if room.Rule.Team.Active && !room.TeamScores[team.ID].CanPush() {
 			continue
 		}
-		if room.Rule.TeamShareButton {
+		if room.Rule.Team.ShareButton {
 			if Int64Any(team.Players, func (id int64) bool {
 				return !room.Buttons.Answered(id) && room.Scores[id].CanPush()
 			}) {

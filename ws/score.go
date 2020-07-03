@@ -80,7 +80,7 @@ func (teamScores Scores) SetTeamWin(rule *Rule, winLose *WinLose) (win bool) {
 	var wins []int64
 	for id, teamScore := range teamScores {
 		if teamScore.Win == 0 &&
-			rule.TeamWinPoint.Active && teamScore.Point >= rule.TeamWinPoint.Value {
+			rule.Team.WinPoint.Active && teamScore.Point >= rule.Team.WinPoint.Value {
 			wins = append(wins, id)
 		}
 	}
@@ -130,8 +130,8 @@ func (teamScores Scores) SetTeamLose(rule *Rule, winLose *WinLose) (lose bool) {
 	var loses []int64
 	for id, teamScore := range teamScores {
 		if (teamScore.Lose == 0 &&
-			(rule.TeamLosePoint.Active && teamScore.Point <= rule.TeamLosePoint.Value) ||
-			(rule.TeamLoseBatsu.Active && teamScore.Batsu >= rule.TeamLoseBatsu.Value)) {
+			(rule.Team.LosePoint.Active && teamScore.Point <= rule.Team.LosePoint.Value) ||
+			(rule.Team.LoseBatsu.Active && teamScore.Batsu >= rule.Team.LoseBatsu.Value)) {
 			loses = append(loses, id)
 		}
 	}
@@ -159,12 +159,12 @@ func (scores Scores) Wrong(id int64, rule *Rule, winLose *WinLose) (lose bool) {
 }
 
 func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLose *WinLose) (win bool, lose bool) {
-	if !rule.Team {
+	if !rule.Team.Active {
 		return
 	}
 	for _, team := range teams {
 		if teamScore, ok := teamScores[team.ID]; ok {
-			switch (rule.TeamPoint) {
+			switch (rule.Team.Point) {
 			case "sum":
 				p := 0
 				for _, id := range team.Players {
@@ -178,7 +178,7 @@ func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLos
 				}
 				teamScore.Point = p
 			}
-			switch (rule.TeamBatsu) {
+			switch (rule.Team.Batsu) {
 			case "sum":
 				b := 0
 				for _, id := range team.Players {
@@ -186,7 +186,7 @@ func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLos
 				}
 				teamScore.Batsu = b
 			}
-			if (rule.TeamShareLock) {
+			if (rule.Team.ShareLock) {
 				l := 0
 				for _, id := range team.Players {
 					if l < scores[id].Lock {

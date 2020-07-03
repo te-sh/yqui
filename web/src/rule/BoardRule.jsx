@@ -7,15 +7,15 @@ import update from 'immutability-helper'
 import TabPanel from './TabPanel'
 
 const BoardRule = ({ tab, rule, changeRule }) => {
-  const onChangeActive = (value) => {
+  const changeActive = value => {
     changeRule(update(rule, { active: { $set: value } }))
   }
 
-  const onChangePointCorrect = (value) => {
+  const changePointCorrect = value => {
     changeRule(update(rule, { pointCorrect: { $set: parse(value) } }))
   }
 
-  const onChangeApplyNormal = (value) => {
+  const changeApplyNormal = value => {
     changeRule(update(rule, { applyNormal: { $set: value } }))
   }
 
@@ -31,7 +31,7 @@ const BoardRule = ({ tab, rule, changeRule }) => {
           control={
             <Checkbox color="default"
                       checked={rule.active}
-                      onChange={evt => onChangeActive(evt.target.checked)} />
+                      onChange={evt => changeActive(evt.target.checked)} />
           }
           label="ボード" />
       </FormGroup>
@@ -43,7 +43,7 @@ const BoardRule = ({ tab, rule, changeRule }) => {
           <TextField label="ポイント" type="number"
                      disabled={!rule.active}
                      value={rule.pointCorrect}
-                     onChange={evt => onChangePointCorrect(evt.target.value)} />
+                     onChange={evt => changePointCorrect(evt.target.value)} />
         </FormGroup>
       </FormGroup>
       <FormGroup>
@@ -53,7 +53,7 @@ const BoardRule = ({ tab, rule, changeRule }) => {
               <Checkbox color="default"
                         disabled={!rule.active}
                         checked={rule.applyNormal}
-                        onChange={evt => onChangeApplyNormal(evt.target.checked)} />
+                        onChange={evt => changeApplyNormal(evt.target.checked)} />
             }
             label="1着に通常ルールを適用" />
         </FormControl>

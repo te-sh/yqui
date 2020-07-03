@@ -4,7 +4,7 @@ import { Box, Typography } from '@material-ui/core'
 const TeamPointBatsuRule = ({ rule }) => {
   const point = (() => {
     let text = 'ポイント'
-    switch (rule.teamPoint) {
+    switch (rule.team.point) {
       case 'sum':
         text += ' 個人ポイントの和'
         break
@@ -19,7 +19,7 @@ const TeamPointBatsuRule = ({ rule }) => {
 
   const batsu = (() => {
     let text = 'バツ'
-    switch (rule.teamBatsu) {
+    switch (rule.team.batsu) {
       case 'sum':
         text += ' 個人バツの和'
         break
@@ -31,7 +31,7 @@ const TeamPointBatsuRule = ({ rule }) => {
 
   const lock = (() => {
     let text = '休み'
-    if (rule.teamShareLock) {
+    if (rule.team.shareLock) {
       text += ' 共有する'
     } else {
       text += ' 共有しない'

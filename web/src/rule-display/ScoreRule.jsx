@@ -7,7 +7,7 @@ const ScoreRule = ({ rule }) => {
   const title = (() => {
     if (rule.board.active) {
       return '1着スコア'
-    } else if (rule.team) {
+    } else if (rule.team.active) {
       return '個人スコア'
     } else {
       return 'スコア'

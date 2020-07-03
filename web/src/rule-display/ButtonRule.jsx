@@ -7,7 +7,7 @@ const ButtonRule = ({ rule, teams }) => {
   const chance = chanceText(rule, teams)
 
   const teamShareButton = (() => {
-    if (rule.team && rule.teamShareButton) {
+    if (rule.team.active && rule.team.shareButton) {
       return 'チームでボタンを共有'
     } else {
       return null

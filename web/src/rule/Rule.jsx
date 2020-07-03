@@ -2,12 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
   Button, Checkbox, Dialog, DialogActions, DialogContent,
-  DialogTitle, FormControl, FormControlLabel, FormGroup, FormLabel,
+  DialogTitle, FormControl, FormGroup, FormLabel,
   InputLabel, MenuItem, Select, Tabs, Tab, TextField
 } from '@material-ui/core'
 import { send } from '../communicate'
 import { initialState } from '../redux/reducers'
 import TabPanel from './TabPanel'
+import TeamRule from './TeamRule'
 import BoardRule from './BoardRule'
 import './Rule.scss'
 
@@ -25,17 +26,7 @@ const Rule = ({ open, close, ws, rule }) => {
   const [losePointValue, setLosePointValue] = React.useState(0)
   const [loseBatsuActive, setLoseBatsuActive] = React.useState(true)
   const [loseBatsuValue, setLoseBatsuValue] = React.useState(0)
-  const [team, setTeam] = React.useState(false)
-  const [teamShareButton, setTeamShareButton] = React.useState(false)
-  const [teamPoint, setTeamPoint] = React.useState('sum')
-  const [teamBatsu, setTeamBatsu] = React.useState('sum')
-  const [teamShareLock, setTeamShareLock] = React.useState(true)
-  const [teamWinPointActive, setTeamWinPointActive] = React.useState(true)
-  const [teamWinPointValue, setTeamWinPointValue] = React.useState(0)
-  const [teamLosePointActive, setTeamLosePointActive] = React.useState(false)
-  const [teamLosePointValue, setTeamLosePointValue] = React.useState(0)
-  const [teamLoseBatsuActive, setTeamLoseBatsuActive] = React.useState(true)
-  const [teamLoseBatsuValue, setTeamLoseBatsuValue] = React.useState(0)
+  const [team, setTeam] = React.useState(initialState.rule.team)
   const [board, setBoard] = React.useState(initialState.rule.board)
 
   const onEnter = () => {
@@ -52,16 +43,6 @@ const Rule = ({ open, close, ws, rule }) => {
     setLoseBatsuActive(rule.loseBatsu.active)
     setLoseBatsuValue(rule.loseBatsu.value)
     setTeam(rule.team)
-    setTeamShareButton(rule.teamShareButton)
-    setTeamPoint(rule.teamPoint)
-    setTeamBatsu(rule.teamBatsu)
-    setTeamShareLock(rule.teamShareLock)
-    setTeamWinPointActive(rule.teamWinPoint.active)
-    setTeamWinPointValue(rule.teamWinPoint.value)
-    setTeamLosePointActive(rule.teamLosePoint.active)
-    setTeamLosePointValue(rule.teamLosePoint.value)
-    setTeamLoseBatsuActive(rule.teamLoseBatsu.active)
-    setTeamLoseBatsuValue(rule.teamLoseBatsu.value)
     setBoard(rule.board)
   }
 
@@ -80,13 +61,6 @@ const Rule = ({ open, close, ws, rule }) => {
       losePoint: { active: losePointActive, value: parse(losePointValue) },
       loseBatsu: { active: loseBatsuActive, value: parse(loseBatsuValue) },
       team,
-      teamShareButton,
-      teamPoint,
-      teamBatsu,
-      teamShareLock,
-      teamWinPoint: { active: teamWinPointActive, value: parse(teamWinPointValue) },
-      teamLosePoint: { active: teamLosePointActive, value: parse(teamLosePointValue) },
-      teamLoseBatsu: { active: teamLoseBatsuActive, value: parse(teamLoseBatsuValue) },
       board
     })
   }
@@ -173,94 +147,6 @@ const Rule = ({ open, close, ws, rule }) => {
     </TabPanel>
   )
 
-  const teamRule = (
-    <TabPanel value={tab} index={1} className="team-rule">
-      <FormGroup className="rule-group">
-        <FormControlLabel
-          control={
-            <Checkbox color="default"
-                      checked={team}
-                      onChange={evt => setTeam(evt.target.checked)} />
-          }
-          label="チーム戦" />
-      </FormGroup>
-      <FormGroup className="rule-group">
-        <FormControlLabel
-          control={
-            <Checkbox color="default" disabled={!team}
-                      checked={teamShareButton}
-                      onChange={evt => setTeamShareButton(evt.target.checked)} />
-          }
-          label="ボタン共有" />
-      </FormGroup>
-      <FormGroup className="rule-group">
-        <FormControl>
-          <InputLabel id="team-point-label">ポイント</InputLabel>
-          <Select labelId="team-point-label" className="wide-select" disabled={!team}
-                  value={teamPoint}
-                  onChange={evt => setTeamPoint(evt.target.value)}>
-            <MenuItem value="sum">個人ポイントの和</MenuItem>
-            <MenuItem value="mul">個人ポイントの積</MenuItem>
-          </Select>
-        </FormControl>
-      </FormGroup>
-      <FormGroup className="rule-group">
-        <FormControl>
-          <InputLabel id="team-batsu-label">バツ</InputLabel>
-          <Select labelId="team-batsu-label" className="wide-select" disabled={!team}
-                  value={teamBatsu}
-                  onChange={evt => setTeamBatsu(evt.target.value)}>
-            <MenuItem value="sum">個人バツの和</MenuItem>
-          </Select>
-        </FormControl>
-      </FormGroup>
-      <FormGroup className="rule-group">
-        <FormControlLabel
-          control={
-            <Checkbox color="default" disabled={!team}
-                      checked={teamShareLock}
-                      onChange={evt => setTeamShareLock(evt.target.checked)} />
-          }
-          label="休み共有" />
-      </FormGroup>
-      <FormGroup component="fieldset" className="rule-group">
-        <FormLabel component="legend">
-          勝ち抜け
-        </FormLabel>
-        <FormGroup row={true}>
-          <Checkbox color="default" disabled={!team}
-                    checked={teamWinPointActive}
-                    onChange={evt => setTeamWinPointActive(evt.target.checked)} />
-          <TextField label="ポイント" type="number"
-                     disabled={!team || !teamWinPointActive}
-                     value={teamWinPointValue}
-                     onChange={evt => setTeamWinPointValue(evt.target.value)} />
-        </FormGroup>
-      </FormGroup>
-      <FormGroup component="fieldset" className="rule-group">
-        <FormLabel component="legend">
-          失格
-        </FormLabel>
-        <FormGroup row={true}>
-          <Checkbox color="default" disabled={!team}
-                    checked={teamLosePointActive}
-                    onChange={evt => setTeamLosePointActive(evt.target.checked)} />
-          <TextField label="ポイント" type="number"
-                     disabled={!team || !teamLosePointActive}
-                     value={teamLosePointValue}
-                     onChange={evt => setTeamLosePointValue(evt.target.value)} />
-          <Checkbox color="default" disabled={!team}
-                    checked={teamLoseBatsuActive}
-                    onChange={evt => setTeamLoseBatsuActive(evt.target.checked)} />
-          <TextField label="バツ" type="number"
-                     disabled={!team || !teamLoseBatsuActive}
-                     value={teamLoseBatsuValue}
-                     onChange={evt => setTeamLoseBatsuValue(evt.target.value)} />
-        </FormGroup>
-      </FormGroup>
-    </TabPanel>
-  )
-
   return (
     <Dialog open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
@@ -273,7 +159,9 @@ const Rule = ({ open, close, ws, rule }) => {
             <Tab label="ボード" />
           </Tabs>
           {normalRule}
-          {teamRule}
+          <TeamRule tab={tab}
+                    rule={team}
+                    changeRule={team => setTeam(team)} />
           <BoardRule tab={tab}
                      rule={board}
                      changeRule={board => setBoard(board)} />
