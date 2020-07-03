@@ -7,4 +7,6 @@ RUN apk add git \
  && go get github.com/gorilla/websocket \
  && go get github.com/oxequa/realize
 
+ENV YQUI_ENV dev
+
 CMD ["realize", "start"]

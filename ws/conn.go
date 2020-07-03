@@ -76,41 +76,45 @@ func (conns Conns) SendRooms(rooms [numRooms]*Room) {
 
 func (conn *Conn) SendRooms(rooms [numRooms]*Room) {
 	roomsSend := makeRoomsSend(rooms)
-	conn.Message <- Message{"rooms", roomsSend}
+	msg := Message{"rooms", roomsSend}
+	conn.Message <- msg
+	LogJson("write", msg)
 }
 
 func (conn *Conn) SendJoined(roomNo int) {
-	conn.Message <- Message{"joined", roomNo}
+	msg := Message{"joined", roomNo}
+	conn.Message <- msg
+	LogJson("write", msg)
 }
 
 func (room *Room) Broadcast(typ string, cnt interface {}) {
-	log.Println("write: ", typ, cnt)
 	msg := Message{Type: typ, Content: cnt}
 	for id := range room.Users {
 		room.Users[id].Conn.Message <- msg
 	}
+	LogJson("write", msg)
 }
 
 func (room *Room) SendToOne(id int64, typ string, cnt interface {}) {
-	log.Println("write: ", typ, cnt)
 	msg := Message{Type: typ, Content: cnt}
 	room.Users[id].Conn.Message <- msg
+	LogJson("write", msg)
 }
 
 func (room *Room) SendToMaster(typ string, cnt interface {}) {
-	log.Println("write: ", typ, cnt)
 	if id := room.Master; id != -1 {
 		msg := Message{Type: typ, Content: cnt}
 		room.Users[id].Conn.Message <- msg
+		LogJson("write", msg)
 	}
 }
 
 func (room *Room) SendToPlayers(typ string, cnt interface {}) {
-	log.Println("write: ", typ, cnt)
 	msg := Message{Type: typ, Content: cnt}
 	for id, user := range room.Users {
 		if id != room.Master {
 			user.Conn.Message <- msg
 		}
 	}
+	LogJson("write", msg)
 }

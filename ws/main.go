@@ -101,7 +101,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 			log.Println("err read: ", err)
 			break
 		}
-		log.Println("received: ", cmd)
+		LogJson("received", cmd)
 
 		switch (cmd.C) {
 		case "j":

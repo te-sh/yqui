@@ -8,4 +8,6 @@ RUN apk add git \
  && go get github.com/gorilla/websocket \
  && go build
 
+ENV YQUI_ENV prod
+
 CMD ["./app"]

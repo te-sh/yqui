@@ -1,18 +1,22 @@
 package main
 
 import (
+	"os"
 	"log"
 	"runtime/debug"
+	"encoding/json"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func LogInit() {
-	log.SetOutput(&lumberjack.Logger{
-		Filename:   "./log/yqui.log",
-		MaxSize:    100,
-		MaxBackups: 5,
-		Compress:   true,
-	})
+	if os.Getenv("YQUI_ENV") == "prod" {
+		log.SetOutput(&lumberjack.Logger{
+			Filename:   "./log/yqui.log",
+			MaxSize:    100,
+			MaxBackups: 5,
+			Compress:   true,
+		})
+	}
 }
 
 func LogPanic() {
@@ -20,5 +24,13 @@ func LogPanic() {
 		log.Println(err)
 		log.Println(string(debug.Stack()))
 		panic(err)
+	}
+}
+
+func LogJson(typ string, o interface {}) {
+	if text, err := json.Marshal(o); err == nil {
+		log.Println(typ, ":", string(text))
+	} else {
+		log.Println("JSON marshal error: ", err)
 	}
 }

@@ -15,7 +15,6 @@ services:
     image: te-sh/yqui-ws
     volumes:
       - './ws:/app'
-    restart: on-failure
   proxy:
     image: nginx:1.19.0-alpine
     ports:
