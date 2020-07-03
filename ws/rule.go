@@ -2,6 +2,13 @@ package main
 
 type Rule struct {
 	RightNum int `json:"rightNum"`
+	Player *PlayerRule `json:"player"`
+	Team *TeamRule `json:"team"`
+	Board *BoardRule `json:"board"`
+	ShowPoint bool `json:"showPoint"`
+}
+
+type PlayerRule struct {
 	PointCorrect int `json:"pointCorrect"`
 	BonusCorrect string `json:"bonusCorrect"`
 	PointWrong int `json:"pointWrong"`
@@ -10,9 +17,6 @@ type Rule struct {
 	WinPoint ActiveAndValue `json:"winPoint"`
 	LosePoint ActiveAndValue `json:"losePoint"`
 	LoseBatsu ActiveAndValue `json:"loseBatsu"`
-	ShowPoint bool `json:"showPoint"`
-	Team *TeamRule `json:"team"`
-	Board *BoardRule `json:"board"`
 }
 
 type TeamRule struct {
@@ -40,6 +44,15 @@ type ActiveAndValue struct {
 func NewRule() *Rule {
 	rule := new(Rule)
 	rule.RightNum = 1
+	rule.Player = NewPlayerRule()
+	rule.Team = NewTeamRule()
+	rule.Board = NewBoardRule()
+	rule.ShowPoint = true
+	return rule
+}
+
+func NewPlayerRule() *PlayerRule {
+	rule := new(PlayerRule)
 	rule.PointCorrect = 1
 	rule.BonusCorrect = "none"
 	rule.PointWrong = 0
@@ -48,9 +61,6 @@ func NewRule() *Rule {
 	rule.WinPoint = ActiveAndValue{true, 7}
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}
-	rule.ShowPoint = true
-	rule.Team = NewTeamRule()
-	rule.Board = NewBoardRule()
 	return rule
 }
 

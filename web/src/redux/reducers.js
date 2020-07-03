@@ -30,15 +30,16 @@ export const initialState = {
   },
   rule: {
     rightNum: 1,
-    pointCorrect: 1,
-    bonusCorreact: 'none',
-    pointWrong: 0,
-    batsuWrong: 1,
-    lockWrong: 0,
-    winPoint: { active: true, value: 7 },
-    losePoint: { active: false, value: 0 },
-    loseBatsu: { active: true, value: 3 },
-    showPoint: true,
+    player: {
+      pointCorrect: 1,
+      bonusCorrect: 'none',
+      pointWrong: 0,
+      batsuWrong: 1,
+      lockWrong: 0,
+      winPoint: { active: true, value: 7 },
+      losePoint: { active: false, value: 0 },
+      loseBatsu: { active: true, value: 3 }
+    },
     team: {
       active: false,
       shareButton: false,
@@ -53,7 +54,8 @@ export const initialState = {
       active: false,
       pointCorrect: 1,
       applyNormal: true
-    }
+    },
+    showPoint: true
   },
   editTeams: null,
   chats: []

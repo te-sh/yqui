@@ -27,7 +27,7 @@ const PlayerAbove = ({ order, score, buttons, rule }) => {
   })()
 
   const consText = (() => {
-    if (rule.bonusCorrect === "cons" && score.cons > 0) {
+    if (rule.player.bonusCorrect === "cons" && score.cons > 0) {
       return `+${score.cons}`
     } else {
       return ''

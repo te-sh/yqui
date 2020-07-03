@@ -45,8 +45,8 @@ func (scores Scores) Clone() Scores {
 
 func (scores Scores) SetCorrect(id int64, rule *Rule) {
 	score := scores[id]
-	score.Point += rule.PointCorrect
-	if (rule.BonusCorrect == "cons") {
+	score.Point += rule.Player.PointCorrect
+	if (rule.Player.BonusCorrect == "cons") {
 		score.Point += score.Cons
 		score.Cons += 1
 		for otherId, otherScore := range scores {
@@ -61,7 +61,7 @@ func (scores Scores) SetWin(rule *Rule, winLose *WinLose) (win bool) {
 	var wins []int64
 	for id, score := range scores {
 		if score.Win == 0 &&
-			rule.WinPoint.Active && score.Point >= rule.WinPoint.Value {
+			rule.Player.WinPoint.Active && score.Point >= rule.Player.WinPoint.Value {
 			wins = append(wins, id)
 		}
 	}
@@ -97,10 +97,10 @@ func (teamScores Scores) SetTeamWin(rule *Rule, winLose *WinLose) (win bool) {
 
 func (scores Scores) SetWrong(id int64, rule *Rule) {
 	score := scores[id]
-	score.Point += rule.PointWrong
-	score.Batsu += rule.BatsuWrong
-	score.Lock = rule.LockWrong
-	if (rule.BonusCorrect == "cons") {
+	score.Point += rule.Player.PointWrong
+	score.Batsu += rule.Player.BatsuWrong
+	score.Lock = rule.Player.LockWrong
+	if (rule.Player.BonusCorrect == "cons") {
 		score.Cons = 0
 	}
 	return
@@ -110,8 +110,8 @@ func (scores Scores) SetLose(rule *Rule, winLose *WinLose) (lose bool) {
 	var loses []int64
 	for id, score := range scores {
 		if (score.Lose == 0 &&
-			(rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
-			(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)) {
+			(rule.Player.LosePoint.Active && score.Point <= rule.Player.LosePoint.Value) ||
+			(rule.Player.LoseBatsu.Active && score.Batsu >= rule.Player.LoseBatsu.Value)) {
 			loses = append(loses, id)
 		}
 	}
