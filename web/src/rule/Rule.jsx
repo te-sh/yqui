@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core'
 import { send } from '../communicate'
 import { initialState } from '../redux/reducers'
+import { parseNumber } from '../util'
 import TabPanel from './TabPanel'
 import PlayerRule from './PlayerRule'
 import TeamRule from './TeamRule'
@@ -31,29 +32,12 @@ const Rule = ({ open, close, ws, rule }) => {
     close()
 
     send.rule(ws, {
-      rightNum: parse(rightNum),
+      rightNum: parseNumber(rightNum),
       player,
       team,
       board
     })
   }
-
-  const parse = text => {
-    const i = parseInt(text)
-    return isNaN(i) ? 0 : i
-  }
-
-  const normalRule = (
-    <TabPanel value={tab} index={0} className="normal-rule">
-      <FormGroup component="fieldset" className="rule-group">
-        <TextField label="解答権人数" type="number"
-                   value={rightNum}
-                   onChange={evt => setRightNum(evt.target.value)} />
-      </FormGroup>
-      <PlayerRule rule={player}
-                  changeRule={player => setPlayer(player)} />
-    </TabPanel>
-  )
 
   return (
     <Dialog open={open} onEnter={onEnter}
@@ -66,13 +50,24 @@ const Rule = ({ open, close, ws, rule }) => {
             <Tab label="チーム" />
             <Tab label="ボード" />
           </Tabs>
-          {normalRule}
-          <TeamRule tab={tab}
-                    rule={team}
-                    changeRule={team => setTeam(team)} />
-          <BoardRule tab={tab}
-                     rule={board}
-                     changeRule={board => setBoard(board)} />
+          <TabPanel value={tab} index={0} className="normal-rule">
+            <FormGroup component="fieldset" className="rule-group">
+              <TextField label="解答権人数" type="number"
+                         value={rightNum}
+                         onChange={evt => setRightNum(evt.target.value)} />
+            </FormGroup>
+            <PlayerRule rule={player}
+                        changeRule={player => setPlayer(player)} />
+          </TabPanel>
+          <TabPanel value={tab} index={1} className="team-rule">
+            <TeamRule tab={tab}
+                      rule={team}
+                      changeRule={team => setTeam(team)} />
+          </TabPanel>
+          <TabPanel value={tab} index={2} className="board-rule">
+            <BoardRule rule={board}
+                       changeRule={board => setBoard(board)} />
+          </TabPanel>
         </DialogContent>
         <DialogActions>
           <Button type="submit" color="primary">

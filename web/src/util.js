@@ -47,6 +47,11 @@ export const shuffle = ([...array]) => {
   return array
 }
 
+export const parseNumber = text => {
+  const i = parseInt(text)
+  return isNaN(i) ? 0 : i
+}
+
 export const chanceText = (rule, teams) => {
   if (rule.rightNum === 1) {
     return 'シングルチャンス'

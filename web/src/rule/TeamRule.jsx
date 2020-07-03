@@ -1,12 +1,12 @@
 import React from 'react'
 import {
-  Checkbox, FormControl, FormControlLabel, FormGroup,
+  Box, Checkbox, FormControl, FormControlLabel, FormGroup,
   FormLabel, InputLabel, MenuItem, Select, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import TabPanel from './TabPanel'
+import { parseNumber } from '../util'
 
-const TeamRule = ({ tab, rule, changeRule }) => {
+const TeamRule = ({ rule, changeRule }) => {
   const changeActive = value => {
     changeRule(update(rule, { active: { $set: value } }))
   }
@@ -32,7 +32,7 @@ const TeamRule = ({ tab, rule, changeRule }) => {
   }
 
   const changeWinPointValue = value => {
-    changeRule(update(rule, { winPoint: { value: { $set: parse(value) } } }))
+    changeRule(update(rule, { winPoint: { value: { $set: parseNumber(value) } } }))
   }
 
   const changeLosePointActive = value => {
@@ -40,7 +40,7 @@ const TeamRule = ({ tab, rule, changeRule }) => {
   }
 
   const changeLosePointValue = value => {
-    changeRule(update(rule, { losePoint: { value: { $set: parse(value) } } }))
+    changeRule(update(rule, { losePoint: { value: { $set: parseNumber(value) } } }))
   }
 
   const changeLoseBatsuActive = value => {
@@ -48,16 +48,11 @@ const TeamRule = ({ tab, rule, changeRule }) => {
   }
 
   const changeLoseBatsuValue = value => {
-    changeRule(update(rule, { loseBatsu: { value: { $set: parse(value) } } }))
-  }
-
-  const parse = text => {
-    const i = parseInt(text)
-    return isNaN(i) ? 0 : i
+    changeRule(update(rule, { loseBatsu: { value: { $set: parseNumber(value) } } }))
   }
 
   return (
-    <TabPanel value={tab} index={1} className="team-rule">
+    <Box>
       <FormGroup className="rule-group">
         <FormControlLabel
           control={
@@ -141,7 +136,7 @@ const TeamRule = ({ tab, rule, changeRule }) => {
                      onChange={evt => changeLoseBatsuValue(evt.target.value)} />
         </FormGroup>
       </FormGroup>
-    </TabPanel>
+    </Box>
   )
 }
 

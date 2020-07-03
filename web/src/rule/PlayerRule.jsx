@@ -4,10 +4,11 @@ import {
   InputLabel, MenuItem, Select, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
+import { parseNumber } from '../util'
 
 const PlayerRule = ({ rule, changeRule }) => {
   const changePointCorrect = value => {
-    changeRule(update(rule, { pointCorrect: { $set: parse(value) } }))
+    changeRule(update(rule, { pointCorrect: { $set: parseNumber(value) } }))
   }
 
   const changeBonusCorrect = value => {
@@ -15,15 +16,15 @@ const PlayerRule = ({ rule, changeRule }) => {
   }
 
   const changePointWrong = value => {
-    changeRule(update(rule, { pointWrong: { $set: parse(value) } }))
+    changeRule(update(rule, { pointWrong: { $set: parseNumber(value) } }))
   }
 
   const changeBatsuWrong = value => {
-    changeRule(update(rule, { batsuWrong: { $set: parse(value) } }))
+    changeRule(update(rule, { batsuWrong: { $set: parseNumber(value) } }))
   }
 
   const changeLockWrong = value => {
-    changeRule(update(rule, { lockWrong: { $set: parse(value) } }))
+    changeRule(update(rule, { lockWrong: { $set: parseNumber(value) } }))
   }
 
   const changeWinPointActive = value => {
@@ -31,7 +32,7 @@ const PlayerRule = ({ rule, changeRule }) => {
   }
 
   const changeWinPointValue = value => {
-    changeRule(update(rule, { winPoint: { value: { $set: parse(value) } } }))
+    changeRule(update(rule, { winPoint: { value: { $set: parseNumber(value) } } }))
   }
 
   const changeLosePointActive = value => {
@@ -39,7 +40,7 @@ const PlayerRule = ({ rule, changeRule }) => {
   }
 
   const changeLosePointValue = value => {
-    changeRule(update(rule, { losePoint: { value: { $set: parse(value) } } }))
+    changeRule(update(rule, { losePoint: { value: { $set: parseNumber(value) } } }))
   }
 
   const changeLoseBatsuActive = value => {
@@ -47,12 +48,7 @@ const PlayerRule = ({ rule, changeRule }) => {
   }
 
   const changeLoseBatsuValue = value => {
-    changeRule(update(rule, { loseBatsu: { value: { $set: parse(value) } } }))
-  }
-
-  const parse = text => {
-    const i = parseInt(text)
-    return isNaN(i) ? 0 : i
+    changeRule(update(rule, { loseBatsu: { value: { $set: parseNumber(value) } } }))
   }
 
   return (
