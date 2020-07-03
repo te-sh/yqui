@@ -19,9 +19,13 @@ type Rule struct {
 	TeamWinPoint ActiveAndValue `json:"teamWinPoint"`
 	TeamLosePoint ActiveAndValue `json:"teamLosePoint"`
 	TeamLoseBatsu ActiveAndValue `json:"teamLoseBatsu"`
-	Board bool `json:"board"`
-	BoardPointCorrect int `json:"boardPointCorrect"`
-	BoardApplyNormal bool `json:"boardApplyNormal"`
+	Board *BoardRule `json:"board"`
+}
+
+type BoardRule struct {
+	Active bool `json:"active"`
+	PointCorrect int `json:"pointCorrect"`
+	ApplyNormal bool `json:"applyNormal"`
 }
 
 type ActiveAndValue struct {
@@ -49,8 +53,14 @@ func NewRule() *Rule {
 	rule.TeamWinPoint = ActiveAndValue{true, 7}
 	rule.TeamLosePoint = ActiveAndValue{false, 0}
 	rule.TeamLoseBatsu = ActiveAndValue{true, 3}
-	rule.Board = false
-	rule.BoardPointCorrect = 1
-	rule.BoardApplyNormal = true
+	rule.Board = NewBoardRule()
+	return rule
+}
+
+func NewBoardRule() *BoardRule {
+	rule := new(BoardRule)
+	rule.Active = false
+	rule.PointCorrect = 1
+	rule.ApplyNormal = true
 	return rule
 }

@@ -205,8 +205,8 @@ func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLos
 func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (correct bool, win bool) {
 	for _, id := range ids {
 		score := scores[id]
-		score.Point += rule.BoardPointCorrect
-		if rule.BoardApplyNormal && id == first {
+		score.Point += rule.Board.PointCorrect
+		if rule.Board.ApplyNormal && id == first {
 			scores.SetCorrect(first, rule)
 			correct = true
 		}
@@ -217,7 +217,7 @@ func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose 
 
 func (scores Scores) WrongBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (wrong bool, lose bool) {
 	for _, id := range ids {
-		if rule.BoardApplyNormal && id == first {
+		if rule.Board.ApplyNormal && id == first {
 			scores.SetWrong(first, rule)
 			wrong = true
 		}

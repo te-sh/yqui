@@ -10,7 +10,7 @@ import {
 } from '../util'
 import { mergeEditTeam } from '../team'
 
-const initialState = {
+export const initialState = {
   ws: null,
   rooms: [],
   roomNo: null,
@@ -47,9 +47,11 @@ const initialState = {
     teamWinPoint: { active: true, value: 7 },
     teamLosePoint: { active: false, value: 0 },
     teamLoseBatsu: { active: true, value: 3 },
-    board: false,
-    boardPointCorrect: 1,
-    boardApplyNormal: true
+    board: {
+      active: false,
+      pointCorrect: 1,
+      applyNormal: true
+    }
   },
   editTeams: null,
   chats: []

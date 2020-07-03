@@ -5,7 +5,7 @@ import WinLoseRule from './WinLoseRule'
 
 const ScoreRule = ({ rule }) => {
   const title = (() => {
-    if (rule.board) {
+    if (rule.board.active) {
       return '1着スコア'
     } else if (rule.team) {
       return '個人スコア'
@@ -18,7 +18,7 @@ const ScoreRule = ({ rule }) => {
     <Box>
       <Typography variant="caption">{title}</Typography>
       <CorrectWrongRule rule={rule} />
-      {!rule.board ? <WinLoseRule rule={rule} /> : null}
+      {!rule.board.active ? <WinLoseRule rule={rule} /> : null}
     </Box>
   )
 }

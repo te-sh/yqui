@@ -8,8 +8,8 @@ import TeamScoreRule from './TeamScoreRule'
 import './RuleDisplay.scss'
 
 const RuleDisplay = ({ className, rule, teams }) => {
-  const showBoardRule = rule.board
-  const showScoreRule = (rule.board && rule.boardApplyNormal) || !rule.board
+  const showBoardRule = rule.board.active
+  const showScoreRule = (rule.board.active && rule.board.applyNormal) || !rule.board.active
   const showTeamScoreRule = rule.team
 
   return (

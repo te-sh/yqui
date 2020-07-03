@@ -1,25 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Box, Button, Checkbox, Dialog, DialogActions, DialogContent,
+  Button, Checkbox, Dialog, DialogActions, DialogContent,
   DialogTitle, FormControl, FormControlLabel, FormGroup, FormLabel,
   InputLabel, MenuItem, Select, Tabs, Tab, TextField
 } from '@material-ui/core'
-import classNames from 'classnames'
 import { send } from '../communicate'
+import { initialState } from '../redux/reducers'
+import TabPanel from './TabPanel'
+import BoardRule from './BoardRule'
 import './Rule.scss'
-
-const TabPanel = ({ children, value, index, className }) => (
-  <Box className={classNames('tab-panel', className)}
-       role="tabpanel"
-       hidden={value !== index}
-       id={`nav-tabpanel-${index}`}
-       aria-labelledby={`nav-tab-${index}`}>
-    <Box>
-      {children}
-    </Box>
-  </Box>
-)
 
 const Rule = ({ open, close, ws, rule }) => {
   const [tab, setTab] = React.useState(0)
@@ -46,9 +36,7 @@ const Rule = ({ open, close, ws, rule }) => {
   const [teamLosePointValue, setTeamLosePointValue] = React.useState(0)
   const [teamLoseBatsuActive, setTeamLoseBatsuActive] = React.useState(true)
   const [teamLoseBatsuValue, setTeamLoseBatsuValue] = React.useState(0)
-  const [board, setBoard] = React.useState(false)
-  const [boardPointCorrect, setBoardPointCorrect] = React.useState(0)
-  const [boardApplyNormal, setBoardApplyNormal] = React.useState(true)
+  const [board, setBoard] = React.useState(initialState.rule.board)
 
   const onEnter = () => {
     setRightNum(rule.rightNum)
@@ -63,7 +51,7 @@ const Rule = ({ open, close, ws, rule }) => {
     setLosePointValue(rule.losePoint.value)
     setLoseBatsuActive(rule.loseBatsu.active)
     setLoseBatsuValue(rule.loseBatsu.value)
-    setTeam(rule.Team)
+    setTeam(rule.team)
     setTeamShareButton(rule.teamShareButton)
     setTeamPoint(rule.teamPoint)
     setTeamBatsu(rule.teamBatsu)
@@ -75,8 +63,6 @@ const Rule = ({ open, close, ws, rule }) => {
     setTeamLoseBatsuActive(rule.teamLoseBatsu.active)
     setTeamLoseBatsuValue(rule.teamLoseBatsu.value)
     setBoard(rule.board)
-    setBoardPointCorrect(rule.boardPointCorrect)
-    setBoardApplyNormal(rule.boardApplyNormal)
   }
 
   const onSubmit = evt => {
@@ -101,9 +87,7 @@ const Rule = ({ open, close, ws, rule }) => {
       teamWinPoint: { active: teamWinPointActive, value: parse(teamWinPointValue) },
       teamLosePoint: { active: teamLosePointActive, value: parse(teamLosePointValue) },
       teamLoseBatsu: { active: teamLoseBatsuActive, value: parse(teamLoseBatsuValue) },
-      board,
-      boardPointCorrect: parse(boardPointCorrect),
-      boardApplyNormal
+      board
     })
   }
 
@@ -277,41 +261,6 @@ const Rule = ({ open, close, ws, rule }) => {
     </TabPanel>
   )
 
-  const boardRule = (
-    <TabPanel value={tab} index={2} className="board-rule">
-      <FormGroup className="rule-group">
-        <FormControlLabel
-          control={
-            <Checkbox color="default"
-                      checked={board}
-                      onChange={evt => setBoard(evt.target.checked)} />
-          }
-          label="ボード" />
-      </FormGroup>
-      <FormGroup component="fieldset" className="rule-group">
-        <FormLabel component="legend">
-          正答時
-        </FormLabel>
-        <FormGroup row={true}>
-          <TextField label="ポイント" type="number"
-                     value={boardPointCorrect}
-                     onChange={evt => setBoardPointCorrect(evt.target.value)} />
-        </FormGroup>
-      </FormGroup>
-      <FormGroup>
-        <FormControl>
-          <FormControlLabel
-            control={
-              <Checkbox color="default"
-                        checked={boardApplyNormal}
-                        onChange={evt => setBoardApplyNormal(evt.target.checked)} />
-            }
-            label="1着に通常ルールを適用" />
-        </FormControl>
-      </FormGroup>
-    </TabPanel>
-  )
-
   return (
     <Dialog open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
@@ -325,7 +274,9 @@ const Rule = ({ open, close, ws, rule }) => {
           </Tabs>
           {normalRule}
           {teamRule}
-          {boardRule}
+          <BoardRule tab={tab}
+                     rule={board}
+                     changeRule={board => setBoard(board)} />
         </DialogContent>
         <DialogActions>
           <Button type="submit" color="primary">

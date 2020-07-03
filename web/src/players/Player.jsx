@@ -28,7 +28,7 @@ const Player = ({ player, boards, scores, buttons, rule }) => {
                     player={player} right={right} />
         <PlayerPoint score={score} className="player-point" />
         <PlayerStatus score={score} className="player-status" />
-        { rule.board ? <Board className="board" board={board} /> : null }
+        { rule.board.active ? <Board className="board" board={board} /> : null }
       </Paper>
     </Box>
   )

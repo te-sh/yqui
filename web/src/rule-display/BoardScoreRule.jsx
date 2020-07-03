@@ -4,7 +4,7 @@ import WinLoseRule from './WinLoseRule'
 
 const BoardScoreRule = ({ rule }) => {
   const correct = (() => {
-    return `正解 ${rule.boardPointCorrect}ポイント`
+    return `正解 ${rule.board.pointCorrect}ポイント`
   })()
 
   return (
