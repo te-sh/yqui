@@ -8,7 +8,7 @@ import {
 import { send } from './communicate'
 import { reset, setEditTeams } from './redux/actions'
 import { teamsToEditTeams } from './team'
-import Rule from './dialogs/Rule'
+import Rule from './rule/Rule'
 import Setting from './dialogs/Setting'
 import Help from './dialogs/Help'
 import './TopBar.scss'
