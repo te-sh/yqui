@@ -1,14 +1,14 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import TeamPointBatsuRule from './TeamPointBatsuRule'
-import TeamWinLoseRule from './TeamWinLoseRule'
+import WinLoseRule from './WinLoseRule'
 
 const TeamScoreRule = ({ rule }) => {
   return (
     <Box>
       <Typography variant="caption">チームスコア</Typography>
       <TeamPointBatsuRule rule={rule} />
-      <TeamWinLoseRule rule={rule} />
+      <WinLoseRule rule={rule.team} />
     </Box>
   )
 }

@@ -11,7 +11,7 @@ const BoardScoreRule = ({ rule }) => {
     <Box>
       <Typography variant="caption">ボードスコア</Typography>
       <Typography>{correct}</Typography>
-      <WinLoseRule rule={rule} />
+      <WinLoseRule rule={rule.player} />
     </Box>
   )
 }

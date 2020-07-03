@@ -3,21 +3,21 @@ import { Typography } from '@material-ui/core'
 
 const WinLoseRule = ({ rule }) => {
   const win = (() => {
-    if (rule.player.winPoint.active) {
-      return `勝ち抜け ${rule.player.winPoint.value}ポイント`
+    if (rule.winPoint.active) {
+      return `勝ち抜け ${rule.winPoint.value}ポイント`
     } else {
       return '勝ち抜けなし'
     }
   })()
 
   const lose = (() => {
-    if (rule.player.losePoint.active || rule.player.loseBatsu.active) {
+    if (rule.losePoint.active || rule.loseBatsu.active) {
       let text = '失格'
-      if (rule.player.losePoint.active) {
-        text += ` ${rule.player.losePoint.value}ポイント`
+      if (rule.losePoint.active) {
+        text += ` ${rule.losePoint.value}ポイント`
       }
-      if (rule.player.loseBatsu.active) {
-        text += ` ${rule.player.loseBatsu.value}バツ`
+      if (rule.loseBatsu.active) {
+        text += ` ${rule.loseBatsu.value}バツ`
       }
       return text
     } else {
