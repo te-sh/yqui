@@ -2,25 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, IconButton, Toolbar, Typography, Tooltip } from '@material-ui/core'
 import {
-  HelpOutline, PlaylistAddCheck,
-  Portrait, Settings, SupervisorAccount
+  PlaylistAddCheck,
+  SupervisorAccount
 } from '@material-ui/icons'
-import { send } from '../communicate'
 import { setEditTeams } from '../redux/actions'
 import { teamsToEditTeams } from '../team'
 import Rule from '../rule/Rule'
-import Setting from '../dialogs/Setting'
-import Help from '../dialogs/Help'
+import MasterButton from './MasterButton'
+import SettingButton from './SettingButton'
+import HelpButton from './HelpButton'
 import LeaveButton from './LeaveButton'
 import './TopBar.scss'
 
 const Topbar = ({
-  className, ws, roomNo, users, teams, master,
+  className, roomNo, users, teams, master,
   isMaster, editTeams, setEditTeams
 }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
-  const [settingOpen, setSettingOpen] = React.useState(false)
-  const [helpOpen, setHelpOpen] = React.useState(false)
 
   const teamEdit = () => {
     setEditTeams(teamsToEditTeams(users, teams, master))
@@ -54,43 +52,18 @@ const Topbar = ({
             </IconButton>
           </span>
         </Tooltip>
-        <Tooltip title="司会">
-          <span>
-            <IconButton color={isMaster ? 'secondary' : 'inherit'}
-                        disabled={(!isMaster && master >= 0) || !!editTeams}
-                        onClick={() => send.toggleMaster(ws)}>
-              <Portrait />
-            </IconButton>
-          </span>
-        </Tooltip>
-        <Tooltip title="設定">
-          <span>
-            <IconButton color="inherit"
-                        onClick={() => setSettingOpen(true)}>
-              <Settings />
-            </IconButton>
-          </span>
-        </Tooltip>
-        <Tooltip title="ヘルプ">
-          <span>
-            <IconButton color="inherit"
-                        onClick={() => setHelpOpen(true)}>
-              <HelpOutline />
-            </IconButton>
-          </span>
-        </Tooltip>
+        <MasterButton />
+        <SettingButton />
+        <HelpButton />
         <LeaveButton />
       </Toolbar>
       <Rule open={ruleOpen} close={() => setRuleOpen(false)} />
-      <Setting open={settingOpen} close={() => setSettingOpen(false)} />
-      <Help open={helpOpen} close={() => setHelpOpen(false)} />
     </AppBar>
   )
 }
 
 export default connect(
   state => ({
-    ws: state.ws,
     roomNo: state.roomNo,
     users: state.users,
     teams: state.teams,
