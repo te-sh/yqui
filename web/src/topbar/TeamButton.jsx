@@ -13,13 +13,11 @@ const TeamButton = ({ users, teams, master, isMaster, editTeams, setEditTeams })
   return (
     <Box>
       <Tooltip title="チーム">
-        <span>
-          <IconButton color="inherit"
-                      disabled={!isMaster || !!editTeams}
-                      onClick={teamEdit}>
-            <SupervisorAccount />
-          </IconButton>
-        </span>
+        <IconButton color="inherit"
+                    disabled={!isMaster || !!editTeams}
+                    onClick={teamEdit}>
+          <SupervisorAccount />
+        </IconButton>
       </Tooltip>
     </Box>
   )

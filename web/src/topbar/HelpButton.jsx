@@ -9,12 +9,10 @@ const HelpButton = () => {
   return (
     <Box>
       <Tooltip title="ヘルプ">
-        <span>
-          <IconButton color="inherit"
-                      onClick={() => setHelpOpen(true)}>
-            <HelpOutline />
-          </IconButton>
-        </span>
+        <IconButton color="inherit"
+                    onClick={() => setHelpOpen(true)}>
+          <HelpOutline />
+        </IconButton>
       </Tooltip>
       <Help open={helpOpen} close={() => setHelpOpen(false)} />
     </Box>
