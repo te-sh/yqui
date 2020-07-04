@@ -2,12 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
+import { intKeys } from '../util'
 import { send } from '../communicate'
 import './Actions.scss'
 
 const Master = ({ className, ws, rule, boards, boardLock }) => {
   const openAll = () => {
-    for (let player of Object.keys(boards)) {
+    for (let player of intKeys(boards)) {
       boards[player].open = true
     }
     send.boards(ws, boards)

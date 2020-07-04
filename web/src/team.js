@@ -1,4 +1,4 @@
-import { shuffle } from './util'
+import { shuffle, intKeys } from './util'
 
 export const playersOfTeams = teams => (
   teams.map(team => team.players).reduce((a, c) => a.concat(c), [])
@@ -11,11 +11,11 @@ export const mergeEditTeam = (editTeams, users, teams, master) => {
 
   let newTeams = editTeams.map(team => ({
     id: team.id,
-    players: team.players.filter(id => Object.keys(users).includes(id))
+    players: team.players.filter(id => intKeys(users).includes(id))
   }))
   newTeams = normalizeTeams(newTeams)
 
-  let added = Object.keys(users).filter(id => (
+  let added = intKeys(users).filter(id => (
     id !== master && !playersOfTeams(newTeams).includes(id)
   ))
   newTeams[0].players.push(...added)
@@ -24,7 +24,7 @@ export const mergeEditTeam = (editTeams, users, teams, master) => {
 }
 
 export const teamsToEditTeams = (users, teams, master) => {
-  let observers = Object.keys(users).filter(id => (
+  let observers = intKeys(users).filter(id => (
     id !== master &&
     !teams.some(team => team.players.includes(id))
   ))

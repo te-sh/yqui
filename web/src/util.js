@@ -47,6 +47,10 @@ export const shuffle = ([...array]) => {
   return array
 }
 
+export const intKeys = obj => {
+  return Object.keys(obj).map(key => parseInt(key))
+}
+
 export const parseNumber = text => {
   const i = parseInt(text)
   return isNaN(i) ? 0 : i
