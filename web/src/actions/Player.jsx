@@ -35,7 +35,7 @@ const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) =>
   const boardForm = (
     <form onSubmit={sendAnswer} className="boardactions-content">
       <TextField id="message" variant="outlined" size="small"
-                 disabled={boardLock}
+                 autoComplete="off" disabled={boardLock}
                  value={answer}
                  onChange={evt => setAnswer(evt.target.value)}
                  onKeyDown={evt => evt.stopPropagation()} />

@@ -9,8 +9,11 @@
   }
 
   .message {
-    margin-bottom: 8px;
     overflow-wrap: anywhere;
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
 
     .message-system {
       color: #2979ff;

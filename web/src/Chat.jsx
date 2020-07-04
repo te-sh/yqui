@@ -24,6 +24,7 @@ const Chat = ({ className, ws, isPlayer }) => {
     <Paper className={className}>
       <form onSubmit={evt => chat(evt)} className="chat-input">
         <TextField id="message" variant="outlined" fullWidth
+                   autoComplete="off"
                    value={message}
                    onChange={evt => setMessage(evt.target.value)} />
         <IconButton type="submit">
