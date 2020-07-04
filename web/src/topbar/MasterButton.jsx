@@ -8,11 +8,13 @@ const MasterButton = ({ ws, master, isMaster, editTeams }) => {
   return (
     <Box>
       <Tooltip title="司会">
-        <IconButton color={isMaster ? 'secondary' : 'inherit'}
-                    disabled={(!isMaster && master >= 0) || !!editTeams}
-                    onClick={() => send.toggleMaster(ws)}>
-          <Portrait />
-        </IconButton>
+        <span>
+          <IconButton color={isMaster ? 'secondary' : 'inherit'}
+                      disabled={(!isMaster && master >= 0) || !!editTeams}
+                      onClick={() => send.toggleMaster(ws)}>
+            <Portrait />
+          </IconButton>
+        </span>
       </Tooltip>
     </Box>
   )

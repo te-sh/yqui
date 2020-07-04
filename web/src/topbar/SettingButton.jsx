@@ -10,10 +10,11 @@ const SettingButton = () => {
   return (
     <Box>
       <Tooltip title="設定">
-        <IconButton color="inherit"
-                    onClick={() => setSettingOpen(true)}>
-          <Settings />
-        </IconButton>
+        <span>
+          <IconButton color="inherit" onClick={() => setSettingOpen(true)}>
+            <Settings />
+          </IconButton>
+        </span>
       </Tooltip>
       <Setting open={settingOpen} close={() => setSettingOpen(false)} />
     </Box>

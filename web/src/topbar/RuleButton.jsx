@@ -10,11 +10,13 @@ const RuleButton = ({ isMaster, editTeams }) => {
   return (
     <Box>
       <Tooltip title="ルール">
-        <IconButton color="inherit"
-                    disabled={!isMaster || !!editTeams}
-                    onClick={() => setRuleOpen(true)}>
-          <PlaylistAddCheck />
-        </IconButton>
+        <span>
+          <IconButton color="inherit"
+                      disabled={!isMaster || !!editTeams}
+                      onClick={() => setRuleOpen(true)}>
+            <PlaylistAddCheck />
+          </IconButton>
+        </span>
       </Tooltip>
       <Rule open={ruleOpen} close={() => setRuleOpen(false)} />
     </Box>

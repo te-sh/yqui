@@ -14,10 +14,11 @@ const LeaveButton = ({ ws, reset }) => {
   return (
     <Box>
       <Tooltip title="退室">
-        <IconButton color="inherit"
-                    onClick={leave}>
-          <Close />
-        </IconButton>
+        <span>
+          <IconButton color="inherit" onClick={leave}>
+            <Close />
+          </IconButton>
+        </span>
       </Tooltip>
     </Box>
   )
