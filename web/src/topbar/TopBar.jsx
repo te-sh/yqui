@@ -2,20 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, IconButton, Toolbar, Typography, Tooltip } from '@material-ui/core'
 import {
-  Close, HelpOutline, PlaylistAddCheck,
+  HelpOutline, PlaylistAddCheck,
   Portrait, Settings, SupervisorAccount
 } from '@material-ui/icons'
 import { send } from '../communicate'
-import { reset, setEditTeams } from '../redux/actions'
+import { setEditTeams } from '../redux/actions'
 import { teamsToEditTeams } from '../team'
 import Rule from '../rule/Rule'
 import Setting from '../dialogs/Setting'
 import Help from '../dialogs/Help'
+import LeaveButton from './LeaveButton'
 import './TopBar.scss'
 
 const Topbar = ({
   className, ws, roomNo, users, teams, master,
-  isMaster, editTeams, setEditTeams, reset
+  isMaster, editTeams, setEditTeams
 }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
   const [settingOpen, setSettingOpen] = React.useState(false)
@@ -23,11 +24,6 @@ const Topbar = ({
 
   const teamEdit = () => {
     setEditTeams(teamsToEditTeams(users, teams, master))
-  }
-
-  const leave = () => {
-    send.leave(ws)
-    reset()
   }
 
   return (
@@ -83,14 +79,7 @@ const Topbar = ({
             </IconButton>
           </span>
         </Tooltip>
-        <Tooltip title="退室">
-          <span>
-            <IconButton color="inherit"
-                        onClick={leave}>
-              <Close />
-            </IconButton>
-          </span>
-        </Tooltip>
+        <LeaveButton />
       </Toolbar>
       <Rule open={ruleOpen} close={() => setRuleOpen(false)} />
       <Setting open={settingOpen} close={() => setSettingOpen(false)} />
@@ -110,7 +99,6 @@ export default connect(
     editTeams: state.editTeams
   }),
   dispatch => ({
-    reset: () => dispatch(reset()),
     setEditTeams: editTeams => dispatch(setEditTeams(editTeams))
   })
 )(Topbar)
