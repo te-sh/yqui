@@ -1,9 +1,4 @@
 .rule {
-  display: grid;
-  grid-template-rows: repeat(4, auto);
-  grid-template-columns: auto;
-  grid-gap: 12px;
-
   .MuiTab-root {
     min-width: 120px;
   }
@@ -21,7 +16,7 @@
   }
 
   .tab-panel {
-    height: 22em;
+    height: 23em;
     padding: 1.5em;
   }
 }

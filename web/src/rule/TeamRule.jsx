@@ -62,7 +62,7 @@ const TeamRule = ({ rule, changeRule }) => {
           }
           label="チーム戦" />
       </FormGroup>
-      <FormGroup className="rule-group">
+      <FormGroup className="rule-group" row={true}>
         <FormControlLabel
           control={
             <Checkbox color="default" disabled={!rule.active}
@@ -70,6 +70,13 @@ const TeamRule = ({ rule, changeRule }) => {
                       onChange={evt => changeShareButton(evt.target.checked)} />
           }
           label="ボタン共有" />
+        <FormControlLabel
+          control={
+            <Checkbox color="default" disabled={!rule.active}
+                      checked={rule.shareLock}
+                      onChange={evt => changeShareLock(evt.target.checked)} />
+          }
+          label="休み共有" />
       </FormGroup>
       <FormGroup className="rule-group">
         <FormControl>
@@ -91,15 +98,6 @@ const TeamRule = ({ rule, changeRule }) => {
             <MenuItem value="sum">個人バツの和</MenuItem>
           </Select>
         </FormControl>
-      </FormGroup>
-      <FormGroup className="rule-group">
-        <FormControlLabel
-          control={
-            <Checkbox color="default" disabled={!rule.active}
-                      checked={rule.shareLock}
-                      onChange={evt => changeShareLock(evt.target.checked)} />
-          }
-          label="休み共有" />
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
         <FormLabel component="legend">
