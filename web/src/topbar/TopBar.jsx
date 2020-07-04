@@ -5,15 +5,15 @@ import {
   Close, HelpOutline, PlaylistAddCheck,
   Portrait, Settings, SupervisorAccount
 } from '@material-ui/icons'
-import { send } from './communicate'
-import { reset, setEditTeams } from './redux/actions'
-import { teamsToEditTeams } from './team'
-import Rule from './rule/Rule'
-import Setting from './dialogs/Setting'
-import Help from './dialogs/Help'
+import { send } from '../communicate'
+import { reset, setEditTeams } from '../redux/actions'
+import { teamsToEditTeams } from '../team'
+import Rule from '../rule/Rule'
+import Setting from '../dialogs/Setting'
+import Help from '../dialogs/Help'
 import './TopBar.scss'
 
-const TopBar = ({
+const Topbar = ({
   className, ws, roomNo, users, teams, master,
   isMaster, editTeams, setEditTeams, reset
 }) => {
@@ -113,4 +113,4 @@ export default connect(
     reset: () => dispatch(reset()),
     setEditTeams: editTeams => dispatch(setEditTeams(editTeams))
   })
-)(TopBar)
+)(Topbar)
