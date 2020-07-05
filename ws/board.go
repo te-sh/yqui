@@ -18,6 +18,12 @@ func NewBoard(id int64) *Board {
 
 type Boards map[int64]*Board
 
+func (boards Boards) Merge(newBoards Boards) {
+	for id, newBoard := range newBoards {
+		boards[id] = newBoard
+	}
+}
+
 func (boards Boards) Opens(newBoards Boards) bool {
 	open := false
 	for _, newBoard := range newBoards {

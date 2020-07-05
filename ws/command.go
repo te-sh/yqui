@@ -46,7 +46,8 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "z":
 		user := new(User)
 		json.Unmarshal(cmd.A, &user)
-		room.UpdateUser(user)
+		room.Users.Update(user)
+		room.SendUsers()
 	case "p":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()
@@ -58,7 +59,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "t":
 		newBoard := NewBoard(cmd.ID)
 		json.Unmarshal(cmd.A, newBoard)
-		room.UpdateBoard(newBoard, sound)
+		room.UpdateBoards(Boards{newBoard.ID: newBoard}, sound)
 		room.SendSound(sound)
 	case "k":
 		room.BoardLock = !room.BoardLock
