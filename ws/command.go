@@ -6,12 +6,11 @@ import (
 )
 
 func (room *Room) RunCommand(cmd Cmd) {
+	sound := NewSound()
 	switch (cmd.C) {
 	case "a":
-		ring := room.PushButton(cmd.ID, cmd.Time)
-		if (ring) {
-			room.Broadcast("sound", "push")
-		}
+		room.PushButton(cmd.ID, cmd.Time, sound)
+		room.SendSound(sound)
 	case "s":
 		win := room.Correct()
 		if win {
@@ -72,6 +71,13 @@ func (room *Room) RunCommand(cmd Cmd) {
 		chat := Chat{Type: "message", Time: cmd.Time, Name: name}
 		json.Unmarshal(cmd.A, &chat.Text)
 		room.Broadcast("chat", chat)
+	}
+}
+
+func (room *Room) SendSound(sound *Sound) {
+	sounds := sound.MakeSounds()
+	if sounds != "" {
+		room.Broadcast("sound", sounds)
 	}
 }
 

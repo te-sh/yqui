@@ -33,10 +33,10 @@ func NewSound() *Sound {
 	return sound
 }
 
-func (sound *Sound) MakeSound() string {
+func (sound *Sound) MakeSounds() string {
 	var sounds []string
 	if (sound.Push) {
-		sounds = append(sounds, "ring")
+		sounds = append(sounds, "push")
 	}
 	if (sound.Open) {
 		sounds = append(sounds, "open")

@@ -119,15 +119,14 @@ func (room *Room) Pushed(user *User) bool {
 	}
 }
 
-func (room *Room) PushButton(id int64, time int64) (ring bool) {
+func (room *Room) PushButton(id int64, time int64, sound *Sound) {
 	user := room.Users[id]
 	if !room.Pushed(user) && room.Scores[id].CanPush() &&
 		(!room.Rule.Team.Active || room.TeamScores[user.Team.ID].CanPush()) {
-		ring = room.Buttons.AllAnswered()
+		sound.Push = room.Buttons.AllAnswered()
 		room.Buttons.Push(id, time)
 		room.SendButtons()
 	}
-	return
 }
 
 func (room *Room) Correct() (win bool) {
