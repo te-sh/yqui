@@ -129,7 +129,7 @@ func (room *Room) PushButton(id int64, time int64, sound *Sound) {
 	}
 }
 
-func (room *Room) Correct() (win bool) {
+func (room *Room) Correct(sound *Sound) {
 	buttons := room.Buttons
 	id, err := buttons.RightPlayer()
 	if err != nil {
@@ -137,14 +137,11 @@ func (room *Room) Correct() (win bool) {
 	}
 
 	rule := room.Rule
-	win = room.Scores.Correct(id, rule, room.WinLose)
-	teamWin, _ := room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLose)
-	win = win || teamWin
+	room.Scores.Correct(id, rule, room.WinLose, sound)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLose, sound)
 
 	room.NextQuiz()
 	room.AddHistory()
-
-	return
 }
 
 func (room *Room) NumCanAnswer() int {
@@ -174,7 +171,7 @@ func (room *Room) NoCanAnswer() bool {
 	return len(room.Buttons.Answerers) >= room.Rule.RightNum || room.NumCanAnswer() == 0
 }
 
-func (room *Room) Wrong() (lose bool) {
+func (room *Room) Wrong(sound *Sound) {
 	buttons := room.Buttons
 	id, err := buttons.RightPlayer()
 	if err != nil {
@@ -182,9 +179,8 @@ func (room *Room) Wrong() (lose bool) {
 	}
 
 	rule := room.Rule
-	lose = room.Scores.Wrong(id, rule, room.WinLose)
-	_, teamLose := room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLose)
-	lose = lose || teamLose
+	room.Scores.Wrong(id, rule, room.WinLose, sound)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLose, sound)
 
 	buttons.Answer(id)
 	if room.NoCanAnswer() {
@@ -193,8 +189,6 @@ func (room *Room) Wrong() (lose bool) {
 		room.SendButtons()
 	}
 	room.AddHistory()
-
-	return
 }
 
 func (room *Room) NextQuiz() {
@@ -204,7 +198,7 @@ func (room *Room) NextQuiz() {
 			score.Lock -= 1
 		}
 	}
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose, nil)
 	room.ResetButtons()
 }
 
@@ -222,19 +216,19 @@ func (room *Room) ResetBoards() {
 	room.SendBoardLock()
 }
 
-func (room *Room) UpdateBoards(newBoards Boards) (open bool, correct bool, win bool, wrong bool, lose bool) {
+func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	first, _ := room.Buttons.RightPlayer()
-	open = room.Boards.Opens(newBoards)
+	sound.Open = room.Boards.Opens(newBoards)
 
 	if corrects := room.Boards.Corrects(newBoards); len(corrects) > 0 {
-		correct, win = room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLose)
+		room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLose, sound)
 	}
 	if wrongs := room.Boards.Wrongs(newBoards); len(wrongs) > 0 {
-		wrong, lose = room.Scores.WrongBoard(wrongs, first, room.Rule, room.WinLose)
+		room.Scores.WrongBoard(wrongs, first, room.Rule, room.WinLose, sound)
 	}
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose, sound)
 
-	if correct || wrong {
+	if sound.Correct || sound.Wrong {
 		room.AddHistory()
 	}
 
@@ -244,22 +238,20 @@ func (room *Room) UpdateBoards(newBoards Boards) (open bool, correct bool, win b
 	return
 }
 
-func (room *Room) UpdateBoard(newBoard *Board) (open bool, correct bool, win bool, wrong bool, lose bool) {
+func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 	first, _ := room.Buttons.RightPlayer()
-	open = room.Boards.Open(newBoard)
+	sound.Open = room.Boards.Open(newBoard)
 
 	id := newBoard.ID
 	if room.Boards.Correct(newBoard) {
-		correct, win = room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose)
+		room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose, sound)
 	}
 	if room.Boards.Wrong(newBoard) {
-		wrong, lose = room.Scores.WrongBoard([]int64{id}, first, room.Rule, room.WinLose)
+		room.Scores.WrongBoard([]int64{id}, first, room.Rule, room.WinLose, sound)
 	}
-	teamWin, teamLose := room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose)
-	win = win || teamWin
-	lose = lose || teamLose
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose, sound)
 
-	if correct || wrong {
+	if sound.Correct || sound.Wrong {
 		room.AddHistory()
 	}
 

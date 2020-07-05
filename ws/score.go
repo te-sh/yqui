@@ -107,19 +107,19 @@ func (scores Scores) SetLose(rule WinLoseRule, winLose *WinLoseInfo) (lose bool)
 	return
 }
 
-func (scores Scores) Correct(id int64, rule *Rule, winLose *WinLose) (win bool) {
+func (scores Scores) Correct(id int64, rule *Rule, winLose *WinLose, sound *Sound) {
 	scores.SetCorrect(id, rule)
-	win = scores.SetWin(rule.Player.WinLoseRule, winLose.Player)
+	sound.Win = scores.SetWin(rule.Player.WinLoseRule, winLose.Player)
 	return
 }
 
-func (scores Scores) Wrong(id int64, rule *Rule, winLose *WinLose) (lose bool) {
+func (scores Scores) Wrong(id int64, rule *Rule, winLose *WinLose, sound *Sound) {
 	scores.SetWrong(id, rule)
-	lose = scores.SetLose(rule.Player.WinLoseRule, winLose.Player)
+	sound.Lose = scores.SetLose(rule.Player.WinLoseRule, winLose.Player)
 	return
 }
 
-func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLose *WinLose) (win bool, lose bool) {
+func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLose *WinLose, sound *Sound) {
 	if !rule.Team.Active {
 		return
 	}
@@ -158,31 +158,33 @@ func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLos
 			}
 		}
 	}
-	win = teamScores.SetWin(rule.Team.WinLoseRule, winLose.Team)
-	lose = teamScores.SetLose(rule.Team.WinLoseRule, winLose.Team)
+	if sound != nil {
+		sound.Win = sound.Win || teamScores.SetWin(rule.Team.WinLoseRule, winLose.Team)
+		sound.Lose = sound.Lose || teamScores.SetLose(rule.Team.WinLoseRule, winLose.Team)
+	}
 	return
 }
 
-func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (correct bool, win bool) {
+func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose, sound *Sound) {
 	for _, id := range ids {
 		score := scores[id]
 		score.Point += rule.Board.PointCorrect
 		if rule.Board.ApplyNormal && id == first {
 			scores.SetCorrect(first, rule)
-			correct = true
+			sound.Correct = true
 		}
 	}
-	win = scores.SetWin(rule.Player.WinLoseRule, winLose.Player)
+	sound.Win = scores.SetWin(rule.Player.WinLoseRule, winLose.Player)
 	return
 }
 
-func (scores Scores) WrongBoard(ids []int64, first int64, rule *Rule, winLose *WinLose) (wrong bool, lose bool) {
+func (scores Scores) WrongBoard(ids []int64, first int64, rule *Rule, winLose *WinLose, sound *Sound) {
 	for _, id := range ids {
 		if rule.Board.ApplyNormal && id == first {
 			scores.SetWrong(first, rule)
-			wrong = true
+			sound.Wrong = true
 		}
 	}
-	lose = scores.SetLose(rule.Player.WinLoseRule, winLose.Player)
+	sound.Lose = scores.SetLose(rule.Player.WinLoseRule, winLose.Player)
 	return
 }
