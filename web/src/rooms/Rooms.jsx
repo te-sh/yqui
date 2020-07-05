@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  AppBar, Box, Button, Link, Paper, Table, TableBody, TableCell,
-  TableContainer, TableHead, TableRow, Toolbar, Typography
+  Box, Button, Paper, Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow
 } from '@material-ui/core'
-import { send } from './communicate'
-import EnterRoom from './dialogs/EnterRoom'
+import { send } from '../communicate'
+import Topbar from './Topbar'
+import Copyright from './Copyright'
+import EnterRoom from '../dialogs/EnterRoom'
 import './Rooms.scss'
 
 const Rooms = ({ history, ws, rooms, roomNo }) => {
@@ -54,15 +56,7 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
 
   return (
     <Box>
-      <Box>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6">
-              Yqui
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </Box>
+      <Topbar />
       <Box>
         <TableContainer component={Paper}>
           <Table>
@@ -79,11 +73,7 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
           </Table>
         </TableContainer>
       </Box>
-      <Box>
-        <Typography className="copyright">
-          Yqui では効果音の一部に<Link href="https://pocket-se.info/">ポケットサウンド</Link>を使用しています
-        </Typography>
-      </Box>
+      <Copyright />
       <EnterRoom open={enterRoomOpen}
                  submit={enterRoom} close={closeEnterRoom} />
     </Box>

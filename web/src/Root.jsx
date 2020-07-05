@@ -9,7 +9,7 @@ import {
   recvButtons, recvRule, recvChat
 } from './redux/actions'
 import playSound from './sound'
-import Rooms from './Rooms'
+import Rooms from './rooms/Rooms'
 import Room from './Room'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
