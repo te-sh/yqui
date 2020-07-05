@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"encoding/json"
 )
 
@@ -16,4 +17,38 @@ type Chat struct {
 	Time int64 `json:"time"`
 	Name string `json:"name"`
 	Text string `json:"text,omitempty"`
+}
+
+type Sound struct {
+	Push bool
+	Correct bool
+	Wrong bool
+	Win bool
+	Lose bool
+	Open bool
+}
+
+func NewSound() *Sound {
+	sound := new(Sound)
+	return sound
+}
+
+func (sound *Sound) MakeSound() string {
+	var sounds []string
+	if (sound.Push) {
+		sounds = append(sounds, "ring")
+	}
+	if (sound.Open) {
+		sounds = append(sounds, "open")
+	}
+	if (sound.Correct) {
+		sounds = append(sounds, "correct")
+	}
+	if (sound.Wrong) {
+		sounds = append(sounds, "wrong")
+	}
+	if (sound.Win) {
+		sounds = append(sounds, "roundwin")
+	}
+	return strings.Join(sounds, ",")
 }
