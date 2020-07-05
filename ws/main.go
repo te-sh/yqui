@@ -22,13 +22,6 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-type Cmd struct {
-	C string `json:"c"`
-	A json.RawMessage `json:"a"`
-	ID int64 `json:"-"`
-	Time int64 `json:"-"`
-}
-
 type Join struct {
 	RoomNo int `json:"roomNo"`
 	Name string `json:"name"`
