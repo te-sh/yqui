@@ -17,8 +17,3 @@ func NewUser(id int64, conn *Conn, name string) *User {
 }
 
 type Users map[int64]*User
-
-func (users Users) Update(user *User) {
-	target := users[user.ID]
-	target.ChatAnswer = user.ChatAnswer
-}

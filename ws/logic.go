@@ -40,8 +40,6 @@ func (room *Room) LeaveUser(id int64, time int64) {
 		room.WinLose = NewWinLose()
 	}
 
-	room.SendBoards()
-	room.SendBoardLock()
 	room.SendRoom()
 	chat := Chat{Type: "leave", Time: time, Name: user.Name}
 	room.Broadcast("chat", chat)
@@ -69,6 +67,12 @@ func (room *Room) RemovePlayerFromTeam(id int64) {
 			delete(room.TeamScores, user.Team.ID)
 		}
 	}
+}
+
+func (room *Room) UpdateUser(user *User) {
+	target := room.Users[user.ID]
+	target.ChatAnswer = user.ChatAnswer
+	room.SendUsers()
 }
 
 func (room *Room) ChangeTeams() {
@@ -226,12 +230,35 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 
 	if sound.Correct || sound.Wrong {
 		room.AddHistory()
-	} else {
-		room.SendScores()
 	}
 
-	room.Boards.Merge(newBoards)
+	room.SendScores()
+	room.Boards = newBoards
 	room.SendBoards()
+	return
+}
+
+func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
+	first, _ := room.Buttons.RightPlayer()
+	sound.Open = room.Boards.Open(newBoard)
+
+	id := newBoard.ID
+	if room.Boards.Correct(newBoard) {
+		room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose, sound)
+	}
+	if room.Boards.Wrong(newBoard) {
+		room.Scores.WrongBoard([]int64{id}, first, room.Rule, room.WinLose, sound)
+	}
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose, sound)
+
+	if sound.Correct || sound.Wrong {
+		room.AddHistory()
+	}
+
+	room.SendScores()
+	room.Boards[id] = newBoard
+	room.SendBoard(id)
+	return
 }
 
 func (room *Room) AllClear() {
