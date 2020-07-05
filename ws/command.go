@@ -46,7 +46,8 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "z":
 		user := new(User)
 		json.Unmarshal(cmd.A, &user)
-		room.UpdateUser(user)
+		room.Users.Update(user)
+		room.SendUsers()
 	case "p":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()

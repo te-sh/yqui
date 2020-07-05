@@ -69,12 +69,6 @@ func (room *Room) RemovePlayerFromTeam(id int64) {
 	}
 }
 
-func (room *Room) UpdateUser(user *User) {
-	target := room.Users[user.ID]
-	target.ChatAnswer = user.ChatAnswer
-	room.SendUsers()
-}
-
 func (room *Room) ChangeTeams() {
 	for _, user := range room.Users {
 		user.Team = nil
