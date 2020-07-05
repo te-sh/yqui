@@ -4,6 +4,17 @@ import (
 	"encoding/json"
 )
 
+func HandleMessage() {
+	defer LogPanic()
+
+	for {
+		cmd := <-Received
+		if room, ok := id2room[cmd.ID]; ok {
+			room.RunCommand(cmd)
+		}
+	}
+}
+
 func (room *Room) RunCommand(cmd Cmd) {
 	sound := NewSound()
 	switch cmd.C {

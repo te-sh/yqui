@@ -48,17 +48,6 @@ func LeaveUser(id int64) {
 	}
 }
 
-func HandleMessage() {
-	defer LogPanic()
-
-	for {
-		cmd := <-Received
-		if room, ok := id2room[cmd.ID]; ok {
-			room.RunCommand(cmd)
-		}
-	}
-}
-
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	defer LogPanic()
 
