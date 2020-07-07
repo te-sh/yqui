@@ -8,7 +8,7 @@ type Room struct {
 	BoardLock bool
 	Scores Scores
 	TeamScores Scores
-	WinLose *WinLose
+	WinLoseSet *WinLoseSet
 	Buttons *Buttons
 	Rule *Rule
 	History *History
@@ -22,7 +22,7 @@ func NewRoom() *Room {
 	room.BoardLock = false
 	room.Scores = make(Scores)
 	room.TeamScores = make(Scores)
-	room.WinLose = NewWinLose()
+	room.WinLoseSet = NewWinLoseSet()
 	room.Buttons = NewButtons()
 	room.Rule = NewRule()
 	room.History = NewHistory()

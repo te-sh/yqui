@@ -1,42 +1,42 @@
 package main
 
-type WinLose struct {
-	Player *WinLoseInfo
-	Team *WinLoseInfo
+type WinLoseSet struct {
+	Player *WinLose
+	Team *WinLose
 }
 
-type WinLoseInfo struct {
+type WinLose struct {
 	WinNum int
 	LoseNum int
 }
 
+func NewWinLoseSet() *WinLoseSet {
+	winLoseSet := new(WinLoseSet)
+	winLoseSet.Player = NewWinLose()
+	winLoseSet.Team = NewWinLose()
+	return winLoseSet
+}
+
 func NewWinLose() *WinLose {
 	winLose := new(WinLose)
-	winLose.Player = NewWinLoseInfo()
-	winLose.Team = NewWinLoseInfo()
+	winLose.WinNum = 0
+	winLose.LoseNum = 0
 	return winLose
 }
 
-func NewWinLoseInfo() *WinLoseInfo {
-	winLoseInfo := new(WinLoseInfo)
-	winLoseInfo.WinNum = 0
-	winLoseInfo.LoseNum = 0
-	return winLoseInfo
+func (winLoseSet *WinLoseSet) Clone() *WinLoseSet {
+	newWinLoseSet := *winLoseSet
+	newWinLoseSet.Player = winLoseSet.Player.Clone()
+	newWinLoseSet.Team = winLoseSet.Team.Clone()
+	return &newWinLoseSet
 }
 
 func (winLose *WinLose) Clone() *WinLose {
 	newWinLose := *winLose
-	newWinLose.Player = winLose.Player.Clone()
-	newWinLose.Team = winLose.Team.Clone()
 	return &newWinLose
 }
 
-func (winLoseInfo *WinLoseInfo) Clone() *WinLoseInfo {
-	newWinLoseInfo := *winLoseInfo
-	return &newWinLoseInfo
-}
-
-func (winLose *WinLose) Reset() {
-	winLose.Player = NewWinLoseInfo()
-	winLose.Team = NewWinLoseInfo()
+func (winLoseSet *WinLoseSet) Reset() {
+	winLoseSet.Player = NewWinLose()
+	winLoseSet.Team = NewWinLose()
 }

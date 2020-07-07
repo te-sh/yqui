@@ -8,7 +8,7 @@ type History struct {
 type HistoryItem struct {
 	Scores Scores
 	TeamScores Scores
-	WinLose *WinLose
+	WinLoseSet *WinLoseSet
 }
 
 const HistoryMaxLen = 100
@@ -24,18 +24,18 @@ func NewHistoryItem() *HistoryItem {
 	item := new(HistoryItem)
 	item.Scores = make(Scores)
 	item.TeamScores = make(Scores)
-	item.WinLose = NewWinLose()
+	item.WinLoseSet = NewWinLoseSet()
 	return item
 }
 
 
-func (history *History) AddHistory(scores Scores, teamScores Scores, winLose *WinLose) {
+func (history *History) AddHistory(scores Scores, teamScores Scores, winLoseSet *WinLoseSet) {
 	history.Items = history.Items[:history.Curr + 1]
 
 	item := NewHistoryItem()
 	item.Scores = scores.Clone()
 	item.TeamScores = teamScores.Clone()
-	item.WinLose = winLose.Clone()
+	item.WinLoseSet = winLoseSet.Clone()
 
 	history.Items = append(history.Items, item)
 	history.Curr += 1
@@ -46,7 +46,7 @@ func (history *History) AddHistory(scores Scores, teamScores Scores, winLose *Wi
 	}
 }
 
-func (history *History) MoveHistory(d int, scores Scores, teamScores Scores, winLose *WinLose) {
+func (history *History) MoveHistory(d int, scores Scores, teamScores Scores, winLoseSet *WinLoseSet) {
 	i := history.Curr + d
 	if i < 0 || i >= len(history.Items) {
 		return
@@ -63,7 +63,7 @@ func (history *History) MoveHistory(d int, scores Scores, teamScores Scores, win
 			teamScores[id] = item.TeamScores[id].Clone()
 		}
 	}
-	winLose = item.WinLose.Clone()
+	winLoseSet = item.WinLoseSet.Clone()
 
 	history.Curr = i
 }

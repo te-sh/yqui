@@ -37,7 +37,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 
 	if len(room.Users) == 0 {
 		room.Rule = NewRule()
-		room.WinLose = NewWinLose()
+		room.WinLoseSet = NewWinLoseSet()
 	}
 
 	room.SendRoom()
@@ -131,8 +131,8 @@ func (room *Room) Correct(sound *Sound) {
 	}
 
 	rule := room.Rule
-	room.Scores.Correct(id, rule, room.WinLose, sound)
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLose, sound)
+	room.Scores.Correct(id, rule, room.WinLoseSet.Player, sound)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLoseSet.Team, sound)
 
 	room.NextQuiz()
 	room.AddHistory()
@@ -173,8 +173,8 @@ func (room *Room) Wrong(sound *Sound) {
 	}
 
 	rule := room.Rule
-	room.Scores.Wrong(id, rule, room.WinLose, sound)
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLose, sound)
+	room.Scores.Wrong(id, rule, room.WinLoseSet.Player, sound)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLoseSet.Team, sound)
 
 	buttons.Answer(id)
 	if room.NoCanAnswer() {
@@ -192,7 +192,7 @@ func (room *Room) NextQuiz() {
 			score.Lock -= 1
 		}
 	}
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose, nil)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLoseSet.Team, nil)
 	room.ResetButtons()
 }
 
@@ -215,12 +215,12 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	sound.Open = room.Boards.Opens(newBoards)
 
 	if corrects := room.Boards.Corrects(newBoards); len(corrects) > 0 {
-		room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLose, sound)
+		room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLoseSet.Player, sound)
 	}
 	if wrongs := room.Boards.Wrongs(newBoards); len(wrongs) > 0 {
-		room.Scores.WrongBoard(wrongs, first, room.Rule, room.WinLose, sound)
+		room.Scores.WrongBoard(wrongs, first, room.Rule, room.WinLoseSet.Player, sound)
 	}
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose, sound)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLoseSet.Team, sound)
 
 	if sound.Correct || sound.Wrong {
 		room.AddHistory()
@@ -238,12 +238,12 @@ func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 
 	id := newBoard.ID
 	if room.Boards.Correct(newBoard) {
-		room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose, sound)
+		room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLoseSet.Player, sound)
 	}
 	if room.Boards.Wrong(newBoard) {
-		room.Scores.WrongBoard([]int64{id}, first, room.Rule, room.WinLose, sound)
+		room.Scores.WrongBoard([]int64{id}, first, room.Rule, room.WinLoseSet.Player, sound)
 	}
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLose, sound)
+	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLoseSet.Team, sound)
 
 	if sound.Correct || sound.Wrong {
 		room.AddHistory()
@@ -263,16 +263,16 @@ func (room *Room) AllClear() {
 	for _, teamScore := range room.TeamScores {
 		teamScore.Reset()
 	}
-	room.WinLose.Reset()
+	room.WinLoseSet.Reset()
 	room.AddHistory()
 }
 
 func (room *Room) AddHistory() {
-	room.History.AddHistory(room.Scores, room.TeamScores, room.WinLose)
+	room.History.AddHistory(room.Scores, room.TeamScores, room.WinLoseSet)
 	room.SendScores()
 }
 
 func (room *Room) MoveHistory(d int) {
-	room.History.MoveHistory(d, room.Scores, room.TeamScores, room.WinLose)
+	room.History.MoveHistory(d, room.Scores, room.TeamScores, room.WinLoseSet)
 	room.SendScores()
 }
