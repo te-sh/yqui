@@ -6,8 +6,8 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.Users[id] = user
 	room.AddPlayerToDefaultTeam(id)
 	room.Boards[id] = NewBoard(id)
-	room.SG.Player[id] = NewScore()
-	room.History.Items[room.History.Curr].SG.Player[id] = NewScore()
+	room.SG.Player.Add(id)
+	room.History.Items[room.History.Curr].SG.Player.Add(id)
 
 	room.SendToOne(id, "selfID", id)
 	room.SendToOne(id, "rule", room.Rule)
@@ -22,7 +22,7 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
-	delete(room.SG.Player, id)
+	room.SG.Player.Add(id)
 	delete(room.Boards, id)
 	if (room.Master == id) {
 		room.Master = -1
@@ -50,7 +50,7 @@ func (room *Room) AddPlayerToDefaultTeam(id int64) {
 		team := NewTeam()
 		team.ID = NewID()
 		room.Teams = append(room.Teams, team)
-		room.SG.Team[team.ID] = NewScore()
+		room.SG.Team.Add(team.ID)
 	}
 	if len(room.Teams) == 1 {
 		room.Teams[0].AddPlayer(id)
@@ -64,7 +64,7 @@ func (room *Room) RemovePlayerFromTeam(id int64) {
 		user.Team.RemovePlayer(id)
 		if len(user.Team.Players) == 0 {
 			room.Teams = room.Teams.Removed(user.Team)
-			delete(room.SG.Team, user.Team.ID)
+			room.SG.Team.Remove(user.Team.ID)
 		}
 	}
 }
@@ -186,12 +186,7 @@ func (room *Room) Wrong(sound *Sound) {
 }
 
 func (room *Room) NextQuiz() {
-	for id := range room.SG.Player {
-		score := room.SG.Player[id]
-		if !room.Buttons.Answered(id) && score.Lock > 0 {
-			score.Lock -= 1
-		}
-	}
+	room.SG.Player.DecreaseLock(room.Buttons)
 	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, room.WinLose, nil)
 	room.ResetButtons()
 }
@@ -229,7 +224,6 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	room.SendScores()
 	room.Boards = newBoards
 	room.SendBoards()
-	return
 }
 
 func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
@@ -252,7 +246,6 @@ func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 	room.SendScores()
 	room.Boards[id] = newBoard
 	room.SendBoard(id)
-	return
 }
 
 func (room *Room) AllClear() {

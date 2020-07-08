@@ -50,16 +50,7 @@ func (history *History) MoveHistory(d int, sg *ScoreGroup, winLose *WinLose) {
 	}
 
 	item := history.Items[i]
-	for id := range item.SG.Player {
-		if _, ok := sg.Player[id]; ok {
-			sg.Player[id] = item.SG.Player[id].Clone()
-		}
-	}
-	for id := range item.SG.Team {
-		if _, ok := sg.Team[id]; ok {
-			sg.Team[id] = item.SG.Team[id].Clone()
-		}
-	}
+	sg.Merge(item.SG)
 	winLose = item.WinLose.Clone()
 
 	history.Curr = i

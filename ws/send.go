@@ -75,14 +75,7 @@ func (room *Room) SendScores() {
 	room.SendToMaster("sg", sg)
 
 	if !room.Rule.ShowPoint {
-		for _, player := range sg.Player {
-			player.Point = 0
-			player.Batsu = 0
-		}
-		for _, team := range sg.Team {
-			team.Point = 0
-			team.Batsu = 0
-		}
+		sg.SetZero()
 	}
 	room.SendToPlayers("sg", sg)
 }
