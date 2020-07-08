@@ -6,8 +6,8 @@ type Room struct {
 	Master int64
 	Boards Boards
 	BoardLock bool
-	ScoreSet *ScoreSet
-	TeamScoreSet *ScoreSet
+	Scores Scores
+	TeamScores Scores
 	WinLoseSet *WinLoseSet
 	Buttons *Buttons
 	Rule *Rule
@@ -20,8 +20,8 @@ func NewRoom() *Room {
 	room.Master = -1
 	room.Boards = make(Boards)
 	room.BoardLock = false
-	room.ScoreSet = NewScoreSet()
-	room.TeamScoreSet = NewScoreSet()
+	room.Scores = make(Scores)
+	room.TeamScores = make(Scores)
 	room.WinLoseSet = NewWinLoseSet()
 	room.Buttons = NewButtons()
 	room.Rule = NewRule()

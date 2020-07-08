@@ -1,16 +1,5 @@
 package main
 
-type ScoreGroup struct {
-	Player *ScoreSet
-	Team *ScoreSet
-}
-
-type ScoreSet struct {
-	Scores Scores `json:"scores"`
-}
-
-type Scores map[int64]*Score
-
 type Score struct {
 	Point int `json:"point"`
 	Batsu int `json:"batsu"`
@@ -20,31 +9,13 @@ type Score struct {
 	Lose int `json:"lose"`
 }
 
-func NewScoreSet() *ScoreSet {
-	scoreSet := new(ScoreSet)
-	scoreSet.Scores = make(Scores)
-	return scoreSet
-}
-
 func NewScore() *Score {
 	score := new(Score)
 	score.Reset()
 	return score
 }
 
-func (scoreSet ScoreSet) Clone() *ScoreSet {
-	newScoreSet := NewScoreSet()
-	newScoreSet.Scores = scoreSet.Scores.Clone()
-	return newScoreSet
-}
-
-func (scores Scores) Clone() Scores {
-	newScores := make(Scores)
-	for id, score := range scores {
-		newScores[id] = score.Clone()
-	}
-	return newScores
-}
+type Scores map[int64]*Score
 
 func (score *Score) Clone() *Score {
 	newScore := *score
@@ -64,6 +35,14 @@ func (score *Score) CanPush() bool {
 	return score.Lock == 0 && score.Win == 0 && score.Lose == 0
 }
 
+func (scores Scores) Clone() Scores {
+	clone := make(Scores)
+	for id, score := range scores {
+		clone[id] = score.Clone()
+	}
+	return clone
+}
+
 func (scores Scores) SetCorrect(id int64, rule *Rule) {
 	score := scores[id]
 	score.Point += rule.Player.PointCorrect
@@ -78,9 +57,9 @@ func (scores Scores) SetCorrect(id int64, rule *Rule) {
 	}
 }
 
-func (scoreSet ScoreSet) SetWin(rule WinLoseRule, winLose *WinLose) (win bool) {
+func (scores Scores) SetWin(rule WinLoseRule, winLose *WinLose) (win bool) {
 	var wins []int64
-	for id, score := range scoreSet.Scores {
+	for id, score := range scores {
 		if score.Win == 0 &&
 			rule.WinPoint.Active && score.Point >= rule.WinPoint.Value {
 			wins = append(wins, id)
@@ -90,7 +69,7 @@ func (scoreSet ScoreSet) SetWin(rule WinLoseRule, winLose *WinLose) (win bool) {
 	if win {
 		winLose.WinNum += 1
 		for _, id := range wins {
-			score := scoreSet.Scores[id]
+			score := scores[id]
 			score.Win = winLose.WinNum
 		}
 	}
@@ -105,11 +84,12 @@ func (scores Scores) SetWrong(id int64, rule *Rule) {
 	if (rule.Player.BonusCorrect == "cons") {
 		score.Cons = 0
 	}
+	return
 }
 
-func (scoreSet ScoreSet) SetLose(rule WinLoseRule, winLose *WinLose) (lose bool) {
+func (scores Scores) SetLose(rule WinLoseRule, winLose *WinLose) (lose bool) {
 	var loses []int64
-	for id, score := range scoreSet.Scores {
+	for id, score := range scores {
 		if (score.Lose == 0 &&
 			(rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
 			(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)) {
@@ -120,29 +100,31 @@ func (scoreSet ScoreSet) SetLose(rule WinLoseRule, winLose *WinLose) (lose bool)
 	if lose {
 		winLose.LoseNum += 1
 		for _, id := range loses {
-			score := scoreSet.Scores[id]
+			score := scores[id]
 			score.Lose = winLose.LoseNum
 		}
 	}
 	return
 }
 
-func (scoreSet ScoreSet) Correct(id int64, rule *Rule, winLose *WinLose, sound *Sound) {
-	scoreSet.Scores.SetCorrect(id, rule)
-	sound.Win = scoreSet.SetWin(rule.Player.WinLoseRule, winLose)
+func (scores Scores) Correct(id int64, rule *Rule, winLose *WinLose, sound *Sound) {
+	scores.SetCorrect(id, rule)
+	sound.Win = scores.SetWin(rule.Player.WinLoseRule, winLose)
+	return
 }
 
-func (scoreSet ScoreSet) Wrong(id int64, rule *Rule, winLose *WinLose, sound *Sound) {
-	scoreSet.Scores.SetWrong(id, rule)
-	sound.Lose = scoreSet.SetLose(rule.Player.WinLoseRule, winLose)
+func (scores Scores) Wrong(id int64, rule *Rule, winLose *WinLose, sound *Sound) {
+	scores.SetWrong(id, rule)
+	sound.Lose = scores.SetLose(rule.Player.WinLoseRule, winLose)
+	return
 }
 
-func (teamScoreSet ScoreSet) CalcTeam(teams Teams, scores Scores, rule *Rule, winLose *WinLose, sound *Sound) {
+func (teamScores Scores) CalcTeam(teams Teams, scores Scores, rule *Rule, winLose *WinLose, sound *Sound) {
 	if !rule.Team.Active {
 		return
 	}
 	for _, team := range teams {
-		if teamScore, ok := teamScoreSet.Scores[team.ID]; ok {
+		if teamScore, ok := teamScores[team.ID]; ok {
 			switch (rule.Team.Point) {
 			case "sum":
 				p := 0
@@ -177,29 +159,32 @@ func (teamScoreSet ScoreSet) CalcTeam(teams Teams, scores Scores, rule *Rule, wi
 		}
 	}
 	if sound != nil {
-		sound.Win = sound.Win || teamScoreSet.SetWin(rule.Team.WinLoseRule, winLose)
-		sound.Lose = sound.Lose || teamScoreSet.SetLose(rule.Team.WinLoseRule, winLose)
+		sound.Win = sound.Win || teamScores.SetWin(rule.Team.WinLoseRule, winLose)
+		sound.Lose = sound.Lose || teamScores.SetLose(rule.Team.WinLoseRule, winLose)
 	}
+	return
 }
 
-func (scoreSet ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose, sound *Sound) {
+func (scores Scores) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose, sound *Sound) {
 	for _, id := range ids {
-		score := scoreSet.Scores[id]
+		score := scores[id]
 		score.Point += rule.Board.PointCorrect
 		if rule.Board.ApplyNormal && id == first {
-			scoreSet.Scores.SetCorrect(first, rule)
+			scores.SetCorrect(first, rule)
 			sound.Correct = true
 		}
 	}
-	sound.Win = scoreSet.SetWin(rule.Player.WinLoseRule, winLose)
+	sound.Win = scores.SetWin(rule.Player.WinLoseRule, winLose)
+	return
 }
 
-func (scoreSet ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, winLose *WinLose, sound *Sound) {
+func (scores Scores) WrongBoard(ids []int64, first int64, rule *Rule, winLose *WinLose, sound *Sound) {
 	for _, id := range ids {
 		if rule.Board.ApplyNormal && id == first {
-			scoreSet.Scores.SetWrong(first, rule)
+			scores.SetWrong(first, rule)
 			sound.Wrong = true
 		}
 	}
-	sound.Lose = scoreSet.SetLose(rule.Player.WinLoseRule, winLose)
+	sound.Lose = scores.SetLose(rule.Player.WinLoseRule, winLose)
+	return
 }

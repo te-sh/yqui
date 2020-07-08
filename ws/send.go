@@ -4,8 +4,8 @@ type RoomSend struct {
 	Users map[int64]*User `json:"users"`
 	Teams Teams `json:"teams"`
 	Master int64 `json:"master"`
-	ScoreSet *ScoreSet `json:"scores"`
-	TeamScoreSet *ScoreSet `json:"teamScores"`
+	Scores Scores `json:"scores"`
+	TeamScores Scores `json:"teamScores"`
 	Buttons *Buttons `json:"buttons"`
 }
 
@@ -14,8 +14,8 @@ func (room *Room) SendRoom() {
 		Users: room.Users,
 		Teams: room.Teams,
 		Master: room.Master,
-		ScoreSet: room.ScoreSet,
-		TeamScoreSet: room.TeamScoreSet,
+		Scores: room.Scores,
+		TeamScores: room.TeamScores,
 		Buttons: room.Buttons,
 	}
 	room.Broadcast("room", roomSend)
@@ -28,16 +28,16 @@ func (room *Room) SendUsers() {
 type TeamsSend struct {
 	Teams Teams `json:"teams"`
 	Master int64 `json:"master"`
-	ScoreSet *ScoreSet `json:"scoreSet"`
-	TeamScoreSet *ScoreSet `json:"teamScoreSet"`
+	Scores Scores `json:"scores"`
+	TeamScores Scores `json:"teamScores"`
 }
 
 func (room *Room) SendTeams() {
 	teamsSend := TeamsSend{
 		Teams: room.Teams,
 		Master: room.Master,
-		ScoreSet: room.ScoreSet,
-		TeamScoreSet: room.TeamScoreSet,
+		Scores: room.Scores,
+		TeamScores: room.TeamScores,
 	}
 	room.Broadcast("teams", teamsSend)
 }
@@ -75,23 +75,23 @@ func (room *Room) SendButtons() {
 }
 
 type ScoresSend struct {
-	ScoreSet *ScoreSet `json:"scoreSet"`
-	TeamScoreSet *ScoreSet `json:"teamScoreSet"`
+	Scores Scores `json:"scores"`
+	TeamScores Scores `json:"teamScores"`
 }
 
 func (room *Room) SendScores() {
 	scoresSend := ScoresSend{
-		ScoreSet: room.ScoreSet.Clone(),
-		TeamScoreSet: room.TeamScoreSet.Clone(),
+		Scores: room.Scores.Clone(),
+		TeamScores: room.TeamScores.Clone(),
 	}
 	room.SendToMaster("scores", scoresSend)
 
 	if !room.Rule.ShowPoint {
-		for _, score := range scoresSend.ScoreSet.Scores {
+		for _, score := range scoresSend.Scores {
 			score.Point = 0
 			score.Batsu = 0
 		}
-		for _, teamScore := range scoresSend.TeamScoreSet.Scores {
+		for _, teamScore := range scoresSend.TeamScores {
 			teamScore.Point = 0
 			teamScore.Batsu = 0
 		}
