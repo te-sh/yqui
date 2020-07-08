@@ -23,7 +23,7 @@ func (ss ScoreSet) SetCorrect(id int64, rule *Rule) {
 	}
 }
 
-func (ss ScoreSet) SetWin(rule WinLoseRule, winLose *WinLoseInfo) (win bool) {
+func (ss ScoreSet) SetWin(rule WinLoseRule) (win bool) {
 	var wins []int64
 	for id, score := range ss.Scores {
 		if score.Win == 0 &&
@@ -33,10 +33,10 @@ func (ss ScoreSet) SetWin(rule WinLoseRule, winLose *WinLoseInfo) (win bool) {
 	}
 	win = len(wins) > 0
 	if win {
-		winLose.WinNum += 1
+		ss.WinLose.WinNum += 1
 		for _, id := range wins {
 			score := ss.Scores[id]
-			score.Win = winLose.WinNum
+			score.Win = ss.WinLose.WinNum
 		}
 	}
 	return
@@ -53,7 +53,7 @@ func (ss ScoreSet) SetWrong(id int64, rule *Rule) {
 	}
 }
 
-func (ss ScoreSet) SetLose(rule WinLoseRule, winLose *WinLoseInfo) (lose bool) {
+func (ss ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 	var loses []int64
 	for id, score := range ss.Scores {
 		if (score.Lose == 0 &&
@@ -64,24 +64,24 @@ func (ss ScoreSet) SetLose(rule WinLoseRule, winLose *WinLoseInfo) (lose bool) {
 	}
 	lose = len(loses) > 0
 	if lose {
-		winLose.LoseNum += 1
+		ss.WinLose.LoseNum += 1
 		for _, id := range loses {
 			score := ss.Scores[id]
-			score.Lose = winLose.LoseNum
+			score.Lose = ss.WinLose.LoseNum
 		}
 	}
 	return
 }
 
-func (ss ScoreSet) Correct(id int64, rule *Rule, winLose *WinLose, sound *Sound) {
+func (ss ScoreSet) Correct(id int64, rule *Rule, sound *Sound) {
 	ss.SetCorrect(id, rule)
-	sound.Win = ss.SetWin(rule.Player.WinLoseRule, winLose.Player)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule)
 	return
 }
 
-func (ss ScoreSet) Wrong(id int64, rule *Rule, winLose *WinLose, sound *Sound) {
+func (ss ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
 	ss.SetWrong(id, rule)
-	sound.Lose = ss.SetLose(rule.Player.WinLoseRule, winLose.Player)
+	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
 	return
 }
 
@@ -105,7 +105,7 @@ func (ss ScoreSet) SetTeam(teams Teams) {
 	ss.Scores = newScores
 }
 
-func (ss ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, winLose *WinLose, sound *Sound) {
+func (ss ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound *Sound) {
 	if !rule.Team.Active {
 		return
 	}
@@ -145,13 +145,13 @@ func (ss ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, winLose
 		}
 	}
 	if sound != nil {
-		sound.Win = sound.Win || ss.SetWin(rule.Team.WinLoseRule, winLose.Team)
-		sound.Lose = sound.Lose || ss.SetLose(rule.Team.WinLoseRule, winLose.Team)
+		sound.Win = sound.Win || ss.SetWin(rule.Team.WinLoseRule)
+		sound.Lose = sound.Lose || ss.SetLose(rule.Team.WinLoseRule)
 	}
 	return
 }
 
-func (ss ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *WinLose, sound *Sound) {
+func (ss ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
 	for _, id := range ids {
 		score := ss.Scores[id]
 		score.Point += rule.Board.PointCorrect
@@ -160,17 +160,17 @@ func (ss ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, winLose *W
 			sound.Correct = true
 		}
 	}
-	sound.Win = ss.SetWin(rule.Player.WinLoseRule, winLose.Player)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule)
 	return
 }
 
-func (ss ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, winLose *WinLose, sound *Sound) {
+func (ss ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
 	for _, id := range ids {
 		if rule.Board.ApplyNormal && id == first {
 			ss.SetWrong(first, rule)
 			sound.Wrong = true
 		}
 	}
-	sound.Lose = ss.SetLose(rule.Player.WinLoseRule, winLose.Player)
+	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
 	return
 }

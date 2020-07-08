@@ -7,6 +7,7 @@ type ScoreGroup struct {
 
 type ScoreSet struct {
 	Scores Scores
+	WinLose *WinLose
 }
 
 type Scores map[int64]*Score
@@ -20,6 +21,11 @@ type Score struct {
 	Lose int `json:"lose"`
 }
 
+type WinLose struct {
+	WinNum int
+	LoseNum int
+}
+
 func NewScoreGroup() *ScoreGroup {
 	sg := new(ScoreGroup)
 	sg.Player = NewScoreSet()
@@ -30,6 +36,7 @@ func NewScoreGroup() *ScoreGroup {
 func NewScoreSet() *ScoreSet {
 	ss := new(ScoreSet)
 	ss.Scores = make(Scores)
+	ss.WinLose = NewWinLose()
 	return ss
 }
 
@@ -37,6 +44,13 @@ func NewScore() *Score {
 	score := new(Score)
 	score.Reset()
 	return score
+}
+
+func NewWinLose() *WinLose {
+	winLose := new(WinLose)
+	winLose.WinNum = 0
+	winLose.LoseNum = 0
+	return winLose
 }
 
 func (sg *ScoreGroup) Clone() *ScoreGroup {
@@ -49,6 +63,7 @@ func (sg *ScoreGroup) Clone() *ScoreGroup {
 func (ss *ScoreSet) Clone() *ScoreSet {
 	newSS := NewScoreSet()
 	newSS.Scores = ss.Scores.Clone()
+	newSS.WinLose = ss.WinLose.Clone()
 	return newSS
 }
 
@@ -65,13 +80,23 @@ func (score *Score) Clone() *Score {
 	return &newScore
 }
 
+func (winLose *WinLose) Clone() *WinLose {
+	newWinLose := *winLose
+	return &newWinLose
+}
+
 func (sg *ScoreGroup) Reset() {
 	sg.Player.Reset()
 	sg.Team.Reset()
 }
 
 func (ss *ScoreSet) Reset() {
-	for _, score := range ss.Scores {
+	ss.Scores.Reset()
+	ss.WinLose.Reset()
+}
+
+func (scores Scores) Reset() {
+	for _, score := range scores {
 		score.Reset()
 	}
 }
@@ -83,6 +108,11 @@ func (score *Score) Reset() {
 	score.Cons = 0
 	score.Win = 0
 	score.Lose = 0
+}
+
+func (winLose *WinLose) Reset() {
+	winLose.WinNum = 0
+	winLose.LoseNum = 0
 }
 
 func (ss *ScoreSet) Add(id int64) {
@@ -111,9 +141,14 @@ func (sg *ScoreGroup) Merge(newSG *ScoreGroup) {
 }
 
 func (ss *ScoreSet) Merge(newSS *ScoreSet) {
-	for id, _ := range newSS.Scores {
-		if _, ok := ss.Scores[id]; ok {
-			ss.Scores[id] = newSS.Scores[id].Clone()
+	ss.Scores.Merge(newSS.Scores)
+	ss.WinLose = newSS.WinLose.Clone()
+}
+
+func (scores Scores) Merge(newScores Scores) {
+	for id, _ := range newScores {
+		if _, ok := scores[id]; ok {
+			scores[id] = newScores[id].Clone()
 		}
 	}
 }

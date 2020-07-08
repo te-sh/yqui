@@ -125,8 +125,8 @@ func (room *Room) Correct(sound *Sound) {
 	}
 
 	rule := room.Rule
-	room.SG.Player.Correct(id, rule, room.WinLose, sound)
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, rule, room.WinLose, sound)
+	room.SG.Player.Correct(id, rule, sound)
+	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, rule, sound)
 
 	room.NextQuiz()
 	room.AddHistory()
@@ -167,8 +167,8 @@ func (room *Room) Wrong(sound *Sound) {
 	}
 
 	rule := room.Rule
-	room.SG.Player.Wrong(id, rule, room.WinLose, sound)
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, rule, room.WinLose, sound)
+	room.SG.Player.Wrong(id, rule, sound)
+	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, rule, sound)
 
 	buttons.Answer(id)
 	if room.NoCanAnswer() {
@@ -181,7 +181,7 @@ func (room *Room) Wrong(sound *Sound) {
 
 func (room *Room) NextQuiz() {
 	room.SG.Player.DecreaseLock(room.Buttons)
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, room.WinLose, nil)
+	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, nil)
 	room.ResetButtons()
 }
 
@@ -204,12 +204,12 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	sound.Open = room.Boards.Opens(newBoards)
 
 	if corrects := room.Boards.Corrects(newBoards); len(corrects) > 0 {
-		room.SG.Player.CorrectBoard(corrects, first, room.Rule, room.WinLose, sound)
+		room.SG.Player.CorrectBoard(corrects, first, room.Rule, sound)
 	}
 	if wrongs := room.Boards.Wrongs(newBoards); len(wrongs) > 0 {
-		room.SG.Player.WrongBoard(wrongs, first, room.Rule, room.WinLose, sound)
+		room.SG.Player.WrongBoard(wrongs, first, room.Rule, sound)
 	}
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, room.WinLose, sound)
+	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, sound)
 
 	if sound.Correct || sound.Wrong {
 		room.AddHistory()
@@ -226,12 +226,12 @@ func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 
 	id := newBoard.ID
 	if room.Boards.Correct(newBoard) {
-		room.SG.Player.CorrectBoard([]int64{id}, first, room.Rule, room.WinLose, sound)
+		room.SG.Player.CorrectBoard([]int64{id}, first, room.Rule, sound)
 	}
 	if room.Boards.Wrong(newBoard) {
-		room.SG.Player.WrongBoard([]int64{id}, first, room.Rule, room.WinLose, sound)
+		room.SG.Player.WrongBoard([]int64{id}, first, room.Rule, sound)
 	}
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, room.WinLose, sound)
+	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, sound)
 
 	if sound.Correct || sound.Wrong {
 		room.AddHistory()

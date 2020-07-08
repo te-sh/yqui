@@ -7,7 +7,6 @@ type History struct {
 
 type HistoryItem struct {
 	SG *ScoreGroup
-	WinLose *WinLose
 }
 
 const HistoryMaxLen = 100
@@ -22,7 +21,6 @@ func NewHistory() *History {
 func NewHistoryItem() *HistoryItem {
 	item := new(HistoryItem)
 	item.SG = NewScoreGroup()
-	item.WinLose = NewWinLose()
 	return item
 }
 
@@ -32,7 +30,6 @@ func (history *History) AddHistory(sg *ScoreGroup, winLose *WinLose) {
 
 	item := NewHistoryItem()
 	item.SG = sg.Clone()
-	item.WinLose = winLose.Clone()
 
 	history.Items = append(history.Items, item)
 	history.Curr += 1
@@ -51,7 +48,6 @@ func (history *History) MoveHistory(d int, sg *ScoreGroup, winLose *WinLose) {
 
 	item := history.Items[i]
 	sg.Merge(item.SG)
-	winLose = item.WinLose.Clone()
 
 	history.Curr = i
 }
