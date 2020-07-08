@@ -73,7 +73,6 @@ func (room *Room) ChangeTeams() {
 	for _, user := range room.Users {
 		user.Team = nil
 	}
-	newTeamScores := make(Scores)
 	for _, team := range room.Teams {
 		if team.ID < 0 {
 			team.ID = NewID()
@@ -84,13 +83,8 @@ func (room *Room) ChangeTeams() {
 				room.Master = -1
 			}
 		}
-		if teamScore, ok := room.SG.Team[team.ID]; ok {
-			newTeamScores[team.ID] = teamScore
-		} else {
-			newTeamScores[team.ID] = NewScore()
-		}
 	}
-	room.SG.Team = newTeamScores
+	room.SG.Team.SetTeam(room.Teams)
 	room.SendTeams()
 }
 

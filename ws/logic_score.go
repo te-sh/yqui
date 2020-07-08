@@ -93,12 +93,24 @@ func (ss ScoreSet) DecreaseLock(buttons *Buttons) {
 	}
 }
 
-func (teamSS ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, winLose *WinLose, sound *Sound) {
+func (ss ScoreSet) SetTeam(teams Teams) {
+	newScores := make(Scores)
+	for _, team := range teams {
+		if score, ok := ss.Scores[team.ID]; ok {
+			newScores[team.ID] = score
+		} else {
+			newScores[team.ID] = NewScore()
+		}
+	}
+	ss.Scores = newScores
+}
+
+func (ss ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, winLose *WinLose, sound *Sound) {
 	if !rule.Team.Active {
 		return
 	}
 	for _, team := range teams {
-		if teamScore, ok := teamSS.Scores[team.ID]; ok {
+		if teamScore, ok := ss.Scores[team.ID]; ok {
 			switch (rule.Team.Point) {
 			case "sum":
 				p := 0
@@ -133,8 +145,8 @@ func (teamSS ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, win
 		}
 	}
 	if sound != nil {
-		sound.Win = sound.Win || teamSS.SetWin(rule.Team.WinLoseRule, winLose.Team)
-		sound.Lose = sound.Lose || teamSS.SetLose(rule.Team.WinLoseRule, winLose.Team)
+		sound.Win = sound.Win || ss.SetWin(rule.Team.WinLoseRule, winLose.Team)
+		sound.Lose = sound.Lose || ss.SetLose(rule.Team.WinLoseRule, winLose.Team)
 	}
 	return
 }
