@@ -6,8 +6,7 @@ type History struct {
 }
 
 type HistoryItem struct {
-	Scores Scores
-	TeamScores Scores
+	SG *ScoreGroup
 	WinLose *WinLose
 }
 
@@ -22,19 +21,17 @@ func NewHistory() *History {
 
 func NewHistoryItem() *HistoryItem {
 	item := new(HistoryItem)
-	item.Scores = make(Scores)
-	item.TeamScores = make(Scores)
+	item.SG = NewScoreGroup()
 	item.WinLose = NewWinLose()
 	return item
 }
 
 
-func (history *History) AddHistory(scores Scores, teamScores Scores, winLose *WinLose) {
+func (history *History) AddHistory(sg *ScoreGroup, winLose *WinLose) {
 	history.Items = history.Items[:history.Curr + 1]
 
 	item := NewHistoryItem()
-	item.Scores = scores.Clone()
-	item.TeamScores = teamScores.Clone()
+	item.SG = sg.Clone()
 	item.WinLose = winLose.Clone()
 
 	history.Items = append(history.Items, item)
@@ -46,21 +43,21 @@ func (history *History) AddHistory(scores Scores, teamScores Scores, winLose *Wi
 	}
 }
 
-func (history *History) MoveHistory(d int, scores Scores, teamScores Scores, winLose *WinLose) {
+func (history *History) MoveHistory(d int, sg *ScoreGroup, winLose *WinLose) {
 	i := history.Curr + d
 	if i < 0 || i >= len(history.Items) {
 		return
 	}
 
 	item := history.Items[i]
-	for id := range item.Scores {
-		if _, ok := scores[id]; ok {
-			scores[id] = item.Scores[id].Clone()
+	for id := range item.SG.Player {
+		if _, ok := sg.Player[id]; ok {
+			sg.Player[id] = item.SG.Player[id].Clone()
 		}
 	}
-	for id := range item.TeamScores {
-		if _, ok := teamScores[id]; ok {
-			teamScores[id] = item.TeamScores[id].Clone()
+	for id := range item.SG.Team {
+		if _, ok := sg.Team[id]; ok {
+			sg.Team[id] = item.SG.Team[id].Clone()
 		}
 	}
 	winLose = item.WinLose.Clone()

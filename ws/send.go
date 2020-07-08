@@ -4,8 +4,7 @@ type RoomSend struct {
 	Users map[int64]*User `json:"users"`
 	Teams Teams `json:"teams"`
 	Master int64 `json:"master"`
-	Scores Scores `json:"scores"`
-	TeamScores Scores `json:"teamScores"`
+	SG *ScoreGroup `json:"sg"`
 	Buttons *Buttons `json:"buttons"`
 }
 
@@ -14,8 +13,7 @@ func (room *Room) SendRoom() {
 		Users: room.Users,
 		Teams: room.Teams,
 		Master: room.Master,
-		Scores: room.Scores,
-		TeamScores: room.TeamScores,
+		SG: room.SG,
 		Buttons: room.Buttons,
 	}
 	room.Broadcast("room", roomSend)
@@ -28,16 +26,14 @@ func (room *Room) SendUsers() {
 type TeamsSend struct {
 	Teams Teams `json:"teams"`
 	Master int64 `json:"master"`
-	Scores Scores `json:"scores"`
-	TeamScores Scores `json:"teamScores"`
+	SG *ScoreGroup `json:"sg"`
 }
 
 func (room *Room) SendTeams() {
 	teamsSend := TeamsSend{
 		Teams: room.Teams,
 		Master: room.Master,
-		Scores: room.Scores,
-		TeamScores: room.TeamScores,
+		SG: room.SG,
 	}
 	room.Broadcast("teams", teamsSend)
 }
@@ -74,29 +70,21 @@ func (room *Room) SendButtons() {
 	room.Broadcast("buttons", room.Buttons)
 }
 
-type ScoresSend struct {
-	Scores Scores `json:"scores"`
-	TeamScores Scores `json:"teamScores"`
-}
-
 func (room *Room) SendScores() {
-	scoresSend := ScoresSend{
-		Scores: room.Scores.Clone(),
-		TeamScores: room.TeamScores.Clone(),
-	}
-	room.SendToMaster("scores", scoresSend)
+	sg := room.SG.Clone()
+	room.SendToMaster("sg", sg)
 
 	if !room.Rule.ShowPoint {
-		for _, score := range scoresSend.Scores {
-			score.Point = 0
-			score.Batsu = 0
+		for _, player := range sg.Player {
+			player.Point = 0
+			player.Batsu = 0
 		}
-		for _, teamScore := range scoresSend.TeamScores {
-			teamScore.Point = 0
-			teamScore.Batsu = 0
+		for _, team := range sg.Team {
+			team.Point = 0
+			team.Batsu = 0
 		}
 	}
-	room.SendToPlayers("scores", scoresSend)
+	room.SendToPlayers("sg", sg)
 }
 
 func (room *Room) SendRule() {
