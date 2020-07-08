@@ -1,18 +1,23 @@
 package main
 
-func (score *Score) CanPush() bool {
-	return score.Lock == 0 && score.Win == 0 && score.Lose == 0
+func (scores Scores) CanPush(id int64) bool {
+	if score, ok := scores[id]; ok {
+		return score.Lock == 0 && score.Win == 0 && score.Lose == 0
+	} else {
+		return false
+	}
 }
 
 func (scores Scores) SetCorrect(id int64, rule *Rule) {
-	score := scores[id]
-	score.Point += rule.Player.PointCorrect
-	if (rule.Player.BonusCorrect == "cons") {
-		score.Point += score.Cons
-		score.Cons += 1
-		for otherId, otherScore := range scores {
-			if otherId != id {
-				otherScore.Cons = 0
+	if score, ok := scores[id]; ok {
+		score.Point += rule.Player.PointCorrect
+		if (rule.Player.BonusCorrect == "cons") {
+			score.Point += score.Cons
+			score.Cons += 1
+			for otherId, otherScore := range scores {
+				if otherId != id {
+					otherScore.Cons = 0
+				}
 			}
 		}
 	}
@@ -38,14 +43,14 @@ func (scores Scores) SetWin(rule WinLoseRule, winLose *WinLoseInfo) (win bool) {
 }
 
 func (scores Scores) SetWrong(id int64, rule *Rule) {
-	score := scores[id]
-	score.Point += rule.Player.PointWrong
-	score.Batsu += rule.Player.BatsuWrong
-	score.Lock = rule.Player.LockWrong
-	if (rule.Player.BonusCorrect == "cons") {
-		score.Cons = 0
+	if score, ok := scores[id]; ok {
+		score.Point += rule.Player.PointWrong
+		score.Batsu += rule.Player.BatsuWrong
+		score.Lock = rule.Player.LockWrong
+		if (rule.Player.BonusCorrect == "cons") {
+			score.Cons = 0
+		}
 	}
-	return
 }
 
 func (scores Scores) SetLose(rule WinLoseRule, winLose *WinLoseInfo) (lose bool) {

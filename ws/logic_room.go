@@ -115,8 +115,8 @@ func (room *Room) Pushed(user *User) bool {
 
 func (room *Room) PushButton(id int64, time int64, sound *Sound) {
 	user := room.Users[id]
-	if !room.Pushed(user) && room.SG.Player[id].CanPush() &&
-		(!room.Rule.Team.Active || room.SG.Team[user.Team.ID].CanPush()) {
+	if !room.Pushed(user) && room.SG.Player.CanPush(id) &&
+		(!room.Rule.Team.Active || room.SG.Team.CanPush(user.Team.ID)) {
 		sound.Push = room.Buttons.AllAnswered()
 		room.Buttons.Push(id, time)
 		room.SendButtons()
@@ -141,18 +141,18 @@ func (room *Room) Correct(sound *Sound) {
 func (room *Room) NumCanAnswer() int {
 	r := 0
 	for _, team := range room.Teams {
-		if room.Rule.Team.Active && !room.SG.Team[team.ID].CanPush() {
+		if room.Rule.Team.Active && !room.SG.Team.CanPush(team.ID) {
 			continue
 		}
 		if room.Rule.Team.ShareButton {
 			if Int64Any(team.Players, func (id int64) bool {
-				return !room.Buttons.Answered(id) && room.SG.Player[id].CanPush()
+				return !room.Buttons.Answered(id) && room.SG.Player.CanPush(id)
 			}) {
 				r += 1
 			}
 		} else {
 			for _, id := range team.Players {
-				if !room.Buttons.Answered(id) && room.SG.Player[id].CanPush() {
+				if !room.Buttons.Answered(id) && room.SG.Player.CanPush(id) {
 					r += 1
 				}
 			}
@@ -257,12 +257,7 @@ func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 
 func (room *Room) AllClear() {
 	room.ResetButtons()
-	for _, score := range room.SG.Player {
-		score.Reset()
-	}
-	for _, teamScore := range room.SG.Team {
-		teamScore.Reset()
-	}
+	room.SG.Reset()
 	room.WinLose.Reset()
 	room.AddHistory()
 }

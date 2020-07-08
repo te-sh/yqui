@@ -49,6 +49,15 @@ func (scores Scores) Clone() Scores {
 	return clone
 }
 
+func (sg *ScoreGroup) Reset() {
+	for _, score := range sg.Player {
+		score.Reset()
+	}
+	for _, score := range sg.Team {
+		score.Reset()
+	}
+}
+
 func (score *Score) Reset() {
 	score.Point = 0
 	score.Batsu = 0
