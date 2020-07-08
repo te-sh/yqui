@@ -22,7 +22,7 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
-	room.SG.Player.Add(id)
+	room.SG.Player.Remove(id)
 	delete(room.Boards, id)
 	if (room.Master == id) {
 		room.Master = -1

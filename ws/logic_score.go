@@ -1,6 +1,6 @@
 package main
 
-func (ss ScoreSet) CanPush(id int64) bool {
+func (ss *ScoreSet) CanPush(id int64) bool {
 	if score, ok := ss.Scores[id]; ok {
 		return score.Lock == 0 && score.Win == 0 && score.Lose == 0
 	} else {
@@ -8,7 +8,7 @@ func (ss ScoreSet) CanPush(id int64) bool {
 	}
 }
 
-func (ss ScoreSet) SetCorrect(id int64, rule *Rule) {
+func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		score.Point += rule.Player.PointCorrect
 		if (rule.Player.BonusCorrect == "cons") {
@@ -23,7 +23,7 @@ func (ss ScoreSet) SetCorrect(id int64, rule *Rule) {
 	}
 }
 
-func (ss ScoreSet) SetWin(rule WinLoseRule) (win bool) {
+func (ss *ScoreSet) SetWin(rule WinLoseRule) (win bool) {
 	var wins []int64
 	for id, score := range ss.Scores {
 		if score.Win == 0 &&
@@ -42,7 +42,7 @@ func (ss ScoreSet) SetWin(rule WinLoseRule) (win bool) {
 	return
 }
 
-func (ss ScoreSet) SetWrong(id int64, rule *Rule) {
+func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		score.Point += rule.Player.PointWrong
 		score.Batsu += rule.Player.BatsuWrong
@@ -53,7 +53,7 @@ func (ss ScoreSet) SetWrong(id int64, rule *Rule) {
 	}
 }
 
-func (ss ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
+func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 	var loses []int64
 	for id, score := range ss.Scores {
 		if (score.Lose == 0 &&
@@ -73,19 +73,19 @@ func (ss ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 	return
 }
 
-func (ss ScoreSet) Correct(id int64, rule *Rule, sound *Sound) {
+func (ss *ScoreSet) Correct(id int64, rule *Rule, sound *Sound) {
 	ss.SetCorrect(id, rule)
 	sound.Win = ss.SetWin(rule.Player.WinLoseRule)
 	return
 }
 
-func (ss ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
+func (ss *ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
 	ss.SetWrong(id, rule)
 	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
 	return
 }
 
-func (ss ScoreSet) DecreaseLock(buttons *Buttons) {
+func (ss *ScoreSet) DecreaseLock(buttons *Buttons) {
 	for id, score := range ss.Scores {
 		if !buttons.Answered(id) && score.Lock > 0 {
 			score.Lock -= 1
@@ -93,7 +93,7 @@ func (ss ScoreSet) DecreaseLock(buttons *Buttons) {
 	}
 }
 
-func (ss ScoreSet) SetTeam(teams Teams) {
+func (ss *ScoreSet) SetTeam(teams Teams) {
 	newScores := make(Scores)
 	for _, team := range teams {
 		if score, ok := ss.Scores[team.ID]; ok {
@@ -105,7 +105,7 @@ func (ss ScoreSet) SetTeam(teams Teams) {
 	ss.Scores = newScores
 }
 
-func (ss ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound *Sound) {
+func (ss *ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound *Sound) {
 	if !rule.Team.Active {
 		return
 	}
@@ -151,7 +151,7 @@ func (ss ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound *
 	return
 }
 
-func (ss ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
+func (ss *ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
 	for _, id := range ids {
 		score := ss.Scores[id]
 		score.Point += rule.Board.PointCorrect
@@ -164,7 +164,7 @@ func (ss ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *Sou
 	return
 }
 
-func (ss ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
+func (ss *ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
 	for _, id := range ids {
 		if rule.Board.ApplyNormal && id == first {
 			ss.SetWrong(first, rule)
