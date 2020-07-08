@@ -6,8 +6,8 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.Users[id] = user
 	room.AddPlayerToDefaultTeam(id)
 	room.Boards[id] = NewBoard(id)
-	room.Scores[id] = NewScore()
-	room.History.Items[room.History.Curr].Scores[id] = NewScore()
+	room.ScoreSet.Scores[id] = NewScore()
+	room.History.Items[room.History.Curr].ScoreSet.Scores[id] = NewScore()
 
 	room.SendToOne(id, "selfID", id)
 	room.SendToOne(id, "rule", room.Rule)
@@ -22,7 +22,7 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
-	delete(room.Scores, id)
+	delete(room.ScoreSet.Scores, id)
 	delete(room.Boards, id)
 	if (room.Master == id) {
 		room.Master = -1
@@ -50,7 +50,7 @@ func (room *Room) AddPlayerToDefaultTeam(id int64) {
 		team := NewTeam()
 		team.ID = NewID()
 		room.Teams = append(room.Teams, team)
-		room.TeamScores[team.ID] = NewScore()
+		room.TeamScoreSet.Scores[team.ID] = NewScore()
 	}
 	if len(room.Teams) == 1 {
 		room.Teams[0].AddPlayer(id)
@@ -64,7 +64,7 @@ func (room *Room) RemovePlayerFromTeam(id int64) {
 		user.Team.RemovePlayer(id)
 		if len(user.Team.Players) == 0 {
 			room.Teams = room.Teams.Removed(user.Team)
-			delete(room.TeamScores, user.Team.ID)
+			delete(room.TeamScoreSet.Scores, user.Team.ID)
 		}
 	}
 }
@@ -84,13 +84,13 @@ func (room *Room) ChangeTeams() {
 				room.Master = -1
 			}
 		}
-		if teamScore, ok := room.TeamScores[team.ID]; ok {
+		if teamScore, ok := room.TeamScoreSet.Scores[team.ID]; ok {
 			newTeamScores[team.ID] = teamScore
 		} else {
 			newTeamScores[team.ID] = NewScore()
 		}
 	}
-	room.TeamScores = newTeamScores
+	room.TeamScoreSet.Scores = newTeamScores
 	room.SendTeams()
 }
 
@@ -115,8 +115,8 @@ func (room *Room) Pushed(user *User) bool {
 
 func (room *Room) PushButton(id int64, time int64, sound *Sound) {
 	user := room.Users[id]
-	if !room.Pushed(user) && room.Scores[id].CanPush() &&
-		(!room.Rule.Team.Active || room.TeamScores[user.Team.ID].CanPush()) {
+	if !room.Pushed(user) && room.ScoreSet.Scores[id].CanPush() &&
+		(!room.Rule.Team.Active || room.TeamScoreSet.Scores[user.Team.ID].CanPush()) {
 		sound.Push = room.Buttons.AllAnswered()
 		room.Buttons.Push(id, time)
 		room.SendButtons()
@@ -131,8 +131,8 @@ func (room *Room) Correct(sound *Sound) {
 	}
 
 	rule := room.Rule
-	room.Scores.Correct(id, rule, room.WinLoseSet.Player, sound)
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLoseSet.Team, sound)
+	room.ScoreSet.Correct(id, rule, room.WinLoseSet.Player, sound)
+	room.TeamScoreSet.CalcTeam(room.Teams, room.ScoreSet.Scores, rule, room.WinLoseSet.Team, sound)
 
 	room.NextQuiz()
 	room.AddHistory()
@@ -141,18 +141,18 @@ func (room *Room) Correct(sound *Sound) {
 func (room *Room) NumCanAnswer() int {
 	r := 0
 	for _, team := range room.Teams {
-		if room.Rule.Team.Active && !room.TeamScores[team.ID].CanPush() {
+		if room.Rule.Team.Active && !room.TeamScoreSet.Scores[team.ID].CanPush() {
 			continue
 		}
 		if room.Rule.Team.ShareButton {
 			if Int64Any(team.Players, func (id int64) bool {
-				return !room.Buttons.Answered(id) && room.Scores[id].CanPush()
+				return !room.Buttons.Answered(id) && room.ScoreSet.Scores[id].CanPush()
 			}) {
 				r += 1
 			}
 		} else {
 			for _, id := range team.Players {
-				if !room.Buttons.Answered(id) && room.Scores[id].CanPush() {
+				if !room.Buttons.Answered(id) && room.ScoreSet.Scores[id].CanPush() {
 					r += 1
 				}
 			}
@@ -173,8 +173,8 @@ func (room *Room) Wrong(sound *Sound) {
 	}
 
 	rule := room.Rule
-	room.Scores.Wrong(id, rule, room.WinLoseSet.Player, sound)
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, rule, room.WinLoseSet.Team, sound)
+	room.ScoreSet.Wrong(id, rule, room.WinLoseSet.Player, sound)
+	room.TeamScoreSet.CalcTeam(room.Teams, room.ScoreSet.Scores, rule, room.WinLoseSet.Team, sound)
 
 	buttons.Answer(id)
 	if room.NoCanAnswer() {
@@ -186,13 +186,13 @@ func (room *Room) Wrong(sound *Sound) {
 }
 
 func (room *Room) NextQuiz() {
-	for id := range room.Scores {
-		score := room.Scores[id]
+	for id := range room.ScoreSet.Scores {
+		score := room.ScoreSet.Scores[id]
 		if !room.Buttons.Answered(id) && score.Lock > 0 {
 			score.Lock -= 1
 		}
 	}
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLoseSet.Team, nil)
+	room.TeamScoreSet.CalcTeam(room.Teams, room.ScoreSet.Scores, room.Rule, room.WinLoseSet.Team, nil)
 	room.ResetButtons()
 }
 
@@ -215,12 +215,12 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	sound.Open = room.Boards.Opens(newBoards)
 
 	if corrects := room.Boards.Corrects(newBoards); len(corrects) > 0 {
-		room.Scores.CorrectBoard(corrects, first, room.Rule, room.WinLoseSet.Player, sound)
+		room.ScoreSet.CorrectBoard(corrects, first, room.Rule, room.WinLoseSet.Player, sound)
 	}
 	if wrongs := room.Boards.Wrongs(newBoards); len(wrongs) > 0 {
-		room.Scores.WrongBoard(wrongs, first, room.Rule, room.WinLoseSet.Player, sound)
+		room.ScoreSet.WrongBoard(wrongs, first, room.Rule, room.WinLoseSet.Player, sound)
 	}
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLoseSet.Team, sound)
+	room.TeamScoreSet.CalcTeam(room.Teams, room.ScoreSet.Scores, room.Rule, room.WinLoseSet.Team, sound)
 
 	if sound.Correct || sound.Wrong {
 		room.AddHistory()
@@ -238,12 +238,12 @@ func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 
 	id := newBoard.ID
 	if room.Boards.Correct(newBoard) {
-		room.Scores.CorrectBoard([]int64{id}, first, room.Rule, room.WinLoseSet.Player, sound)
+		room.ScoreSet.CorrectBoard([]int64{id}, first, room.Rule, room.WinLoseSet.Player, sound)
 	}
 	if room.Boards.Wrong(newBoard) {
-		room.Scores.WrongBoard([]int64{id}, first, room.Rule, room.WinLoseSet.Player, sound)
+		room.ScoreSet.WrongBoard([]int64{id}, first, room.Rule, room.WinLoseSet.Player, sound)
 	}
-	room.TeamScores.CalcTeam(room.Teams, room.Scores, room.Rule, room.WinLoseSet.Team, sound)
+	room.TeamScoreSet.CalcTeam(room.Teams, room.ScoreSet.Scores, room.Rule, room.WinLoseSet.Team, sound)
 
 	if sound.Correct || sound.Wrong {
 		room.AddHistory()
@@ -257,10 +257,10 @@ func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 
 func (room *Room) AllClear() {
 	room.ResetButtons()
-	for _, score := range room.Scores {
+	for _, score := range room.ScoreSet.Scores {
 		score.Reset()
 	}
-	for _, teamScore := range room.TeamScores {
+	for _, teamScore := range room.TeamScoreSet.Scores {
 		teamScore.Reset()
 	}
 	room.WinLoseSet.Reset()
@@ -268,11 +268,11 @@ func (room *Room) AllClear() {
 }
 
 func (room *Room) AddHistory() {
-	room.History.AddHistory(room.Scores, room.TeamScores, room.WinLoseSet)
+	room.History.AddHistory(room.ScoreSet, room.TeamScoreSet, room.WinLoseSet)
 	room.SendScores()
 }
 
 func (room *Room) MoveHistory(d int) {
-	room.History.MoveHistory(d, room.Scores, room.TeamScores, room.WinLoseSet)
+	room.History.MoveHistory(d, room.ScoreSet, room.TeamScoreSet, room.WinLoseSet)
 	room.SendScores()
 }
