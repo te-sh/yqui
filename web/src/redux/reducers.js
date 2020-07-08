@@ -2,7 +2,7 @@ import update from 'immutability-helper'
 import {
   RESET, SET_WEB_SOCKET, RECV_ROOMS, RECV_JOINED,
   RECV_SELF_ID, RECV_ROOM, RECV_USERS, RECV_TEAMS,
-  RECV_BOARDS, RECV_BOARD_LOCK, RECV_BOARD, RECV_SCORES,
+  RECV_BOARDS, RECV_BOARD_LOCK, RECV_BOARD, RECV_SG,
   RECV_BUTTONS, RECV_RULE, RECV_CHAT, SET_EDIT_TEAMS
 } from './actions'
 import {
@@ -20,8 +20,14 @@ export const initialState = {
   master: -1,
   boards: {},
   boardLock: false,
-  scores: {},
-  teamScores: {},
+  sg: {
+    player: {
+      scores: {}
+    },
+    team: {
+      scores: {}
+    }
+  },
   buttons: {
     pushers: [],
     pusherTimes: [],
@@ -94,8 +100,7 @@ const yquiApp = (state = initialState, action) => {
       users: { $set: action.room.users },
       teams: { $set: teams },
       master: { $set: action.room.master },
-      scores: { $set: action.room.scores },
-      teamScores: { $set: action.room.teamScores },
+      sg: { $set: action.room.sg },
       buttons: { $set: buttons },
       isMaster: { $set: isMaster(state.selfID, action.room.master) },
       isPlayer: { $set: isPlayer(state.selfID, teams) },
@@ -110,8 +115,7 @@ const yquiApp = (state = initialState, action) => {
     return update(state, {
       teams: { $set: teams },
       master: { $set: action.teams.master },
-      scores: { $set: action.teams.scores },
-      teamScores: { $set: action.teams.teamScores },
+      sg: { $set: action.teams.sg },
       isMaster: { $set: isMaster(state.selfID, action.teams.master) },
       isPlayer: { $set: isPlayer(state.selfID, teams) }
     })
@@ -127,10 +131,9 @@ const yquiApp = (state = initialState, action) => {
     return update(state, {
       boardLock: { $set: action.boardLock }
     })
-  case RECV_SCORES:
+  case RECV_SG:
     return update(state, {
-      scores: { $set: action.scores.scores },
-      teamScores: { $set: action.scores.teamScores }
+      sg: { $set: action.sg }
     })
   case RECV_BUTTONS:
     normalizeButtons(action.buttons)

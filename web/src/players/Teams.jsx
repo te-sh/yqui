@@ -9,7 +9,7 @@ import PlayerPoint from './PlayerPoint'
 import PlayerStatus from './PlayerStatus'
 import './Teams.scss'
 
-const Teams = ({ className, ws, teams, teamScores }) => {
+const Teams = ({ className, ws, teams, sg }) => {
   const updateTeam = (team, teamIndex) => {
     const newTeams = update(teams, {
       [teamIndex]: { $set: team }
@@ -20,7 +20,7 @@ const Teams = ({ className, ws, teams, teamScores }) => {
   const multiTeamClass = { 'multi-team': teams.length > 1 }
 
   const list = teams.map((team, index) => {
-    let teamScore = teamScores[team.id]
+    let teamScore = sg.team.scores[team.id]
 
     return (
       <Box key={team.id}
@@ -51,6 +51,6 @@ export default connect(
   state => ({
     ws: state.ws,
     teams: state.teams,
-    teamScores: state.teamScores
+    sg: state.sg
   })
 )(Teams)

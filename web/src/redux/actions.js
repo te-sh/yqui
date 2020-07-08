@@ -9,7 +9,7 @@ export const RECV_TEAMS = 'RECV_TEAMS'
 export const RECV_BOARDS = 'RECV_BOARDS'
 export const RECV_BOARD_LOCK = 'RECV_BOARD_LOCK'
 export const RECV_BOARD = 'RECV_BOARD'
-export const RECV_SCORES = 'RECV_SCORES'
+export const RECV_SG = 'RECV_SG'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_RULE = 'RECV_RULE'
 export const RECV_CHAT = 'RECV_CHAT'
@@ -59,8 +59,8 @@ export const recvBoardLock = boardLock => {
   return { type: RECV_BOARD_LOCK, boardLock }
 }
 
-export const recvScores = scores => {
-  return { type: RECV_SCORES, scores }
+export const recvSg = sg => {
+  return { type: RECV_SG, sg }
 }
 
 export const recvButtons = buttons => {

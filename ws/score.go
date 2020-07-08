@@ -1,13 +1,13 @@
 package main
 
 type ScoreGroup struct {
-	Player *ScoreSet
-	Team *ScoreSet
+	Player *ScoreSet `json:"player"`
+	Team *ScoreSet `json:"team"`
 }
 
 type ScoreSet struct {
-	Scores Scores
-	WinLose *WinLose
+	Scores Scores `json:"scores"`
+	WinLose *WinLose `json:"-"`
 }
 
 type Scores map[int64]*Score
