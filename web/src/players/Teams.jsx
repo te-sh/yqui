@@ -9,7 +9,7 @@ import PlayerPoint from './PlayerPoint'
 import PlayerStatus from './PlayerStatus'
 import './Teams.scss'
 
-const Teams = ({ className, ws, teams, sg }) => {
+const Teams = ({ className, ws, teams, sg, rule }) => {
   const updateTeam = (team, teamIndex) => {
     const newTeams = update(teams, {
       [teamIndex]: { $set: team }
@@ -17,7 +17,7 @@ const Teams = ({ className, ws, teams, sg }) => {
     send.teams(ws, newTeams)
   }
 
-  const multiTeamClass = { 'multi-team': teams.length > 1 }
+  const multiTeamClass = { 'multi-team': rule.team.active }
 
   const list = teams.map((team, index) => {
     let teamScore = sg.team.scores[team.id]
@@ -25,7 +25,7 @@ const Teams = ({ className, ws, teams, sg }) => {
     return (
       <Box key={team.id}
            className={classNames('team', multiTeamClass)}>
-        <Box className="team-point" hidden={teams.length <= 1}>
+        <Box className="team-point" hidden={!rule.team.active}>
           <Typography align="center">
             チーム得点
           </Typography>
@@ -51,6 +51,7 @@ export default connect(
   state => ({
     ws: state.ws,
     teams: state.teams,
-    sg: state.sg
+    sg: state.sg,
+    rule: state.rule
   })
 )(Teams)

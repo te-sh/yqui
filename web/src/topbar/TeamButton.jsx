@@ -5,7 +5,7 @@ import { SupervisorAccount } from '@material-ui/icons'
 import { setEditTeams } from '../redux/actions'
 import { teamsToEditTeams } from '../team'
 
-const TeamButton = ({ users, teams, master, isMaster, editTeams, setEditTeams }) => {
+const TeamButton = ({ users, teams, master, isMaster, rule, editTeams, setEditTeams }) => {
   const teamEdit = () => {
     setEditTeams(teamsToEditTeams(users, teams, master))
   }
@@ -15,7 +15,7 @@ const TeamButton = ({ users, teams, master, isMaster, editTeams, setEditTeams })
       <Tooltip title="チーム">
         <span>
           <IconButton color="inherit"
-                      disabled={!isMaster || !!editTeams}
+                      disabled={!isMaster || !rule.team.active || !!editTeams}
                       onClick={teamEdit}>
             <SupervisorAccount />
           </IconButton>
@@ -31,6 +31,7 @@ export default connect(
     teams: state.teams,
     master: state.master,
     isMaster: state.isMaster,
+    rule: state.rule,
     editTeams: state.editTeams
   }),
   dispatch => ({
