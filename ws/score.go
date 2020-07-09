@@ -68,11 +68,11 @@ func (ss *ScoreSet) Clone() *ScoreSet {
 }
 
 func (scores Scores) Clone() Scores {
-	clone := make(Scores)
+	newScores := make(Scores)
 	for id, score := range scores {
-		clone[id] = score.Clone()
+		newScores[id] = score.Clone()
 	}
-	return clone
+	return newScores
 }
 
 func (score *Score) Clone() *Score {
