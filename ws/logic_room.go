@@ -213,9 +213,10 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 
 	if sound.Correct || sound.Wrong {
 		room.AddHistory()
+	} else {
+		room.SendScores()
 	}
 
-	room.SendScores()
 	room.Boards = newBoards
 	room.SendBoards()
 }
@@ -235,9 +236,10 @@ func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 
 	if sound.Correct || sound.Wrong {
 		room.AddHistory()
+	} else {
+		room.SendScores()
 	}
 
-	room.SendScores()
 	room.Boards[id] = newBoard
 	room.SendBoard(id)
 }
