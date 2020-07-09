@@ -76,13 +76,11 @@ func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 func (ss *ScoreSet) Correct(id int64, rule *Rule, sound *Sound) {
 	ss.SetCorrect(id, rule)
 	sound.Win = ss.SetWin(rule.Player.WinLoseRule)
-	return
 }
 
 func (ss *ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
 	ss.SetWrong(id, rule)
 	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
-	return
 }
 
 func (ss *ScoreSet) DecreaseLock(buttons *Buttons) {
@@ -148,7 +146,6 @@ func (ss *ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound 
 		sound.Win = sound.Win || ss.SetWin(rule.Team.WinLoseRule)
 		sound.Lose = sound.Lose || ss.SetLose(rule.Team.WinLoseRule)
 	}
-	return
 }
 
 func (ss *ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
@@ -161,7 +158,6 @@ func (ss *ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *So
 		}
 	}
 	sound.Win = ss.SetWin(rule.Player.WinLoseRule)
-	return
 }
 
 func (ss *ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
@@ -172,5 +168,4 @@ func (ss *ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Soun
 		}
 	}
 	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
-	return
 }
