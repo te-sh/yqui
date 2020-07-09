@@ -37,7 +37,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 
 	if len(room.Users) == 0 {
 		room.Rule = NewRule()
-		room.WinLose = NewWinLose()
+		room.SG = NewScoreGroup()
 	}
 
 	room.SendRoom()
@@ -245,16 +245,15 @@ func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 func (room *Room) AllClear() {
 	room.ResetButtons()
 	room.SG.Reset()
-	room.WinLose.Reset()
 	room.AddHistory()
 }
 
 func (room *Room) AddHistory() {
-	room.History.AddHistory(room.SG, room.WinLose)
+	room.History.AddHistory(room.SG)
 	room.SendScores()
 }
 
 func (room *Room) MoveHistory(d int) {
-	room.History.MoveHistory(d, room.SG, room.WinLose)
+	room.History.MoveHistory(d, room.SG)
 	room.SendScores()
 }

@@ -25,7 +25,7 @@ func NewHistoryItem() *HistoryItem {
 }
 
 
-func (history *History) AddHistory(sg *ScoreGroup, winLose *WinLose) {
+func (history *History) AddHistory(sg *ScoreGroup) {
 	history.Items = history.Items[:history.Curr + 1]
 
 	item := NewHistoryItem()
@@ -40,7 +40,7 @@ func (history *History) AddHistory(sg *ScoreGroup, winLose *WinLose) {
 	}
 }
 
-func (history *History) MoveHistory(d int, sg *ScoreGroup, winLose *WinLose) {
+func (history *History) MoveHistory(d int, sg *ScoreGroup) {
 	i := history.Curr + d
 	if i < 0 || i >= len(history.Items) {
 		return
