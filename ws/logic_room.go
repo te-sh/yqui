@@ -7,7 +7,6 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.AddPlayerToDefaultTeam(id)
 	room.Boards[id] = NewBoard(id)
 	room.SG.Player.Add(id)
-	room.History.Items[room.History.Curr].SG.Player.Add(id)
 
 	room.SendToOne(id, "selfID", id)
 	room.SendToOne(id, "rule", room.Rule)
@@ -251,11 +250,11 @@ func (room *Room) AllClear() {
 }
 
 func (room *Room) AddHistory() {
-	room.History.AddHistory(room.SG)
+	room.History.Add(room.SG)
 	room.SendScores()
 }
 
 func (room *Room) MoveHistory(d int) {
-	room.History.MoveHistory(d, room.SG)
+	room.History.Move(d, room.SG)
 	room.SendScores()
 }

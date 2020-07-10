@@ -146,9 +146,11 @@ func (ss *ScoreSet) Merge(newSS *ScoreSet) {
 }
 
 func (scores Scores) Merge(newScores Scores) {
-	for id, _ := range newScores {
-		if _, ok := scores[id]; ok {
+	for id, _ := range scores {
+		if _, ok := newScores[id]; ok {
 			scores[id] = newScores[id].Clone()
+		} else {
+			scores[id] = NewScore()
 		}
 	}
 }
