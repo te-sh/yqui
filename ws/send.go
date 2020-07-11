@@ -1,7 +1,7 @@
 package main
 
 type RoomSend struct {
-	Users map[int64]*User `json:"users"`
+	Users Users `json:"users"`
 	Teams Teams `json:"teams"`
 	Master int64 `json:"master"`
 	SG *ScoreGroup `json:"sg"`
@@ -21,21 +21,6 @@ func (room *Room) SendRoom() {
 
 func (room *Room) SendUsers() {
 	room.Broadcast("users", room.Users)
-}
-
-type TeamsSend struct {
-	Teams Teams `json:"teams"`
-	Master int64 `json:"master"`
-	SG *ScoreGroup `json:"sg"`
-}
-
-func (room *Room) SendTeams() {
-	teamsSend := TeamsSend{
-		Teams: room.Teams,
-		Master: room.Master,
-		SG: room.SG,
-	}
-	room.Broadcast("teams", teamsSend)
 }
 
 func (room *Room) SendBoards() {

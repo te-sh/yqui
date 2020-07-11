@@ -84,7 +84,7 @@ func (room *Room) ChangeTeams() {
 		}
 	}
 	room.SG.Team.SetTeam(room.Teams)
-	room.SendTeams()
+	room.SendRoom()
 }
 
 func (room *Room) ToggleMaster(id int64) {
@@ -95,7 +95,7 @@ func (room *Room) ToggleMaster(id int64) {
 		room.Master = id
 		room.RemovePlayerFromTeam(id)
 	}
-	room.SendTeams()
+	room.SendRoom()
 }
 
 func (room *Room) Pushed(user *User) bool {

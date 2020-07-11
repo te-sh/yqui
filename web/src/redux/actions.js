@@ -5,7 +5,6 @@ export const RECV_JOINED = 'RECV_JOINED'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
 export const RECV_USERS = 'RECV_USERS'
-export const RECV_TEAMS = 'RECV_TEAMS'
 export const RECV_BOARDS = 'RECV_BOARDS'
 export const RECV_BOARD_LOCK = 'RECV_BOARD_LOCK'
 export const RECV_BOARD = 'RECV_BOARD'
@@ -41,10 +40,6 @@ export const recvRoom = room => {
 
 export const recvUsers = users => {
   return { type: RECV_USERS, users }
-}
-
-export const recvTeams = teams => {
-  return { type: RECV_TEAMS, teams }
 }
 
 export const recvBoards = boards => {
