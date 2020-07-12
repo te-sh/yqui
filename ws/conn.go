@@ -89,24 +89,26 @@ func (conn *Conn) SendJoined(roomNo int) {
 
 func (room *Room) Broadcast(typ string, cnt interface {}) {
 	msg := Message{Type: typ, Content: cnt}
-	for id := range room.Users {
-		room.Users[id].Conn.Message <- msg
+	for _, user := range room.Users {
+		user.Conn.Message <- msg
 	}
 	LogJson("write", msg)
 }
 
 func (room *Room) SendToOne(id int64, typ string, cnt interface {}) {
 	msg := Message{Type: typ, Content: cnt}
-	room.Users[id].Conn.Message <- msg
+	if user, ok := room.Users[id]; ok {
+		user.Conn.Message <- msg
+	}
 	LogJson("write", msg)
 }
 
 func (room *Room) SendToMaster(typ string, cnt interface {}) {
+	msg := Message{Type: typ, Content: cnt}
 	if id := room.Master; id != -1 {
-		msg := Message{Type: typ, Content: cnt}
 		room.Users[id].Conn.Message <- msg
-		LogJson("write", msg)
 	}
+	LogJson("write", msg)
 }
 
 func (room *Room) SendToPlayers(typ string, cnt interface {}) {
