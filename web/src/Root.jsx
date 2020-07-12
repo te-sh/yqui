@@ -4,9 +4,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import URI from 'urijs'
 import {
   reset, setWebSocket, recvRooms, recvJoined,
-  recvSelfID, recvRoom, recvUsers, recvBoards,
-  recvBoardLock, recvBoard, recvSg, recvButtons,
-  recvRule, recvChat
+  recvSelfID, recvRoom, recvBoards, recvBoardLock,
+  recvBoard, recvSg, recvButtons, recvRule, recvChat
 } from './redux/actions'
 import playSound from './sound'
 import Rooms from './rooms/Rooms'
@@ -65,7 +64,6 @@ export default connect(
       joined: roomNo => dispatch(recvJoined(roomNo)),
       selfID: selfID => dispatch(recvSelfID(selfID)),
       room: room => dispatch(recvRoom(room)),
-      users: users => dispatch(recvUsers(users)),
       boards: boards => dispatch(recvBoards(boards)),
       board: board => dispatch(recvBoard(board)),
       boardLock: boardLock => dispatch(recvBoardLock(boardLock)),

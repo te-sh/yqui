@@ -19,10 +19,6 @@ func (room *Room) SendRoom() {
 	room.Broadcast("room", roomSend)
 }
 
-func (room *Room) SendUsers() {
-	room.Broadcast("users", room.Users)
-}
-
 func (room *Room) SendBoards() {
 	for id, _ := range room.Boards {
 		boards := make(Boards)
