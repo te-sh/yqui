@@ -1,5 +1,7 @@
 package main
 
+type Boards map[int64]*Board
+
 type Board struct {
 	ID int64 `json:"id"`
 	Text string `json:"text"`
@@ -15,8 +17,6 @@ func NewBoard(id int64) *Board {
 	board.Open = false
 	return board
 }
-
-type Boards map[int64]*Board
 
 func (boards Boards) Opens(newBoards Boards) bool {
 	open := false
