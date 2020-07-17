@@ -12,8 +12,8 @@ func LogInit() {
 	if os.Getenv("YQUI_ENV") == "prod" {
 		log.SetOutput(&lumberjack.Logger{
 			Filename:   "./log/yqui.log",
-			MaxSize:    100,
-			MaxBackups: 5,
+			MaxSize:    10,
+			MaxBackups: 10,
 			Compress:   true,
 		})
 	}

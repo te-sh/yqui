@@ -2,10 +2,15 @@ FROM golang:1.14.4-alpine3.12
 
 WORKDIR /app
 
-RUN apk add git \
+RUN apk update \
+ && apk upgrade \
+ && apk add git tzdata \
+ && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
  && go get gopkg.in/natefinch/lumberjack.v2 \
  && go get github.com/gorilla/websocket \
- && go get github.com/oxequa/realize
+ && go get github.com/oxequa/realize \
+ && apk del git tzdata \
+ && rm -rf /var/cache/apk/*
 
 ENV YQUI_ENV dev
 
