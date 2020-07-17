@@ -1,6 +1,10 @@
 package main
 
 func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
+	if _, ok := room.Users[id]; ok {
+		return
+	}
+
 	user := NewUser(id, conn, name)
 
 	room.Users[id] = user
