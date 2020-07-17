@@ -1,5 +1,9 @@
 package main
 
+func (room *Room) SendSelfID(id int64) {
+	room.SendToOne(id, "selfID", id)
+}
+
 type RoomSend struct {
 	Users Users `json:"users"`
 	Teams Teams `json:"teams"`
@@ -64,4 +68,16 @@ func (room *Room) SendScores() {
 func (room *Room) SendRule() {
 	room.SendScores()
 	room.Broadcast("rule", room.Rule)
+}
+
+func (room *Room) SendChat(chat Chat) {
+	room.Broadcast("chat", chat)
+}
+
+
+func (room *Room) SendSound(sound *Sound) {
+	sounds := sound.MakeSounds()
+	if sounds != "" {
+		room.Broadcast("sound", sounds)
+	}
 }

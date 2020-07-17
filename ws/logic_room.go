@@ -12,14 +12,13 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.Boards[id] = NewBoard(id)
 	room.SG.Player.Add(id)
 
-	room.SendToOne(id, "selfID", id)
-	room.SendToOne(id, "rule", room.Rule)
-
+	room.SendSelfID(id)
+	room.SendRule()
 	room.SendBoards()
 	room.SendBoardLock()
 	room.SendRoom()
 	chat := Chat{Type: "join", Time: time, Name: name}
-	room.Broadcast("chat", chat)
+	room.SendChat(chat)
 }
 
 func (room *Room) LeaveUser(id int64, time int64) {
@@ -45,7 +44,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 
 	room.SendRoom()
 	chat := Chat{Type: "leave", Time: time, Name: user.Name}
-	room.Broadcast("chat", chat)
+	room.SendChat(chat)
 }
 
 func (room *Room) AddPlayerToDefaultTeam(id int64) {

@@ -73,13 +73,6 @@ func (room *Room) RunCommand(cmd Cmd) {
 		name := room.Users[cmd.ID].Name
 		chat := Chat{Type: "message", Time: cmd.Time, Name: name}
 		json.Unmarshal(cmd.A, &chat.Text)
-		room.Broadcast("chat", chat)
-	}
-}
-
-func (room *Room) SendSound(sound *Sound) {
-	sounds := sound.MakeSounds()
-	if sounds != "" {
-		room.Broadcast("sound", sounds)
+		room.SendChat(chat)
 	}
 }
