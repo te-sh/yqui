@@ -9,7 +9,6 @@ export const RECV_BOARD_LOCK = 'RECV_BOARD_LOCK'
 export const RECV_BOARD = 'RECV_BOARD'
 export const RECV_SG = 'RECV_SG'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
-export const RECV_RULE = 'RECV_RULE'
 export const RECV_CHAT = 'RECV_CHAT'
 export const SET_EDIT_TEAMS = 'SET_EDIT_TEAMS'
 
@@ -55,10 +54,6 @@ export const recvSg = sg => {
 
 export const recvButtons = buttons => {
   return { type: RECV_BUTTONS, buttons }
-}
-
-export const recvRule = rule => {
-  return { type: RECV_RULE, rule }
 }
 
 export const recvChat = chat => {

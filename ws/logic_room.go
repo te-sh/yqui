@@ -13,7 +13,6 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.SG.Player.Add(id)
 
 	room.SendSelfID(id)
-	room.SendRule()
 	room.SendBoards()
 	room.SendBoardLock()
 	room.SendRoom()

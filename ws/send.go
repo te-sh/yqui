@@ -10,6 +10,7 @@ type RoomSend struct {
 	Master int64 `json:"master"`
 	SG *ScoreGroup `json:"sg"`
 	Buttons *Buttons `json:"buttons"`
+	Rule *Rule `json:"rule"`
 }
 
 func (room *Room) SendRoom() {
@@ -19,6 +20,7 @@ func (room *Room) SendRoom() {
 		Master: room.Master,
 		SG: room.SG,
 		Buttons: room.Buttons,
+		Rule: room.Rule,
 	}
 	room.Broadcast("room", roomSend)
 }
@@ -63,11 +65,6 @@ func (room *Room) SendScores() {
 		sg.SetZero()
 	}
 	room.SendToPlayers("sg", sg)
-}
-
-func (room *Room) SendRule() {
-	room.SendScores()
-	room.Broadcast("rule", room.Rule)
 }
 
 func (room *Room) SendChat(chat Chat) {

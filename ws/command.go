@@ -66,7 +66,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendBoardLock()
 	case "l":
 		json.Unmarshal(cmd.A, &room.Rule)
-		room.SendRule()
+		room.SendRoom()
 	case "m":
 		room.ToggleMaster(cmd.ID)
 	case "c":
