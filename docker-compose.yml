@@ -7,6 +7,7 @@ services:
     image: te-sh/yqui-web
     volumes:
       - './web:/app'
+      - '/app/node_modules'
     stdin_open: true
   ws:
     build:
