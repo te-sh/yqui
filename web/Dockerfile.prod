@@ -1,8 +1,19 @@
-FROM node:14.5.0-alpine3.12
+FROM node:14.5.0-alpine3.12 AS builder
 
 WORKDIR /app
 
 ADD . ./
-RUN yarn install && yarn build && yarn global add serve
+RUN yarn install \
+ && yarn build \
+ && yarn cache clean
+
+FROM node:14.5.0-alpine3.12
+
+WORKDIR /app
+
+RUN yarn global add serve \
+ && yarn cache clean
+
+COPY --from=builder /app/build ./build
 
 CMD ["serve", "-s", "build"]

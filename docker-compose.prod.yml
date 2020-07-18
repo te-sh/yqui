@@ -6,8 +6,6 @@ services:
       context: './web'
       dockerfile: './Dockerfile.prod'
     image: te-sh/yqui-web-prod
-    volumes:
-      - '/app/node_modules'
   ws:
     build:
       context: './ws'
