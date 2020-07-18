@@ -1,4 +1,4 @@
-FROM golang:1.14.4-alpine3.12
+FROM golang:1.14.4-alpine3.12 AS builder
 
 WORKDIR /app
 
@@ -6,13 +6,25 @@ ADD . ./
 
 RUN apk update \
  && apk upgrade \
- && apk add git tzdata \
- && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
+ && apk add git \
  && go get gopkg.in/natefinch/lumberjack.v2 \
  && go get github.com/gorilla/websocket \
  && go build \
- && apk del git tzdata \
+ && apk del git \
  && rm -rf /var/cache/apk/*
+
+FROM alpine:3.12
+
+WORKDIR /app
+
+RUN apk update \
+ && apk upgrade \
+ && apk add tzdata \
+ && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
+ && apk del tzdata \
+ && rm -rf /var/cache/apk/*
+
+COPY --from=builder /app/app .
 
 ENV YQUI_ENV prod
 
