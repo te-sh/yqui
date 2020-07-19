@@ -18,6 +18,14 @@ func HandleMessage() {
 func (room *Room) RunCommand(cmd Cmd) {
 	sound := NewSound()
 	switch cmd.C {
+	case "user":
+		user := new(User)
+		json.Unmarshal(cmd.A, &user)
+		room.Users.Update(user)
+		room.SendRoom()
+	case "teams":
+		json.Unmarshal(cmd.A, &room.Teams)
+		room.ChangeTeams()
 	case "push":
 		room.PushButton(cmd.ID, cmd.Time, sound)
 		room.SendSound(sound)
@@ -43,14 +51,6 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.MoveHistory(-1)
 	case "redo":
 		room.MoveHistory(+1)
-	case "z":
-		user := new(User)
-		json.Unmarshal(cmd.A, &user)
-		room.Users.Update(user)
-		room.SendRoom()
-	case "p":
-		json.Unmarshal(cmd.A, &room.Teams)
-		room.ChangeTeams()
 	case "boards":
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)

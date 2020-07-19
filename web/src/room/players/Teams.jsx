@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Box, Paper, Typography } from '@material-ui/core'
 import update from 'immutability-helper'
-import { send } from '../../communicate'
+import { sendWs, SEND_TEAMS } from '../../communicate'
 import Players from './Players'
 import PlayerPoint from './PlayerPoint'
 import PlayerStatus from './PlayerStatus'
@@ -14,7 +14,7 @@ const Teams = ({ className, ws, teams, sg, rule }) => {
     const newTeams = update(teams, {
       [teamIndex]: { $set: team }
     })
-    send.teams(ws, newTeams)
+    sendWs(ws, SEND_TEAMS, newTeams)
   }
 
   const multiTeamClass = { 'multi-team': rule.team.active }

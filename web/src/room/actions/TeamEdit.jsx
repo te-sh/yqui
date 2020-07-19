@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper } from '@material-ui/core'
-import { send } from '../../communicate'
+import { sendWs, SEND_TEAMS } from '../../communicate'
 import { editTeamsToTeams } from '../../team'
 import { setEditTeams } from '../../redux/actions'
 import './Actions.scss'
 
 const TeamEdit = ({ className, ws, editTeams, setEditTeams }) => {
   const onSubmit = () => {
-    send.teams(ws, editTeamsToTeams(editTeams))
+    sendWs(ws, SEND_TEAMS, editTeamsToTeams(editTeams))
     close()
   }
 

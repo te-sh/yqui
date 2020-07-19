@@ -1,22 +1,7 @@
-const messages = {
-  boardLock: JSON.stringify({ c: 'k' })
-}
-
-export const send = {
-  user: (ws, user) => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'z', a: user }))
-    }
-  },
-  teams: (ws, teams) => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'p', a: teams }))
-    }
-  }
-}
-
 export const SEND_JOIN = 'join'
 export const SEND_LEAVE = 'leave'
+export const SEND_USER = 'user'
+export const SEND_TEAMS = 'teams'
 export const SEND_PUSH = 'push'
 export const SEND_CORRECT = 'correct'
 export const SEND_WRONG = 'wrong'
