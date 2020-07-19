@@ -86,10 +86,10 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		LogJson("received", cmd)
 
 		switch (cmd.C) {
-		case "j":
+		case "join":
 			JoinUser(id, conn, cmd)
 			defer LeaveUser(id)
-		case "x":
+		case "leave":
 			LeaveUser(id)
 		default:
 			cmd.ID = id

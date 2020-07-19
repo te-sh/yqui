@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Box, Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import { intKeys } from '../../util'
-import { send } from '../../communicate'
+import { send, sendWs, SEND_CORRECT, SEND_WRONG } from '../../communicate'
 import './Actions.scss'
 
 const Master = ({ className, ws, rule, boards, boardLock }) => {
@@ -20,14 +20,14 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
         if (rule.board.active) {
           send.boardLock(ws)
         } else {
-          send.correct(ws)
+          sendWs(ws, SEND_CORRECT)
         }
         break
       case 87:
         if (rule.board.active) {
           openAll()
         } else {
-          send.wrong(ws)
+          sendWs(ws, SEND_WRONG)
         }
         break
       case 69:
@@ -53,12 +53,12 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
   const normalButtons = (
     <Box>
       <Button variant="outlined" color="primary" size="large"
-              onClick={() => send.correct(ws)}
+              onClick={() => sendWs(ws, SEND_CORRECT)}
               startIcon={<RadioButtonUnchecked />}>
         正解
       </Button>
       <Button variant="outlined" color="secondary" size="large"
-              onClick={() => send.wrong(ws)}
+              onClick={() => sendWs(ws, SEND_WRONG)}
               startIcon={<Close />}>
         不正解
       </Button>

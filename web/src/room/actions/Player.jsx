@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper, TextField, Typography } from '@material-ui/core'
 import update from 'immutability-helper'
-import { send } from '../../communicate'
+import { send, sendWs, SEND_PUSH } from '../../communicate'
 import './Actions.scss'
 
 const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) => {
@@ -14,7 +14,7 @@ const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) =>
     }
     switch (evt.keyCode) {
       case 13:
-        send.pushButton(ws)
+        sendWs(ws, SEND_PUSH)
         break
       default:
         break
@@ -51,7 +51,7 @@ const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) =>
       <Box className="actions-content"
            style={{ visibility: klass === 'player' ? 'visible' : 'hidden' }}>
         <Button variant="outlined" color="primary" size="large"
-                onClick={() => send.pushButton(ws)}>
+                onClick={() => sendWs(ws, SEND_PUSH)}>
           早押し
         </Button>
         { rule.board.active ? boardForm : null }

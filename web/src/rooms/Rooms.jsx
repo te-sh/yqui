@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Table, TableContainer } from '@material-ui/core'
-import { send } from '../communicate'
+import { sendWs, SEND_JOIN } from '../communicate'
 import Topbar from './Topbar'
 import RoomsHead from './RoomsHead'
 import RoomsBody from './RoomsBody'
@@ -24,7 +24,7 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
 
   const enterRoom = name => {
     closeEnterRoom()
-    send.join(ws, { roomNo: enterRoomNo, name })
+    sendWs(ws, SEND_JOIN, { roomNo: enterRoomNo, name })
   }
 
   React.useEffect(

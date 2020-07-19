@@ -18,14 +18,14 @@ func HandleMessage() {
 func (room *Room) RunCommand(cmd Cmd) {
 	sound := NewSound()
 	switch cmd.C {
-	case "a":
+	case "push":
 		room.PushButton(cmd.ID, cmd.Time, sound)
 		room.SendSound(sound)
-	case "s":
+	case "correct":
 		room.Correct(sound)
 		sound.Correct = true
 		room.SendSound(sound)
-	case "f":
+	case "wrong":
 		room.Wrong(sound)
 		sound.Wrong = true
 		room.SendSound(sound)
@@ -69,7 +69,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendRoom()
 	case "m":
 		room.ToggleMaster(cmd.ID)
-	case "c":
+	case "chat":
 		name := room.Users[cmd.ID].Name
 		chat := Chat{Type: "message", Time: cmd.Time, Name: name}
 		json.Unmarshal(cmd.A, &chat.Text)
