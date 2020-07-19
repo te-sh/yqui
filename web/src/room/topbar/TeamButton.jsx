@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { SupervisorAccount } from '@material-ui/icons'
-import { setEditTeams } from '../redux/actions'
-import { teamsToEditTeams } from '../team'
+import { teamsToEditTeams } from '../../team'
+import { setEditTeams } from '../../redux/actions'
 
 const TeamButton = ({ users, teams, master, isMaster, rule, editTeams, setEditTeams }) => {
   const teamEdit = () => {

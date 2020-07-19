@@ -9,7 +9,7 @@ import {
 } from './redux/actions'
 import playSound from './sound'
 import Rooms from './rooms/Rooms'
-import Room from './Room'
+import Room from './room/Room'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 

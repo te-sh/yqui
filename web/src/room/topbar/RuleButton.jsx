@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { PlaylistAddCheck } from '@material-ui/icons'
-import Rule from '../rule/Rule'
+import Rule from '../../rule/Rule'
 
 const RuleButton = ({ isMaster, editTeams }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)

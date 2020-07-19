@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, FormLabel, Paper, TextField } from '@material-ui/core'
-import { playersOfTeams, teamRandomAssign } from '../team'
-import { setEditTeams } from '../redux/actions'
+import { playersOfTeams, teamRandomAssign } from '../../team'
+import { setEditTeams } from '../../redux/actions'
 import './TeamEdit.scss'
 
 const Master = ({ className, teams, editTeams, setEditTeams }) => {

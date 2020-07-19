@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper, TextField, Typography } from '@material-ui/core'
 import update from 'immutability-helper'
-import { send } from '../communicate'
+import { send } from '../../communicate'
 import './Actions.scss'
 
 const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) => {

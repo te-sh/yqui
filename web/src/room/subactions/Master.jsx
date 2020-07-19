@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Checkbox, FormControlLabel, Paper } from '@material-ui/core'
-import { send } from '../communicate'
+import { send } from '../../communicate'
 
 const Master = ({ className, ws, rule }) => {
   const onToggleShowPoint = evt => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import { correctWrongText, winLoseText } from '../rule'
+import { correctWrongText, winLoseText } from '../../rule'
 
 const ScoreRule = ({ rule }) => {
   const title = (() => {

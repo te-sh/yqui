@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { Close } from '@material-ui/icons'
-import { send } from '../communicate'
-import { reset } from '../redux/actions'
+import { send } from '../../communicate'
+import { reset } from '../../redux/actions'
 
 const LeaveButton = ({ ws, reset }) => {
   const leave = () => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDrop } from 'react-dnd'
 import { Box, FormControl, FormLabel } from '@material-ui/core'
-import ItemTypes from '../item_types'
+import ItemTypes from '../../item_types'
 import Player from './Player'
 import './Group.scss'
 

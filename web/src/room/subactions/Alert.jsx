@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
-import { chanceText } from '../rule'
+import { chanceText } from '../../rule'
 
 const Alert = ({ className, alert, rule, numPlayers }) => {
   const alertText = (() => {
