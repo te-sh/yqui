@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Box, Checkbox, FormControl, FormControlLabel, FormGroup,
+  Checkbox, FormControl, FormControlLabel, FormGroup,
   FormLabel, InputLabel, MenuItem, Select, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
@@ -52,7 +52,7 @@ const TeamRule = ({ rule, changeRule }) => {
   }
 
   return (
-    <Box>
+    <>
       <FormGroup className="rule-group">
         <FormControlLabel
           control={
@@ -134,7 +134,7 @@ const TeamRule = ({ rule, changeRule }) => {
                      onChange={evt => changeLoseBatsuValue(evt.target.value)} />
         </FormGroup>
       </FormGroup>
-    </Box>
+    </>
   )
 }
 

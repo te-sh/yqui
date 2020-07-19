@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Box, Checkbox, FormControl, FormGroup, FormLabel,
+  Checkbox, FormControl, FormGroup, FormLabel,
   InputLabel, MenuItem, Select, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
@@ -52,7 +52,7 @@ const PlayerRule = ({ rule, changeRule }) => {
   }
 
   return (
-    <Box>
+    <>
       <FormGroup component="fieldset" className="rule-group">
         <FormLabel component="legend">
           正答時
@@ -120,7 +120,7 @@ const PlayerRule = ({ rule, changeRule }) => {
                      onChange={evt => changeLoseBatsuValue(evt.target.value)} />
         </FormGroup>
       </FormGroup>
-    </Box>
+    </>
   )
 }
 

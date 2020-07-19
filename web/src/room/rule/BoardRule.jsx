@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Box, Checkbox, FormControl, FormControlLabel,
+  Checkbox, FormControl, FormControlLabel,
   FormGroup, FormLabel, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
@@ -20,7 +20,7 @@ const BoardRule = ({ rule, changeRule }) => {
   }
 
   return (
-    <Box>
+    <>
       <FormGroup className="rule-group">
         <FormControlLabel
           control={
@@ -53,7 +53,7 @@ const BoardRule = ({ rule, changeRule }) => {
             label="1着に通常ルールを適用" />
         </FormControl>
       </FormGroup>
-    </Box>
+    </>
   )
 }
 
