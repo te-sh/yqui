@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import CorrectWrongRule from './CorrectWrongRule'
-import WinLoseRule from './WinLoseRule'
+import { correctWrongText, winLoseText } from '../rule'
 
 const ScoreRule = ({ rule }) => {
   const title = (() => {
@@ -17,8 +16,8 @@ const ScoreRule = ({ rule }) => {
   return (
     <Box>
       <Typography variant="caption">{title}</Typography>
-      <CorrectWrongRule rule={rule} />
-      {!rule.board.active ? <WinLoseRule rule={rule.player} /> : null}
+      <Typography>{correctWrongText(rule)}</Typography>
+      <Typography visibility={!rule.board.active}>{winLoseText(rule.player)}</Typography>
     </Box>
   )
 }

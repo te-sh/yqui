@@ -17,7 +17,7 @@ const ButtonRule = ({ rule, numPlayers }) => {
     <Box>
       <Typography variant="caption">ボタン</Typography>
       <Typography>{chanceText(rule, numPlayers)}</Typography>
-      {teamShareButton ? <Typography>{teamShareButton}</Typography> : null}
+      <Typography visibility={teamShareButton}>{teamShareButton}</Typography>
     </Box>
   )
 }

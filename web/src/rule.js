@@ -41,3 +41,62 @@ export const chanceText = (rule, numPlayers) => {
     return `${rule.rightNum}チャンス`
   }
 }
+
+export const correctWrongText = rule => {
+  const correct = rule => {
+    let text = `正解 ${rule.pointCorrect}ポイント`
+    if (rule.bonusCorrect === 'cons') {
+      text += ` (連答ボーナス)`
+    }
+    return text
+  }
+
+  const wrong = rule => {
+    if (rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0) {
+      let text = '誤答'
+      if (rule.pointWrong !== 0) {
+        text += ` ${rule.pointWrong}ポイント`
+      }
+      if (rule.batsuWrong !== 0) {
+        text += ` ${rule.batsuWrong}バツ`
+      }
+      if (rule.lockWrong !== 0) {
+        text += ` ${rule.lockWrong}休`
+      }
+      return text
+    } else {
+      return null
+    }
+  }
+
+  return `${correct(rule.player)} ${wrong(rule.player)}`
+}
+
+export const winLoseText = rule => {
+  const win = rule => {
+    if (rule.winPoint.active) {
+      return `勝ち抜け ${rule.winPoint.value}ポイント`
+    } else {
+      return '勝ち抜けなし'
+    }
+  }
+
+  const lose = rule => {
+    if (rule.losePoint.active || rule.loseBatsu.active) {
+      let text = '失格'
+      if (rule.losePoint.active) {
+        text += ` ${rule.losePoint.value}ポイント`
+      }
+      if (rule.loseBatsu.active) {
+        text += ` ${rule.loseBatsu.value}バツ`
+      }
+      return text
+    } else {
+      return '失格なし'
+    }
+  }
+
+  return (
+    `${win(rule)} ${lose(rule)}`
+  )
+}
