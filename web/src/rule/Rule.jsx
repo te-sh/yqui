@@ -5,7 +5,7 @@ import {
   DialogTitle, FormGroup, Tabs, Tab, TextField
 } from '@material-ui/core'
 import { send } from '../communicate'
-import { initialState } from '../redux/reducers'
+import { initRule } from '../rule'
 import { parseNumber } from '../util'
 import TabPanel from './TabPanel'
 import PlayerRule from './PlayerRule'
@@ -16,9 +16,9 @@ import './Rule.scss'
 const Rule = ({ open, close, ws, rule }) => {
   const [tab, setTab] = React.useState(0)
   const [rightNum, setRightNum] = React.useState(0)
-  const [player, setPlayer] = React.useState(initialState.rule.player)
-  const [team, setTeam] = React.useState(initialState.rule.team)
-  const [board, setBoard] = React.useState(initialState.rule.board)
+  const [player, setPlayer] = React.useState(initRule.player)
+  const [team, setTeam] = React.useState(initRule.team)
+  const [board, setBoard] = React.useState(initRule.board)
 
   const onEnter = () => {
     setRightNum(rule.rightNum)
