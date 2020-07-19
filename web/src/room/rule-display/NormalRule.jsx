@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { winLoseText } from '../../rule'
 
-const ScoreRule = ({ rule }) => {
+const NormalRule = ({ rule }) => {
   const title = (() => {
     if (rule.board.active) {
       return '1着スコア'
@@ -52,4 +52,4 @@ const ScoreRule = ({ rule }) => {
   )
 }
 
-export default ScoreRule
+export default NormalRule

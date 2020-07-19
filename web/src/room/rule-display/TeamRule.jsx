@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { winLoseText } from '../../rule'
 
-const TeamScoreRule = ({ rule }) => {
+const TeamRule = ({ rule }) => {
   const point = rule => {
     let text = 'ポイント'
     switch (rule.point) {
@@ -51,4 +51,4 @@ const TeamScoreRule = ({ rule }) => {
   )
 }
 
-export default TeamScoreRule
+export default TeamRule
