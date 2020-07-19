@@ -36,7 +36,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "reset":
 		room.ResetButtons()
 		room.ResetBoards()
-	case "allclear":
+	case "all-clear":
 		room.AllClear()
 		room.ResetBoards()
 	case "undo":
@@ -64,11 +64,11 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "k":
 		room.BoardLock = !room.BoardLock
 		room.SendBoardLock()
-	case "l":
+	case "toggle-master":
+		room.ToggleMaster(cmd.ID)
+	case "rule":
 		json.Unmarshal(cmd.A, &room.Rule)
 		room.SendRoom()
-	case "m":
-		room.ToggleMaster(cmd.ID)
 	case "chat":
 		name := room.Users[cmd.ID].Name
 		chat := Chat{Type: "message", Time: cmd.Time, Name: name}

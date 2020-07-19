@@ -4,8 +4,9 @@ import {
   Button, Dialog, DialogActions, DialogContent,
   DialogTitle, FormGroup, Tabs, Tab, TextField
 } from '@material-ui/core'
+import update from 'immutability-helper'
 import { parseNumber } from '../../util'
-import { send } from '../../communicate'
+import { sendWs, SEND_RULE } from '../../communicate'
 import { initRule } from '../../rule'
 import TabPanel from './TabPanel'
 import PlayerRule from './PlayerRule'
@@ -31,12 +32,12 @@ const Rule = ({ open, close, ws, rule }) => {
     evt.preventDefault()
     close()
 
-    send.rule(ws, {
-      rightNum: parseNumber(rightNum),
-      player,
-      team,
-      board
-    })
+    sendWs(ws, SEND_RULE, update(rule, {
+      rightNum: { $set: parseNumber(rightNum) },
+      player: { $set: player },
+      team: { $set: team },
+      board: { $set: board }
+    }))
   }
 
   return (

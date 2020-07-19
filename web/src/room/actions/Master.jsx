@@ -5,7 +5,7 @@ import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import { intKeys } from '../../util'
 import {
   send, sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH,
-  SEND_RESET, SEND_ALLCLEAR, SEND_UNDO, SEND_REDO
+  SEND_RESET, SEND_ALL_CLEAR, SEND_UNDO, SEND_REDO
 } from '../../communicate'
 import './Actions.scss'
 
@@ -40,7 +40,7 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
         sendWs(ws, SEND_RESET)
         break
       case 84:
-        sendWs(ws, SEND_ALLCLEAR)
+        sendWs(ws, SEND_ALL_CLEAR)
         break
       case 37:
         sendWs(ws, SEND_UNDO)
@@ -94,7 +94,7 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
           リセット
         </Button>
         <Button variant="outlined" color="default" size="large"
-                onClick={() => sendWs(ws, SEND_ALLCLEAR)}>
+                onClick={() => sendWs(ws, SEND_ALL_CLEAR)}>
           オールクリア
         </Button>
         <Button variant="outlined" color="default" size="large"

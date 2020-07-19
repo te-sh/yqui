@@ -1,14 +1,8 @@
 const messages = {
-  toggleMaster: JSON.stringify({ c: 'm' }),
   boardLock: JSON.stringify({ c: 'k' })
 }
 
 export const send = {
-  toggleMaster: ws => {
-    if (ws) {
-      ws.send(messages.toggleMaster)
-    }
-  },
   user: (ws, user) => {
     if (ws) {
       ws.send(JSON.stringify({ c: 'z', a: user }))
@@ -33,11 +27,6 @@ export const send = {
     if (ws) {
       ws.send(messages.boardLock)
     }
-  },
-  rule: (ws, rule) => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'l', a: rule }))
-    }
   }
 }
 
@@ -47,10 +36,12 @@ export const SEND_PUSH = 'push'
 export const SEND_CORRECT = 'correct'
 export const SEND_WRONG = 'wrong'
 export const SEND_THROUGH = 'through'
-export const SEND_ALLCLEAR = 'allclear'
+export const SEND_ALL_CLEAR = 'all-clear'
 export const SEND_RESET = 'reset'
 export const SEND_UNDO = 'undo'
 export const SEND_REDO = 'redo'
+export const SEND_TOGGLE_MASTER = 'toggle-master'
+export const SEND_RULE = 'rule'
 export const SEND_CHAT = 'chat'
 
 export const sendWs = (ws, cmd, arg) => {

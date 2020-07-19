@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { Portrait } from '@material-ui/icons'
-import { send } from '../../communicate'
+import { sendWs, SEND_TOGGLE_MASTER } from '../../communicate'
 
 const MasterButton = ({ ws, master, isMaster, editTeams }) => {
   return (
@@ -11,7 +11,7 @@ const MasterButton = ({ ws, master, isMaster, editTeams }) => {
         <span>
           <IconButton color={isMaster ? 'secondary' : 'inherit'}
                       disabled={(!isMaster && master >= 0) || !!editTeams}
-                      onClick={() => send.toggleMaster(ws)}>
+                      onClick={() => sendWs(ws, SEND_TOGGLE_MASTER)}>
             <Portrait />
           </IconButton>
         </span>
