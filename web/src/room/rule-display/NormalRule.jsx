@@ -1,8 +1,9 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
+import { displayAttr } from '../../util'
 import { winLoseText } from '../../rule'
 
-const NormalRule = ({ rule }) => {
+const NormalRule = ({ display, rule }) => {
   const title = (() => {
     if (rule.board.active) {
       return '1着スコア'
@@ -44,10 +45,16 @@ const NormalRule = ({ rule }) => {
   }
 
   return (
-    <Box>
-      <Typography variant="caption">{title}</Typography>
-      <Typography>{correctWrong(rule.player)}</Typography>
-      <Typography visibility={!rule.board.active}>{winLoseText(rule.player)}</Typography>
+    <Box display={display}>
+      <Box>
+        <Typography variant="caption">{title}</Typography>
+      </Box>
+      <Box>
+        <Typography>{correctWrong(rule.player)}</Typography>
+      </Box>
+      <Box {...displayAttr(!rule.board.active)}>
+        <Typography>{winLoseText(rule.player)}</Typography>
+      </Box>
     </Box>
   )
 }

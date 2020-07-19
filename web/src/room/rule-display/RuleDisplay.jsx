@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Paper } from '@material-ui/core'
+import { displayAttr } from '../../util'
 import ButtonRule from './ButtonRule'
 import BoardRule from './BoardRule'
 import NormalRule from './NormalRule'
@@ -15,9 +16,9 @@ const RuleDisplay = ({ className, rule }) => {
   return (
     <Paper className={className}>
       <ButtonRule rule={rule} />
-      {showBoardRule ? <BoardRule rule={rule} /> : null}
-      {showNormalRule ? <NormalRule rule={rule} /> : null}
-      {showTeamRule ? <TeamRule rule={rule} /> : null}
+      <BoardRule {...displayAttr(showBoardRule)} rule={rule} />
+      <NormalRule {...displayAttr(showNormalRule)} rule={rule} />
+      <TeamRule {...displayAttr(showTeamRule)} rule={rule} />
     </Paper>
   )
 }

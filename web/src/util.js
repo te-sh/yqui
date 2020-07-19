@@ -41,3 +41,5 @@ export const shuffle = ([...array]) => {
   }
   return array
 }
+
+export const displayAttr = cond => ({ display: cond ? 'block' : 'none' })
