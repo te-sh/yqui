@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { HelpOutline } from '@material-ui/icons'
-import Help from '../../dialogs/Help'
+import Help from '../dialogs/Help'
 
 const HelpButton = () => {
   const [helpOpen, setHelpOpen] = React.useState(false)

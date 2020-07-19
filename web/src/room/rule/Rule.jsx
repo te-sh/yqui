@@ -4,9 +4,9 @@ import {
   Button, Dialog, DialogActions, DialogContent,
   DialogTitle, FormGroup, Tabs, Tab, TextField
 } from '@material-ui/core'
-import { send } from '../communicate'
-import { initRule } from '../rule'
-import { parseNumber } from '../util'
+import { parseNumber } from '../../util'
+import { send } from '../../communicate'
+import { initRule } from '../../rule'
 import TabPanel from './TabPanel'
 import PlayerRule from './PlayerRule'
 import TeamRule from './TeamRule'

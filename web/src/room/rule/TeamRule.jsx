@@ -4,7 +4,7 @@ import {
   FormLabel, InputLabel, MenuItem, Select, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import { parseNumber } from '../util'
+import { parseNumber } from '../../util'
 
 const TeamRule = ({ rule, changeRule }) => {
   const changeActive = value => {

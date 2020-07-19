@@ -4,7 +4,7 @@ import {
   Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
   FormControl, FormControlLabel, FormGroup, FormLabel, Slider
 } from '@material-ui/core'
-import { send } from '../communicate'
+import { send } from '../../communicate'
 import './Setting.scss'
 
 const Setting = ({ open, close, ws, selfID, users }) => {
@@ -39,6 +39,8 @@ const Setting = ({ open, close, ws, selfID, users }) => {
                 }
                 label="チャット解答マーク" />
             </FormControl>
+          </FormGroup>
+          <FormGroup>
             <FormControl>
               <FormLabel>
                 音量

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { Settings } from '@material-ui/icons'
-import Setting from '../../dialogs/Setting'
+import Setting from '../dialogs/Setting'
 import './TopBar.scss'
 
 const SettingButton = () => {
