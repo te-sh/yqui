@@ -9,13 +9,6 @@ export const normalizeTeams = teams => {
   }
 }
 
-export const normalizeButtons = buttons => {
-  buttons.pushers = buttons.pushers || []
-  buttons.pushTimes = buttons.pushTimes || []
-  buttons.answerers = buttons.answerers || []
-  return buttons
-}
-
 export const ordial = x => {
   const t = x % 1000
   if (t === 1 || (t > 20 && t % 10 === 1)) {
