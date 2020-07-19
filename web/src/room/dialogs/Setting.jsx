@@ -4,21 +4,22 @@ import {
   Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
   FormControl, FormControlLabel, FormGroup, FormLabel, Slider
 } from '@material-ui/core'
+import update from 'immutability-helper'
 import { sendWs, SEND_USER } from '../../communicate'
 import './Setting.scss'
 
-const Setting = ({ open, close, ws, selfID, users }) => {
+const Setting = ({ open, close, ws, user }) => {
   const [chatAnswer, setChatAnswer] = React.useState(false)
   const [volume, setVolume] = React.useState(0)
 
   const onEnter = () => {
-    setChatAnswer(users[selfID].chatAnswer)
+    setChatAnswer(user.chatAnswer)
     setVolume(parseInt(localStorage.getItem('volume') || '100'))
   }
 
   const onSubmit = evt => {
     evt.preventDefault()
-    sendWs(ws, SEND_USER, { id: selfID, chatAnswer })
+    sendWs(ws, SEND_USER, update(user, { chatAnswer: { $set: chatAnswer } }))
     localStorage.setItem('volume', volume)
     close()
   }
@@ -68,7 +69,6 @@ const Setting = ({ open, close, ws, selfID, users }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    selfID: state.selfID,
-    users: state.users
+    user: state.user
   })
 )(Setting)

@@ -15,6 +15,7 @@ const initialState = {
   roomNo: null,
   selfID: null,
   users: {},
+  user: null,
   teams: [],
   master: -1,
   isMaster: false,
@@ -58,10 +59,12 @@ const normalizeButtons = buttons => {
 }
 
 const recvRoom = (action, state) => {
+  let users = action.room.users
   let teams = normalizeTeams(action.room.teams)
   let players = playersOfTeams(teams)
   return update(state, {
-    users: { $set: action.room.users },
+    users: { $set: users },
+    user: { $set: users[state.selfID] },
     teams: { $set: teams },
     master: { $set: action.room.master },
     isMaster: { $set: state.selfID === action.room.master },
