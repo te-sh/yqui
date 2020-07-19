@@ -42,36 +42,6 @@ export const chanceText = (rule, numPlayers) => {
   }
 }
 
-export const correctWrongText = rule => {
-  const correct = rule => {
-    let text = `正解 ${rule.pointCorrect}ポイント`
-    if (rule.bonusCorrect === 'cons') {
-      text += ` (連答ボーナス)`
-    }
-    return text
-  }
-
-  const wrong = rule => {
-    if (rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0) {
-      let text = '誤答'
-      if (rule.pointWrong !== 0) {
-        text += ` ${rule.pointWrong}ポイント`
-      }
-      if (rule.batsuWrong !== 0) {
-        text += ` ${rule.batsuWrong}バツ`
-      }
-      if (rule.lockWrong !== 0) {
-        text += ` ${rule.lockWrong}休`
-      }
-      return text
-    } else {
-      return null
-    }
-  }
-
-  return `${correct(rule.player)} ${wrong(rule.player)}`
-}
-
 export const winLoseText = rule => {
   const win = rule => {
     if (rule.winPoint.active) {
