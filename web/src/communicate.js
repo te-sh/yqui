@@ -1,39 +1,9 @@
 const messages = {
-  through: JSON.stringify({ c: 'n' }),
-  reset: JSON.stringify({ c: 'r' }),
-  allClear: JSON.stringify({ c: 'e' }),
-  undo: JSON.stringify({ c: 'u' }),
-  redo: JSON.stringify({ c: 'o' }),
   toggleMaster: JSON.stringify({ c: 'm' }),
   boardLock: JSON.stringify({ c: 'k' })
 }
 
 export const send = {
-  through: ws => {
-    if (ws) {
-      ws.send(messages.through)
-    }
-  },
-  reset: ws => {
-    if (ws) {
-      ws.send(messages.reset)
-    }
-  },
-  allClear: ws => {
-    if (ws) {
-      ws.send(messages.allClear)
-    }
-  },
-  undo: ws => {
-    if (ws) {
-      ws.send(messages.undo)
-    }
-  },
-  redo: ws => {
-    if (ws) {
-      ws.send(messages.redo)
-    }
-  },
   toggleMaster: ws => {
     if (ws) {
       ws.send(messages.toggleMaster)
@@ -76,6 +46,11 @@ export const SEND_LEAVE = 'leave'
 export const SEND_PUSH = 'push'
 export const SEND_CORRECT = 'correct'
 export const SEND_WRONG = 'wrong'
+export const SEND_THROUGH = 'through'
+export const SEND_ALLCLEAR = 'allclear'
+export const SEND_RESET = 'reset'
+export const SEND_UNDO = 'undo'
+export const SEND_REDO = 'redo'
 export const SEND_CHAT = 'chat'
 
 export const sendWs = (ws, cmd, arg) => {

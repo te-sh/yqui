@@ -29,19 +29,19 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.Wrong(sound)
 		sound.Wrong = true
 		room.SendSound(sound)
-	case "n":
+	case "through":
 		room.NextQuiz()
 		room.AddHistory()
 		room.ResetBoards()
-	case "r":
+	case "reset":
 		room.ResetButtons()
 		room.ResetBoards()
-	case "e":
+	case "allclear":
 		room.AllClear()
 		room.ResetBoards()
-	case "u":
+	case "undo":
 		room.MoveHistory(-1)
-	case "o":
+	case "redo":
 		room.MoveHistory(+1)
 	case "z":
 		user := new(User)
