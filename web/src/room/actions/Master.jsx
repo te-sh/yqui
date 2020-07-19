@@ -20,33 +20,33 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
 
   const onKeyDown = evt => {
     switch (evt.keyCode) {
-      case 81:
+      case 81: // q
         if (rule.board.active) {
           sendWs(ws, SEND_BOARD_LOCK)
         } else {
           sendWs(ws, SEND_CORRECT)
         }
         break
-      case 87:
+      case 87: // w
         if (rule.board.active) {
           openAll()
         } else {
           sendWs(ws, SEND_WRONG)
         }
         break
-      case 69:
+      case 69: // e
         sendWs(ws, SEND_THROUGH)
         break
-      case 82:
+      case 82: // r
         sendWs(ws, SEND_RESET)
         break
-      case 84:
+      case 84: // t
         sendWs(ws, SEND_ALL_CLEAR)
         break
-      case 37:
+      case 37: // <-
         sendWs(ws, SEND_UNDO)
         break
-      case 39:
+      case 39: // ->
         sendWs(ws, SEND_REDO)
         break
       default:
@@ -55,7 +55,7 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
   }
 
   const normalButtons = (
-    <Box>
+    <>
       <Button variant="outlined" color="primary" size="large"
               onClick={() => sendWs(ws, SEND_CORRECT)}
               startIcon={<RadioButtonUnchecked />}>
@@ -66,11 +66,11 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
               startIcon={<Close />}>
         不正解
       </Button>
-    </Box>
+    </>
   )
 
   const boardButtons = (
-    <Box>
+    <>
       <Button variant="outlined" color="default" size="large"
               onClick={() => sendWs(ws, SEND_BOARD_LOCK)}>
         { boardLock ? '回答ロック解除' : '回答ロック' }
@@ -79,7 +79,7 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
               onClick={openAll}>
         すべてオープン
       </Button>
-    </Box>
+    </>
   )
 
   return (
