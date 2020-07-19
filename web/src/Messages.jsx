@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Paper, Typography } from '@material-ui/core'
+import { Box, Paper, Typography } from '@material-ui/core'
 import './Messages.scss'
 
 const Messages = ({ className, chats }) => {
@@ -35,15 +35,15 @@ const Messages = ({ className, chats }) => {
           </Typography>
         )
       default:
-        return (<div></div>)
+        return null
     }
   }
 
   const row = (chat) => {
     return (
-      <div key={chat.time} className="message">
+      <Box key={chat.time} className="message">
         {rowContent(chat)}
-      </div>
+      </Box>
     )
   }
 
