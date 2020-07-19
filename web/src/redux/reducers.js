@@ -5,11 +5,9 @@ import {
   RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_CHAT,
   SET_EDIT_TEAMS
 } from './actions'
-import {
-  isMaster, isPlayer, normalizeTeams, normalizeButtons
-} from '../util'
+import { normalizeTeams, normalizeButtons } from '../util'
 import { initRule } from '../rule'
-import { mergeEditTeam } from '../team'
+import { playersOfTeams, mergeEditTeam } from '../team'
 
 const initialState = {
   ws: null,
@@ -19,6 +17,8 @@ const initialState = {
   users: {},
   teams: [],
   master: -1,
+  isMaster: false,
+  isPlayer: false,
   boards: {},
   boardLock: false,
   sg: {
@@ -40,8 +40,33 @@ const initialState = {
   chats: []
 }
 
+const recvSelfID = (action, state) => {
+  let players = playersOfTeams(state.teams)
+  return update(state, {
+    selfID: { $set: action.selfID },
+    isMaster: { $set: action.selfID === state.master },
+    isPlayer: { $set: players.includes(action.selfID) }
+  })
+}
+
+const recvRoom = (action, state) => {
+  let teams = normalizeTeams(action.room.teams)
+  let players = playersOfTeams(teams)
+  let buttons = normalizeButtons(action.room.buttons)
+  return update(state, {
+    users: { $set: action.room.users },
+    teams: { $set: teams },
+    master: { $set: action.room.master },
+    isMaster: { $set: state.selfID === action.room.master },
+    isPlayer: { $set: players.includes(state.selfID) },
+    sg: { $set: action.room.sg },
+    buttons: { $set: buttons },
+    rule: { $set: action.room.rule },
+    editTeams: { $set: mergeEditTeam(state.editTeams, action.room.users, teams, action.room.master) }
+  })
+}
+
 const yquiApp = (state = initialState, action) => {
-  var teams, buttons
   switch (action.type) {
   case RESET:
     return update(initialState, {
@@ -49,66 +74,30 @@ const yquiApp = (state = initialState, action) => {
       rooms: { $set: state.rooms }
     })
   case SET_WEB_SOCKET:
-    return update(state, {
-      ws: { $set: action.ws }
-    })
+    return update(state, { ws: { $set: action.ws } })
   case RECV_ROOMS:
-    return update(state, {
-      rooms: { $set: action.rooms }
-    })
+    return update(state, { rooms: { $set: action.rooms } })
   case RECV_JOINED:
-    return update(state, {
-      roomNo: { $set: action.roomNo }
-    })
+    return update(state, { roomNo: { $set: action.roomNo } })
   case RECV_SELF_ID:
-    return update(state, {
-      selfID: { $set: action.selfID },
-      isMaster: { $set: isMaster(action.selfID, state.master) },
-      isPlayer: { $set: isPlayer(action.selfID, state.teams) }
-    })
+    return recvSelfID(action, state)
   case RECV_ROOM:
-    teams = normalizeTeams(action.room.teams)
-    buttons = normalizeButtons(action.room.buttons)
-    return update(state, {
-      users: { $set: action.room.users },
-      teams: { $set: teams },
-      master: { $set: action.room.master },
-      sg: { $set: action.room.sg },
-      buttons: { $set: buttons },
-      rule: { $set: action.room.rule },
-      isMaster: { $set: isMaster(state.selfID, action.room.master) },
-      isPlayer: { $set: isPlayer(state.selfID, teams) },
-      editTeams: { $set: mergeEditTeam(state.editTeams, action.room.users, teams, action.room.master) }
-    })
+    return recvRoom(action, state)
   case RECV_BOARDS:
-    return update(state, {
-      boards: { $set: action.boards }
-    })
+    return update(state, { boards: { $set: action.boards } })
   case RECV_BOARD:
-    return update(state, {
-      boards: { $merge: { [action.board.id]: action.board } }
-    })
+    return update(state, { boards: { $merge: { [action.board.id]: action.board } } })
   case RECV_BOARD_LOCK:
-    return update(state, {
-      boardLock: { $set: action.boardLock }
-    })
+    return update(state, { boardLock: { $set: action.boardLock } })
   case RECV_SG:
-    return update(state, {
-      sg: { $set: action.sg }
-    })
+    return update(state, { sg: { $set: action.sg } })
   case RECV_BUTTONS:
     normalizeButtons(action.buttons)
-    return update(state, {
-      buttons: { $set: action.buttons }
-    })
+    return update(state, { buttons: { $set: action.buttons } })
   case RECV_CHAT:
-    return update(state, {
-      chats: { $push: [action.chat] }
-    })
+    return update(state, { chats: { $push: [action.chat] } })
   case SET_EDIT_TEAMS:
-    return update(state, {
-      editTeams: { $set: action.editTeams }
-    })
+    return update(state, { editTeams: { $set: action.editTeams } })
   default:
     return state
   }

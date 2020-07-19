@@ -1,13 +1,5 @@
 import { playersOfTeams } from './team'
 
-export const isMaster = (selfID, master) => (
-  selfID === master
-)
-
-export const isPlayer = (selfID, teams) => (
-  playersOfTeams(teams).includes(selfID)
-)
-
 export const normalizeTeams = teams => {
   if (teams) {
     for (let team of teams) {
