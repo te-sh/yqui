@@ -12,21 +12,6 @@ export const send = {
     if (ws) {
       ws.send(JSON.stringify({ c: 'p', a: teams }))
     }
-  },
-  boards: (ws, boards) => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 'b', a: boards }))
-    }
-  },
-  board: (ws, board) => {
-    if (ws) {
-      ws.send(JSON.stringify({ c: 't', a: board }))
-    }
-  },
-  boardLock: (ws) => {
-    if (ws) {
-      ws.send(messages.boardLock)
-    }
   }
 }
 
@@ -40,6 +25,9 @@ export const SEND_ALL_CLEAR = 'all-clear'
 export const SEND_RESET = 'reset'
 export const SEND_UNDO = 'undo'
 export const SEND_REDO = 'redo'
+export const SEND_BOARDS = 'boards'
+export const SEND_BOARD = 'board'
+export const SEND_BOARD_LOCK = 'board-lock'
 export const SEND_TOGGLE_MASTER = 'toggle-master'
 export const SEND_RULE = 'rule'
 export const SEND_CHAT = 'chat'

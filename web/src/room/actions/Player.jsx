@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper, TextField, Typography } from '@material-ui/core'
 import update from 'immutability-helper'
-import { send, sendWs, SEND_PUSH } from '../../communicate'
+import { sendWs, SEND_PUSH, SEND_BOARD } from '../../communicate'
 import './Actions.scss'
 
 const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) => {
@@ -28,7 +28,7 @@ const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) =>
     let newBoard = update(boards[selfID], {
       $set: { text: answer }
     })
-    send.board(ws, newBoard)
+    sendWs(ws, SEND_BOARD, newBoard)
     setAnswer('')
   }
 

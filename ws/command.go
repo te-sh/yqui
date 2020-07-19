@@ -51,17 +51,17 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "p":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()
-	case "b":
+	case "boards":
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)
 		room.UpdateBoards(newBoards, sound)
 		room.SendSound(sound)
-	case "t":
+	case "board":
 		newBoard := NewBoard(cmd.ID)
 		json.Unmarshal(cmd.A, newBoard)
 		room.UpdateBoard(newBoard, sound)
 		room.SendSound(sound)
-	case "k":
+	case "board-lock":
 		room.BoardLock = !room.BoardLock
 		room.SendBoardLock()
 	case "toggle-master":

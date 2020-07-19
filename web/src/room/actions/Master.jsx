@@ -4,8 +4,9 @@ import { Box, Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import { intKeys } from '../../util'
 import {
-  send, sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH,
-  SEND_RESET, SEND_ALL_CLEAR, SEND_UNDO, SEND_REDO
+  sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH,
+  SEND_RESET, SEND_ALL_CLEAR, SEND_UNDO, SEND_REDO,
+  SEND_BOARDS, SEND_BOARD_LOCK
 } from '../../communicate'
 import './Actions.scss'
 
@@ -14,14 +15,14 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
     for (let player of intKeys(boards)) {
       boards[player].open = true
     }
-    send.boards(ws, boards)
+    sendWs(ws, SEND_BOARDS, boards)
   }
 
   const onKeyDown = evt => {
     switch (evt.keyCode) {
       case 81:
         if (rule.board.active) {
-          send.boardLock(ws)
+          sendWs(ws, SEND_BOARD_LOCK)
         } else {
           sendWs(ws, SEND_CORRECT)
         }
@@ -71,7 +72,7 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
   const boardButtons = (
     <Box>
       <Button variant="outlined" color="default" size="large"
-              onClick={() => send.boardLock(ws)}>
+              onClick={() => sendWs(ws, SEND_BOARD_LOCK)}>
         { boardLock ? '回答ロック解除' : '回答ロック' }
       </Button>
       <Button variant="outlined" color="default" size="large"
