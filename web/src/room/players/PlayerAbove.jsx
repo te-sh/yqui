@@ -2,25 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
-import numbro from 'numbro'
+import { readableTime } from '../../util'
 import './PlayerAbove.scss'
 
 const PlayerAbove = ({ order, score, buttons, rule }) => {
-  const pushOrderClass = { 'pushed': order >= 0 }
-  const pushOrderContentClass = { 'has-right': order < rule.rightNum }
+  const pushOrderClass = classNames('push-order', {
+    'pushed': order >= 0
+  })
+
+  const pushOrderContentClass = classNames('push-order-content', {
+    'has-right': order < rule.rightNum
+  })
 
   const pushSpeed = (() => {
     if (order >= 0) {
-      const s = buttons.pushTimes[order] - buttons.pushTimes[0]
-      if (s < 1000) {
-        return `${s}ms`
-      } else if (s < 10000) {
-        return `${numbro(s / 1000).format({ mantissa: 2 })}s`
-      } else if (s < 100000) {
-        return `${numbro(s / 1000).format({ mantissa: 1 })}s`
-      } else {
-        return `${numbro(s / 1000).format({ mantissa: 0 })}s`
-      }
+      return readableTime(buttons.pushTimes[order] - buttons.pushTimes[0])
     } else {
       return ''
     }
@@ -36,10 +32,10 @@ const PlayerAbove = ({ order, score, buttons, rule }) => {
 
   return (
     <Box className="player-above">
-      <Paper className={classNames('push-order', pushOrderClass)}>
+      <Paper className={pushOrderClass}>
         <Typography align="center"
-                    className={classNames('push-order-content', pushOrderContentClass)}>
-          {order >= 0 ? order + 1 : ""}
+                    className={pushOrderContentClass}>
+          {order >= 0 ? order + 1 : ''}
         </Typography>
       </Paper>
       <Box className="push-speed">
