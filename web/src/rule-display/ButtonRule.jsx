@@ -1,11 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Box, Typography } from '@material-ui/core'
-import { chanceText } from '../util'
+import { chanceText } from '../rule'
 import './RuleDisplay.scss'
 
-const ButtonRule = ({ rule, teams }) => {
-  const chance = chanceText(rule, teams)
-
+const ButtonRule = ({ rule, numPlayers }) => {
   const teamShareButton = (() => {
     if (rule.team.active && rule.team.shareButton) {
       return 'チームでボタンを共有'
@@ -17,10 +16,14 @@ const ButtonRule = ({ rule, teams }) => {
   return (
     <Box>
       <Typography variant="caption">ボタン</Typography>
-      <Typography>{chance}</Typography>
+      <Typography>{chanceText(rule, numPlayers)}</Typography>
       {teamShareButton ? <Typography>{teamShareButton}</Typography> : null}
     </Box>
   )
 }
 
-export default ButtonRule
+export default connect(
+  state => ({
+    numPlayers: state.numPlayers
+  })
+)(ButtonRule)

@@ -19,6 +19,7 @@ const initialState = {
   master: -1,
   isMaster: false,
   isPlayer: false,
+  numPlayers: 0,
   boards: {},
   boardLock: false,
   sg: {
@@ -45,7 +46,8 @@ const recvSelfID = (action, state) => {
   return update(state, {
     selfID: { $set: action.selfID },
     isMaster: { $set: action.selfID === state.master },
-    isPlayer: { $set: players.includes(action.selfID) }
+    isPlayer: { $set: players.includes(action.selfID) },
+    numPlayers: { $set: players.length }
   })
 }
 
@@ -59,6 +61,7 @@ const recvRoom = (action, state) => {
     master: { $set: action.room.master },
     isMaster: { $set: state.selfID === action.room.master },
     isPlayer: { $set: players.includes(state.selfID) },
+    numPlayers: { $set: players.length },
     sg: { $set: action.room.sg },
     buttons: { $set: buttons },
     rule: { $set: action.room.rule },

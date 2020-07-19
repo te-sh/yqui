@@ -7,14 +7,14 @@ import ScoreRule from './ScoreRule'
 import TeamScoreRule from './TeamScoreRule'
 import './RuleDisplay.scss'
 
-const RuleDisplay = ({ className, rule, teams }) => {
+const RuleDisplay = ({ className, rule }) => {
   const showBoardRule = rule.board.active
   const showScoreRule = (rule.board.active && rule.board.applyNormal) || !rule.board.active
   const showTeamScoreRule = rule.team.active
 
   return (
     <Paper className={className}>
-      <ButtonRule rule={rule} teams={teams} />
+      <ButtonRule rule={rule} />
       {showBoardRule ? <BoardScoreRule rule={rule} /> : null}
       {showScoreRule ? <ScoreRule rule={rule} /> : null}
       {showTeamScoreRule ? <TeamScoreRule rule={rule} /> : null}
@@ -24,7 +24,6 @@ const RuleDisplay = ({ className, rule, teams }) => {
 
 export default connect(
   state => ({
-    rule: state.rule,
-    teams: state.teams
+    rule: state.rule
   })
 )(RuleDisplay)

@@ -1,5 +1,3 @@
-import { playersOfTeams } from './team'
-
 export const normalizeTeams = teams => {
   if (teams) {
     for (let team of teams) {
@@ -46,18 +44,4 @@ export const intKeys = obj => {
 export const parseNumber = text => {
   const i = parseInt(text)
   return isNaN(i) ? 0 : i
-}
-
-export const chanceText = (rule, teams) => {
-  if (rule.rightNum === 1) {
-    return 'シングルチャンス'
-  } else if (rule.rightNum >= playersOfTeams(teams).length) {
-    return 'エンドレスチャンス'
-  } else if (rule.rightNum === 2) {
-    return 'ダブルチャンス'
-  } else if (rule.rightNum === 3) {
-    return 'トリプルチャンス'
-  } else {
-    return `${rule.rightNum}チャンス`
-  }
 }
