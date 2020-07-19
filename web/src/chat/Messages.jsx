@@ -14,7 +14,7 @@ const Messages = ({ className, chats }) => {
     [chats, ref]
   )
 
-  const rowContent = (chat) => {
+  const rowContent = chat => {
     switch (chat.type) {
       case "message":
         return (
@@ -39,7 +39,7 @@ const Messages = ({ className, chats }) => {
     }
   }
 
-  const row = (chat) => {
+  const row = chat => {
     return (
       <Box key={chat.time} className="message">
         {rowContent(chat)}
