@@ -7,7 +7,7 @@ import {
 import { send } from '../communicate'
 import Topbar from './Topbar'
 import Copyright from './Copyright'
-import EnterRoom from '../dialogs/EnterRoom'
+import EnterRoom from './EnterRoom'
 import './Rooms.scss'
 
 const Rooms = ({ history, ws, rooms, roomNo }) => {
