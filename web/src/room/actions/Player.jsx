@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Box, Button, Paper, TextField, Typography } from '@material-ui/core'
 import update from 'immutability-helper'
 import { displayAttr } from '../../util'
-import { sendWs, SEND_PUSH, SEND_BOARD } from '../../communicate'
+import { sendWs, SEND_PUSH, SEND_BOARD } from '../../send'
 import './Actions.scss'
 
 const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) => {

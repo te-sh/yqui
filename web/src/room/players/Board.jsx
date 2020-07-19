@@ -6,7 +6,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { Close, RadioButtonUnchecked, Remove } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
-import { sendWs, SEND_BOARD } from '../../communicate'
+import { sendWs, SEND_BOARD } from '../../send'
 import { recvBoard } from '../../redux/actions'
 import './Board.scss'
 

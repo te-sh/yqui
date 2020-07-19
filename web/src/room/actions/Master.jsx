@@ -7,7 +7,7 @@ import {
   sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH,
   SEND_RESET, SEND_ALL_CLEAR, SEND_UNDO, SEND_REDO,
   SEND_BOARDS, SEND_BOARD_LOCK
-} from '../../communicate'
+} from '../../send'
 import './Actions.scss'
 
 const Master = ({ className, ws, rule, boards, boardLock }) => {

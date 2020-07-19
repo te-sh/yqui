@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Checkbox, FormControlLabel, Paper } from '@material-ui/core'
 import update from 'immutability-helper'
-import { sendWs, SEND_RULE } from '../../communicate'
+import { sendWs, SEND_RULE } from '../../send'
 
 const Master = ({ className, ws, rule }) => {
   const onToggleShowPoint = evt => {

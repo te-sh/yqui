@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Table, TableContainer } from '@material-ui/core'
-import { sendWs, SEND_JOIN } from '../communicate'
+import { sendWs, SEND_JOIN } from '../send'
 import Topbar from './Topbar'
 import RoomsHead from './RoomsHead'
 import RoomsBody from './RoomsBody'

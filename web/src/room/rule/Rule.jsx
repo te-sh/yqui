@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../util'
-import { sendWs, SEND_RULE } from '../../communicate'
+import { sendWs, SEND_RULE } from '../../send'
 import { initRule } from '../../rule'
 import TabPanel from './TabPanel'
 import PlayerRule from './PlayerRule'

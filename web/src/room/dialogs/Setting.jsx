@@ -5,7 +5,7 @@ import {
   FormControl, FormControlLabel, FormGroup, FormLabel, Slider
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import { sendWs, SEND_USER } from '../../communicate'
+import { sendWs, SEND_USER } from '../../send'
 import './Setting.scss'
 
 const Setting = ({ open, close, ws, user }) => {
