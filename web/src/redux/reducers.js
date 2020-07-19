@@ -5,7 +5,7 @@ import {
   RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_CHAT,
   SET_EDIT_TEAMS
 } from './actions'
-import { normalizeTeams } from '../util'
+import { normalizeArray } from '../util'
 import { initRule } from '../rule'
 import { playersOfTeams, mergeEditTeam } from '../team'
 
@@ -41,12 +41,19 @@ const initialState = {
   chats: []
 }
 
+const normalizeTeams = teams => {
+  if (teams) {
+    return teams.map(team => update(team, { player: { $apply: normalizeArray } }))
+  } else {
+    return []
+  }
+}
+
 const normalizeButtons = buttons => {
-  const normalize = v => v || []
   return update(buttons, {
-    pushers: { $apply: normalize },
-    pushTimes: { $apply: normalize },
-    answerers: { $apply: normalize }
+    pushers: { $apply: normalizeArray },
+    pushTimes: { $apply: normalizeArray },
+    answerers: { $apply: normalizeArray }
   })
 }
 

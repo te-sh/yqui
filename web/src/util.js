@@ -1,12 +1,10 @@
-export const normalizeTeams = teams => {
-  if (teams) {
-    for (let team of teams) {
-      team.players = team.players || []
-    }
-    return teams
-  } else {
-    return []
-  }
+export const intKeys = obj => Object.keys(obj).map(key => parseInt(key))
+
+export const normalizeArray = v => v || []
+
+export const parseNumber = text => {
+  const i = parseInt(text)
+  return isNaN(i) ? 0 : i
 }
 
 export const ordial = x => {
@@ -28,13 +26,4 @@ export const shuffle = ([...array]) => {
     [array[i], array[j]] = [array[j], array[i]]
   }
   return array
-}
-
-export const intKeys = obj => {
-  return Object.keys(obj).map(key => parseInt(key))
-}
-
-export const parseNumber = text => {
-  const i = parseInt(text)
-  return isNaN(i) ? 0 : i
 }
