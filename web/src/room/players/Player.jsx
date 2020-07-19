@@ -36,7 +36,6 @@ const Player = ({ player, boards, sg, buttons, rule }) => {
 
 export default connect(
   state => ({
-    selfID: state.selfID,
     boards: state.boards,
     sg: state.sg,
     buttons: state.buttons,

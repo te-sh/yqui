@@ -67,16 +67,22 @@ func makeRoomsSend(rooms [numRooms]*Room) [numRooms]*RoomSummary {
 	return roomsSend
 }
 
+func (conn *Conn) SendSelfID(id int64) {
+	msg := Message{"selfID", id}
+	conn.Message <- msg
+	LogJson("write", msg)
+}
+
 func (conns Conns) SendRooms(rooms [numRooms]*Room) {
-	roomsSend := makeRoomsSend(rooms)
+	msg := Message{"rooms", makeRoomsSend(rooms)}
 	for _, conn := range conns {
-		conn.Message <- Message{"rooms", roomsSend}
+		conn.Message <- msg
 	}
+	LogJson("write", msg)
 }
 
 func (conn *Conn) SendRooms(rooms [numRooms]*Room) {
-	roomsSend := makeRoomsSend(rooms)
-	msg := Message{"rooms", roomsSend}
+	msg := Message{"rooms", makeRoomsSend(rooms)}
 	conn.Message <- msg
 	LogJson("write", msg)
 }

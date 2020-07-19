@@ -1,9 +1,5 @@
 package main
 
-func (room *Room) SendSelfID(id int64) {
-	room.SendToOne(id, "selfID", id)
-}
-
 type RoomSend struct {
 	Users Users `json:"users"`
 	Teams Teams `json:"teams"`

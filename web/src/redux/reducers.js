@@ -57,16 +57,6 @@ const normalizeButtons = buttons => {
   })
 }
 
-const recvSelfID = (action, state) => {
-  let players = playersOfTeams(state.teams)
-  return update(state, {
-    selfID: { $set: action.selfID },
-    isMaster: { $set: action.selfID === state.master },
-    isPlayer: { $set: players.includes(action.selfID) },
-    numPlayers: { $set: players.length }
-  })
-}
-
 const recvRoom = (action, state) => {
   let teams = normalizeTeams(action.room.teams)
   let players = playersOfTeams(teams)
@@ -98,7 +88,7 @@ const yquiApp = (state = initialState, action) => {
   case RECV_JOINED:
     return update(state, { roomNo: { $set: action.roomNo } })
   case RECV_SELF_ID:
-    return recvSelfID(action, state)
+    return update(state, { selfID: { $set: action.selfID } })
   case RECV_ROOM:
     return recvRoom(action, state)
   case RECV_BOARDS:

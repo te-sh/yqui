@@ -74,6 +74,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	id2conn[id] = conn
 	defer delete(id2conn, id)
 
+	conn.SendSelfID(id)
 	conn.SendRooms(rooms)
 
 	for {
