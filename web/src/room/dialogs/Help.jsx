@@ -20,7 +20,7 @@ const Help = ({ open, close }) => {
           <li>
             <Typography>
               画面下部の
-              <Button variant="outlined" color="primary" size="large">
+              <Button variant="outlined" color="primary">
                 早押し
               </Button>
               をクリックする
@@ -29,7 +29,7 @@ const Help = ({ open, close }) => {
           <li>
             <Typography>
               画面下部の
-              <Button variant="outlined" color="primary" size="large">
+              <Button variant="outlined" color="primary">
                 早押し
               </Button>
               の周りのエリアをクリックした後, Enter キーを押す
@@ -41,6 +41,13 @@ const Help = ({ open, close }) => {
             </Typography>
           </li>
         </ul>
+        <Typography variant="h6">
+          チャット回答マーク
+        </Typography>
+        <Typography>
+          設定でチャット回答マークをオンにすると名前欄にチャット回答マークが付きます.
+          こうすると回答時にカウントを長めにしてもらえるかもしれません.
+        </Typography>
       </DialogContent>
       <DialogActions>
         <Button color="secondary" onClick={close}>
