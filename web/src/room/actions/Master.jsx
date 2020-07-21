@@ -11,7 +11,24 @@ import {
 import './Actions.scss'
 
 const Master = ({ className, ws, rule, boards, boardLock }) => {
-  const openAll = () => {
+  const onCorrect = () => { sendWs(ws, SEND_CORRECT) }
+  const onWrong = () => { sendWs(ws, SEND_WRONG) }
+
+  const onThrough = () => {
+    sendWs(ws, SEND_THROUGH)
+  }
+  const onReset = () => {
+    sendWs(ws, SEND_RESET)
+  }
+  const onAllClear = () => {
+    sendWs(ws, SEND_ALL_CLEAR)
+  }
+
+  const onUndo = () => { sendWs(ws, SEND_UNDO) }
+  const onRedo = () => { sendWs(ws, SEND_REDO) }
+
+  const onBoardLock = () => { sendWs(ws, SEND_BOARD_LOCK, boards) }
+  const onOpenAll = () => {
     for (let player of intKeys(boards)) {
       boards[player].open = true
     }
@@ -22,47 +39,47 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
     switch (evt.keyCode) {
       case 81: // q
         if (rule.board.active) {
-          sendWs(ws, SEND_BOARD_LOCK)
+          boardLock()
         } else {
-          sendWs(ws, SEND_CORRECT)
+          onCorrect()
         }
         break
       case 87: // w
         if (rule.board.active) {
-          openAll()
+          onOpenAll()
         } else {
-          sendWs(ws, SEND_WRONG)
+          onWrong()
         }
         break
       case 69: // e
-        sendWs(ws, SEND_THROUGH)
+        onThrough()
         break
       case 82: // r
-        sendWs(ws, SEND_RESET)
+        onReset()
         break
       case 84: // t
-        sendWs(ws, SEND_ALL_CLEAR)
+        onAllClear()
         break
       case 37: // <-
-        sendWs(ws, SEND_UNDO)
+        onUndo()
         break
       case 39: // ->
-        sendWs(ws, SEND_REDO)
+        onRedo()
         break
       default:
         break
     }
   }
 
+  const buttonAttr = { variant: 'outlined', size: 'large' }
+
   const normalButtons = (
     <>
-      <Button variant="outlined" color="primary" size="large"
-              onClick={() => sendWs(ws, SEND_CORRECT)}
+      <Button {...buttonAttr} color="primary" onClick={onCorrect}
               startIcon={<RadioButtonUnchecked />}>
         正解
       </Button>
-      <Button variant="outlined" color="secondary" size="large"
-              onClick={() => sendWs(ws, SEND_WRONG)}
+      <Button {...buttonAttr} color="secondary" onClick={onWrong}
               startIcon={<Close />}>
         不正解
       </Button>
@@ -71,12 +88,10 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
 
   const boardButtons = (
     <>
-      <Button variant="outlined" color="default" size="large"
-              onClick={() => sendWs(ws, SEND_BOARD_LOCK)}>
+      <Button {...buttonAttr} color="default" onClick={onBoardLock}>
         { boardLock ? '回答ロック解除' : '回答ロック' }
       </Button>
-      <Button variant="outlined" color="default" size="large"
-              onClick={openAll}>
+      <Button {...buttonAttr} color="default" onClick={onOpenAll}>
         すべてオープン
       </Button>
     </>
@@ -86,24 +101,19 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
     <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
       <Box className="actions-content">
         { rule.board.active ? boardButtons : normalButtons }
-        <Button variant="outlined" color="default" size="large"
-                onClick={() => sendWs(ws, SEND_THROUGH)}>
+        <Button {...buttonAttr} color="default" onClick={onThrough}>
           次の問題
         </Button>
-        <Button variant="outlined" color="default" size="large"
-                onClick={() => sendWs(ws, SEND_RESET)}>
+        <Button {...buttonAttr} color="default" onClick={onReset}>
           リセット
         </Button>
-        <Button variant="outlined" color="default" size="large"
-                onClick={() => sendWs(ws, SEND_ALL_CLEAR)}>
+        <Button {...buttonAttr} color="default" onClick={onAllClear}>
           オールクリア
         </Button>
-        <Button variant="outlined" color="default" size="large"
-                onClick={() => sendWs(ws, SEND_UNDO)}>
+        <Button {...buttonAttr} color="default" onClick={onUndo}>
           Undo
         </Button>
-        <Button variant="outlined" color="default" size="large"
-                onClick={() => sendWs(ws, SEND_REDO)}>
+        <Button {...buttonAttr} color="default" onClick={onRedo}>
           Redo
         </Button>
       </Box>
