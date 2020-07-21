@@ -9,11 +9,12 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 
 	room.Users[id] = user
 	room.AddPlayerToDefaultTeam(id)
-	room.Boards[id] = NewBoard(id)
+	room.Boards.Add(id)
 	room.SG.Player.Add(id)
 
 	room.SendBoards()
 	room.SendBoardLock()
+
 	room.SendRoom()
 	chat := Chat{Type: "join", Time: time, Name: name}
 	room.SendChat(chat)
@@ -23,7 +24,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
 	room.SG.Player.Remove(id)
-	delete(room.Boards, id)
+	room.Boards.Remove(id)
 	room.RemovePlayerFromTeam(id)
 	delete(room.Users, id)
 

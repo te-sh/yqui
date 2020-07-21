@@ -48,8 +48,7 @@ func NewScore() *Score {
 
 func NewWinLose() *WinLose {
 	winLose := new(WinLose)
-	winLose.WinNum = 0
-	winLose.LoseNum = 0
+	winLose.Reset()
 	return winLose
 }
 

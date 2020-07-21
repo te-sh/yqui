@@ -18,6 +18,14 @@ func NewBoard(id int64) *Board {
 	return board
 }
 
+func (boards Boards) Add(id int64) {
+	boards[id] = NewBoard(id)
+}
+
+func (boards Boards) Remove(id int64) {
+	delete(boards, id)
+}
+
 func (boards Boards) Opens(newBoards Boards) bool {
 	open := false
 	for _, newBoard := range newBoards {
