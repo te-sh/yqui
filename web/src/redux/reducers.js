@@ -1,9 +1,10 @@
 import update from 'immutability-helper'
 import {
-  RESET, SET_WEB_SOCKET, RECV_ROOMS, RECV_JOINED,
-  RECV_SELF_ID, RECV_ROOM, RECV_BOARDS, RECV_BOARD_LOCK,
+  RESET, RECV_SELF_ID, SET_WEB_SOCKET, RECV_ROOMS, RECV_JOINED,
+  RECV_ROOM, RECV_BOARDS, RECV_BOARD_LOCK,
   RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_CHAT,
-  SET_EDIT_TEAMS, SET_BOARD
+  SET_EDIT_TEAMS, SET_BOARD,
+  ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS
 } from './actions'
 import { normalizeArray } from '../util'
 import { initUsers, initUser, usersFromJson, findMaster } from '../user'
@@ -29,6 +30,7 @@ const initialState = {
   buttons: initButtons,
   rule: initRule,
   editTeams: null,
+  editBoards: new Set(),
   chats: []
 }
 
@@ -67,12 +69,12 @@ const yquiApp = (state = initialState, action) => {
     })
   case SET_WEB_SOCKET:
     return update(state, { ws: { $set: action.ws } })
+  case RECV_SELF_ID:
+    return update(state, { selfID: { $set: action.selfID } })
   case RECV_ROOMS:
     return update(state, { rooms: { $set: action.rooms } })
   case RECV_JOINED:
     return update(state, { roomNo: { $set: action.roomNo } })
-  case RECV_SELF_ID:
-    return update(state, { selfID: { $set: action.selfID } })
   case RECV_ROOM:
     return recvRoom(action, state)
   case RECV_BOARDS:
@@ -91,6 +93,12 @@ const yquiApp = (state = initialState, action) => {
     return update(state, { editTeams: { $set: action.editTeams } })
   case SET_BOARD:
     return update(state, { boards: { [action.board.id]: { $set: action.board } } })
+  case ADD_EDIT_BOARD:
+    return update(state, { editBoards: { $add: [action.board.id] } })
+  case REMOVE_EDIT_BOARD:
+    return update(state, { editBoards: { $remove: [action.board.id] } })
+  case CLEAR_EDIT_BOARDS:
+    return update(state, { editBoards: { $set: new Set() } })
   default:
     return state
   }

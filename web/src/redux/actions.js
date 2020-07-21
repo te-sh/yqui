@@ -12,6 +12,9 @@ export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_CHAT = 'RECV_CHAT'
 export const SET_EDIT_TEAMS = 'SET_EDIT_TEAMS'
 export const SET_BOARD = 'SET_BOARD'
+export const ADD_EDIT_BOARD = 'ADD_EDIT_BOARD'
+export const REMOVE_EDIT_BOARD = 'REMOVE_EDIT_BOARD'
+export const CLEAR_EDIT_BOARDS = 'CLEAR_EDIT_BOARDS'
 
 export const reset = () => {
   return { type: RESET }
@@ -21,16 +24,16 @@ export const setWebSocket = ws => {
   return { type: SET_WEB_SOCKET, ws }
 }
 
+export const recvSelfID = selfID => {
+  return { type: RECV_SELF_ID, selfID }
+}
+
 export const recvRooms = rooms => {
   return { type: RECV_ROOMS, rooms }
 }
 
 export const recvJoined = roomNo => {
   return { type: RECV_JOINED, roomNo }
-}
-
-export const recvSelfID = selfID => {
-  return { type: RECV_SELF_ID, selfID }
 }
 
 export const recvRoom = room => {
@@ -67,4 +70,16 @@ export const setEditTeams = editTeams => {
 
 export const setBoard = board => {
   return { type: SET_BOARD, board }
+}
+
+export const addEditBoard = board => {
+  return { type: ADD_EDIT_BOARD, board }
+}
+
+export const removeEditBoard = board => {
+  return { type: REMOVE_EDIT_BOARD, board }
+}
+
+export const clearEditBoards = () => {
+  return { type: CLEAR_EDIT_BOARDS }
 }

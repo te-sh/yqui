@@ -8,19 +8,23 @@ import {
   SEND_RESET, SEND_ALL_CLEAR, SEND_UNDO, SEND_REDO,
   SEND_BOARDS, SEND_BOARD_LOCK
 } from '../../send'
+import { clearEditBoards } from '../../redux/actions'
 import './Actions.scss'
 
-const Master = ({ className, ws, rule, boards, boardLock }) => {
+const Master = ({ className, ws, rule, boards, boardLock, clearEditBoards }) => {
   const onCorrect = () => { sendWs(ws, SEND_CORRECT) }
   const onWrong = () => { sendWs(ws, SEND_WRONG) }
 
   const onThrough = () => {
+    clearEditBoards()
     sendWs(ws, SEND_THROUGH)
   }
   const onReset = () => {
+    clearEditBoards()
     sendWs(ws, SEND_RESET)
   }
   const onAllClear = () => {
+    clearEditBoards()
     sendWs(ws, SEND_ALL_CLEAR)
   }
 
@@ -32,6 +36,7 @@ const Master = ({ className, ws, rule, boards, boardLock }) => {
     for (let player of intKeys(boards)) {
       boards[player].open = true
     }
+    clearEditBoards()
     sendWs(ws, SEND_BOARDS, boards)
   }
 
@@ -127,5 +132,8 @@ export default connect(
     rule: state.rule,
     boards: state.boards,
     boardLock: state.boardLock
+  }),
+  dispatch => ({
+    clearEditBoards: () => dispatch(clearEditBoards())
   })
 )(Master)

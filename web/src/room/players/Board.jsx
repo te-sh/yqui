@@ -7,10 +7,10 @@ import { Close, RadioButtonUnchecked, Remove } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
 import { sendWs, SEND_BOARD } from '../../send'
-import { setBoard } from '../../redux/actions'
+import { setBoard, addEditBoard, removeEditBoard } from '../../redux/actions'
 import './Board.scss'
 
-const Board = ({ className, ws, user, board, setBoard }) => {
+const Board = ({ className, ws, user, board, setBoard, addEditBoard, removeEditBoard }) => {
   const [correct, setCorrect] = React.useState('none')
 
   React.useEffect(
@@ -24,19 +24,17 @@ const Board = ({ className, ws, user, board, setBoard }) => {
     if (board.open) {
       return
     }
-    const newBoard = update(board, {
-      open: { $set: true }
-    })
+    const newBoard = update(board, { open: { $set: true } })
+    removeEditBoard(board)
     sendWs(ws, SEND_BOARD, newBoard)
   }
 
   const changeCorrect = (evt, newCorrect) => {
-    const newBoard = update(board, {
-      correct: { $set: newCorrect },
-    })
+    const newBoard = update(board, { correct: { $set: newCorrect } })
     if (board.open) {
       sendWs(ws, SEND_BOARD, newBoard)
     } else {
+      addEditBoard(board)
       setBoard(newBoard)
     }
   }
@@ -50,13 +48,14 @@ const Board = ({ className, ws, user, board, setBoard }) => {
     }
   )
 
-  const box = user.isMaster && !board.open ? (
+  const notOpened = (
     <Tooltip title="クリックでオープン">
       <Box className={boxClass} onClick={open}>
         { board.text }
       </Box>
     </Tooltip>
-  ) : (
+  )
+  const opened = (
     <Box className={boxClass}>
       { board.text }
     </Box>
@@ -81,8 +80,8 @@ const Board = ({ className, ws, user, board, setBoard }) => {
 
   return (
     <Box className={className}>
-      { box }
-      { user.isMaster ? buttons : null }
+      {user.isMaster && !board.open ? notOpened : opened}
+      {user.isMaster ? buttons : null}
     </Box>
   )
 }
@@ -93,6 +92,8 @@ export default connect(
     user: state.user
   }),
   dispatch => ({
-    setBoard: board => dispatch(setBoard(board))
+    setBoard: board => dispatch(setBoard(board)),
+    addEditBoard: board => dispatch(addEditBoard(board)),
+    removeEditBoard: board => dispatch(removeEditBoard(board))
   })
 )(Board)

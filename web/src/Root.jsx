@@ -60,9 +60,9 @@ export default connect(
     reset: () => dispatch(reset()),
     setWebSocket: ws => dispatch(setWebSocket(ws)),
     recv: {
+      selfID: selfID => dispatch(recvSelfID(selfID)),
       rooms: rooms => dispatch(recvRooms(rooms)),
       joined: roomNo => dispatch(recvJoined(roomNo)),
-      selfID: selfID => dispatch(recvSelfID(selfID)),
       room: room => dispatch(recvRoom(room)),
       boards: boards => dispatch(recvBoards(boards)),
       board: board => dispatch(recvBoard(board)),
