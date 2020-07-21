@@ -7,10 +7,10 @@ import { Close, RadioButtonUnchecked, Remove } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
 import { sendWs, SEND_BOARD } from '../../send'
-import { recvBoard } from '../../redux/actions'
+import { setBoard } from '../../redux/actions'
 import './Board.scss'
 
-const Board = ({ className, ws, user, board, updateBoard }) => {
+const Board = ({ className, ws, user, board, setBoard }) => {
   const [correct, setCorrect] = React.useState('none')
 
   React.useEffect(
@@ -37,7 +37,7 @@ const Board = ({ className, ws, user, board, updateBoard }) => {
     if (board.open) {
       sendWs(ws, SEND_BOARD, newBoard)
     } else {
-      updateBoard(newBoard)
+      setBoard(newBoard)
     }
   }
 
@@ -93,6 +93,6 @@ export default connect(
     user: state.user
   }),
   dispatch => ({
-    updateBoard: board => dispatch(recvBoard(board))
+    setBoard: board => dispatch(setBoard(board))
   })
 )(Board)

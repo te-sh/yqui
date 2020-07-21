@@ -3,9 +3,10 @@ import {
   RESET, SET_WEB_SOCKET, RECV_ROOMS, RECV_JOINED,
   RECV_SELF_ID, RECV_ROOM, RECV_BOARDS, RECV_BOARD_LOCK,
   RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_CHAT,
-  SET_EDIT_TEAMS
+  SET_EDIT_TEAMS, SET_BOARD
 } from './actions'
-import { toIntMap, normalizeArray } from '../util'
+import { normalizeArray } from '../util'
+import { initUsers, initUser, usersFromJson, findMaster } from '../user'
 import { initButtons, buttonsFromJson } from '../buttons'
 import { initSg, sgFromJson } from '../score'
 import { initRule } from '../rule'
@@ -16,8 +17,8 @@ const initialState = {
   rooms: [],
   roomNo: null,
   selfID: null,
-  users: new Map(),
-  user: null,
+  users: initUsers,
+  user: initUser,
   master: null,
   teams: [],
   isPlayer: false,
@@ -40,13 +41,13 @@ const normalizeTeams = teams => {
 }
 
 const recvRoom = (action, state) => {
-  let users = toIntMap(action.room.users)
+  let users = usersFromJson(action.room.users)
   let teams = normalizeTeams(action.room.teams)
   let players = playersOfTeams(teams)
   return update(state, {
     users: { $set: users },
     user: { $set: users.get(state.selfID) },
-    master: { $set: [...users.values()].find(user => user.isMaster) },
+    master: { $set: findMaster(users) },
     teams: { $set: teams },
     isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
@@ -88,6 +89,8 @@ const yquiApp = (state = initialState, action) => {
     return update(state, { chats: { $push: [action.chat] } })
   case SET_EDIT_TEAMS:
     return update(state, { editTeams: { $set: action.editTeams } })
+  case SET_BOARD:
+    return update(state, { boards: { [action.board.id]: { $set: action.board } } })
   default:
     return state
   }

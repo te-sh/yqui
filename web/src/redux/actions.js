@@ -11,6 +11,7 @@ export const RECV_SG = 'RECV_SG'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_CHAT = 'RECV_CHAT'
 export const SET_EDIT_TEAMS = 'SET_EDIT_TEAMS'
+export const SET_BOARD = 'SET_BOARD'
 
 export const reset = () => {
   return { type: RESET }
@@ -62,4 +63,8 @@ export const recvChat = chat => {
 
 export const setEditTeams = editTeams => {
   return { type: SET_EDIT_TEAMS, editTeams }
+}
+
+export const setBoard = board => {
+  return { type: SET_BOARD, board }
 }
