@@ -5,13 +5,15 @@ import { Portrait } from '@material-ui/icons'
 import { sendWs, SEND_TOGGLE_MASTER } from '../../lib/send'
 
 const MasterButton = ({ ws, user, master, editTeams }) => {
+  const onToggleMaster = () => { sendWs(ws, SEND_TOGGLE_MASTER) }
+  const disabled = (!user.isMaster && master !== undefined) || !!editTeams
+
   return (
     <Box>
       <Tooltip title="司会">
         <span>
           <IconButton color={user.isMaster ? 'secondary' : 'inherit'}
-                      disabled={(!user.isMaster && master) || !!editTeams}
-                      onClick={() => sendWs(ws, SEND_TOGGLE_MASTER)}>
+                      disabled={disabled} onClick={onToggleMaster}>
             <Portrait />
           </IconButton>
         </span>
