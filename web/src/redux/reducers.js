@@ -6,6 +6,7 @@ import {
   SET_EDIT_TEAMS
 } from './actions'
 import { toIntMap, normalizeArray } from '../util'
+import { initButtons, buttonsFromJson } from '../buttons'
 import { initSg, sgFromJson } from '../score'
 import { initRule } from '../rule'
 import { playersOfTeams, mergeEditTeam } from '../team'
@@ -25,12 +26,7 @@ const initialState = {
   boards: {},
   boardLock: false,
   sg: initSg,
-  buttons: {
-    pushers: [],
-    pusherTimes: [],
-    answerers: [],
-    right: -1
-  },
+  buttons: initButtons,
   rule: initRule,
   editTeams: null,
   chats: []
@@ -42,14 +38,6 @@ const normalizeTeams = teams => {
   } else {
     return []
   }
-}
-
-const normalizeButtons = buttons => {
-  return update(buttons, {
-    pushers: { $apply: normalizeArray },
-    pushTimes: { $apply: normalizeArray },
-    answerers: { $apply: normalizeArray }
-  })
 }
 
 const recvRoom = (action, state) => {
@@ -65,7 +53,7 @@ const recvRoom = (action, state) => {
     isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
     sg: { $set: sgFromJson(action.room.sg) },
-    buttons: { $set: normalizeButtons(action.room.buttons) },
+    buttons: { $set: buttonsFromJson(action.room.buttons) },
     rule: { $set: action.room.rule },
     editTeams: { $set: mergeEditTeam(state.editTeams, action.room.users, teams, action.room.master) }
   })
@@ -97,7 +85,7 @@ const yquiApp = (state = initialState, action) => {
   case RECV_SG:
     return update(state, { sg: { $set: sgFromJson(action.sg) } })
   case RECV_BUTTONS:
-    return update(state, { buttons: { $set: normalizeButtons(action.buttons) } })
+    return update(state, { buttons: { $set: buttonsFromJson(action.buttons) } })
   case RECV_CHAT:
     return update(state, { chats: { $push: [action.chat] } })
   case SET_EDIT_TEAMS:

@@ -4,16 +4,11 @@ import { Box, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 import './PlayerName.scss'
 
-const PlayerName = ({ player, right, selfID, users }) => {
+const PlayerName = ({ player, myTurn, selfID, users }) => {
   const user = users.get(player)
 
-  const nameClass = classNames('player-name-content', {
-    'pushed': right === player
-  })
-
-  const nameMainClass = classNames('player-name-content-main', {
-    'self': selfID === player
-  })
+  const nameClass = classNames('player-name-content', { 'my-turn': myTurn })
+  const nameMainClass = classNames('player-name-content-main', { 'self': selfID === player })
 
   return (
     <Box className="player-name">
