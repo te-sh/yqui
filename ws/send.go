@@ -27,12 +27,13 @@ func (room *Room) SendBoards() {
 }
 
 func (room *Room) SendBoard(id int64) {
-	board := room.Boards[id]
-	if board.Open {
-		room.Broadcast("board", board)
-	} else {
-		room.SendToOne(id, "board", board)
-		room.SendToMaster("board", board)
+	if board, ok := room.Boards[id]; ok {
+		if board.Open {
+			room.Broadcast("board", board)
+		} else {
+			room.SendToOne(id, "board", board)
+			room.SendToMaster("board", board)
+		}
 	}
 }
 

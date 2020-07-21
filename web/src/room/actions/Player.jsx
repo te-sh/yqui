@@ -27,7 +27,7 @@ const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) =>
   const sendAnswer = (evt) => {
     evt.preventDefault()
     let newBoard = update(boards[selfID], {
-      $set: { text: answer }
+      text: { $set: answer }
     })
     sendWs(ws, SEND_BOARD, newBoard)
     setAnswer('')

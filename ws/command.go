@@ -20,7 +20,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 	switch cmd.C {
 	case "user":
 		user := new(User)
-		json.Unmarshal(cmd.A, &user)
+		json.Unmarshal(cmd.A, user)
 		room.Users.Update(user)
 		room.SendRoom()
 	case "teams":
@@ -89,7 +89,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.ToggleMaster(cmd.ID)
 		room.SendRoom()
 	case "rule":
-		json.Unmarshal(cmd.A, &room.Rule)
+		json.Unmarshal(cmd.A, room.Rule)
 		room.SendRoom()
 	case "chat":
 		if user, ok := room.Users[cmd.ID]; ok {
