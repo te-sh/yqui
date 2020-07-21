@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { Portrait } from '@material-ui/icons'
-import { sendWs, SEND_TOGGLE_MASTER } from '../../send'
+import { sendWs, SEND_TOGGLE_MASTER } from '../../lib/send'
 
 const MasterButton = ({ ws, user, master, editTeams }) => {
   return (

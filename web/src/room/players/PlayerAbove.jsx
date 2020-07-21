@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import classNames from 'classnames'
-import { readableTime } from '../../util'
+import { readableTime } from '../../lib/util'
 import './PlayerAbove.scss'
 
 const PlayerAbove = ({ order, delay, score, rule }) => {

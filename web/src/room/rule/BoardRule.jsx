@@ -4,7 +4,7 @@ import {
   FormGroup, FormLabel, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import { parseNumber } from '../../util'
+import { parseNumber } from '../../lib/util'
 
 const BoardRule = ({ rule, changeRule }) => {
   const changeActive = value => {

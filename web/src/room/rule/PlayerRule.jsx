@@ -4,7 +4,7 @@ import {
   InputLabel, MenuItem, Select, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import { parseNumber } from '../../util'
+import { parseNumber } from '../../lib/util'
 
 const PlayerRule = ({ rule, changeRule }) => {
   const changePointCorrect = value => {

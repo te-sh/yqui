@@ -6,12 +6,12 @@ import {
   SET_EDIT_TEAMS, SET_BOARD,
   ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS
 } from './actions'
-import { normalizeArray } from '../util'
-import { initUsers, initUser, usersFromJson, findMaster } from '../user'
-import { initButtons, buttonsFromJson } from '../buttons'
-import { initSg, sgFromJson } from '../score'
-import { initRule } from '../rule'
-import { playersOfTeams, mergeEditTeam } from '../team'
+import { normalizeArray } from '../lib/util'
+import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
+import { initButtons, buttonsFromJson } from '../lib/buttons'
+import { initSg, sgFromJson } from '../lib/score'
+import { initRule } from '../lib/rule'
+import { playersOfTeams, mergeEditTeam } from '../lib/team'
 
 const initialState = {
   ws: null,

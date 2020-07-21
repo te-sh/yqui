@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import ItemTypes from '../../item_types'
+import ItemTypes from '../../lib/item_types'
 import Player from './Player'
 
 const PlayerDraggable = ({ player, playerIndex, teamIndex, movePlayer, droped }) => {

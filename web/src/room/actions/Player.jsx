@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper, TextField, Typography } from '@material-ui/core'
 import update from 'immutability-helper'
-import { displayAttr } from '../../util'
-import { sendWs, SEND_PUSH, SEND_BOARD } from '../../send'
+import { displayAttr } from '../../lib/util'
+import { sendWs, SEND_PUSH, SEND_BOARD } from '../../lib/send'
 import './Actions.scss'
 
 const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) => {

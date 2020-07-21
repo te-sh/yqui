@@ -5,9 +5,9 @@ import {
   DialogTitle, FormGroup, Tabs, Tab, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import { parseNumber } from '../../util'
-import { sendWs, SEND_RULE } from '../../send'
-import { initRule } from '../../rule'
+import { parseNumber } from '../../lib/util'
+import { sendWs, SEND_RULE } from '../../lib/send'
+import { initRule } from '../../lib/rule'
 import TabPanel from './TabPanel'
 import PlayerRule from './PlayerRule'
 import TeamRule from './TeamRule'

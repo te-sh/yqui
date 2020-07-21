@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import { displayAttr } from '../../util'
-import { winLoseText } from '../../rule'
+import { displayAttr } from '../../lib/util'
+import { winLoseText } from '../../lib/rule'
 
 const NormalRule = ({ display, rule }) => {
   const title = (() => {

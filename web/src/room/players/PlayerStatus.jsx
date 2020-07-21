@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import classNames from 'classnames'
-import { ordial } from '../../util'
+import { ordial } from '../../lib/util'
 import './PlayerStatus.scss'
 
 const PlayerStatus = ({ className, score }) => {

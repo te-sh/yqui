@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import { winLoseText } from '../../rule'
+import { winLoseText } from '../../lib/rule'
 
 const TeamRule = ({ display, rule }) => {
   const point = rule => {

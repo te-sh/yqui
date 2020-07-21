@@ -2,12 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
-import { intKeys } from '../../util'
+import { intKeys } from '../../lib/util'
 import {
   sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH,
   SEND_RESET, SEND_ALL_CLEAR, SEND_UNDO, SEND_REDO,
   SEND_BOARDS, SEND_BOARD_LOCK
-} from '../../send'
+} from '../../lib/send'
 import { clearEditBoards } from '../../redux/actions'
 import './Actions.scss'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { IconButton, Paper, TextField } from '@material-ui/core'
 import { Edit } from '@material-ui/icons'
-import { sendWs, SEND_PUSH, SEND_CHAT } from '../../send'
+import { sendWs, SEND_PUSH, SEND_CHAT } from '../../lib/send'
 import './Chat.scss'
 
 const Chat = ({ className, ws, isPlayer }) => {

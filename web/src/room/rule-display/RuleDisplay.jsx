@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Paper } from '@material-ui/core'
-import { displayAttr } from '../../util'
+import { displayAttr } from '../../lib/util'
 import ButtonRule from './ButtonRule'
 import BoardRule from './BoardRule'
 import NormalRule from './NormalRule'

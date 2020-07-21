@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Typography } from '@material-ui/core'
-import { displayAttr } from '../../util'
-import { chanceText } from '../../rule'
+import { displayAttr } from '../../lib/util'
+import { chanceText } from '../../lib/rule'
 import './RuleDisplay.scss'
 
 const ButtonRule = ({ rule, numPlayers }) => {

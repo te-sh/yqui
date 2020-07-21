@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper } from '@material-ui/core'
-import { sendWs, SEND_TEAMS } from '../../send'
-import { editTeamsToTeams } from '../../team'
+import { sendWs, SEND_TEAMS } from '../../lib/send'
+import { editTeamsToTeams } from '../../lib/team'
 import { setEditTeams } from '../../redux/actions'
 import './Actions.scss'
 
