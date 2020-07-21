@@ -111,16 +111,16 @@ func (room *Room) SendToOne(id int64, typ string, cnt interface {}) {
 
 func (room *Room) SendToMaster(typ string, cnt interface {}) {
 	msg := Message{Type: typ, Content: cnt}
-	if id := room.Master; id != -1 {
-		room.Users[id].Conn.Message <- msg
+	if user := room.Users.Master(); user != nil {
+		user.Conn.Message <- msg
 	}
 	LogJson("write", msg)
 }
 
 func (room *Room) SendToPlayers(typ string, cnt interface {}) {
 	msg := Message{Type: typ, Content: cnt}
-	for id, user := range room.Users {
-		if id != room.Master {
+	for _, user := range room.Users {
+		if !user.IsMaster {
 			user.Conn.Message <- msg
 		}
 	}

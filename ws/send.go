@@ -3,7 +3,6 @@ package main
 type RoomSend struct {
 	Users Users `json:"users"`
 	Teams Teams `json:"teams"`
-	Master int64 `json:"master"`
 	SG *ScoreGroup `json:"sg"`
 	Buttons *Buttons `json:"buttons"`
 	Rule *Rule `json:"rule"`
@@ -13,7 +12,6 @@ func (room *Room) SendRoom() {
 	roomSend := RoomSend{
 		Users: room.Users,
 		Teams: room.Teams,
-		Master: room.Master,
 		SG: room.SG,
 		Buttons: room.Buttons,
 		Rule: room.Rule,
@@ -22,16 +20,16 @@ func (room *Room) SendRoom() {
 }
 
 func (room *Room) SendBoards() {
-	for id, _ := range room.Boards {
+	for userID, user := range room.Users {
 		boards := make(Boards)
-		for id2, board := range room.Boards {
-			if id == room.Master || id == id2 || board.Open {
-				boards[id2] = board
+		for id, board := range room.Boards {
+			if user.IsMaster || id == userID || board.Open {
+				boards[id] = board
 			} else {
-				boards[id2] = NewBoard(id2)
+				boards[id] = NewBoard(id)
 			}
 		}
-		room.SendToOne(id, "boards", boards)
+		room.SendToOne(userID, "boards", boards)
 	}
 }
 

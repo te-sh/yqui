@@ -10,7 +10,7 @@ import { sendWs, SEND_BOARD } from '../../send'
 import { recvBoard } from '../../redux/actions'
 import './Board.scss'
 
-const Board = ({ className, ws, isMaster, board, updateBoard }) => {
+const Board = ({ className, ws, user, board, updateBoard }) => {
   const [correct, setCorrect] = React.useState('none')
 
   React.useEffect(
@@ -46,11 +46,11 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
       'correct': board.correct === 'correct',
       'wrong': board.correct === 'wrong',
       'open': board.open,
-      'master': isMaster
+      'master': user.isMaster
     }
   )
 
-  const box = isMaster && !board.open ? (
+  const box = user.isMaster && !board.open ? (
     <Tooltip title="クリックでオープン">
       <Box className={boxClass} onClick={open}>
         { board.text }
@@ -82,7 +82,7 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
   return (
     <Box className={className}>
       { box }
-      { isMaster ? buttons : null }
+      { user.isMaster ? buttons : null }
     </Box>
   )
 }
@@ -90,7 +90,7 @@ const Board = ({ className, ws, isMaster, board, updateBoard }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    isMaster: state.isMaster
+    user: state.user
   }),
   dispatch => ({
     updateBoard: board => dispatch(recvBoard(board))

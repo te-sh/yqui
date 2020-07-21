@@ -4,9 +4,9 @@ import classNames from 'classnames'
 import { Box, Typography } from '@material-ui/core'
 import './PlayerPoint.scss'
 
-const PlayerPoint = ({ className, score, isMaster, rule }) => {
-  const pointText = isMaster || rule.showPoint ? score.point : '-'
-  const batsuText = isMaster || rule.showPoint ? score.batsu : '-'
+const PlayerPoint = ({ className, user, score, rule }) => {
+  const pointText = user.isMaster || rule.showPoint ? score.point : '-'
+  const batsuText = user.isMaster || rule.showPoint ? score.batsu : '-'
 
   return (
     <Box className={classNames('player-point', className)}>
@@ -26,7 +26,7 @@ const PlayerPoint = ({ className, score, isMaster, rule }) => {
 
 export default connect(
   state => ({
-    isMaster: state.isMaster,
+    user: state.user,
     rule: state.rule
   })
 )(PlayerPoint)

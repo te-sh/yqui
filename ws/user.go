@@ -6,6 +6,7 @@ type User struct {
 	ID int64 `json:"id"`
 	Conn *Conn `json:"-"`
 	Team *Team `json:"-"`
+	IsMaster bool `json:"isMaster"`
 	Name string `json:"name"`
 	ChatAnswer bool `json:"chatAnswer"`
 }
@@ -21,7 +22,10 @@ func NewUser(id int64, conn *Conn, name string) *User {
 	user := new(User)
 	user.ID = id
 	user.Conn = conn
+	user.Team = nil
+	user.IsMaster = false
 	user.Name = name
+	user.ChatAnswer = false
 	return user
 }
 
@@ -31,8 +35,18 @@ func NewTeam() *Team {
 }
 
 func (users Users) Update(user *User) {
-	target := users[user.ID]
-	target.ChatAnswer = user.ChatAnswer
+	if target, ok := users[user.ID]; ok {
+		target.ChatAnswer = user.ChatAnswer
+	}
+}
+
+func (users Users) Master() *User {
+	for _, user := range users {
+		if user.IsMaster {
+			return user
+		}
+	}
+	return nil
 }
 
 func (teams Teams) IndexOf(target *Team) int {

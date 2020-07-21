@@ -7,14 +7,14 @@ import Player from './Player'
 import TeamEdit from './TeamEdit'
 import './Subactions.scss'
 
-const Subactions = ({ className, isMaster, buttons, editTeams }) => {
+const Subactions = ({ className, user, buttons, editTeams }) => {
   const alert = isContinueingMultiChance(buttons) ? 'multiChance' : null
 
   if (alert) {
     return <Alert className={className} alert={alert} />
   } else if (editTeams) {
     return <TeamEdit className={className} />
-  } else if (isMaster) {
+  } else if (user.isMaster) {
     return <Master className={className} />
   } else {
     return <Player className={className} />
@@ -23,7 +23,7 @@ const Subactions = ({ className, isMaster, buttons, editTeams }) => {
 
 export default connect(
   state => ({
-    isMaster: state.isMaster,
+    user: state.user,
     buttons: state.buttons,
     editTeams: state.editTeams
   })

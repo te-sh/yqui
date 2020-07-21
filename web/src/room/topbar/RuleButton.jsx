@@ -4,7 +4,7 @@ import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { PlaylistAddCheck } from '@material-ui/icons'
 import Rule from '../rule/Rule'
 
-const RuleButton = ({ isMaster, editTeams }) => {
+const RuleButton = ({ user, editTeams }) => {
   const [ruleOpen, setRuleOpen] = React.useState(false)
 
   return (
@@ -12,7 +12,7 @@ const RuleButton = ({ isMaster, editTeams }) => {
       <Tooltip title="ルール">
         <span>
           <IconButton color="inherit"
-                      disabled={!isMaster || !!editTeams}
+                      disabled={!user.isMaster || !!editTeams}
                       onClick={() => setRuleOpen(true)}>
             <PlaylistAddCheck />
           </IconButton>
@@ -25,7 +25,7 @@ const RuleButton = ({ isMaster, editTeams }) => {
 
 export default connect(
   state => ({
-    isMaster: state.isMaster,
+    user: state.user,
     editTeams: state.editTeams
   })
 )(RuleButton)

@@ -3,9 +3,8 @@ import { connect } from 'react-redux'
 import { Paper, Typography } from '@material-ui/core'
 import './MasterDisplay.scss'
 
-const MasterDisplay = ({ className, users, master }) => {
-  const user = users.get(master)
-  const masterName = user ? <span className="master-name">{user.name}</span> : '-'
+const MasterDisplay = ({ className, master }) => {
+  const masterName = master ? <span className="master-name">{master.name}</span> : '-'
 
   return (
     <Paper className={className}>
@@ -16,7 +15,6 @@ const MasterDisplay = ({ className, users, master }) => {
 
 export default connect(
   state => ({
-    users: state.users,
     master: state.master
   })
 )(MasterDisplay)

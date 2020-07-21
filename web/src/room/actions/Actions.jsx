@@ -4,10 +4,10 @@ import Master from './Master'
 import Player from './Player'
 import TeamEdit from './TeamEdit'
 
-const Actions = ({ className, isMaster, editTeams }) => {
+const Actions = ({ className, user, editTeams }) => {
   if (editTeams) {
     return <TeamEdit className={className} />
-  } else if (isMaster) {
+  } else if (user.isMaster) {
     return <Master className={className} />
   } else {
     return <Player className={className} />
@@ -16,7 +16,7 @@ const Actions = ({ className, isMaster, editTeams }) => {
 
 export default connect(
   state => ({
-    isMaster: state.isMaster,
+    user: state.user,
     editTeams: state.editTeams
   })
 )(Actions)

@@ -24,9 +24,6 @@ func (room *Room) LeaveUser(id int64, time int64) {
 
 	room.SG.Player.Remove(id)
 	delete(room.Boards, id)
-	if (room.Master == id) {
-		room.Master = -1
-	}
 	room.RemovePlayerFromTeam(id)
 	delete(room.Users, id)
 
@@ -78,9 +75,8 @@ func (room *Room) ChangeTeams() {
 			team.ID = NewID()
 		}
 		for _, id := range team.Players {
-			room.Users[id].Team = team
-			if room.Master == id {
-				room.Master = -1
+			if user, ok := room.Users[id]; ok {
+				user.Team = team
 			}
 		}
 	}
@@ -89,12 +85,14 @@ func (room *Room) ChangeTeams() {
 }
 
 func (room *Room) ToggleMaster(id int64) {
-	if room.Master == id {
-		room.Master = -1
-		room.AddPlayerToDefaultTeam(id)
-	} else if room.Master == -1 {
-		room.Master = id
-		room.RemovePlayerFromTeam(id)
+	if user, ok := room.Users[id]; ok {
+		if user.IsMaster {
+			user.IsMaster = false
+			room.AddPlayerToDefaultTeam(id)
+		} else if room.Users.Master() == nil {
+			user.IsMaster = true
+			room.RemovePlayerFromTeam(id)
+		}
 	}
 	room.SendRoom()
 }

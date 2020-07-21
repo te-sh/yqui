@@ -4,13 +4,13 @@ import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { Portrait } from '@material-ui/icons'
 import { sendWs, SEND_TOGGLE_MASTER } from '../../send'
 
-const MasterButton = ({ ws, master, isMaster, editTeams }) => {
+const MasterButton = ({ ws, user, master, editTeams }) => {
   return (
     <Box>
       <Tooltip title="司会">
         <span>
-          <IconButton color={isMaster ? 'secondary' : 'inherit'}
-                      disabled={(!isMaster && master >= 0) || !!editTeams}
+          <IconButton color={user.isMaster ? 'secondary' : 'inherit'}
+                      disabled={(!user.isMaster && master) || !!editTeams}
                       onClick={() => sendWs(ws, SEND_TOGGLE_MASTER)}>
             <Portrait />
           </IconButton>
@@ -23,8 +23,8 @@ const MasterButton = ({ ws, master, isMaster, editTeams }) => {
 export default connect(
   state => ({
     ws: state.ws,
+    user: state.user,
     master: state.master,
-    isMaster: state.isMaster,
     editTeams: state.editTeams
   })
 )(MasterButton)
