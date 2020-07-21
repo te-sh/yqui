@@ -51,7 +51,7 @@ func (room *Room) SendButtons() {
 	room.Broadcast("buttons", room.Buttons)
 }
 
-func (room *Room) SendScores() {
+func (room *Room) SendSG() {
 	sg := room.SG.Clone()
 	room.SendToMaster("sg", sg)
 

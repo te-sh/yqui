@@ -33,20 +33,20 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendSound(sound)
 	case "correct":
 		room.Correct(sound)
-		room.SendScores()
+		room.SendSG()
 		room.SendButtons()
 		sound.Correct = true
 		room.SendSound(sound)
 	case "wrong":
 		room.Wrong(sound)
-		room.SendScores()
+		room.SendSG()
 		room.SendButtons()
 		sound.Wrong = true
 		room.SendSound(sound)
 	case "through":
 		room.NextQuiz()
 		room.History.Add(room.SG)
-		room.SendScores()
+		room.SendSG()
 		room.SendButtons()
 		room.ResetBoards()
 	case "reset":
@@ -55,26 +55,26 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.ResetBoards()
 	case "all-clear":
 		room.AllClear()
-		room.SendScores()
+		room.SendSG()
 		room.SendButtons()
 		room.ResetBoards()
 	case "undo":
 		room.History.Move(-1, room.SG)
-		room.SendScores()
+		room.SendSG()
 	case "redo":
 		room.History.Move(+1, room.SG)
-		room.SendScores()
+		room.SendSG()
 	case "boards":
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)
 		room.UpdateBoards(newBoards, sound)
-		room.SendScores()
+		room.SendSG()
 		room.SendSound(sound)
 	case "board":
 		newBoard := NewBoard(cmd.ID)
 		json.Unmarshal(cmd.A, newBoard)
 		room.UpdateBoard(newBoard, sound)
-		room.SendScores()
+		room.SendSG()
 		room.SendSound(sound)
 	case "board-lock":
 		room.BoardLock = !room.BoardLock
