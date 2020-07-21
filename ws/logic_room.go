@@ -178,12 +178,8 @@ func (room *Room) NextQuiz() {
 }
 
 func (room *Room) ResetBoards() {
-	for id, _ := range room.Boards {
-		room.Boards[id] = NewBoard(id)
-	}
+	room.Boards.Reset()
 	room.BoardLock = false
-	room.SendBoards()
-	room.SendBoardLock()
 }
 
 func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {

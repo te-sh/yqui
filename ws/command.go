@@ -44,20 +44,26 @@ func (room *Room) RunCommand(cmd Cmd) {
 		sound.Wrong = true
 		room.SendSound(sound)
 	case "through":
+		room.ResetBoards()
 		room.NextQuiz()
 		room.History.Add(room.SG)
+		room.SendBoards()
+		room.SendBoardLock()
 		room.SendSG()
 		room.SendButtons()
-		room.ResetBoards()
 	case "reset":
-		room.Buttons.Reset()
-		room.SendButtons()
 		room.ResetBoards()
+		room.Buttons.Reset()
+		room.SendBoards()
+		room.SendBoardLock()
+		room.SendButtons()
 	case "all-clear":
+		room.ResetBoards()
 		room.AllClear()
+		room.SendBoards()
+		room.SendBoardLock()
 		room.SendSG()
 		room.SendButtons()
-		room.ResetBoards()
 	case "undo":
 		room.History.Move(-1, room.SG)
 		room.SendSG()
@@ -71,7 +77,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendSG()
 		room.SendSound(sound)
 	case "board":
-		newBoard := NewBoard(cmd.ID)
+		newBoard := NewBoard()
 		json.Unmarshal(cmd.A, newBoard)
 		room.UpdateBoard(newBoard, sound)
 		room.SendSG()

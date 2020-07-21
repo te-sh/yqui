@@ -10,13 +10,12 @@ type Board struct {
 }
 
 func NewBoards() Boards {
-	newBoards := make(Boards)
-	return newBoards
+	boards := make(Boards)
+	return boards
 }
 
-func NewBoard(id int64) *Board {
+func NewBoard() *Board {
 	board := new(Board)
-	board.ID = id
 	board.Reset()
 	return board
 }
@@ -34,6 +33,12 @@ func (board *Board) Clone() *Board {
 	return &newBoard
 }
 
+func (boards Boards) Reset() {
+	for _, board := range boards {
+		board.Reset()
+	}
+}
+
 func (board *Board) Reset() {
 	board.Text = ""
 	board.Correct = "none"
@@ -41,7 +46,9 @@ func (board *Board) Reset() {
 }
 
 func (boards Boards) Add(id int64) {
-	boards[id] = NewBoard(id)
+	board := NewBoard()
+	board.ID = id
+	boards[id] = board
 }
 
 func (boards Boards) Remove(id int64) {
