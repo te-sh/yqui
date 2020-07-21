@@ -4,9 +4,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import URI from 'urijs'
 import playSound from './lib/sound'
 import {
-  reset, setWebSocket, recvRooms, recvJoined,
-  recvSelfID, recvRoom, recvBoards, recvBoardLock,
-  recvBoard, recvSg, recvButtons, recvChat
+  reset, setWebSocket,
+  recvSelfID, recvRooms, recvJoined,
+  recvRoom, recvBoards, recvBoardLock, recvBoard,
+  recvSg, recvButtons, recvChat
 } from './redux/actions'
 import Rooms from './rooms/Rooms'
 import Room from './room/Room'
