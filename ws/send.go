@@ -19,14 +19,19 @@ func (room *Room) SendRoom() {
 	room.Broadcast("room", roomSend)
 }
 
+func (room *Room) HideBoards(user *User) Boards {
+	boards := room.Boards.Clone()
+	for _, board := range room.Boards {
+		if !user.IsMaster && user.ID != board.ID && !board.Open {
+			board.Reset()
+		}
+	}
+	return boards
+}
+
 func (room *Room) SendBoards() {
 	for id, user := range room.Users {
-		boards := room.Boards.Clone()
-		for _, board := range room.Boards {
-			if !user.IsMaster && id != board.ID && !board.Open {
-				board.Reset()
-			}
-		}
+		boards := room.HideBoards(user)
 		room.SendToOne(id, "boards", boards)
 	}
 }
@@ -49,14 +54,19 @@ func (room *Room) SendButtons() {
 	room.Broadcast("buttons", room.Buttons)
 }
 
-func (room *Room) SendSG() {
+func (room *Room) HideSG(user *User) *ScoreGroup {
 	sg := room.SG.Clone()
-	room.SendToMaster("sg", sg)
-
-	if !room.Rule.ShowPoint {
+	if !user.IsMaster && !room.Rule.ShowPoint {
 		sg.SetZero()
 	}
-	room.SendToPlayers("sg", sg)
+	return sg
+}
+
+func (room *Room) SendSG() {
+	for id, user := range room.Users {
+		sg := room.HideSG(user)
+		room.SendToOne(id, "sg", sg)
+	}
 }
 
 func (room *Room) SendChat(chat Chat) {
