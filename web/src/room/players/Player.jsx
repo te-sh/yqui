@@ -13,7 +13,7 @@ const Player = ({ player, boards, sg, buttons, rule }) => {
   const order = buttons.pushers.indexOf(player)
   const right = order === buttons.answerers.length ? player : -1
   const board = boards[player] || {}
-  const score = sg.player.scores[player] || {}
+  const score = sg.player.scores.get(player)
 
   const playerClass = classNames(
     'player',

@@ -20,7 +20,7 @@ const Teams = ({ className, ws, teams, sg, rule }) => {
   const multiTeamClass = { 'multi-team': rule.team.active }
 
   const list = teams.map((team, index) => {
-    let teamScore = sg.team.scores[team.id]
+    let teamScore = sg.team.scores.get(team.id)
 
     return (
       <Box key={team.id}
