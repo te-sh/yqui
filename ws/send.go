@@ -20,16 +20,14 @@ func (room *Room) SendRoom() {
 }
 
 func (room *Room) SendBoards() {
-	for userID, user := range room.Users {
-		boards := make(Boards)
-		for id, board := range room.Boards {
-			if user.IsMaster || id == userID || board.Open {
-				boards[id] = board
-			} else {
-				boards[id] = NewBoard(id)
+	for id, user := range room.Users {
+		boards := room.Boards.Clone()
+		for _, board := range room.Boards {
+			if !user.IsMaster && id != board.ID && !board.Open {
+				board.Reset()
 			}
 		}
-		room.SendToOne(userID, "boards", boards)
+		room.SendToOne(id, "boards", boards)
 	}
 }
 

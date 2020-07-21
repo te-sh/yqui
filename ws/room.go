@@ -14,7 +14,7 @@ type Room struct {
 func NewRoom() *Room {
 	room := new(Room)
 	room.Users = make(Users)
-	room.Boards = make(Boards)
+	room.Boards = NewBoards()
 	room.BoardLock = false
 	room.SG = NewScoreGroup()
 	room.Buttons = NewButtons()

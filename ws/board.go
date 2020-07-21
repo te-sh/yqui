@@ -9,13 +9,35 @@ type Board struct {
 	Open bool `json:"open"`
 }
 
+func NewBoards() Boards {
+	newBoards := make(Boards)
+	return newBoards
+}
+
 func NewBoard(id int64) *Board {
 	board := new(Board)
 	board.ID = id
+	board.Reset()
+	return board
+}
+
+func (boards Boards) Clone() Boards {
+	newBoards := make(Boards)
+	for id, board := range boards {
+		newBoards[id] = board.Clone()
+	}
+	return newBoards
+}
+
+func (board *Board) Clone() *Board {
+	newBoard := *board
+	return &newBoard
+}
+
+func (board *Board) Reset() {
 	board.Text = ""
 	board.Correct = "none"
 	board.Open = false
-	return board
 }
 
 func (boards Boards) Add(id int64) {
