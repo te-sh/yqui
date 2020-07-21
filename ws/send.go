@@ -1,22 +1,12 @@
 package main
 
-type RoomSend struct {
-	Users Users `json:"users"`
-	Teams Teams `json:"teams"`
-	SG *ScoreGroup `json:"sg"`
-	Buttons *Buttons `json:"buttons"`
-	Rule *Rule `json:"rule"`
-}
-
 func (room *Room) SendRoom() {
-	roomSend := RoomSend{
-		Users: room.Users,
-		Teams: room.Teams,
-		SG: room.SG,
-		Buttons: room.Buttons,
-		Rule: room.Rule,
+	for id, user := range room.Users {
+		newRoom := room.Clone()
+		newRoom.Boards = room.HideBoards(user)
+		newRoom.SG = room.HideSG(user)
+		room.SendToOne(id, "room", newRoom)
 	}
-	room.Broadcast("room", roomSend)
 }
 
 func (room *Room) HideBoards(user *User) Boards {

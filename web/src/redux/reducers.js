@@ -54,6 +54,8 @@ const recvRoom = (action, state) => {
     teams: { $set: teams },
     isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
+    boards: { $set: action.room.boards },
+    boardLock: { $set: action.room.boardLock },
     sg: { $set: sgFromJson(action.room.sg) },
     buttons: { $set: buttonsFromJson(action.room.buttons) },
     rule: { $set: action.room.rule },

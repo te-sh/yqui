@@ -1,14 +1,14 @@
 package main
 
 type Room struct {
-	Users Users
-	Teams Teams
-	Boards Boards
-	BoardLock bool
-	SG *ScoreGroup
-	Buttons *Buttons
-	Rule *Rule
-	History *History
+	Users Users `json:"users"`
+	Teams Teams `json:"teams"`
+	Boards Boards `json:"boards"`
+	BoardLock bool `json:"boardLock"`
+	SG *ScoreGroup `json:"sg"`
+	Buttons *Buttons `json:"buttons"`
+	Rule *Rule `json:"rule"`
+	History *History `json:"-"`
 }
 
 func NewRoom() *Room {
@@ -21,4 +21,11 @@ func NewRoom() *Room {
 	room.Rule = NewRule()
 	room.History = NewHistory()
 	return room
+}
+
+func (room *Room) Clone() *Room {
+	newRoom := *room
+	newRoom.SG = room.SG.Clone()
+	newRoom.Boards = room.Boards.Clone()
+	return &newRoom
 }

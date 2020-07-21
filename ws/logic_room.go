@@ -12,9 +12,6 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.Boards.Add(id)
 	room.SG.Player.Add(id)
 
-	room.SendBoards()
-	room.SendBoardLock()
-
 	chat := Chat{Type: "join", Time: time, Name: name}
 	room.SendChat(chat)
 }
