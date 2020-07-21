@@ -24,10 +24,9 @@ const Player = ({ player, boards, sg, buttons, rule }) => {
     <Box className="player-container">
       <PlayerAbove order={order} score={score} />
       <Paper className={playerClass}>
-        <PlayerName className="player-name"
-                    player={player} right={right} />
-        <PlayerPoint score={score} className="player-point" />
-        <PlayerStatus score={score} className="player-status" />
+        <PlayerName className="player-name" player={player} right={right} />
+        <PlayerPoint className="player-point" score={score} />
+        <PlayerStatus className="player-status" score={score} />
         { rule.board.active ? <Board className="board" board={board} /> : null }
       </Paper>
     </Box>

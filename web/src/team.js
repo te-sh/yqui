@@ -1,4 +1,4 @@
-import { shuffle, intKeys } from './util'
+import { shuffle } from './util'
 
 export const playersOfTeams = teams => (
   teams.map(team => team.players).reduce((a, c) => a.concat(c), [])
