@@ -86,9 +86,10 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, &room.Rule)
 		room.SendRoom()
 	case "chat":
-		name := room.Users[cmd.ID].Name
-		chat := Chat{Type: "message", Time: cmd.Time, Name: name}
-		json.Unmarshal(cmd.A, &chat.Text)
-		room.SendChat(chat)
+		if user, ok := room.Users[cmd.ID]; ok {
+			chat := Chat{Type: "message", Time: cmd.Time, Name: user.Name}
+			json.Unmarshal(cmd.A, &chat.Text)
+			room.SendChat(chat)
+		}
 	}
 }
