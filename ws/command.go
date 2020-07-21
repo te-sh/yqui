@@ -26,23 +26,28 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "teams":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()
+		room.SendRoom()
 	case "push":
 		room.PushButton(cmd.ID, cmd.Time, sound)
+		room.SendButtons()
 		room.SendSound(sound)
 	case "correct":
 		room.Correct(sound)
 		room.SendScores()
+		room.SendButtons()
 		sound.Correct = true
 		room.SendSound(sound)
 	case "wrong":
 		room.Wrong(sound)
 		room.SendScores()
+		room.SendButtons()
 		sound.Wrong = true
 		room.SendSound(sound)
 	case "through":
 		room.NextQuiz()
 		room.History.Add(room.SG)
 		room.SendScores()
+		room.SendButtons()
 		room.ResetBoards()
 	case "reset":
 		room.Buttons.Reset()
@@ -51,6 +56,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "all-clear":
 		room.AllClear()
 		room.SendScores()
+		room.SendButtons()
 		room.ResetBoards()
 	case "undo":
 		room.History.Move(-1, room.SG)
@@ -75,6 +81,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendBoardLock()
 	case "toggle-master":
 		room.ToggleMaster(cmd.ID)
+		room.SendRoom()
 	case "rule":
 		json.Unmarshal(cmd.A, &room.Rule)
 		room.SendRoom()

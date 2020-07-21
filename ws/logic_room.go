@@ -15,7 +15,6 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.SendBoards()
 	room.SendBoardLock()
 
-	room.SendRoom()
 	chat := Chat{Type: "join", Time: time, Name: name}
 	room.SendChat(chat)
 }
@@ -38,7 +37,6 @@ func (room *Room) LeaveUser(id int64, time int64) {
 		room.SG = NewScoreGroup()
 	}
 
-	room.SendRoom()
 	chat := Chat{Type: "leave", Time: time, Name: user.Name}
 	room.SendChat(chat)
 }
@@ -82,7 +80,6 @@ func (room *Room) ChangeTeams() {
 		}
 	}
 	room.SG.Team.SetTeam(room.Teams)
-	room.SendRoom()
 }
 
 func (room *Room) ToggleMaster(id int64) {
@@ -95,7 +92,6 @@ func (room *Room) ToggleMaster(id int64) {
 			room.RemovePlayerFromTeam(id)
 		}
 	}
-	room.SendRoom()
 }
 
 func (room *Room) Pushed(user *User) bool {
@@ -112,7 +108,6 @@ func (room *Room) PushButton(id int64, time int64, sound *Sound) {
 		(!room.Rule.Team.Active || room.SG.Team.CanPush(user.Team.ID)) {
 		sound.Push = room.Buttons.AllAnswered()
 		room.Buttons.Push(id, time)
-		room.SendButtons()
 	}
 }
 
@@ -172,8 +167,6 @@ func (room *Room) Wrong(sound *Sound) {
 	buttons.Answer(id)
 	if room.NoCanAnswer() {
 		room.NextQuiz()
-	} else {
-		room.SendButtons()
 	}
 	room.History.Add(room.SG)
 }
@@ -182,7 +175,6 @@ func (room *Room) NextQuiz() {
 	room.SG.Player.DecreaseLock(room.Buttons)
 	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, nil)
 	room.Buttons.Reset()
-	room.SendButtons()
 }
 
 func (room *Room) ResetBoards() {
@@ -237,7 +229,6 @@ func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
 
 func (room *Room) AllClear() {
 	room.Buttons.Reset()
-	room.SendButtons()
 	room.SG.Reset()
 	room.History.Add(room.SG)
 }

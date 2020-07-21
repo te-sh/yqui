@@ -34,6 +34,7 @@ func JoinUser(id int64, conn *Conn, cmd Cmd) {
 		if room := rooms[join.RoomNo]; room != nil {
 			id2room[id] = room
 			room.JoinUser(id, conn, join.Name, NowMilliSec())
+			room.SendRoom()
 			conn.SendJoined(join.RoomNo)
 			id2conn.SendRooms(rooms)
 		}
@@ -44,6 +45,7 @@ func LeaveUser(id int64) {
 	if room, ok := id2room[id]; ok {
 		delete(id2room, id)
 		room.LeaveUser(id, NowMilliSec())
+		room.SendRoom()
 		id2conn.SendRooms(rooms)
 	}
 }
