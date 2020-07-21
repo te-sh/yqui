@@ -6,6 +6,8 @@ import ItemTypes from '../../item_types'
 import './Player.scss'
 
 const Player = ({ player, teamIndex, playerIndex, users }) => {
+  const user = users.get(player)
+
   const [{ opacity }, dragRef] = useDrag({
     item: { type: ItemTypes.PLAYER, player, teamIndex, playerIndex },
     collect: monitor => ({
@@ -17,7 +19,7 @@ const Player = ({ player, teamIndex, playerIndex, users }) => {
     <Paper className="team-edit-player"
            ref={dragRef} style={{ cursor: 'move', opacity }}>
       <Typography className="team-edit-player-content">
-        {users[player].name}
+        {user.name}
       </Typography>
     </Paper>
   )

@@ -4,9 +4,8 @@ import { Paper, Typography } from '@material-ui/core'
 import './MasterDisplay.scss'
 
 const MasterDisplay = ({ className, users, master }) => {
-  const masterName = master !== -1 ?
-                     <span className="master-name">{users[master].name}</span> :
-                     '-'
+  const user = users.get(master)
+  const masterName = user ? <span className="master-name">{user.name}</span> : '-'
 
   return (
     <Paper className={className}>

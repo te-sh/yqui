@@ -5,7 +5,7 @@ import {
   RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_CHAT,
   SET_EDIT_TEAMS
 } from './actions'
-import { normalizeArray } from '../util'
+import { toIntMap, normalizeArray } from '../util'
 import { initRule } from '../rule'
 import { playersOfTeams, mergeEditTeam } from '../team'
 
@@ -14,7 +14,7 @@ const initialState = {
   rooms: [],
   roomNo: null,
   selfID: null,
-  users: {},
+  users: new Map(),
   user: null,
   teams: [],
   master: -1,
@@ -59,12 +59,12 @@ const normalizeButtons = buttons => {
 }
 
 const recvRoom = (action, state) => {
-  let users = action.room.users
+  let users = toIntMap(action.room.users)
   let teams = normalizeTeams(action.room.teams)
   let players = playersOfTeams(teams)
   return update(state, {
     users: { $set: users },
-    user: { $set: users[state.selfID] },
+    user: { $set: users.get(state.selfID) },
     teams: { $set: teams },
     master: { $set: action.room.master },
     isMaster: { $set: state.selfID === action.room.master },

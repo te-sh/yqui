@@ -5,6 +5,8 @@ import classNames from 'classnames'
 import './PlayerName.scss'
 
 const PlayerName = ({ player, right, selfID, users }) => {
+  const user = users.get(player)
+
   const nameClass = classNames('player-name-content', {
     'pushed': right === player
   })
@@ -18,9 +20,9 @@ const PlayerName = ({ player, right, selfID, users }) => {
       <Box className={nameClass}>
         <Typography className={nameMainClass}>
           <span className="chat-mark">
-            {users[player].chatAnswer ? '©' : ''}
+            {user.chatAnswer ? '©' : ''}
           </span>
-          {users[player].name}
+          {user.name}
         </Typography>
       </Box>
     </Box>
