@@ -100,11 +100,12 @@ func (room *Room) Pushed(user *User) bool {
 }
 
 func (room *Room) PushButton(id int64, time int64, sound *Sound) {
-	user := room.Users[id]
-	if !room.Pushed(user) && room.SG.Player.CanPush(id) &&
-		(!room.Rule.Team.Active || room.SG.Team.CanPush(user.Team.ID)) {
-		sound.Push = room.Buttons.AllAnswered()
-		room.Buttons.Push(id, time)
+	if user, ok := room.Users[id]; ok {
+		if !room.Pushed(user) && room.SG.Player.CanPush(id) &&
+			(!room.Rule.Team.Active || room.SG.Team.CanPush(user.Team.ID)) {
+			sound.Push = room.Buttons.AllAnswered()
+			room.Buttons.Push(id, time)
+		}
 	}
 }
 
