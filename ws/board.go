@@ -1,5 +1,10 @@
 package main
 
+type BoardGroup struct {
+	Boards Boards `json:"boards"`
+	Lock   bool   `json:"lock"`
+}
+
 type Boards map[int64]*Board
 
 type Board struct {
@@ -7,6 +12,13 @@ type Board struct {
 	Text    string `json:"text"`
 	Correct string `json:"correct"`
 	Open    bool   `json:"open"`
+}
+
+func NewBoardGroup() *BoardGroup {
+	bg := new(BoardGroup)
+	bg.Boards = NewBoards()
+	bg.Lock = false
+	return bg
 }
 
 func NewBoards() Boards {
@@ -20,6 +32,12 @@ func NewBoard() *Board {
 	return board
 }
 
+func (bg *BoardGroup) Clone() *BoardGroup {
+	newBG := *bg
+	newBG.Boards = bg.Boards.Clone()
+	return &newBG
+}
+
 func (boards Boards) Clone() Boards {
 	newBoards := make(Boards)
 	for id, board := range boards {
@@ -31,6 +49,11 @@ func (boards Boards) Clone() Boards {
 func (board *Board) Clone() *Board {
 	newBoard := *board
 	return &newBoard
+}
+
+func (bg *BoardGroup) Reset() {
+	bg.Boards.Reset()
+	bg.Lock = false
 }
 
 func (boards Boards) Reset() {

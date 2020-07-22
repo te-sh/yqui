@@ -9,7 +9,7 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 
 	room.Users[id] = user
 	room.AddPlayerToDefaultTeam(id)
-	room.Boards.Add(id)
+	room.BG.Boards.Add(id)
 	room.SG.Player.Add(id)
 
 	chat := Chat{Type: "join", Time: time, Name: name}
@@ -20,7 +20,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
 	room.SG.Player.Remove(id)
-	room.Boards.Remove(id)
+	room.BG.Boards.Remove(id)
 	room.RemovePlayerFromTeam(id)
 	delete(room.Users, id)
 
@@ -175,18 +175,13 @@ func (room *Room) NextQuiz() {
 	room.Buttons.Reset()
 }
 
-func (room *Room) ResetBoards() {
-	room.Boards.Reset()
-	room.BoardLock = false
-}
-
 func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	first, _ := room.Buttons.RightPlayer()
-	sound.Open = room.Boards.Opens(newBoards)
+	sound.Open = room.BG.Boards.Opens(newBoards)
 
-	corrects := room.Boards.Corrects(newBoards)
+	corrects := room.BG.Boards.Corrects(newBoards)
 	room.SG.Player.CorrectBoard(corrects, first, room.Rule, sound)
-	wrongs := room.Boards.Wrongs(newBoards)
+	wrongs := room.BG.Boards.Wrongs(newBoards)
 	room.SG.Player.WrongBoard(wrongs, first, room.Rule, sound)
 
 	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, sound)
@@ -195,7 +190,7 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 		room.History.Add(room.SG)
 	}
 
-	room.Boards.Merge(newBoards)
+	room.BG.Boards.Merge(newBoards)
 }
 
 func (room *Room) AllClear() {

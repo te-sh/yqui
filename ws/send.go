@@ -4,32 +4,31 @@ func (room *Room) SendRoom() {
 	LogJson("room", room)
 	for id, user := range room.Users {
 		newRoom := room.Clone()
-		newRoom.Boards = room.HideBoards(user)
-		newRoom.SG = room.HideSG(user)
+		newRoom.BG = room.HideBG(room.BG, user)
+		newRoom.SG = room.HideSG(room.SG, user)
 		room.SendToOne(id, "room", newRoom)
 	}
 }
 
-func (room *Room) HideBoards(user *User) Boards {
-	boards := room.Boards.Clone()
-	for _, board := range room.Boards {
+func (room *Room) HideBG(bg *BoardGroup, user *User) *BoardGroup {
+	for _, board := range room.BG.Boards {
 		if !user.IsMaster && user.ID != board.ID && !board.Open {
 			board.Reset()
 		}
 	}
-	return boards
+	return bg
 }
 
-func (room *Room) SendBoards() {
-	LogJson("board", room.Boards)
+func (room *Room) SendBG() {
+	LogJson("bg", room.BG)
 	for id, user := range room.Users {
-		boards := room.HideBoards(user)
-		room.SendToOne(id, "boards", boards)
+		bg := room.HideBG(room.BG.Clone(), user)
+		room.SendToOne(id, "bg", bg)
 	}
 }
 
 func (room *Room) SendBoard(id int64) {
-	if board, ok := room.Boards[id]; ok {
+	if board, ok := room.BG.Boards[id]; ok {
 		LogJson("board", board)
 		if board.Open {
 			room.Broadcast("board", board)
@@ -40,18 +39,12 @@ func (room *Room) SendBoard(id int64) {
 	}
 }
 
-func (room *Room) SendBoardLock() {
-	LogJson("boardLock", room.BoardLock)
-	room.Broadcast("boardLock", room.BoardLock)
-}
-
 func (room *Room) SendButtons() {
 	LogJson("buttons", room.Buttons)
 	room.Broadcast("buttons", room.Buttons)
 }
 
-func (room *Room) HideSG(user *User) *ScoreGroup {
-	sg := room.SG.Clone()
+func (room *Room) HideSG(sg *ScoreGroup, user *User) *ScoreGroup {
 	if !user.IsMaster && !room.Rule.ShowPoint {
 		sg.SetZero()
 	}
@@ -61,7 +54,7 @@ func (room *Room) HideSG(user *User) *ScoreGroup {
 func (room *Room) SendSG() {
 	LogJson("sg", room.SG)
 	for id, user := range room.Users {
-		sg := room.HideSG(user)
+		sg := room.HideSG(room.SG.Clone(), user)
 		room.SendToOne(id, "sg", sg)
 	}
 }

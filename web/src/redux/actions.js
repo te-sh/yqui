@@ -4,8 +4,7 @@ export const RECV_ROOMS = 'RECV_ROOMS'
 export const RECV_JOINED = 'RECV_JOINED'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
-export const RECV_BOARDS = 'RECV_BOARDS'
-export const RECV_BOARD_LOCK = 'RECV_BOARD_LOCK'
+export const RECV_BG = 'RECV_BG'
 export const RECV_BOARD = 'RECV_BOARD'
 export const RECV_SG = 'RECV_SG'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
@@ -40,16 +39,12 @@ export const recvRoom = room => {
   return { type: RECV_ROOM, room }
 }
 
-export const recvBoards = boards => {
-  return { type: RECV_BOARDS, boards }
+export const recvBg = bg => {
+  return { type: RECV_BG, bg }
 }
 
 export const recvBoard = board => {
   return { type: RECV_BOARD, board }
-}
-
-export const recvBoardLock = boardLock => {
-  return { type: RECV_BOARD_LOCK, boardLock }
 }
 
 export const recvSg = sg => {

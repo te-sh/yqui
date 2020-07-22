@@ -3,8 +3,7 @@ package main
 type Room struct {
 	Users     Users       `json:"users"`
 	Teams     Teams       `json:"teams"`
-	Boards    Boards      `json:"boards"`
-	BoardLock bool        `json:"boardLock"`
+	BG        *BoardGroup `json:"bg"`
 	SG        *ScoreGroup `json:"sg"`
 	Buttons   *Buttons    `json:"buttons"`
 	Rule      *Rule       `json:"rule"`
@@ -14,8 +13,7 @@ type Room struct {
 func NewRoom() *Room {
 	room := new(Room)
 	room.Users = make(Users)
-	room.Boards = NewBoards()
-	room.BoardLock = false
+	room.BG = NewBoardGroup()
 	room.SG = NewScoreGroup()
 	room.Buttons = NewButtons()
 	room.Rule = NewRule()
@@ -26,6 +24,6 @@ func NewRoom() *Room {
 func (room *Room) Clone() *Room {
 	newRoom := *room
 	newRoom.SG = room.SG.Clone()
-	newRoom.Boards = room.Boards.Clone()
+	newRoom.BG = room.BG.Clone()
 	return &newRoom
 }

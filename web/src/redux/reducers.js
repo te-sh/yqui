@@ -1,9 +1,7 @@
 import update from 'immutability-helper'
 import {
-  RESET, SET_WEB_SOCKET,
-  RECV_SELF_ID, RECV_ROOMS, RECV_JOINED,
-  RECV_ROOM, RECV_BOARDS, RECV_BOARD_LOCK, RECV_BOARD,
-  RECV_SG, RECV_BUTTONS, RECV_CHAT,
+  RESET, SET_WEB_SOCKET, RECV_SELF_ID, RECV_ROOMS, RECV_JOINED,
+  RECV_ROOM, RECV_BG, RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_CHAT,
   SET_EDIT_TEAMS, SET_BOARD,
   ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS
 } from './actions'
@@ -25,8 +23,10 @@ const initialState = {
   teams: [],
   isPlayer: false,
   numPlayers: 0,
-  boards: {},
-  boardLock: false,
+  bg: {
+    boards: {},
+    lock: false
+  },
   sg: initSg,
   buttons: initButtons,
   rule: initRule,
@@ -54,8 +54,10 @@ const recvRoom = (action, state) => {
     teams: { $set: teams },
     isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
-    boards: { $set: action.room.boards },
-    boardLock: { $set: action.room.boardLock },
+    bg: {
+      boards: { $set: action.room.bg.boards },
+      lock: { $set: action.room.bg.lock }
+    },
     sg: { $set: sgFromJson(action.room.sg) },
     buttons: { $set: buttonsFromJson(action.room.buttons) },
     rule: { $set: action.room.rule },
@@ -80,12 +82,10 @@ const yquiApp = (state = initialState, action) => {
     return update(state, { roomNo: { $set: action.roomNo } })
   case RECV_ROOM:
     return recvRoom(action, state)
-  case RECV_BOARDS:
-    return update(state, { boards: { $set: action.boards } })
+  case RECV_BG:
+    return update(state, { bg: { boards: { $set: action.bg.boards }, lock: { $set: action.bg.lock } } })
   case RECV_BOARD:
-    return update(state, { boards: { $merge: { [action.board.id]: action.board } } })
-  case RECV_BOARD_LOCK:
-    return update(state, { boardLock: { $set: action.boardLock } })
+    return update(state, { bg: { boards: { $merge: { [action.board.id]: action.board } } } })
   case RECV_SG:
     return update(state, { sg: { $set: sgFromJson(action.sg) } })
   case RECV_BUTTONS:
@@ -95,7 +95,7 @@ const yquiApp = (state = initialState, action) => {
   case SET_EDIT_TEAMS:
     return update(state, { editTeams: { $set: action.editTeams } })
   case SET_BOARD:
-    return update(state, { boards: { [action.board.id]: { $set: action.board } } })
+    return update(state, { bg: { boards: { [action.board.id]: { $set: action.board } } } })
   case ADD_EDIT_BOARD:
     return update(state, { editBoards: { $add: [action.board.id] } })
   case REMOVE_EDIT_BOARD:

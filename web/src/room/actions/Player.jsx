@@ -6,7 +6,7 @@ import { displayAttr } from '../../lib/util'
 import { sendWs, SEND_PUSH, SEND_BOARD } from '../../lib/send'
 import './Actions.scss'
 
-const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) => {
+const Player = ({ className, ws, selfID, isPlayer, rule, bg }) => {
   const [answer, setAnswer] = React.useState('')
 
   const onKeyDown = evt => {
@@ -26,7 +26,7 @@ const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) =>
 
   const sendAnswer = (evt) => {
     evt.preventDefault()
-    let newBoard = update(boards[selfID], {
+    let newBoard = update(bg.boards[selfID], {
       text: { $set: answer }
     })
     sendWs(ws, SEND_BOARD, newBoard)
@@ -44,12 +44,12 @@ const Player = ({ className, ws, selfID, isPlayer, rule, boards, boardLock }) =>
           <Box {...displayAttr(rule.board.active)}>
             <form onSubmit={sendAnswer} className="boardactions-content">
               <TextField id="message" variant="outlined" size="small"
-                         autoComplete="off" disabled={boardLock}
+                         autoComplete="off" disabled={bg.lock}
                          value={answer}
                          onChange={evt => setAnswer(evt.target.value)}
                          onKeyDown={evt => evt.stopPropagation()} />
               <Button type="submit" variant="outlined" color="default" size="large"
-                      disabled={boardLock}>
+                      disabled={bg.lock}>
                 ボード回答
               </Button>
             </form>
@@ -73,7 +73,6 @@ export default connect(
     selfID: state.selfID,
     isPlayer: state.isPlayer,
     rule: state.rule,
-    boards: state.boards,
-    boardLock: state.boardLock
+    bg: state.bg
   })
 )(Player)

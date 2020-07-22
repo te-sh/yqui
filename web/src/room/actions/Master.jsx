@@ -11,7 +11,7 @@ import {
 import { clearEditBoards } from '../../redux/actions'
 import './Actions.scss'
 
-const Master = ({ className, ws, rule, boards, boardLock, clearEditBoards }) => {
+const Master = ({ className, ws, rule, bg, clearEditBoards }) => {
   const onCorrect = () => { sendWs(ws, SEND_CORRECT) }
   const onWrong = () => { sendWs(ws, SEND_WRONG) }
 
@@ -31,20 +31,20 @@ const Master = ({ className, ws, rule, boards, boardLock, clearEditBoards }) => 
   const onUndo = () => { sendWs(ws, SEND_UNDO) }
   const onRedo = () => { sendWs(ws, SEND_REDO) }
 
-  const onBoardLock = () => { sendWs(ws, SEND_BOARD_LOCK, boards) }
+  const onBoardLock = () => { sendWs(ws, SEND_BOARD_LOCK, !bg.lock) }
   const onOpenAll = () => {
-    for (let player of intKeys(boards)) {
-      boards[player].open = true
+    for (let player of intKeys(bg.boards)) {
+      bg.boards[player].open = true
     }
     clearEditBoards()
-    sendWs(ws, SEND_BOARDS, boards)
+    sendWs(ws, SEND_BOARDS, bg.boards)
   }
 
   const onKeyDown = evt => {
     switch (evt.keyCode) {
       case 81: // q
         if (rule.board.active) {
-          boardLock()
+          onBoardLock()
         } else {
           onCorrect()
         }
@@ -94,7 +94,7 @@ const Master = ({ className, ws, rule, boards, boardLock, clearEditBoards }) => 
   const boardButtons = (
     <>
       <Button {...buttonAttr} color="default" onClick={onBoardLock}>
-        { boardLock ? '回答ロック解除' : '回答ロック' }
+        { bg.lock ? '回答ロック解除' : '回答ロック' }
       </Button>
       <Button {...buttonAttr} color="default" onClick={onOpenAll}>
         すべてオープン
@@ -130,8 +130,7 @@ export default connect(
   state => ({
     ws: state.ws,
     rule: state.rule,
-    boards: state.boards,
-    boardLock: state.boardLock
+    bg: state.bg
   }),
   dispatch => ({
     clearEditBoards: () => dispatch(clearEditBoards())
