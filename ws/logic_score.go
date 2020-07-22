@@ -140,10 +140,10 @@ func (ss *ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *So
 	for _, id := range ids {
 		if score, ok := ss.Scores[id]; ok {
 			score.Point += rule.Board.PointCorrect
-			if rule.Board.ApplyNormal && id == first {
-				ss.SetCorrect(first, rule)
-				sound.Correct = true
-			}
+		}
+		if rule.Board.ApplyNormal && id == first {
+			ss.SetCorrect(first, rule)
+			sound.Correct = true
 		}
 	}
 	sound.Win = ss.SetWin(rule.Player.WinLoseRule)
