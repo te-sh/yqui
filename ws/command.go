@@ -74,12 +74,14 @@ func (room *Room) RunCommand(cmd Cmd) {
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)
 		room.UpdateBoards(newBoards, sound)
+		room.SendBoards()
 		room.SendSG()
 		room.SendSound(sound)
 	case "board":
 		newBoard := NewBoard()
 		json.Unmarshal(cmd.A, newBoard)
-		room.UpdateBoard(newBoard, sound)
+		room.UpdateBoards(Boards{newBoard.ID: newBoard}, sound)
+		room.SendBoard(newBoard.ID)
 		room.SendSG()
 		room.SendSound(sound)
 	case "board-lock":

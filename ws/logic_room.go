@@ -184,41 +184,18 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	first, _ := room.Buttons.RightPlayer()
 	sound.Open = room.Boards.Opens(newBoards)
 
-	if corrects := room.Boards.Corrects(newBoards); len(corrects) > 0 {
-		room.SG.Player.CorrectBoard(corrects, first, room.Rule, sound)
-	}
-	if wrongs := room.Boards.Wrongs(newBoards); len(wrongs) > 0 {
-		room.SG.Player.WrongBoard(wrongs, first, room.Rule, sound)
-	}
+	corrects := room.Boards.Corrects(newBoards)
+	room.SG.Player.CorrectBoard(corrects, first, room.Rule, sound)
+	wrongs := room.Boards.Wrongs(newBoards)
+	room.SG.Player.WrongBoard(wrongs, first, room.Rule, sound)
+
 	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, sound)
 
-	if sound.Correct || sound.Wrong {
+	if len(corrects) > 0 || len(wrongs) > 0 {
 		room.History.Add(room.SG)
 	}
 
-	room.Boards = newBoards
-	room.SendBoards()
-}
-
-func (room *Room) UpdateBoard(newBoard *Board, sound *Sound) {
-	first, _ := room.Buttons.RightPlayer()
-	sound.Open = room.Boards.Open(newBoard)
-
-	id := newBoard.ID
-	if room.Boards.Correct(newBoard) {
-		room.SG.Player.CorrectBoard([]int64{id}, first, room.Rule, sound)
-	}
-	if room.Boards.Wrong(newBoard) {
-		room.SG.Player.WrongBoard([]int64{id}, first, room.Rule, sound)
-	}
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, sound)
-
-	if sound.Correct || sound.Wrong {
-		room.History.Add(room.SG)
-	}
-
-	room.Boards[id] = newBoard
-	room.SendBoard(id)
+	room.Boards.Merge(newBoards)
 }
 
 func (room *Room) AllClear() {

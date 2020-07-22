@@ -45,6 +45,14 @@ func (board *Board) Reset() {
 	board.Open = false
 }
 
+func (boards Boards) Merge(newBoards Boards) {
+	for id, _ := range boards {
+		if newBoard, ok := newBoards[id]; ok {
+			boards[id] = newBoard
+		}
+	}
+}
+
 func (boards Boards) Add(id int64) {
 	board := NewBoard()
 	board.ID = id
@@ -64,8 +72,7 @@ func (boards Boards) Opens(newBoards Boards) bool {
 }
 
 func (boards Boards) Open(newBoard *Board) bool {
-	id := newBoard.ID
-	if board, ok := boards[id]; ok {
+	if board, ok := boards[newBoard.ID]; ok {
 		return !board.Open && newBoard.Open
 	} else {
 		return false
@@ -83,8 +90,7 @@ func (boards Boards) Corrects(newBoards Boards) []int64 {
 }
 
 func (boards Boards) Correct(newBoard *Board) bool {
-	id := newBoard.ID
-	if board, ok := boards[id]; ok {
+	if board, ok := boards[newBoard.ID]; ok {
 		return (!board.Open && newBoard.Open && newBoard.Correct == "correct") ||
 			(board.Open && board.Correct != "correct" && newBoard.Correct == "correct")
 	} else {
@@ -103,8 +109,7 @@ func (boards Boards) Wrongs(newBoards Boards) []int64 {
 }
 
 func (boards Boards) Wrong(newBoard *Board) bool {
-	id := newBoard.ID
-	if board, ok := boards[id]; ok {
+	if board, ok := boards[newBoard.ID]; ok {
 		return (!board.Open && newBoard.Open && newBoard.Correct == "wrong") ||
 			(board.Open && board.Correct != "wrong" && newBoard.Correct == "wrong")
 	} else {
