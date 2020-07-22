@@ -21,11 +21,6 @@ type Score struct {
 	Lose  int `json:"lose"`
 }
 
-type WinLose struct {
-	WinNum  int
-	LoseNum int
-}
-
 func NewScoreGroup() *ScoreGroup {
 	sg := new(ScoreGroup)
 	sg.Player = NewScoreSet()
@@ -44,12 +39,6 @@ func NewScore() *Score {
 	score := new(Score)
 	score.Reset()
 	return score
-}
-
-func NewWinLose() *WinLose {
-	winLose := new(WinLose)
-	winLose.Reset()
-	return winLose
 }
 
 func (sg *ScoreGroup) Clone() *ScoreGroup {
@@ -79,11 +68,6 @@ func (score *Score) Clone() *Score {
 	return &newScore
 }
 
-func (winLose *WinLose) Clone() *WinLose {
-	newWinLose := *winLose
-	return &newWinLose
-}
-
 func (sg *ScoreGroup) Reset() {
 	sg.Player.Reset()
 	sg.Team.Reset()
@@ -109,11 +93,6 @@ func (score *Score) Reset() {
 	score.Lose = 0
 }
 
-func (winLose *WinLose) Reset() {
-	winLose.WinNum = 0
-	winLose.LoseNum = 0
-}
-
 func (ss *ScoreSet) Add(id int64) {
 	ss.Scores[id] = NewScore()
 }
@@ -129,9 +108,13 @@ func (sg *ScoreGroup) SetZero() {
 
 func (ss *ScoreSet) SetZero() {
 	for _, score := range ss.Scores {
-		score.Point = 0
-		score.Batsu = 0
+		score.SetZero()
 	}
+}
+
+func (score *Score) SetZero() {
+	score.Point = 0
+	score.Batsu = 0
 }
 
 func (sg *ScoreGroup) Merge(newSG *ScoreGroup) {
@@ -146,10 +129,18 @@ func (ss *ScoreSet) Merge(newSS *ScoreSet) {
 
 func (scores Scores) Merge(newScores Scores) {
 	for id, _ := range scores {
-		if _, ok := newScores[id]; ok {
-			scores[id] = newScores[id].Clone()
+		if newScore, ok := newScores[id]; ok {
+			scores[id] = newScore.Clone()
 		} else {
 			scores[id] = NewScore()
+		}
+	}
+}
+
+func (ss *ScoreSet) WalkScores(ids []int64, f func(score *Score)) {
+	for _, id := range ids {
+		if score, ok := ss.Scores[id]; ok {
+			f(score)
 		}
 	}
 }
