@@ -2,7 +2,7 @@ package main
 
 type History struct {
 	Items []*HistoryItem
-	Curr int
+	Curr  int
 }
 
 type HistoryItem struct {

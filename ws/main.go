@@ -23,8 +23,8 @@ var upgrader = websocket.Upgrader{
 }
 
 type Join struct {
-	RoomNo int `json:"roomNo"`
-	Name string `json:"name"`
+	RoomNo int    `json:"roomNo"`
+	Name   string `json:"name"`
 }
 
 func JoinUser(id int64, conn *Conn, cmd Cmd) {

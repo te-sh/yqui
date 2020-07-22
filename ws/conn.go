@@ -10,13 +10,13 @@ import (
 const PingInterval = 30
 
 type Conn struct {
-	Ws *websocket.Conn
+	Ws      *websocket.Conn
 	Message chan Message
 }
 
 type Message struct {
-	Type string `json:"type"`
-	Content interface {} `json:"content"`
+	Type    string      `json:"type"`
+	Content interface{} `json:"content"`
 }
 
 func NewConn(ws *websocket.Conn) *Conn {
@@ -93,7 +93,7 @@ func (conn *Conn) SendJoined(roomNo int) {
 	LogJson("write", msg)
 }
 
-func (room *Room) Broadcast(typ string, cnt interface {}) {
+func (room *Room) Broadcast(typ string, cnt interface{}) {
 	msg := Message{Type: typ, Content: cnt}
 	for _, user := range room.Users {
 		user.Conn.Message <- msg
@@ -101,7 +101,7 @@ func (room *Room) Broadcast(typ string, cnt interface {}) {
 	LogJson("write", msg)
 }
 
-func (room *Room) SendToOne(id int64, typ string, cnt interface {}) {
+func (room *Room) SendToOne(id int64, typ string, cnt interface{}) {
 	msg := Message{Type: typ, Content: cnt}
 	if user, ok := room.Users[id]; ok {
 		user.Conn.Message <- msg
@@ -109,7 +109,7 @@ func (room *Room) SendToOne(id int64, typ string, cnt interface {}) {
 	LogJson("write", msg)
 }
 
-func (room *Room) SendToMaster(typ string, cnt interface {}) {
+func (room *Room) SendToMaster(typ string, cnt interface{}) {
 	msg := Message{Type: typ, Content: cnt}
 	if user := room.Users.Master(); user != nil {
 		user.Conn.Message <- msg
@@ -117,7 +117,7 @@ func (room *Room) SendToMaster(typ string, cnt interface {}) {
 	LogJson("write", msg)
 }
 
-func (room *Room) SendToPlayers(typ string, cnt interface {}) {
+func (room *Room) SendToPlayers(typ string, cnt interface{}) {
 	msg := Message{Type: typ, Content: cnt}
 	for _, user := range room.Users {
 		if !user.IsMaster {

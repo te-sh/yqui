@@ -27,7 +27,7 @@ func LogPanic() {
 	}
 }
 
-func LogJson(typ string, o interface {}) {
+func LogJson(typ string, o interface{}) {
 	if text, err := json.Marshal(o); err == nil {
 		log.Println(typ, ":", string(text))
 	} else {

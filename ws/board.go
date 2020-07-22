@@ -3,10 +3,10 @@ package main
 type Boards map[int64]*Board
 
 type Board struct {
-	ID int64 `json:"id"`
-	Text string `json:"text"`
+	ID      int64  `json:"id"`
+	Text    string `json:"text"`
 	Correct string `json:"correct"`
-	Open bool `json:"open"`
+	Open    bool   `json:"open"`
 }
 
 func NewBoards() Boards {

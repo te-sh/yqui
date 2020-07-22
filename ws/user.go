@@ -3,18 +3,18 @@ package main
 type Users map[int64]*User
 
 type User struct {
-	ID int64 `json:"id"`
-	Conn *Conn `json:"-"`
-	Team *Team `json:"-"`
-	IsMaster bool `json:"isMaster"`
-	Name string `json:"name"`
-	ChatAnswer bool `json:"chatAnswer"`
+	ID         int64  `json:"id"`
+	Conn       *Conn  `json:"-"`
+	Team       *Team  `json:"-"`
+	IsMaster   bool   `json:"isMaster"`
+	Name       string `json:"name"`
+	ChatAnswer bool   `json:"chatAnswer"`
 }
 
 type Teams []*Team
 
 type Team struct {
-	ID int64 `json:"id"`
+	ID      int64   `json:"id"`
 	Players []int64 `json:"players"`
 }
 
