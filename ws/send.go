@@ -64,7 +64,6 @@ func (room *Room) SendChat(chat Chat) {
 	room.Broadcast("chat", chat)
 }
 
-
 func (room *Room) SendSound(sound *Sound) {
 	sounds := sound.MakeSounds()
 	if sounds != "" {

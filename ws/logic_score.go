@@ -11,7 +11,7 @@ func (ss *ScoreSet) CanPush(id int64) bool {
 func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		score.Point += rule.Player.PointCorrect
-		if (rule.Player.BonusCorrect == "cons") {
+		if rule.Player.BonusCorrect == "cons" {
 			score.Point += score.Cons
 			score.Cons += 1
 			for otherId, otherScore := range ss.Scores {
@@ -47,7 +47,7 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 		score.Point += rule.Player.PointWrong
 		score.Batsu += rule.Player.BatsuWrong
 		score.Lock = rule.Player.LockWrong
-		if (rule.Player.BonusCorrect == "cons") {
+		if rule.Player.BonusCorrect == "cons" {
 			score.Cons = 0
 		}
 	}
@@ -56,9 +56,9 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 	var loses []int64
 	for id, score := range ss.Scores {
-		if (score.Lose == 0 &&
+		if score.Lose == 0 &&
 			(rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
-			(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)) {
+			(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value) {
 			loses = append(loses, id)
 		}
 	}
@@ -109,7 +109,7 @@ func (ss *ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound 
 	}
 	for _, team := range teams {
 		if teamScore, ok := ss.Scores[team.ID]; ok {
-			switch (rule.Team.Point) {
+			switch rule.Team.Point {
 			case "sum":
 				p := 0
 				for _, id := range team.Players {
@@ -123,7 +123,7 @@ func (ss *ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound 
 				}
 				teamScore.Point = p
 			}
-			switch (rule.Team.Batsu) {
+			switch rule.Team.Batsu {
 			case "sum":
 				b := 0
 				for _, id := range team.Players {
@@ -131,7 +131,7 @@ func (ss *ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound 
 				}
 				teamScore.Batsu = b
 			}
-			if (rule.Team.ShareLock) {
+			if rule.Team.ShareLock {
 				l := 0
 				for _, id := range team.Players {
 					if l < playerSS.Scores[id].Lock {

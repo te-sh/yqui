@@ -14,7 +14,7 @@ func NowMilliSec() int64 {
 }
 
 func NewID() int64 {
-	return rand.Int63n(int64(1)<<53)
+	return rand.Int63n(int64(1) << 53)
 }
 
 func Int64Remove(a []int64, b int64) []int64 {
@@ -23,17 +23,17 @@ func Int64Remove(a []int64, b int64) []int64 {
 }
 
 func Int64RemoveAt(a []int64, i int) []int64 {
-	if (i >= 0) {
+	if i >= 0 {
 		return append(a[:i], a[i+1:]...)
 	} else {
 		return a
 	}
 }
 
-func Int64RemoveIf(a []int64, f func (int64) bool) []int64 {
+func Int64RemoveIf(a []int64, f func(int64) bool) []int64 {
 	var b []int64
 	for _, e := range a {
-		if (!f(e)) {
+		if !f(e) {
 			b = append(b, e)
 		}
 	}
@@ -49,7 +49,7 @@ func Int64FindIndex(a []int64, b int64) int {
 	return -1
 }
 
-func Int64Any(a []int64, f func (int64) bool) bool {
+func Int64Any(a []int64, f func(int64) bool) bool {
 	for _, e := range a {
 		if f(e) {
 			return true

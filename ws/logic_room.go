@@ -131,7 +131,7 @@ func (room *Room) NumCanAnswer() int {
 			continue
 		}
 		if room.Rule.Team.ShareButton {
-			if Int64Any(team.Players, func (id int64) bool {
+			if Int64Any(team.Players, func(id int64) bool {
 				return !room.Buttons.Answered(id) && room.SG.Player.CanPush(id)
 			}) {
 				r += 1

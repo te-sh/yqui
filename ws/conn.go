@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
+	"github.com/gorilla/websocket"
 	"log"
 	"time"
-	"github.com/gorilla/websocket"
 )
 
 const PingInterval = 30

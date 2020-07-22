@@ -1,11 +1,11 @@
 package main
 
 import (
-	"os"
-	"log"
-	"runtime/debug"
 	"encoding/json"
 	"gopkg.in/natefinch/lumberjack.v2"
+	"log"
+	"os"
+	"runtime/debug"
 )
 
 func LogInit() {

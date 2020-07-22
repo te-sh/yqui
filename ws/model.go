@@ -1,15 +1,15 @@
 package main
 
 import (
-	"strings"
 	"encoding/json"
+	"strings"
 )
 
 type Cmd struct {
-	C    string `json:"c"`
+	C    string          `json:"c"`
 	A    json.RawMessage `json:"a"`
-	ID   int64 `json:"-"`
-	Time int64 `json:"-"`
+	ID   int64           `json:"-"`
+	Time int64           `json:"-"`
 }
 
 type Chat struct {
@@ -35,19 +35,19 @@ func NewSound() *Sound {
 
 func (sound *Sound) MakeSounds() string {
 	var sounds []string
-	if (sound.Push) {
+	if sound.Push {
 		sounds = append(sounds, "push")
 	}
-	if (sound.Open) {
+	if sound.Open {
 		sounds = append(sounds, "open")
 	}
-	if (sound.Correct) {
+	if sound.Correct {
 		sounds = append(sounds, "correct")
 	}
-	if (sound.Wrong) {
+	if sound.Wrong {
 		sounds = append(sounds, "wrong")
 	}
-	if (sound.Win) {
+	if sound.Win {
 		sounds = append(sounds, "roundwin")
 	}
 	return strings.Join(sounds, ",")

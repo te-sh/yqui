@@ -2,15 +2,16 @@ package main
 
 import (
 	"context"
-	"log"
 	"encoding/json"
-	"net/http"
 	"github.com/gorilla/websocket"
+	"log"
+	"net/http"
 )
 
 type Conns map[int64]*Conn
 
 const numRooms = 5
+
 var rooms = [numRooms]*Room{NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom()}
 var id2room = make(map[int64]*Room)
 var id2conn = make(Conns)
@@ -88,7 +89,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		}
 		LogJson("received", cmd)
 
-		switch (cmd.C) {
+		switch cmd.C {
 		case "join":
 			JoinUser(id, conn, cmd)
 			defer LeaveUser(id)

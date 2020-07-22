@@ -24,9 +24,8 @@ func NewHistoryItem() *HistoryItem {
 	return item
 }
 
-
 func (history *History) Add(sg *ScoreGroup) {
-	history.Items = history.Items[:history.Curr + 1]
+	history.Items = history.Items[:history.Curr+1]
 
 	item := NewHistoryItem()
 	item.SG = sg.Clone()
@@ -36,7 +35,7 @@ func (history *History) Add(sg *ScoreGroup) {
 
 	if len(history.Items) > HistoryMaxLen {
 		history.Curr -= len(history.Items) - HistoryMaxLen
-		history.Items = history.Items[len(history.Items) - HistoryMaxLen:]
+		history.Items = history.Items[len(history.Items)-HistoryMaxLen:]
 	}
 }
 
