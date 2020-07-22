@@ -4,14 +4,14 @@ func (room *Room) SendRoom() {
 	LogJson("room", room)
 	for id, user := range room.Users {
 		newRoom := room.Clone()
-		newRoom.BG = room.HideBG(room.BG, user)
-		newRoom.SG = room.HideSG(room.SG, user)
+		newRoom.BG = room.HideBG(newRoom.BG, user)
+		newRoom.SG = room.HideSG(newRoom.SG, user)
 		room.SendToOne(id, "room", newRoom)
 	}
 }
 
 func (room *Room) HideBG(bg *BoardGroup, user *User) *BoardGroup {
-	for _, board := range room.BG.Boards {
+	for _, board := range bg.Boards {
 		if !user.IsMaster && user.ID != board.ID && !board.Open {
 			board.Reset()
 		}
