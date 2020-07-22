@@ -24,18 +24,17 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 }
 
 func (ss *ScoreSet) SetWin(rule WinLoseRule) (win bool) {
-	var wins []int64
-	for id, score := range ss.Scores {
+	var wins []*Score
+	for _, score := range ss.Scores {
 		if score.Win == 0 &&
 			rule.WinPoint.Active && score.Point >= rule.WinPoint.Value {
-			wins = append(wins, id)
+			wins = append(wins, score)
 		}
 	}
 	win = len(wins) > 0
 	if win {
 		ss.WinLose.WinNum += 1
-		for _, id := range wins {
-			score := ss.Scores[id]
+		for _, score := range wins {
 			score.Win = ss.WinLose.WinNum
 		}
 	}
@@ -54,19 +53,18 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 }
 
 func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
-	var loses []int64
-	for id, score := range ss.Scores {
+	var loses []*Score
+	for _, score := range ss.Scores {
 		if score.Lose == 0 &&
-			(rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
-			(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value) {
-			loses = append(loses, id)
+			((rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
+				(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)) {
+			loses = append(loses, score)
 		}
 	}
 	lose = len(loses) > 0
 	if lose {
 		ss.WinLose.LoseNum += 1
-		for _, id := range loses {
-			score := ss.Scores[id]
+		for _, score := range loses {
 			score.Lose = ss.WinLose.LoseNum
 		}
 	}
@@ -150,11 +148,12 @@ func (ss *ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound 
 
 func (ss *ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
 	for _, id := range ids {
-		score := ss.Scores[id]
-		score.Point += rule.Board.PointCorrect
-		if rule.Board.ApplyNormal && id == first {
-			ss.SetCorrect(first, rule)
-			sound.Correct = true
+		if score, ok := ss.Scores[id]; ok {
+			score.Point += rule.Board.PointCorrect
+			if rule.Board.ApplyNormal && id == first {
+				ss.SetCorrect(first, rule)
+				sound.Correct = true
+			}
 		}
 	}
 	sound.Win = ss.SetWin(rule.Player.WinLoseRule)
