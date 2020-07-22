@@ -1,13 +1,13 @@
 package main
 
 type Room struct {
-	Users     Users       `json:"users"`
-	Teams     Teams       `json:"teams"`
-	BG        *BoardGroup `json:"bg"`
-	SG        *ScoreGroup `json:"sg"`
-	Buttons   *Buttons    `json:"buttons"`
-	Rule      *Rule       `json:"rule"`
-	History   *History    `json:"-"`
+	Users   Users       `json:"users"`
+	Teams   Teams       `json:"teams"`
+	BG      *BoardGroup `json:"bg"`
+	SG      *ScoreGroup `json:"sg"`
+	Buttons *Buttons    `json:"buttons"`
+	Rule    *Rule       `json:"rule"`
+	History *History    `json:"-"`
 }
 
 func NewRoom() *Room {
