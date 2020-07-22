@@ -17,6 +17,14 @@ func NewID() int64 {
 	return rand.Int63n(int64(1) << 53)
 }
 
+func IntMax(a int, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
+}
+
 func Int64Remove(a []int64, b int64) []int64 {
 	i := Int64FindIndex(a, b)
 	return Int64RemoveAt(a, i)

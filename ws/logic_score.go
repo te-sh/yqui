@@ -101,6 +101,14 @@ func (ss *ScoreSet) SetTeam(teams Teams) {
 	ss.Scores = newScores
 }
 
+func WalkTeamScores(team *Team, ss *ScoreSet, f func(score *Score)) {
+	for _, id := range team.Players {
+		if score, ok := ss.Scores[id]; ok {
+			f(score)
+		}
+	}
+}
+
 func (ss *ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound *Sound) {
 	if !rule.Team.Active {
 		return
@@ -110,32 +118,22 @@ func (ss *ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound 
 			switch rule.Team.Point {
 			case "sum":
 				p := 0
-				for _, id := range team.Players {
-					p += playerSS.Scores[id].Point
-				}
+				WalkTeamScores(team, playerSS, func(score *Score) { p += score.Point })
 				teamScore.Point = p
 			case "mul":
 				p := 1
-				for _, id := range team.Players {
-					p *= playerSS.Scores[id].Point
-				}
+				WalkTeamScores(team, playerSS, func(score *Score) { p *= score.Point })
 				teamScore.Point = p
 			}
 			switch rule.Team.Batsu {
 			case "sum":
 				b := 0
-				for _, id := range team.Players {
-					b += playerSS.Scores[id].Batsu
-				}
+				WalkTeamScores(team, playerSS, func(score *Score) { b += score.Batsu })
 				teamScore.Batsu = b
 			}
 			if rule.Team.ShareLock {
 				l := 0
-				for _, id := range team.Players {
-					if l < playerSS.Scores[id].Lock {
-						l = playerSS.Scores[id].Lock
-					}
-				}
+				WalkTeamScores(team, playerSS, func(score *Score) { l = IntMax(l, score.Lock) })
 				teamScore.Lock = l
 			}
 		}
