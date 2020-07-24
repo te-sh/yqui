@@ -1,4 +1,3 @@
-import update from 'immutability-helper'
 import { normalizeArray } from './util'
 
 export const initButtons = {
@@ -8,11 +7,11 @@ export const initButtons = {
 }
 
 export const buttonsFromJson = json => {
-  return update(json, {
-    pushers: { $apply: normalizeArray },
-    pushTimes: { $apply: normalizeArray },
-    answerers: { $apply: normalizeArray }
-  })
+  return {
+    pushers: normalizeArray(json.pushers),
+    pushTimes: normalizeArray(json.pushTimes),
+    answerers: normalizeArray(json.answerers)
+  }
 }
 
 export const isContinueingMultiChance = buttons => {

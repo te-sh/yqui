@@ -3,7 +3,7 @@ package main
 type Room struct {
 	Users   Users       `json:"users"`
 	Teams   Teams       `json:"teams"`
-	BG      *BoardGroup `json:"bg"`
+	BG      *BoardGroup `json:"bg,omitempty"`
 	SG      *ScoreGroup `json:"sg"`
 	Buttons *Buttons    `json:"buttons"`
 	Rule    *Rule       `json:"rule"`

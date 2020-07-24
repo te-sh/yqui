@@ -1,29 +1,39 @@
 package main
 
 func (room *Room) SendRoom() {
-	LogJson("room", room)
+	roomLog := room.Clone()
+	if !room.Rule.Board.Active {
+		roomLog.BG = nil
+	}
+	LogJson("room", roomLog)
 	for id, user := range room.Users {
 		newRoom := room.Clone()
-		newRoom.BG = room.HideBG(newRoom.BG, user)
-		newRoom.SG = room.HideSG(newRoom.SG, user)
+		if !room.Rule.Board.Active {
+			room.HideBG(newRoom.BG, user)
+		} else {
+			newRoom.BG = nil
+		}
+		room.HideSG(newRoom.SG, user)
 		room.SendToOne(id, "room", newRoom)
 	}
 }
 
-func (room *Room) HideBG(bg *BoardGroup, user *User) *BoardGroup {
+func (room *Room) HideBG(bg *BoardGroup, user *User) {
 	for _, board := range bg.Boards {
 		if !user.IsMaster && user.ID != board.ID && !board.Open {
 			board.Reset()
 		}
 	}
-	return bg
 }
 
 func (room *Room) SendBG() {
-	LogJson("bg", room.BG)
-	for id, user := range room.Users {
-		bg := room.HideBG(room.BG.Clone(), user)
-		room.SendToOne(id, "bg", bg)
+	if room.Rule.Board.Active {
+		LogJson("bg", room.BG)
+		for id, user := range room.Users {
+			newBG := room.BG.Clone()
+			room.HideBG(newBG, user)
+			room.SendToOne(id, "bg", newBG)
+		}
 	}
 }
 
@@ -44,18 +54,18 @@ func (room *Room) SendButtons() {
 	room.Broadcast("buttons", room.Buttons)
 }
 
-func (room *Room) HideSG(sg *ScoreGroup, user *User) *ScoreGroup {
+func (room *Room) HideSG(sg *ScoreGroup, user *User) {
 	if !user.IsMaster && !room.Rule.ShowPoint {
 		sg.SetZero()
 	}
-	return sg
 }
 
 func (room *Room) SendSG() {
 	LogJson("sg", room.SG)
 	for id, user := range room.Users {
-		sg := room.HideSG(room.SG.Clone(), user)
-		room.SendToOne(id, "sg", sg)
+		newSG := room.SG.Clone()
+		room.HideSG(newSG, user)
+		room.SendToOne(id, "sg", newSG)
 	}
 }
 

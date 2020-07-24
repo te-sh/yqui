@@ -8,7 +8,7 @@ import {
 import { normalizeArray } from '../lib/util'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { initBg, mergeBgWithJson } from '../lib/board'
-import { initSg, sgFromJson } from '../lib/score'
+import { initSg, mergeSgWithJson } from '../lib/score'
 import { initButtons, buttonsFromJson } from '../lib/buttons'
 import { initRule } from '../lib/rule'
 import { playersOfTeams, mergeEditTeam } from '../lib/team'
@@ -53,7 +53,7 @@ const recvRoom = (action, state) => {
     isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
     bg: { $set: mergeBgWithJson(state, action.room.bg) },
-    sg: { $set: sgFromJson(action.room.sg) },
+    sg: { $set: mergeSgWithJson(state, action.room.sg) },
     buttons: { $set: buttonsFromJson(action.room.buttons) },
     rule: { $set: action.room.rule },
     editTeams: { $set: mergeEditTeam(state.editTeams, action.room.users, teams, action.room.master) }
@@ -82,7 +82,7 @@ const yquiApp = (state = initialState, action) => {
   case RECV_BOARD:
     return update(state, { bg: { boards: { $add: [[action.board.id, action.board]] } } })
   case RECV_SG:
-    return update(state, { sg: { $set: sgFromJson(action.sg) } })
+    return update(state, { sg: { $set: mergeSgWithJson(state, action.sg) } })
   case RECV_BUTTONS:
     return update(state, { buttons: { $set: buttonsFromJson(action.buttons) } })
   case RECV_CHAT:

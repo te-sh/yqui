@@ -1,4 +1,3 @@
-import update from 'immutability-helper'
 import { toIntMap } from './util'
 
 export const initSg = {
@@ -10,9 +9,9 @@ export const initSg = {
   }
 }
 
-export const sgFromJson = json => {
-  return update(json, {
-    player: { scores: { $apply: toIntMap } },
-    team: { scores: { $apply: toIntMap } }
-  })
+export const mergeSgWithJson = ({ sg }, json) => {
+  return {
+    player: { scores: json.player ? toIntMap(json.player.scores) : sg.player },
+    team: { scores: json.team ? toIntMap(json.team.scores) : sg.team }
+  }
 }
