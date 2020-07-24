@@ -1,7 +1,5 @@
 import numbro from 'numbro'
 
-export const intKeys = obj => Object.keys(obj).map(key => parseInt(key))
-
 export const toIntMap = obj => {
   return new Map(Object.entries(obj).map(([key, value]) => [parseInt(key), value]))
 }
