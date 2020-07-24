@@ -19,7 +19,7 @@ services:
     ports:
       - '8085:8085'
     volumes:
-      - ./proxy.prod.conf:/etc/nginx/conf.d/proxy.conf:ro
+      - ./proxy/proxy.prod.conf:/etc/nginx/conf.d/proxy.conf:ro
     depends_on:
       - web
       - ws
