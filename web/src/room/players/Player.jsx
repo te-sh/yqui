@@ -12,7 +12,7 @@ import './Player.scss'
 
 const Player = ({ player, bg, sg, buttons, rule }) => {
   const [order, delay, myTurn] = pushOrder(buttons, player)
-  const board = bg.boards[player] || {}
+  const board = bg.boards.get(player)
   const score = sg.player.scores.get(player)
 
   const playerClass = classNames('player', { 'my-turn': myTurn })

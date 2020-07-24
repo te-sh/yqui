@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
-import { intKeys } from '../../lib/util'
+import update from 'immutability-helper'
 import {
   sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH,
   SEND_RESET, SEND_ALL_CLEAR, SEND_UNDO, SEND_REDO,
@@ -33,11 +33,11 @@ const Master = ({ className, ws, rule, bg, clearEditBoards }) => {
 
   const onBoardLock = () => { sendWs(ws, SEND_BOARD_LOCK, !bg.lock) }
   const onOpenAll = () => {
-    for (let player of intKeys(bg.boards)) {
-      bg.boards[player].open = true
-    }
+    let boards = Object.fromEntries([...bg.boards.keys()].map(id => (
+      [id, update(bg.boards.get(id), { open: { $set: true } })]
+    )))
     clearEditBoards()
-    sendWs(ws, SEND_BOARDS, bg.boards)
+    sendWs(ws, SEND_BOARDS, boards)
   }
 
   const onKeyDown = evt => {

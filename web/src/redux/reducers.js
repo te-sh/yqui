@@ -7,8 +7,9 @@ import {
 } from './actions'
 import { normalizeArray } from '../lib/util'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
-import { initButtons, buttonsFromJson } from '../lib/buttons'
+import { initBg, mergeBgWithJson } from '../lib/board'
 import { initSg, sgFromJson } from '../lib/score'
+import { initButtons, buttonsFromJson } from '../lib/buttons'
 import { initRule } from '../lib/rule'
 import { playersOfTeams, mergeEditTeam } from '../lib/team'
 
@@ -23,10 +24,7 @@ const initialState = {
   teams: [],
   isPlayer: false,
   numPlayers: 0,
-  bg: {
-    boards: {},
-    lock: false
-  },
+  bg: initBg,
   sg: initSg,
   buttons: initButtons,
   rule: initRule,
@@ -54,10 +52,7 @@ const recvRoom = (action, state) => {
     teams: { $set: teams },
     isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
-    bg: {
-      boards: { $set: action.room.bg.boards },
-      lock: { $set: action.room.bg.lock }
-    },
+    bg: { $set: mergeBgWithJson(state, action.room.bg) },
     sg: { $set: sgFromJson(action.room.sg) },
     buttons: { $set: buttonsFromJson(action.room.buttons) },
     rule: { $set: action.room.rule },
@@ -83,9 +78,9 @@ const yquiApp = (state = initialState, action) => {
   case RECV_ROOM:
     return recvRoom(action, state)
   case RECV_BG:
-    return update(state, { bg: { boards: { $set: action.bg.boards }, lock: { $set: action.bg.lock } } })
+    return update(state, { bg: { $set: mergeBgWithJson(state, action.bg) } })
   case RECV_BOARD:
-    return update(state, { bg: { boards: { $merge: { [action.board.id]: action.board } } } })
+    return update(state, { bg: { boards: { $add: [[action.board.id, action.board]] } } })
   case RECV_SG:
     return update(state, { sg: { $set: sgFromJson(action.sg) } })
   case RECV_BUTTONS:
@@ -95,7 +90,7 @@ const yquiApp = (state = initialState, action) => {
   case SET_EDIT_TEAMS:
     return update(state, { editTeams: { $set: action.editTeams } })
   case SET_BOARD:
-    return update(state, { bg: { boards: { [action.board.id]: { $set: action.board } } } })
+    return update(state, { bg: { boards: { $add: [[action.board.id, action.board]] } } })
   case ADD_EDIT_BOARD:
     return update(state, { editBoards: { $add: [action.board.id] } })
   case REMOVE_EDIT_BOARD:
