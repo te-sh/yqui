@@ -4,7 +4,7 @@ export const playersOfTeams = teams => (
   teams.map(team => team.players).reduce((a, c) => a.concat(c), [])
 )
 
-export const mergeEditTeam = (editTeams, users, teams, master) => {
+export const mergeEditTeam = (editTeams, users) => {
   if (!editTeams) {
     return editTeams
   }
@@ -15,16 +15,17 @@ export const mergeEditTeam = (editTeams, users, teams, master) => {
   }))
 
   let added = [...users.keys()].filter(id => (
-    id !== master && !playersOfTeams(newTeams).includes(id)
+    !users.get(id).IsMaster &&
+    !playersOfTeams(newTeams).includes(id)
   ))
   newTeams[0].players.push(...added)
 
   return newTeams
 }
 
-export const teamsToEditTeams = (users, teams, master) => {
+export const teamsToEditTeams = (users, teams) => {
   let observers = [...users.keys()].filter(id => (
-    id !== master &&
+    !users.get(id).IsMaster &&
     !teams.some(team => team.players.includes(id))
   ))
 

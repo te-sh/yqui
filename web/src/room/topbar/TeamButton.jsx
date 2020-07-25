@@ -5,9 +5,9 @@ import { SupervisorAccount } from '@material-ui/icons'
 import { teamsToEditTeams } from '../../lib/team'
 import { setEditTeams } from '../../redux/actions'
 
-const TeamButton = ({ users, user, master, teams, rule, editTeams, setEditTeams }) => {
+const TeamButton = ({ users, user, teams, rule, editTeams, setEditTeams }) => {
   const teamEdit = () => {
-    setEditTeams(teamsToEditTeams(users, teams, master.id))
+    setEditTeams(teamsToEditTeams(users, teams))
   }
 
   return (
@@ -29,7 +29,6 @@ export default connect(
   state => ({
     users: state.users,
     user: state.user,
-    master: state.master,
     teams: state.teams,
     rule: state.rule,
     editTeams: state.editTeams
