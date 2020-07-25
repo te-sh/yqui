@@ -5,19 +5,18 @@ import {
   SET_EDIT_TEAMS, SET_BOARD,
   ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS
 } from './actions'
-import { normalizeArray } from '../lib/util'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { initBg, mergeBgWithJson } from '../lib/board'
 import { initSg, mergeSgWithJson } from '../lib/score'
 import { initButtons, buttonsFromJson } from '../lib/buttons'
 import { initRule } from '../lib/rule'
-import { playersOfTeams, mergeEditTeam } from '../lib/team'
+import { teamsFromJson, playersOfTeams, mergeEditTeams } from '../lib/team'
 
 const initialState = {
   ws: null,
+  selfID: null,
   rooms: [],
   roomNo: null,
-  selfID: null,
   users: initUsers,
   user: initUser,
   master: null,
@@ -33,17 +32,9 @@ const initialState = {
   chats: []
 }
 
-const normalizeTeams = teams => {
-  if (teams) {
-    return teams.map(team => update(team, { player: { $apply: normalizeArray } }))
-  } else {
-    return []
-  }
-}
-
 const recvRoom = (action, state) => {
   const users = usersFromJson(action.room.users)
-  const teams = normalizeTeams(action.room.teams)
+  const teams = teamsFromJson(action.room.teams)
   const players = playersOfTeams(teams)
   return update(state, {
     users: { $set: users },
@@ -56,7 +47,7 @@ const recvRoom = (action, state) => {
     sg: { $set: mergeSgWithJson(state, action.room.sg) },
     buttons: { $set: buttonsFromJson(action.room.buttons) },
     rule: { $set: action.room.rule },
-    editTeams: { $set: mergeEditTeam(state.editTeams, users) }
+    editTeams: { $set: mergeEditTeams(state.editTeams, users) }
   })
 }
 
@@ -65,6 +56,7 @@ const yquiApp = (state = initialState, action) => {
   case RESET:
     return update(initialState, {
       ws: { $set: state.ws },
+      selfID: { $set: state.selfID },
       rooms: { $set: state.rooms }
     })
   case SET_WEB_SOCKET:

@@ -1,10 +1,17 @@
-import { shuffle } from './util'
+import { normalizeArray, shuffle } from './util'
+
+export const teamsFromJson = teams => {
+  return teams.map(team => ({
+    id: team.id,
+    players: normalizeArray(team.players)
+  }))
+}
 
 export const playersOfTeams = teams => (
   teams.map(team => team.players).reduce((a, c) => a.concat(c), [])
 )
 
-export const mergeEditTeam = (editTeams, users) => {
+export const mergeEditTeams = (editTeams, users) => {
   if (!editTeams) {
     return editTeams
   }
