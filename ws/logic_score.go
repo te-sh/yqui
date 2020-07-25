@@ -89,7 +89,7 @@ func (ss *ScoreSet) DecreaseLock(buttons *Buttons) {
 	}
 }
 
-func (ss *ScoreSet) SetTeam(teams Teams) {
+func (ss *ScoreSet) SetTeams(teams Teams) {
 	newScores := make(Scores)
 	for _, team := range teams {
 		if score, ok := ss.Scores[team.ID]; ok {
@@ -101,7 +101,7 @@ func (ss *ScoreSet) SetTeam(teams Teams) {
 	ss.Scores = newScores
 }
 
-func (ss *ScoreSet) CalcTeam(teams Teams, playerSS *ScoreSet, rule *Rule, sound *Sound) {
+func (ss *ScoreSet) CalcTeams(teams Teams, playerSS *ScoreSet, rule *Rule, sound *Sound) {
 	if !rule.Team.Active {
 		return
 	}

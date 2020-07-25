@@ -11,7 +11,6 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	room.BG.Boards.Add(id)
 	room.SG.Player.Add(id)
 
-	room.ChangeNumTeams(1)
 	team := room.Teams.AddPlayer(user)
 	room.SG.Team.Add(team.ID)
 
@@ -41,22 +40,6 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	room.SendChat(chat)
 }
 
-func (room *Room) ChangeNumTeams(numTeams int) {
-	l := len(room.Teams)
-	if numTeams > l {
-		for i := 0; i < numTeams-l; i++ {
-			team := NewTeam()
-			room.Teams = append(room.Teams, team)
-			room.SG.Team.Add(team.ID)
-		}
-	} else if numTeams < l {
-		for _, team := range room.Teams[numTeams:] {
-			room.SG.Team.Remove(team.ID)
-		}
-		room.Teams = room.Teams[0:numTeams]
-	}
-}
-
 func (room *Room) ChangeTeams() {
 	for _, user := range room.Users {
 		user.Team = nil
@@ -71,7 +54,7 @@ func (room *Room) ChangeTeams() {
 			}
 		}
 	}
-	room.SG.Team.SetTeam(room.Teams)
+	room.SG.Team.SetTeams(room.Teams)
 }
 
 func (room *Room) ToggleMaster(id int64) {
@@ -113,7 +96,7 @@ func (room *Room) Correct(sound *Sound) {
 
 	rule := room.Rule
 	room.SG.Player.Correct(id, rule, sound)
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, rule, sound)
+	room.SG.Team.CalcTeams(room.Teams, room.SG.Player, rule, sound)
 
 	room.NextQuiz()
 	room.History.Add(room.SG)
@@ -155,7 +138,7 @@ func (room *Room) Wrong(sound *Sound) {
 
 	rule := room.Rule
 	room.SG.Player.Wrong(id, rule, sound)
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, rule, sound)
+	room.SG.Team.CalcTeams(room.Teams, room.SG.Player, rule, sound)
 
 	buttons.Answer(id)
 	if room.NoCanAnswer() {
@@ -166,7 +149,7 @@ func (room *Room) Wrong(sound *Sound) {
 
 func (room *Room) NextQuiz() {
 	room.SG.Player.DecreaseLock(room.Buttons)
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, nil)
+	room.SG.Team.CalcTeams(room.Teams, room.SG.Player, room.Rule, nil)
 	room.Buttons.Reset()
 }
 
@@ -179,7 +162,7 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	wrongs := room.BG.Boards.Wrongs(newBoards)
 	room.SG.Player.WrongBoard(wrongs, first, room.Rule, sound)
 
-	room.SG.Team.CalcTeam(room.Teams, room.SG.Player, room.Rule, sound)
+	room.SG.Team.CalcTeams(room.Teams, room.SG.Player, room.Rule, sound)
 
 	if len(corrects) > 0 || len(wrongs) > 0 {
 		room.History.Add(room.SG)
@@ -192,4 +175,20 @@ func (room *Room) AllClear() {
 	room.Buttons.Reset()
 	room.SG.Reset()
 	room.History.Add(room.SG)
+}
+
+func (room *Room) ChangeNumTeams(numTeams int) {
+	l := len(room.Teams)
+	if numTeams > l {
+		for i := 0; i < numTeams-l; i++ {
+			team := NewTeam()
+			room.Teams = append(room.Teams, team)
+			room.SG.Team.Add(team.ID)
+		}
+	} else if numTeams < l {
+		for _, team := range room.Teams[numTeams:] {
+			room.SG.Team.Remove(team.ID)
+		}
+		room.Teams = room.Teams[0:numTeams]
+	}
 }
