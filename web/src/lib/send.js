@@ -1,6 +1,7 @@
 export const SEND_JOIN = 'join'
 export const SEND_LEAVE = 'leave'
 export const SEND_USER = 'user'
+export const SEND_NUM_TEAMS = 'num-teams'
 export const SEND_TEAMS = 'teams'
 export const SEND_PUSH = 'push'
 export const SEND_CORRECT = 'correct'

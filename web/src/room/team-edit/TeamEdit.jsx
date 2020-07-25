@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Box, Paper } from '@material-ui/core'
 import update from 'immutability-helper'
 import classNames from 'classnames'
-import { normalizeTeams } from '../../lib/team'
 import { setEditTeams } from '../../redux/actions'
 import Group from './Group'
 import './TeamEdit.scss'
@@ -19,7 +18,7 @@ const TeamEdit = ({ className, editTeams, setEditTeams }) => {
       [destIndex]: { players: { $push: [item.player] }}
     })
 
-    setEditTeams(normalizeTeams(newEditTeams))
+    setEditTeams(newEditTeams)
   }
 
   const list = editTeams.slice(1).map((team, index) => (

@@ -23,6 +23,11 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, user)
 		room.Users.Update(user)
 		room.SendRoom()
+	case "num-teams":
+		var numTeams int
+		json.Unmarshal(cmd.A, &numTeams)
+		room.ChangeNumTeams(numTeams)
+		room.SendRoom()
 	case "teams":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()

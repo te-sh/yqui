@@ -8,9 +8,12 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	user := NewUser(id, conn, name)
 
 	room.Users[id] = user
-	room.AddPlayerToDefaultTeam(id)
 	room.BG.Boards.Add(id)
 	room.SG.Player.Add(id)
+
+	room.ChangeNumTeams(1)
+	team := room.Teams.AddPlayer(user)
+	room.SG.Team.Add(team.ID)
 
 	chat := Chat{Type: "join", Time: time, Name: name}
 	room.SendChat(chat)
@@ -19,9 +22,9 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
+	room.Teams.RemovePlayer(user)
 	room.SG.Player.Remove(id)
 	room.BG.Boards.Remove(id)
-	room.RemovePlayerFromTeam(id)
 	delete(room.Users, id)
 
 	room.Buttons.Leave(id)
@@ -38,27 +41,19 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	room.SendChat(chat)
 }
 
-func (room *Room) AddPlayerToDefaultTeam(id int64) {
-	if len(room.Teams) == 0 {
-		team := NewTeam()
-		team.ID = NewID()
-		room.Teams = append(room.Teams, team)
-		room.SG.Team.Add(team.ID)
-	}
-	if len(room.Teams) == 1 {
-		room.Teams[0].AddPlayer(id)
-		room.Users[id].Team = room.Teams[0]
-	}
-}
-
-func (room *Room) RemovePlayerFromTeam(id int64) {
-	user := room.Users[id]
-	if user.Team != nil {
-		user.Team.RemovePlayer(id)
-		if len(user.Team.Players) == 0 {
-			room.Teams = room.Teams.Removed(user.Team)
-			room.SG.Team.Remove(user.Team.ID)
+func (room *Room) ChangeNumTeams(numTeams int) {
+	l := len(room.Teams)
+	if (numTeams > l) {
+		for i := 0; i < numTeams - l; i++ {
+			team := NewTeam()
+			room.Teams = append(room.Teams, team)
+			room.SG.Team.Add(team.ID)
 		}
+	} else if (numTeams < l) {
+		for _, team := range room.Teams[numTeams:] {
+			room.SG.Team.Remove(team.ID)
+		}
+		room.Teams = room.Teams[0:numTeams]
 	}
 }
 
@@ -83,10 +78,10 @@ func (room *Room) ToggleMaster(id int64) {
 	if user, ok := room.Users[id]; ok {
 		if user.IsMaster {
 			user.IsMaster = false
-			room.AddPlayerToDefaultTeam(id)
+			room.Teams.AddPlayer(user)
 		} else if room.Users.Master() == nil {
 			user.IsMaster = true
-			room.RemovePlayerFromTeam(id)
+			room.Teams.RemovePlayer(user)
 		}
 	}
 }

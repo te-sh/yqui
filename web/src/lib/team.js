@@ -13,7 +13,6 @@ export const mergeEditTeam = (editTeams, users, teams, master) => {
     id: team.id,
     players: team.players.filter(id => users.has(id))
   }))
-  newTeams = normalizeTeams(newTeams)
 
   let added = [...users.keys()].filter(id => (
     id !== master && !playersOfTeams(newTeams).includes(id)
@@ -29,16 +28,11 @@ export const teamsToEditTeams = (users, teams, master) => {
     !teams.some(team => team.players.includes(id))
   ))
 
-  return [{ id: -1, players: observers }, ...teams, { id: -1, players: [] }]
+  return [{ id: -1, players: observers }, ...teams]
 }
 
 export const editTeamsToTeams = editTeams => {
   return editTeams.slice(1, -1)
-}
-
-export const normalizeTeams = teams => {
-  let newTeams = teams.slice(1).filter(team => team.players.length > 0)
-  return [teams[0], ...newTeams, { id: -1, players: [] }]
 }
 
 export const teamRandomAssign = (editTeams, n) => {
@@ -52,5 +46,5 @@ export const teamRandomAssign = (editTeams, n) => {
   }
 
   shuffle(players).forEach((id, i) => teams[i % n].players.push(id))
-  return [{ id: -1, players: [] }, ...teams, { id: -1, players: [] }]
+  return [{ id: -1, players: [] }, ...teams]
 }

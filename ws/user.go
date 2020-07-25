@@ -31,6 +31,7 @@ func NewUser(id int64, conn *Conn, name string) *User {
 
 func NewTeam() *Team {
 	team := new(Team)
+	team.ID = NewID()
 	return team
 }
 
@@ -66,10 +67,20 @@ func (teams Teams) Removed(target *Team) Teams {
 	}
 }
 
-func (team *Team) AddPlayer(id int64) {
-	team.Players = append(team.Players, id)
+func (teams Teams) AddPlayer(user *User) *Team {
+	team := teams[0]
+	team.Players = append(team.Players, user.ID)
+	user.Team = team
+	return team
 }
 
-func (team *Team) RemovePlayer(id int64) {
-	team.Players = Int64Remove(team.Players, id)
+func (teams Teams) RemovePlayer(user *User) *Team {
+	team := user.Team
+	user.Team.Players = Int64Remove(user.Team.Players, user.ID)
+	user.Team = nil
+	return team
+}
+
+func (team *Team) MergePlayers(target *Team) {
+	team.Players = append(team.Players, target.Players...)
 }

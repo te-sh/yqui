@@ -42,13 +42,14 @@ const normalizeTeams = teams => {
 }
 
 const recvRoom = (action, state) => {
-  let users = usersFromJson(action.room.users)
-  let teams = normalizeTeams(action.room.teams)
-  let players = playersOfTeams(teams)
+  const users = usersFromJson(action.room.users)
+  const teams = normalizeTeams(action.room.teams)
+  const master = users.get(state.selfID)
+  const players = playersOfTeams(teams)
   return update(state, {
     users: { $set: users },
     user: { $set: users.get(state.selfID) },
-    master: { $set: findMaster(users) },
+    master: { $set: master },
     teams: { $set: teams },
     isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
@@ -56,7 +57,7 @@ const recvRoom = (action, state) => {
     sg: { $set: mergeSgWithJson(state, action.room.sg) },
     buttons: { $set: buttonsFromJson(action.room.buttons) },
     rule: { $set: action.room.rule },
-    editTeams: { $set: mergeEditTeam(state.editTeams, action.room.users, teams, action.room.master) }
+    editTeams: { $set: mergeEditTeam(state.editTeams, users, teams, master) }
   })
 }
 
