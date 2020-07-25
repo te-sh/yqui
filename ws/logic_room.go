@@ -43,13 +43,13 @@ func (room *Room) LeaveUser(id int64, time int64) {
 
 func (room *Room) ChangeNumTeams(numTeams int) {
 	l := len(room.Teams)
-	if (numTeams > l) {
+	if numTeams > l {
 		for i := 0; i < numTeams - l; i++ {
 			team := NewTeam()
 			room.Teams = append(room.Teams, team)
 			room.SG.Team.Add(team.ID)
 		}
-	} else if (numTeams < l) {
+	} else if numTeams < l {
 		for _, team := range room.Teams[numTeams:] {
 			room.SG.Team.Remove(team.ID)
 		}

@@ -22,7 +22,7 @@ const Master = ({ className, ws, teams, editTeams, setEditTeams }) => {
   })()
 
   const onSetNumTeams = () => {
-    sendWs(ws, SEND_NUM_TEAMS, numTeams)
+    sendWs(ws, SEND_NUM_TEAMS, parseInt(numTeams))
   }
 
   const onAssignRandom = () => {
