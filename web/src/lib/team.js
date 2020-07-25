@@ -32,7 +32,7 @@ export const mergeEditTeams = (editTeams, users) => {
 
 export const teamsToEditTeams = (users, teams) => {
   let observers = [...users.keys()].filter(id => (
-    !users.get(id).IsMaster &&
+    !users.get(id).isMaster &&
     !teams.some(team => team.players.includes(id))
   ))
 
@@ -40,19 +40,30 @@ export const teamsToEditTeams = (users, teams) => {
 }
 
 export const editTeamsToTeams = editTeams => {
-  return editTeams.slice(1, -1)
+  return editTeams.slice(1)
 }
 
-export const teamRandomAssign = (editTeams, n) => {
-  let players = playersOfTeams(editTeams)
-  let teams = []
-  for (let i = 1; i <= n; ++i) {
-    teams.push({
-      id: i < editTeams.length ? editTeams[i].id : -1,
-      players: []
-    })
+export const changeNumTeams = (editTeams, n) => {
+  const [observerTeam, teams] = [editTeams[0], editTeams.slice(1)]
+  const m = teams.length
+  if (n > m) {
+    for (let i = m; i < n; ++i) {
+      teams.push({ id: -1, players: [] })
+    }
+  } else if (n < m) {
+    const team = teams[0]
+    for (let i = n; i < m; ++i) {
+      team.players = team.players.concat(teams[i].players)
+    }
+    teams.splice(n)
   }
+  return [observerTeam, ...teams]
+}
 
+export const randomAssignToTeams = editTeams => {
+  const teams = editTeams.slice(1).map(team => ({ id: team.id, players: [] }))
+  const n = teams.length
+  const players = playersOfTeams(editTeams)
   shuffle(players).forEach((id, i) => teams[i % n].players.push(id))
   return [{ id: -1, players: [] }, ...teams]
 }

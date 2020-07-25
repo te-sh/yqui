@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, FormLabel, Paper, TextField } from '@material-ui/core'
-import { playersOfTeams, teamRandomAssign } from '../../lib/team'
-import { sendWs, SEND_NUM_TEAMS } from '../../lib/send'
+import { playersOfTeams, changeNumTeams, randomAssignToTeams } from '../../lib/team'
 import { setEditTeams } from '../../redux/actions'
 import './TeamEdit.scss'
 
-const Master = ({ className, ws, teams, editTeams, setEditTeams }) => {
+const Master = ({ className, teams, editTeams, setEditTeams }) => {
   const [numTeams, setNumTeams] = React.useState('1')
 
   React.useEffect(
@@ -22,11 +21,11 @@ const Master = ({ className, ws, teams, editTeams, setEditTeams }) => {
   })()
 
   const onSetNumTeams = () => {
-    sendWs(ws, SEND_NUM_TEAMS, parseInt(numTeams))
+    setEditTeams(changeNumTeams(editTeams, parseInt(numTeams)))
   }
 
   const onAssignRandom = () => {
-    setEditTeams(teamRandomAssign(editTeams, parseInt(numTeams)))
+    setEditTeams(randomAssignToTeams(editTeams))
   }
 
   return (
@@ -54,7 +53,6 @@ const Master = ({ className, ws, teams, editTeams, setEditTeams }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     teams: state.teams,
     editTeams: state.editTeams
   }),
