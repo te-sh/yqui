@@ -88,7 +88,9 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.ToggleMaster(cmd.ID)
 		room.SendRoom()
 	case "rule":
-		json.Unmarshal(cmd.A, room.Rule)
+		rule := NewRule()
+		json.Unmarshal(cmd.A, rule)
+		room.SetRule(rule)
 		room.SendRoom()
 	case "chat":
 		if user, ok := room.Users[cmd.ID]; ok {

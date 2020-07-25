@@ -177,18 +177,16 @@ func (room *Room) AllClear() {
 	room.History.Add(room.SG)
 }
 
-func (room *Room) ChangeNumTeams(numTeams int) {
-	l := len(room.Teams)
-	if numTeams > l {
-		for i := 0; i < numTeams-l; i++ {
-			team := NewTeam()
-			room.Teams = append(room.Teams, team)
-			room.SG.Team.Add(team.ID)
+func (room *Room) SetRule(rule *Rule) {
+	if room.Rule.Team.Active && !rule.Team.Active {
+		if len(room.Teams) > 1 {
+			firstTeam := room.Teams[0]
+			for _, team := range room.Teams[1:] {
+				firstTeam.MergePlayers(team)
+				room.SG.Team.Remove(team.ID)
+			}
+			room.Teams = room.Teams[0:1]
 		}
-	} else if numTeams < l {
-		for _, team := range room.Teams[numTeams:] {
-			room.SG.Team.Remove(team.ID)
-		}
-		room.Teams = room.Teams[0:numTeams]
 	}
+	room.Rule = rule
 }

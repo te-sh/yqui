@@ -22,10 +22,10 @@ export const mergeEditTeams = (editTeams, users) => {
   }))
 
   let added = [...users.keys()].filter(id => (
-    !users.get(id).IsMaster &&
+    !users.get(id).isMaster &&
     !playersOfTeams(newTeams).includes(id)
   ))
-  newTeams[0].players.push(...added)
+  newTeams[1].players.push(...added)
 
   return newTeams
 }
