@@ -8,7 +8,7 @@ func (room *Room) SendRoom() {
 	LogJson("room", roomLog)
 	for id, user := range room.Users {
 		newRoom := room.Clone()
-		if !room.Rule.Board.Active {
+		if room.Rule.Board.Active {
 			room.HideBG(newRoom.BG, user)
 		} else {
 			newRoom.BG = nil

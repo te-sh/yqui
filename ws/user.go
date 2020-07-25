@@ -69,15 +69,19 @@ func (teams Teams) Removed(target *Team) Teams {
 
 func (teams Teams) AddPlayer(user *User) *Team {
 	team := teams[0]
-	team.Players = append(team.Players, user.ID)
-	user.Team = team
+	if team != nil {
+		team.Players = append(team.Players, user.ID)
+		user.Team = team
+	}
 	return team
 }
 
 func (teams Teams) RemovePlayer(user *User) *Team {
 	team := user.Team
-	user.Team.Players = Int64Remove(user.Team.Players, user.ID)
-	user.Team = nil
+	if team != nil {
+		user.Team.Players = Int64Remove(user.Team.Players, user.ID)
+		user.Team = nil
+	}
 	return team
 }
 
