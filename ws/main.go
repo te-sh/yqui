@@ -23,18 +23,13 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-type Join struct {
-	RoomNo int    `json:"roomNo"`
-	Name   string `json:"name"`
-}
-
 func JoinUser(id int64, conn *Conn, cmd Cmd) {
 	var join Join
 	json.Unmarshal(cmd.A, &join)
 	if 0 <= join.RoomNo && join.RoomNo < len(rooms) {
 		if room := rooms[join.RoomNo]; room != nil {
 			id2room[id] = room
-			room.JoinUser(id, conn, join.Name, NowMilliSec())
+			room.JoinUser(id, conn, join, NowMilliSec())
 			room.SendRoom()
 			conn.SendJoined(join.RoomNo)
 			id2conn.SendRooms(rooms)

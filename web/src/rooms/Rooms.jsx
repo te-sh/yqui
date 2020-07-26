@@ -22,9 +22,10 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
     setEnterRoomOpen(false)
   }
 
-  const enterRoom = name => {
+  const enterRoom = join => {
     closeEnterRoom()
-    sendWs(ws, SEND_JOIN, { roomNo: enterRoomNo, name })
+    join.roomNo = enterRoomNo
+    sendWs(ws, SEND_JOIN, join)
   }
 
   React.useEffect(

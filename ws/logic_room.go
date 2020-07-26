@@ -1,18 +1,19 @@
 package main
 
-func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
+func (room *Room) JoinUser(id int64, conn *Conn, join Join, time int64) {
 	if _, ok := room.Users[id]; ok {
 		return
 	}
 
-	user := NewUser(id, conn, name)
-
+	user := NewUser(id, conn, join.Name)
 	room.Users[id] = user
-	room.Teams.AddPlayer(user)
+	if !join.Observer {
+		room.Teams.AddPlayer(user)
+	}
 	room.BG.Boards.Add(id)
 	room.SG.Player.Add(id)
 
-	chat := Chat{Type: "join", Time: time, Name: name}
+	chat := Chat{Type: "join", Time: time, Name: join.Name}
 	room.SendChat(chat)
 }
 
