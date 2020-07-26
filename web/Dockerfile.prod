@@ -11,7 +11,10 @@ FROM node:14.5.0-alpine3.12
 
 WORKDIR /app
 
-RUN yarn global add serve \
+RUN apk update \
+ && apk upgrade \
+ && rm -rf /var/cache/apk/* \
+ && yarn global add serve \
  && yarn cache clean
 
 COPY --from=builder /app/build ./build

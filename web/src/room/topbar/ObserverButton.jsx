@@ -10,7 +10,7 @@ const ObserverButton = ({ ws, user, isPlayer }) => {
 
   return (
     <Box>
-      <Tooltip title="司会">
+      <Tooltip title="観戦者">
         <span>
           <IconButton color={isObserver ? 'secondary' : 'inherit'}
                       disabled={user.isMaster} onClick={onToggleMaster}>
