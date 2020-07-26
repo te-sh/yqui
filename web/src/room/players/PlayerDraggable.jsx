@@ -12,7 +12,8 @@ const PlayerDraggable = ({ player, playerIndex, teamIndex, movePlayer, droped })
       if (!ref.current) {
         return
       }
-      if (item.teamIndex !== teamIndex) {
+      const dragTeamIndex = item.teamIndex
+      if (dragTeamIndex !== teamIndex) {
         return
       }
       const dragPlayerIndex = item.playerIndex
@@ -29,7 +30,7 @@ const PlayerDraggable = ({ player, playerIndex, teamIndex, movePlayer, droped })
           (dragPlayerIndex > hoverPlayerIndex && hoverClientX > hoverMiddleX)) {
         return
       }
-      movePlayer(dragPlayerIndex, hoverPlayerIndex)
+      movePlayer(dragTeamIndex, dragPlayerIndex, hoverPlayerIndex)
       item.playerIndex = hoverPlayerIndex
     },
     drop(_item, _monitor) {

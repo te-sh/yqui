@@ -7,7 +7,7 @@ import PlayerPoint from './PlayerPoint'
 import PlayerStatus from './PlayerStatus'
 import './Team.scss'
 
-const Team = ({ team, index, updateTeam, sg, rule }) => {
+const Team = ({ team, index, movePlayer, updateTeams, sg, rule }) => {
   const teamScore = sg.team.scores.get(team.id)
   const multiTeamClass = { 'multi-team': rule.team.active }
 
@@ -22,7 +22,8 @@ const Team = ({ team, index, updateTeam, sg, rule }) => {
           <PlayerStatus score={teamScore} className="player-status" />
         </Paper>
       </Box>
-      <Players team={team} teamIndex={index} updateTeam={updateTeam} />
+      <Players team={team} teamIndex={index}
+               movePlayer={movePlayer} updateTeams={updateTeams} />
     </Box>
   )
 }

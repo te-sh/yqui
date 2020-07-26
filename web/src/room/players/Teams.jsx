@@ -8,21 +8,42 @@ import Team from './Team'
 import './Teams.scss'
 
 const Teams = ({ className, ws, teams }) => {
-  const updateTeam = (team, index) => {
-    const newTeams = update(teams, {
-      [index]: { $set: team }
-    })
-    sendWs(ws, SEND_TEAMS, newTeams)
+  const [localTeams, setLocalTeams] = React.useState(teams)
+
+  React.useEffect(
+    () => {
+      setLocalTeams(teams)
+    },
+    [teams]
+  )
+
+  const movePlayer = React.useCallback(
+    (dragTeamIndex, dragPlayerIndex, hoverPlayerIndex) => {
+      const dragItem = teams[dragTeamIndex].players[dragPlayerIndex]
+      const newTeams = update(teams, {
+        [dragTeamIndex]: {
+          players: {
+            $splice: [[dragPlayerIndex, 1], [hoverPlayerIndex, 0, dragItem]]
+          }
+        }
+      })
+      setLocalTeams(newTeams)
+    },
+    [localTeams]
+  )
+
+  const updateTeams = () => {
+    sendWs(ws, SEND_TEAMS, localTeams)
   }
 
   const teamComponent = (team, index) => (
     <Team key={team.id} team={team} index={index}
-          updateTeam={team => updateTeam(team, index)} />
+          movePlayer={movePlayer} updateTeams={updateTeams} />
   )
 
   return (
     <Paper className={classNames(className, 'teams')}>
-      {teams.map(teamComponent)}
+      {localTeams.map(teamComponent)}
     </Paper>
   )
 }
