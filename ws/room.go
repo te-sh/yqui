@@ -12,13 +12,17 @@ type Room struct {
 
 func NewRoom() *Room {
 	room := new(Room)
+	team := NewTeam()
+
 	room.Users = make(Users)
-	room.Teams = Teams{NewTeam()}
+	room.Teams = Teams{team}
 	room.BG = NewBoardGroup()
 	room.SG = NewScoreGroup()
+	room.SG.Team.Add(team.ID)
 	room.Buttons = NewButtons()
 	room.Rule = NewRule()
 	room.History = NewHistory()
+
 	return room
 }
 

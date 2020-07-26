@@ -50,6 +50,14 @@ func (users Users) Master() *User {
 	return nil
 }
 
+func (teams Teams) First() *Team {
+	if len(teams) > 0 {
+		return teams[0]
+	} else {
+		return nil
+	}
+}
+
 func (teams Teams) IndexOf(target *Team) int {
 	for i, team := range teams {
 		if team == target {
@@ -67,24 +75,27 @@ func (teams Teams) Removed(target *Team) Teams {
 	}
 }
 
-func (teams Teams) AddPlayer(user *User) *Team {
-	team := teams[0]
-	if team != nil {
+func (teams Teams) AddPlayer(user *User) {
+	if team := teams.First(); team != nil {
 		team.Players = append(team.Players, user.ID)
 		user.Team = team
 	}
-	return team
 }
 
-func (teams Teams) RemovePlayer(user *User) *Team {
-	team := user.Team
-	if team != nil {
+func (teams Teams) RemovePlayer(user *User) {
+	if team := user.Team; team != nil {
 		user.Team.Players = Int64Remove(user.Team.Players, user.ID)
 		user.Team = nil
 	}
-	return team
 }
 
-func (team *Team) MergePlayers(target *Team) {
-	team.Players = append(team.Players, target.Players...)
+func (teams Teams) MergePlayersToFirst(team *Team, users Users) {
+	if first := teams.First(); first != nil {
+		first.Players = append(first.Players, team.Players...)
+		for _, player := range team.Players {
+			if user, ok := users[player]; ok {
+				user.Team = first
+			}
+		}
+	}
 }

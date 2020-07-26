@@ -8,11 +8,9 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 	user := NewUser(id, conn, name)
 
 	room.Users[id] = user
+	room.Teams.AddPlayer(user)
 	room.BG.Boards.Add(id)
 	room.SG.Player.Add(id)
-
-	team := room.Teams.AddPlayer(user)
-	room.SG.Team.Add(team.ID)
 
 	chat := Chat{Type: "join", Time: time, Name: name}
 	room.SendChat(chat)
@@ -21,9 +19,9 @@ func (room *Room) JoinUser(id int64, conn *Conn, name string, time int64) {
 func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
-	room.Teams.RemovePlayer(user)
 	room.SG.Player.Remove(id)
 	room.BG.Boards.Remove(id)
+	room.Teams.RemovePlayer(user)
 	delete(room.Users, id)
 
 	room.Buttons.Leave(id)
@@ -64,6 +62,16 @@ func (room *Room) ToggleMaster(id int64) {
 			room.Teams.AddPlayer(user)
 		} else if room.Users.Master() == nil {
 			user.IsMaster = true
+			room.Teams.RemovePlayer(user)
+		}
+	}
+}
+
+func (room *Room) ToggleObserver(id int64) {
+	if user, ok := room.Users[id]; ok {
+		if user.Team == nil {
+			room.Teams.AddPlayer(user)
+		} else {
 			room.Teams.RemovePlayer(user)
 		}
 	}
@@ -180,9 +188,8 @@ func (room *Room) AllClear() {
 func (room *Room) SetRule(rule *Rule) {
 	if room.Rule.Team.Active && !rule.Team.Active {
 		if len(room.Teams) > 1 {
-			firstTeam := room.Teams[0]
 			for _, team := range room.Teams[1:] {
-				firstTeam.MergePlayers(team)
+				room.Teams.MergePlayersToFirst(team, room.Users)
 				room.SG.Team.Remove(team.ID)
 			}
 			room.Teams = room.Teams[0:1]
