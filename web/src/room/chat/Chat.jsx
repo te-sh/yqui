@@ -22,7 +22,7 @@ const Chat = ({ className, ws, isPlayer }) => {
 
   return (
     <Paper className={className}>
-      <form onSubmit={evt => chat(evt)} className="chat-input">
+      <form onSubmit={chat} className="chat-input">
         <TextField id="message" variant="outlined" fullWidth
                    autoComplete="off"
                    value={message}

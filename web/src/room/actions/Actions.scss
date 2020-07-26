@@ -7,6 +7,10 @@
     background-color: #f9fbe7;
   }
 
+  .hidden {
+    visibility: hidden;
+  }
+
   .actions-content {
     grid-row: 1/2;
     grid-column: 1/2;

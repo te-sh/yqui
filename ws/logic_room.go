@@ -31,7 +31,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 
 	if len(room.Users) == 0 {
 		room.Rule = NewRule()
-		room.SG = NewScoreGroup()
+		room.SG.Reset()
 	}
 
 	chat := Chat{Type: "leave", Time: time, Name: user.Name}
