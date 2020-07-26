@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Typography } from '@material-ui/core'
 import TeamButton from './TeamButton'
 import RuleButton from './RuleButton'
 import MasterButton from './MasterButton'
+import ObserverButton from './ObserverButton'
 import SettingButton from './SettingButton'
 import HelpButton from './HelpButton'
 import LeaveButton from './LeaveButton'
@@ -23,6 +24,7 @@ const Topbar = ({ className, roomNo }) => {
         <TeamButton />
         <RuleButton />
         <MasterButton />
+        <ObserverButton />
         <SettingButton />
         <HelpButton />
         <LeaveButton />
@@ -33,6 +35,6 @@ const Topbar = ({ className, roomNo }) => {
 
 export default connect(
   state => ({
-    roomNo: state.roomNo,
+    roomNo: state.roomNo
   })
 )(Topbar)
