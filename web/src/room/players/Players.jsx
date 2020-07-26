@@ -16,10 +16,10 @@ const Players = ({ className, team, teamIndex, updateTeam }) => {
   )
 
   const movePlayer = React.useCallback(
-    (dragIndex, hoverIndex) => {
-      const dragItem = players[dragIndex]
+    (dragPlayerIndex, hoverPlayerIndex) => {
+      const dragItem = players[dragPlayerIndex]
       const newPlayers = update(players, {
-        $splice: [[dragIndex, 1], [hoverIndex, 0, dragItem]]
+        $splice: [[dragPlayerIndex, 1], [hoverPlayerIndex, 0, dragItem]]
       })
       setPlayers(newPlayers)
     },
