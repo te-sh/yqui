@@ -30,15 +30,15 @@ const Players = ({ className, team, teamIndex, updateTeam }) => {
     updateTeam({ id: team.id, players })
   }
 
-  const list = players.map((player, index) => (
+  const playerDraggableComponent = (player, index) => (
     <PlayerDraggable key={player}
                      player={player} playerIndex={index} teamIndex={teamIndex}
                      movePlayer={movePlayer} droped={droped} />
-  ))
+  )
 
   return (
     <Box className={classNames(className, 'players')}>
-      {list}
+      {players.map(playerDraggableComponent)}
     </Box>
   )
 }
