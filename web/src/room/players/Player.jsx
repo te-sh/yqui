@@ -1,40 +1,58 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Box, Paper } from '@material-ui/core'
-import classNames from 'classnames'
-import { pushOrder } from '../../lib/buttons'
-import PlayerAbove from './PlayerAbove'
-import PlayerName from './PlayerName'
-import PlayerPoint from './PlayerPoint'
-import PlayerStatus from './PlayerStatus'
-import Board from './Board'
-import './Player.scss'
+import { useDrag, useDrop } from 'react-dnd'
+import ItemTypes from '../../lib/item_types'
+import PlayerContainer from './PlayerContainer'
 
-const Player = ({ player, bg, sg, buttons, rule }) => {
-  const [order, delay, myTurn] = pushOrder(buttons, player)
-  const board = bg.boards.get(player)
-  const score = sg.player.scores.get(player)
+const PlayerDraggable = ({ player, playerIndex, teamIndex, movePlayer, droped }) => {
+  const ref = React.useRef(null)
 
-  const playerClass = classNames('player', { 'my-turn': myTurn })
+  const [, drop] = useDrop({
+    accept: ItemTypes.PLAYER,
+    hover(item, monitor) {
+      if (!ref.current) {
+        return
+      }
+      const dragTeamIndex = item.teamIndex
+      if (dragTeamIndex !== teamIndex) {
+        return
+      }
+      const dragPlayerIndex = item.playerIndex
+      const hoverPlayerIndex = playerIndex
+      if (dragPlayerIndex === hoverPlayerIndex) {
+        return
+      }
+      const hoverBoundingRect = ref.current.getBoundingClientRect()
+      const hoverMiddleX =
+        (hoverBoundingRect.right - hoverBoundingRect.left) / 2
+      const clientOffset = monitor.getClientOffset()
+      const hoverClientX = clientOffset.x - hoverBoundingRect.left
+      if ((dragPlayerIndex < hoverPlayerIndex && hoverClientX < hoverMiddleX) ||
+          (dragPlayerIndex > hoverPlayerIndex && hoverClientX > hoverMiddleX)) {
+        return
+      }
+      movePlayer(dragTeamIndex, dragPlayerIndex, hoverPlayerIndex)
+      item.playerIndex = hoverPlayerIndex
+    },
+    drop(_item, _monitor) {
+      droped()
+    }
+  })
+
+  const [{ isDragging }, drag] = useDrag({
+    item: { type: ItemTypes.PLAYER, player, playerIndex, teamIndex },
+    collect: monitor => ({
+      isDragging: monitor.isDragging()
+    })
+  })
+
+  const opacity = isDragging ? 0 : 1
+  drag(drop(ref))
 
   return (
-    <Box className="player-container">
-      <PlayerAbove order={order} delay={delay} score={score} />
-      <Paper className={playerClass}>
-        <PlayerName className="player-name" player={player} myTurn={myTurn} />
-        <PlayerPoint className="player-point" score={score} />
-        <PlayerStatus className="player-status" score={score} />
-        { rule.board.active ? <Board className="board" board={board} /> : null }
-      </Paper>
-    </Box>
+    <div ref={ref} style={{ cursor: 'move', opacity }}>
+      <PlayerContainer player={player} />
+    </div>
   )
 }
 
-export default connect(
-  state => ({
-    bg: state.bg,
-    sg: state.sg,
-    buttons: state.buttons,
-    rule: state.rule
-  })
-)(Player)
+export default PlayerDraggable
