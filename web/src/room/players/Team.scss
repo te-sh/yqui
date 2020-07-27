@@ -1,6 +1,10 @@
 .team {
   margin: 3px;
 
+  &.hover {
+    background-color: #f5f5f5;
+  }
+
   &.multi-team {
     border: solid 1px #b0bec5;
     border-radius: 5px;
