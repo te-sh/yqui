@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import ItemTypes from '../../lib/item_types'
 import PlayerContainer from './PlayerContainer'
 
-const PlayerDraggable = ({ player, playerIndex, teamIndex, movePlayer, droped }) => {
+const PlayerDraggable = ({ player, playerIndex, teamIndex, changePlayerOrder, updateTeams }) => {
   const ref = React.useRef(null)
 
   const [, drop] = useDrop({
@@ -30,11 +30,11 @@ const PlayerDraggable = ({ player, playerIndex, teamIndex, movePlayer, droped })
           (dragPlayerIndex > hoverPlayerIndex && hoverClientX > hoverMiddleX)) {
         return
       }
-      movePlayer(dragTeamIndex, dragPlayerIndex, hoverPlayerIndex)
+      changePlayerOrder(dragTeamIndex, dragPlayerIndex, hoverPlayerIndex)
       item.playerIndex = hoverPlayerIndex
     },
     drop(_item, _monitor) {
-      droped()
+      updateTeams()
     }
   })
 

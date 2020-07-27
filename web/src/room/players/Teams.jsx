@@ -17,7 +17,7 @@ const Teams = ({ className, ws, teams }) => {
     [teams]
   )
 
-  const movePlayer = React.useCallback(
+  const changePlayerOrder = React.useCallback(
     (dragTeamIndex, dragPlayerIndex, hoverPlayerIndex) => {
       const dragItem = teams[dragTeamIndex].players[dragPlayerIndex]
       const newTeams = update(teams, {
@@ -32,13 +32,21 @@ const Teams = ({ className, ws, teams }) => {
     [localTeams]
   )
 
+  const changePlayerTeam = React.useCallback(
+    (dragTeamIndex, dragPlayerIndex, dropTeamIndex) => {
+      console.log(dragTeamIndex, dragPlayerIndex, dropTeamIndex)
+    }
+  )
+
   const updateTeams = () => {
     sendWs(ws, SEND_TEAMS, localTeams)
   }
 
   const teamComponent = (team, index) => (
     <Team key={team.id} team={team} index={index}
-          movePlayer={movePlayer} updateTeams={updateTeams} />
+          changePlayerOrder={changePlayerOrder}
+          changePlayerTeam={changePlayerTeam}
+          updateTeams={updateTeams} />
   )
 
   return (

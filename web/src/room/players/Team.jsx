@@ -9,7 +9,7 @@ import PlayerPoint from './PlayerPoint'
 import PlayerStatus from './PlayerStatus'
 import './Team.scss'
 
-const Team = ({ team, index, movePlayer, updateTeams, sg, rule }) => {
+const Team = ({ team, index, changePlayerOrder, changePlayerTeam, updateTeams, sg, rule }) => {
   const [hover, setHover] = React.useState(false)
 
   const [, dropRef] = useDrop({
@@ -29,12 +29,11 @@ const Team = ({ team, index, movePlayer, updateTeams, sg, rule }) => {
       if (index === item.teamIndex) {
         return
       }
-      droped(item, index)
+      const dragTeamIndex = item.teamIndex
+      const dragPlayerIndex = item.playerIndex
+      changePlayerTeam(dragTeamIndex, dragPlayerIndex, index)
     }
   })
-
-  const droped = (_item, _index) => {
-  }
 
   const teamScore = sg.team.scores.get(team.id)
   const teamClass = classNames('team', {
@@ -54,7 +53,8 @@ const Team = ({ team, index, movePlayer, updateTeams, sg, rule }) => {
         </Paper>
       </Box>
       <Players team={team} teamIndex={index}
-               movePlayer={movePlayer} updateTeams={updateTeams} />
+               changePlayerOrder={changePlayerOrder}
+               updateTeams={updateTeams} />
     </Box>
   )
 }
