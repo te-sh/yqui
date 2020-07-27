@@ -1,10 +1,47 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { useDrag, useDrop } from 'react-dnd'
+import update from 'immutability-helper'
 import ItemTypes from '../../lib/item_types'
+import { sendWs, SEND_TEAMS } from '../../lib/send'
+import { setEditTeams } from '../../redux/actions'
 import PlayerContainer from './PlayerContainer'
 
-const PlayerDraggable = ({ player, playerIndex, teamIndex, changingPlayerOrder, changePlayerOrder }) => {
+const Player = ({ player, playerIndex, teamIndex, ws, teams, editTeams }) => {
   const ref = React.useRef(null)
+  const curTeams = editTeams ? editTeams : teams
+  const [players, setPlayers] = React.useState(curTeams.players)
+
+  React.useEffect(
+    () => {
+      setPlayers((editTeams ? editTeams : teams).players)
+    },
+    [teams, editTeams]
+  )
+
+  const changingPlayerOrder = React.useCallback(
+    (dragPlayerIndex) => {
+      const player = players[dragPlayerIndex]
+      const newPlayers = update(players, {
+        $splice: [[dragPlayerIndex, 1], [playerIndex, 0, player]]
+      })
+      setPlayers(newPlayers)
+    },
+    [players]
+  )
+
+  const changePlayerOrder = () => {
+    const newTeams = update(curTeams, {
+      [teamIndex]: {
+        players: { $set: players }
+      }
+    })
+    if (editTeams) {
+      setEditTeams(newTeams)
+    } else {
+      sendWs(ws, SEND_TEAMS, newTeams)
+    }
+  }
 
   const [, drop] = useDrop({
     accept: ItemTypes.PLAYER,
@@ -17,8 +54,7 @@ const PlayerDraggable = ({ player, playerIndex, teamIndex, changingPlayerOrder, 
         return
       }
       const dragPlayerIndex = item.playerIndex
-      const hoverPlayerIndex = playerIndex
-      if (dragPlayerIndex === hoverPlayerIndex) {
+      if (dragPlayerIndex === playerIndex) {
         return
       }
       const hoverBoundingRect = ref.current.getBoundingClientRect()
@@ -26,14 +62,18 @@ const PlayerDraggable = ({ player, playerIndex, teamIndex, changingPlayerOrder, 
         (hoverBoundingRect.right - hoverBoundingRect.left) / 2
       const clientOffset = monitor.getClientOffset()
       const hoverClientX = clientOffset.x - hoverBoundingRect.left
-      if ((dragPlayerIndex < hoverPlayerIndex && hoverClientX < hoverMiddleX) ||
-          (dragPlayerIndex > hoverPlayerIndex && hoverClientX > hoverMiddleX)) {
+      if ((dragPlayerIndex < playerIndex && hoverClientX < hoverMiddleX) ||
+          (dragPlayerIndex > playerIndex && hoverClientX > hoverMiddleX)) {
         return
       }
-      changingPlayerOrder(dragTeamIndex, dragPlayerIndex, hoverPlayerIndex)
-      item.playerIndex = hoverPlayerIndex
+      changingPlayerOrder(dragPlayerIndex)
+      item.playerIndex = playerIndex
     },
-    drop(_item, _monitor) {
+    drop(item, _monitor) {
+      const dragTeamIndex = item.teamIndex
+      if (dragTeamIndex !== teamIndex) {
+        return
+      }
       changePlayerOrder()
     }
   })
@@ -55,4 +95,13 @@ const PlayerDraggable = ({ player, playerIndex, teamIndex, changingPlayerOrder, 
   )
 }
 
-export default PlayerDraggable
+export default connect(
+  state => ({
+    ws: state.ws,
+    teams: state.teams,
+    editTeams: state.editTeams
+  }),
+  dispatch => ({
+    setEditTeams: editTeams => dispatch(setEditTeams(editTeams))
+  })
+)(Player)
