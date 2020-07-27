@@ -31,6 +31,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	}
 
 	if len(room.Users) == 0 {
+		room.Teams = room.Teams[0:1]
 		room.Rule = NewRule()
 		room.SG.Reset()
 	}
