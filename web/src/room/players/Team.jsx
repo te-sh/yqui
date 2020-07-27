@@ -9,7 +9,7 @@ import PlayerPoint from './PlayerPoint'
 import PlayerStatus from './PlayerStatus'
 import './Team.scss'
 
-const Team = ({ team, index, changePlayerOrder, changePlayerTeam, updateTeams, sg, rule }) => {
+const Team = ({ team, index, observers, edit, changingPlayerOrder, changePlayerOrder, changePlayerTeam, sg, rule }) => {
   const [hover, setHover] = React.useState(false)
 
   const [, dropRef] = useDrop({
@@ -38,23 +38,34 @@ const Team = ({ team, index, changePlayerOrder, changePlayerTeam, updateTeams, s
   const teamScore = sg.team.scores.get(team.id)
   const teamClass = classNames('team', {
     hover,
+    'edit': edit,
     'multi-team': rule.team.active
   })
 
+  const pointComponent = (
+    <Box className="team-point" hidden={!rule.team.active}>
+      <Typography align="center">
+        チーム得点
+      </Typography>
+      <Paper className="player">
+        <PlayerPoint score={teamScore} />
+        <PlayerStatus score={teamScore} className="player-status" />
+      </Paper>
+    </Box>
+  )
+
+  const titleComponent = (
+    <Box>
+      <Typography>{observers ? `チーム${index + 1}` : `観戦者`}</Typography>
+    </Box>
+  )
+
   return (
     <Box key={team.id} className={teamClass} ref={dropRef}>
-      <Box className="team-point" hidden={!rule.team.active}>
-        <Typography align="center">
-          チーム得点
-        </Typography>
-        <Paper className="player">
-          <PlayerPoint score={teamScore} />
-          <PlayerStatus score={teamScore} className="player-status" />
-        </Paper>
-      </Box>
+      {!edit ? pointComponent : titleComponent}
       <Players team={team} teamIndex={index}
-               changePlayerOrder={changePlayerOrder}
-               updateTeams={updateTeams} />
+               changingPlayerOrder={changingPlayerOrder}
+               changePlayerOrder={changePlayerOrder} />
     </Box>
   )
 }

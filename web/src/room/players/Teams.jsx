@@ -4,26 +4,27 @@ import classNames from 'classnames'
 import { Paper } from '@material-ui/core'
 import update from 'immutability-helper'
 import { sendWs, SEND_TEAMS } from '../../lib/send'
+import { setEditTeams } from '../../redux/actions'
 import Team from './Team'
 import './Teams.scss'
 
-const Teams = ({ className, ws, teams }) => {
+const Teams = ({ className, ws, teams, editTeams, setEditTeams }) => {
   const [localTeams, setLocalTeams] = React.useState(teams)
 
   React.useEffect(
     () => {
-      setLocalTeams(teams)
+      setLocalTeams(editTeams ? editTeams : teams)
     },
-    [teams]
+    [teams, editTeams]
   )
 
-  const changePlayerOrder = React.useCallback(
+  const changingPlayerOrder = React.useCallback(
     (dragTeamIndex, dragPlayerIndex, hoverPlayerIndex) => {
-      const dragItem = teams[dragTeamIndex].players[dragPlayerIndex]
-      const newTeams = update(teams, {
+      const player = localTeams[dragTeamIndex].players[dragPlayerIndex]
+      const newTeams = update(localTeams, {
         [dragTeamIndex]: {
           players: {
-            $splice: [[dragPlayerIndex, 1], [hoverPlayerIndex, 0, dragItem]]
+            $splice: [[dragPlayerIndex, 1], [hoverPlayerIndex, 0, player]]
           }
         }
       })
@@ -32,21 +33,42 @@ const Teams = ({ className, ws, teams }) => {
     [localTeams]
   )
 
+  const changePlayerOrder = () => {
+    if (editTeams) {
+      setEditTeams(localTeams)
+    } else {
+      sendWs(ws, SEND_TEAMS, localTeams)
+    }
+  }
+
   const changePlayerTeam = React.useCallback(
     (dragTeamIndex, dragPlayerIndex, dropTeamIndex) => {
-      console.log(dragTeamIndex, dragPlayerIndex, dropTeamIndex)
+      if (editTeams) {
+        const player = editTeams[dragTeamIndex].players[dragPlayerIndex]
+        const newTeams = update(editTeams, {
+          [dragTeamIndex]: {
+            players: {
+              $splice: [[dragPlayerIndex, 1]]
+            }
+          },
+          [dropTeamIndex]: {
+            players: {
+              $push: [player]
+            }
+          }
+        })
+        setEditTeams(newTeams)
+      }
     }
   )
 
-  const updateTeams = () => {
-    sendWs(ws, SEND_TEAMS, localTeams)
-  }
-
   const teamComponent = (team, index) => (
-    <Team key={team.id} team={team} index={index}
+    <Team key={index} team={team}
+          index={index} observers={index === teams.length - 1}
+          edit={!!editTeams}
+          changingPlayerOrder={changingPlayerOrder}
           changePlayerOrder={changePlayerOrder}
-          changePlayerTeam={changePlayerTeam}
-          updateTeams={updateTeams} />
+          changePlayerTeam={changePlayerTeam} />
   )
 
   return (
@@ -59,6 +81,10 @@ const Teams = ({ className, ws, teams }) => {
 export default connect(
   state => ({
     ws: state.ws,
-    teams: state.teams
+    teams: state.teams,
+    editTeams: state.editTeams
+  }),
+  dispatch => ({
+    setEditTeams: editTeams => dispatch(setEditTeams(editTeams))
   })
 )(Teams)

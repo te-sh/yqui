@@ -4,12 +4,12 @@ import classNames from 'classnames'
 import Player from './Player'
 import './Players.scss'
 
-const Players = ({ className, team, teamIndex, changePlayerOrder, updateTeams }) => {
+const Players = ({ className, team, teamIndex, changingPlayerOrder, changePlayerOrder }) => {
   const playerComponent = (player, index) => (
     <Player key={player}
             player={player} playerIndex={index} teamIndex={teamIndex}
-            movePlayer={changePlayerOrder}
-            updateTeams={updateTeams} />
+            changingPlayerOrder={changingPlayerOrder}
+            changePlayerOrder={changePlayerOrder} />
   )
 
   return (
