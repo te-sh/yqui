@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Box, Paper, Typography } from '@material-ui/core'
 import ItemTypes from '../../lib/item_types'
+import { initScore } from '../../lib/score'
 import Players from './Players'
 import PlayerPoint from './PlayerPoint'
 import PlayerStatus from './PlayerStatus'
@@ -35,7 +36,7 @@ const Team = ({ team, index, observers, edit, changingPlayerOrder, changePlayerO
     }
   })
 
-  const teamScore = sg.team.scores.get(team.id)
+  const teamScore = sg.team.scores.get(team.id) || initScore
   const teamClass = classNames('team', {
     hover,
     'edit': edit,
@@ -56,7 +57,7 @@ const Team = ({ team, index, observers, edit, changingPlayerOrder, changePlayerO
 
   const titleComponent = (
     <Box>
-      <Typography>{observers ? `チーム${index + 1}` : `観戦者`}</Typography>
+      <Typography>{!observers ? `チーム${index + 1}` : `観戦者`}</Typography>
     </Box>
   )
 

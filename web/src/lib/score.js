@@ -9,6 +9,14 @@ export const initSg = {
   }
 }
 
+export const initScore = {
+  point: 0,
+  batsu: 0,
+  win: 0,
+  lose: 0,
+  lock: 0
+}
+
 export const mergeSgWithJson = ({ sg }, json) => {
   return {
     player: { scores: json.player ? toIntMap(json.player.scores) : sg.player },

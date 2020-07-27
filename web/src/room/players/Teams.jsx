@@ -64,7 +64,7 @@ const Teams = ({ className, ws, teams, editTeams, setEditTeams }) => {
 
   const teamComponent = (team, index) => (
     <Team key={index} team={team}
-          index={index} observers={index === teams.length - 1}
+          index={index} observers={index === localTeams.length - 1}
           edit={!!editTeams}
           changingPlayerOrder={changingPlayerOrder}
           changePlayerOrder={changePlayerOrder}

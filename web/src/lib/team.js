@@ -36,11 +36,11 @@ export const teamsToEditTeams = (users, teams) => {
     !teams.some(team => team.players.includes(id))
   ))
 
-  return [{ id: -1, players: observers }, ...teams]
+  return [...teams, { id: -1, players: observers }]
 }
 
 export const editTeamsToTeams = editTeams => {
-  return editTeams.slice(1)
+  return editTeams.slice(0, -1)
 }
 
 export const changeNumTeams = (editTeams, n) => {
