@@ -31,7 +31,7 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	}
 
 	if len(room.Users) == 0 {
-		room.Teams = room.Teams[0:1]
+		room.TruncateTeams()
 		room.Rule = NewRule()
 		room.SG.Reset()
 	}
@@ -189,13 +189,17 @@ func (room *Room) AllClear() {
 
 func (room *Room) SetRule(rule *Rule) {
 	if room.Rule.Team.Active && !rule.Team.Active {
-		if len(room.Teams) > 1 {
-			for _, team := range room.Teams[1:] {
-				room.Teams.MergePlayersToFirst(team, room.Users)
-				room.SG.Team.Remove(team.ID)
-			}
-			room.Teams = room.Teams[0:1]
-		}
+		room.TruncateTeams()
 	}
 	room.Rule = rule
+}
+
+func (room *Room) TruncateTeams() {
+	if len(room.Teams) > 1 {
+		for _, team := range room.Teams[1:] {
+			room.Teams.MergePlayersToFirst(team, room.Users)
+			room.SG.Team.Remove(team.ID)
+		}
+		room.Teams = room.Teams[0:1]
+	}
 }
