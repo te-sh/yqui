@@ -4,8 +4,8 @@ import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { Visibility } from '@material-ui/icons'
 import { sendWs, SEND_TOGGLE_OBSERVER } from '../../lib/send'
 
-const ObserverButton = ({ ws, user, isPlayer }) => {
-  const onToggleMaster = () => { sendWs(ws, SEND_TOGGLE_OBSERVER) }
+const ObserverButton = ({ user, isPlayer }) => {
+  const onToggleMaster = () => { sendWs(SEND_TOGGLE_OBSERVER) }
   const isObserver = !user.isMaster && !isPlayer
 
   return (
@@ -24,7 +24,6 @@ const ObserverButton = ({ ws, user, isPlayer }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     user: state.user,
     isPlayer: state.isPlayer
   })

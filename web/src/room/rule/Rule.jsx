@@ -14,7 +14,7 @@ import TeamRule from './TeamRule'
 import BoardRule from './BoardRule'
 import './Rule.scss'
 
-const Rule = ({ open, close, ws, rule }) => {
+const Rule = ({ open, close, rule }) => {
   const [tab, setTab] = React.useState(0)
   const [rightNum, setRightNum] = React.useState(0)
   const [player, setPlayer] = React.useState(initRule.player)
@@ -32,7 +32,7 @@ const Rule = ({ open, close, ws, rule }) => {
     evt.preventDefault()
     close()
 
-    sendWs(ws, SEND_RULE, update(rule, {
+    sendWs(SEND_RULE, update(rule, {
       rightNum: { $set: parseNumber(rightNum) },
       player: { $set: player },
       team: { $set: team },
@@ -85,7 +85,6 @@ const Rule = ({ open, close, ws, rule }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     rule: state.rule
   })
 )(Rule)

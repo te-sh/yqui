@@ -1,3 +1,5 @@
+import store from '../redux/store'
+
 export const SEND_JOIN = 'join'
 export const SEND_LEAVE = 'leave'
 export const SEND_USER = 'user'
@@ -18,7 +20,8 @@ export const SEND_TOGGLE_MASTER = 'toggle-master'
 export const SEND_RULE = 'rule'
 export const SEND_CHAT = 'chat'
 
-export const sendWs = (ws, cmd, arg) => {
+export const sendWs = (cmd, arg) => {
+  const ws = store.getState().ws
   if (ws) {
     if (arg === undefined) {
       ws.send(JSON.stringify({ c: cmd }))

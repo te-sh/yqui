@@ -5,7 +5,7 @@ import { Edit } from '@material-ui/icons'
 import { sendWs, SEND_PUSH, SEND_CHAT } from '../../lib/send'
 import './Chat.scss'
 
-const Chat = ({ className, ws, isPlayer }) => {
+const Chat = ({ className, isPlayer }) => {
   const [message, setMessage] = React.useState('')
 
   const chat = evt => {
@@ -13,9 +13,9 @@ const Chat = ({ className, ws, isPlayer }) => {
     if (message === '') {
       return
     } else if (isPlayer && (message.startsWith('!') || message.startsWith('！'))) {
-      sendWs(ws, SEND_PUSH)
+      sendWs(SEND_PUSH)
     } else {
-      sendWs(ws, SEND_CHAT, message)
+      sendWs(SEND_CHAT, message)
     }
     setMessage('')
   }
@@ -37,7 +37,6 @@ const Chat = ({ className, ws, isPlayer }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     isPlayer: state.isPlayer
   })
 )(Chat)

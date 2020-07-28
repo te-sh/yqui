@@ -9,7 +9,7 @@ import Copyright from './Copyright'
 import EnterRoom from './EnterRoom'
 import './Rooms.scss'
 
-const Rooms = ({ history, ws, rooms, roomNo }) => {
+const Rooms = ({ history, rooms, roomNo }) => {
   const [enterRoomOpen, setEnterRoomOpen] = React.useState(false)
   const [enterRoomNo, setEnterRoomNo] = React.useState(0)
 
@@ -25,7 +25,7 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
   const enterRoom = join => {
     closeEnterRoom()
     join.roomNo = enterRoomNo
-    sendWs(ws, SEND_JOIN, join)
+    sendWs(SEND_JOIN, join)
   }
 
   React.useEffect(
@@ -57,7 +57,6 @@ const Rooms = ({ history, ws, rooms, roomNo }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     rooms: state.rooms,
     roomNo: state.roomNo
   })

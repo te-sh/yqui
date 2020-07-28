@@ -5,9 +5,9 @@ import { Close } from '@material-ui/icons'
 import { sendWs, SEND_LEAVE } from '../../lib/send'
 import { reset } from '../../redux/actions'
 
-const LeaveButton = ({ ws, reset }) => {
+const LeaveButton = ({ reset }) => {
   const leave = () => {
-    sendWs(ws, SEND_LEAVE)
+    sendWs(SEND_LEAVE)
     reset()
   }
 
@@ -25,9 +25,7 @@ const LeaveButton = ({ ws, reset }) => {
 }
 
 export default connect(
-  state => ({
-    ws: state.ws
-  }),
+  null,
   dispatch => ({
     reset: () => dispatch(reset())
   })

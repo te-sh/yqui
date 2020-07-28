@@ -8,7 +8,7 @@ import update from 'immutability-helper'
 import { sendWs, SEND_USER } from '../../lib/send'
 import './Setting.scss'
 
-const Setting = ({ open, close, ws, user }) => {
+const Setting = ({ open, close, user }) => {
   const [chatAnswer, setChatAnswer] = React.useState(false)
   const [volume, setVolume] = React.useState(0)
 
@@ -19,7 +19,7 @@ const Setting = ({ open, close, ws, user }) => {
 
   const onSubmit = evt => {
     evt.preventDefault()
-    sendWs(ws, SEND_USER, update(user, { chatAnswer: { $set: chatAnswer } }))
+    sendWs(SEND_USER, update(user, { chatAnswer: { $set: chatAnswer } }))
     localStorage.setItem('volume', volume)
     close()
   }
@@ -68,7 +68,6 @@ const Setting = ({ open, close, ws, user }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     user: state.user
   })
 )(Setting)

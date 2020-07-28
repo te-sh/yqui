@@ -4,9 +4,9 @@ import { Box, Checkbox, FormControlLabel, Paper } from '@material-ui/core'
 import update from 'immutability-helper'
 import { sendWs, SEND_RULE } from '../../lib/send'
 
-const Master = ({ className, ws, rule }) => {
+const Master = ({ className, rule }) => {
   const onToggleShowPoint = evt => {
-    sendWs(ws, SEND_RULE, update(rule, {
+    sendWs(SEND_RULE, update(rule, {
       showPoint: { $set: evt.target.checked }
     }))
   }
@@ -28,7 +28,6 @@ const Master = ({ className, ws, rule }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     rule: state.rule
   })
 )(Master)

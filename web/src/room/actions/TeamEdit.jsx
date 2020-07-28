@@ -6,9 +6,9 @@ import { editTeamsToTeams } from '../../lib/team'
 import { setEditTeams } from '../../redux/actions'
 import './Actions.scss'
 
-const TeamEdit = ({ className, ws, editTeams, setEditTeams }) => {
+const TeamEdit = ({ className, editTeams, setEditTeams }) => {
   const onSubmit = () => {
-    sendWs(ws, SEND_TEAMS, editTeamsToTeams(editTeams))
+    sendWs(SEND_TEAMS, editTeamsToTeams(editTeams))
     close()
   }
 
@@ -34,7 +34,6 @@ const TeamEdit = ({ className, ws, editTeams, setEditTeams }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     editTeams: state.editTeams
   }),
   dispatch => ({

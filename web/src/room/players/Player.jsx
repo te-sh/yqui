@@ -7,7 +7,7 @@ import { sendWs, SEND_TEAMS } from '../../lib/send'
 import { setEditTeams } from '../../redux/actions'
 import PlayerContainer from './PlayerContainer'
 
-const Player = ({ player, playerIndex, teamIndex, ws, teams, editTeams }) => {
+const Player = ({ player, playerIndex, teamIndex, teams, editTeams }) => {
   const ref = React.useRef(null)
   const curTeams = editTeams ? editTeams : teams
   const [players, setPlayers] = React.useState(curTeams.players)
@@ -39,7 +39,7 @@ const Player = ({ player, playerIndex, teamIndex, ws, teams, editTeams }) => {
     if (editTeams) {
       setEditTeams(newTeams)
     } else {
-      sendWs(ws, SEND_TEAMS, newTeams)
+      sendWs(SEND_TEAMS, newTeams)
     }
   }
 
@@ -97,7 +97,6 @@ const Player = ({ player, playerIndex, teamIndex, ws, teams, editTeams }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     teams: state.teams,
     editTeams: state.editTeams
   }),

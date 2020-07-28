@@ -10,7 +10,7 @@ import { sendWs, SEND_BOARD } from '../../lib/send'
 import { setBoard, addEditBoard, removeEditBoard } from '../../redux/actions'
 import './Board.scss'
 
-const Board = ({ className, ws, user, board, setBoard, addEditBoard, removeEditBoard }) => {
+const Board = ({ className, user, board, setBoard, addEditBoard, removeEditBoard }) => {
   const [correct, setCorrect] = React.useState('none')
 
   React.useEffect(
@@ -26,13 +26,13 @@ const Board = ({ className, ws, user, board, setBoard, addEditBoard, removeEditB
     }
     const newBoard = update(board, { open: { $set: true } })
     removeEditBoard(board)
-    sendWs(ws, SEND_BOARD, newBoard)
+    sendWs(SEND_BOARD, newBoard)
   }
 
   const changeCorrect = (evt, newCorrect) => {
     const newBoard = update(board, { correct: { $set: newCorrect } })
     if (board.open) {
-      sendWs(ws, SEND_BOARD, newBoard)
+      sendWs(SEND_BOARD, newBoard)
     } else {
       addEditBoard(board)
       setBoard(newBoard)
@@ -88,7 +88,6 @@ const Board = ({ className, ws, user, board, setBoard, addEditBoard, removeEditB
 
 export default connect(
   state => ({
-    ws: state.ws,
     user: state.user
   }),
   dispatch => ({

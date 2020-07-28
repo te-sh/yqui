@@ -7,7 +7,7 @@ import { displayAttr } from '../../lib/util'
 import { sendWs, SEND_PUSH, SEND_BOARD } from '../../lib/send'
 import './Actions.scss'
 
-const Player = ({ className, ws, selfID, isPlayer, rule, bg }) => {
+const Player = ({ className, selfID, isPlayer, rule, bg }) => {
   const [answer, setAnswer] = React.useState('')
 
   const onKeyDown = evt => {
@@ -16,7 +16,7 @@ const Player = ({ className, ws, selfID, isPlayer, rule, bg }) => {
     }
     switch (evt.keyCode) {
       case 13:
-        sendWs(ws, SEND_PUSH)
+        sendWs(SEND_PUSH)
         break
       default:
         break
@@ -28,14 +28,14 @@ const Player = ({ className, ws, selfID, isPlayer, rule, bg }) => {
     let newBoard = update(bg.boards.get(selfID), {
       text: { $set: answer }
     })
-    sendWs(ws, SEND_BOARD, newBoard)
+    sendWs(SEND_BOARD, newBoard)
     setAnswer('')
   }
 
   const playerBox = (
     <Box className={classNames('actions-content', { 'hidden': !isPlayer })}>
       <Button variant="outlined" color="primary" size="large"
-              onClick={() => sendWs(ws, SEND_PUSH)}>
+              onClick={() => sendWs(SEND_PUSH)}>
         早押し
       </Button>
       <Box {...displayAttr(rule.board.active)}>
@@ -72,7 +72,6 @@ const Player = ({ className, ws, selfID, isPlayer, rule, bg }) => {
 
 export default connect(
   state => ({
-    ws: state.ws,
     selfID: state.selfID,
     isPlayer: state.isPlayer,
     rule: state.rule,
