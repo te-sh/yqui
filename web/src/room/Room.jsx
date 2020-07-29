@@ -6,7 +6,7 @@ import MasterDisplay from './MasterDisplay'
 import RuleDisplay from './rule-display/RuleDisplay'
 import Chat from './chat/Chat'
 import Messages from './chat/Messages'
-import Mainarea from './Mainarea'
+import Teams from './players/Teams'
 import Subactions from './subactions/Subactions'
 import Actions from './actions/Actions'
 import './Room.scss'
@@ -28,7 +28,7 @@ const Room = ({ history, roomNo }) => {
       <RuleDisplay className="rule-display" />
       <Messages className="messages" />
       <Chat className="chat" />
-      <Mainarea className="mainarea" />
+      <Teams className="mainarea" />
       <Subactions className="subactions" />
       <Actions className="actions" />
     </Box>

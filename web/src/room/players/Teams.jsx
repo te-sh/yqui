@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
 import { Paper } from '@material-ui/core'
 import Team from './Team'
 import './Teams.scss'
@@ -11,7 +10,7 @@ const Teams = ({ className, dispTeams }) => {
   )
 
   return (
-    <Paper className={classNames(className, 'teams')}>
+    <Paper className={className}>
       {dispTeams.map(teamComponent)}
     </Paper>
   )
