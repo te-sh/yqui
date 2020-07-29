@@ -22,7 +22,7 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
         return
       }
       const dragTeamIndex = item.teamIndex
-      if (dragTeamIndex === teamIndex) {
+      if (dragTeamIndex === teamIndex || !editTeams) {
         return
       }
       setHover(monitor.isOver())
