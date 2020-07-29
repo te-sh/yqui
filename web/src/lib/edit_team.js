@@ -102,15 +102,17 @@ export const movedPlayerOrder = () => {
   }
 }
 
+export const cancelMovePlayerOrder = () => {
+  const { teams, editTeams } = store.getState()
+  store.dispatch(setTeams({
+    dispTeams: !editTeams ? teams : editTeams
+  }))
+}
+
 export const movePlayerTeam = (fromTeamIndex, fromPlayerIndex, toTeamIndex) => {
-  const { editTeams } = store.getState()
-
-  if (!editTeams) {
-    return
-  }
-
-  const player = editTeams[fromTeamIndex].players[fromPlayerIndex]
-  const newEditTeams = update(editTeams, {
+  const { dispTeams } = store.getState()
+  const player = dispTeams[fromTeamIndex].players[fromPlayerIndex]
+  const newEditTeams = update(dispTeams, {
     [fromTeamIndex]: {
       players: { $splice: [[fromPlayerIndex, 1]] }
     },

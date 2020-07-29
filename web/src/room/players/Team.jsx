@@ -30,7 +30,7 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
     drop(item, _monitor) {
       const dragTeamIndex = item.teamIndex
       const dragPlayerIndex = item.playerIndex
-      if (dragTeamIndex === teamIndex) {
+      if (dragTeamIndex === teamIndex || !editTeams) {
         return
       }
       movePlayerTeam(dragTeamIndex, dragPlayerIndex, teamIndex)

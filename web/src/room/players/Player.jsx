@@ -1,7 +1,9 @@
 import React from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import ItemTypes from '../../lib/item_types'
-import { movingPlayerOrder, movedPlayerOrder } from '../../lib/edit_team'
+import {
+  movingPlayerOrder, movedPlayerOrder, cancelMovePlayerOrder
+} from '../../lib/edit_team'
 import PlayerContainer from './PlayerContainer'
 
 const Player = ({ player, playerIndex, teamIndex }) => {
@@ -9,7 +11,7 @@ const Player = ({ player, playerIndex, teamIndex }) => {
 
   const [, drop] = useDrop({
     accept: ItemTypes.PLAYER,
-    hover(item, monitor) {
+    hover: (item, monitor) => {
       if (!ref.current) {
         return
       }
@@ -32,7 +34,7 @@ const Player = ({ player, playerIndex, teamIndex }) => {
       movingPlayerOrder(teamIndex, dragPlayerIndex, playerIndex)
       item.playerIndex = playerIndex
     },
-    drop(item, _monitor) {
+    drop: (item, _monitor) => {
       const dragTeamIndex = item.teamIndex
       if (dragTeamIndex !== teamIndex) {
         return
@@ -43,6 +45,11 @@ const Player = ({ player, playerIndex, teamIndex }) => {
 
   const [{ isDragging }, drag] = useDrag({
     item: { type: ItemTypes.PLAYER, player, playerIndex, teamIndex },
+    end: (item, monitor) => {
+      if (!monitor.didDrop()) {
+        cancelMovePlayerOrder()
+      }
+    },
     collect: monitor => ({
       isDragging: monitor.isDragging()
     })
