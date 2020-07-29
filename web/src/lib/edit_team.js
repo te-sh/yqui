@@ -96,9 +96,9 @@ export const movedPlayerOrder = () => {
   if (!editTeams) {
     sendWs(SEND_TEAMS, dispTeams)
   } else {
-    store.dispatch({
+    store.dispatch(setTeams({
       editTeams: dispTeams
-    })
+    }))
   }
 }
 
