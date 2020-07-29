@@ -7,7 +7,8 @@ export const playersOfTeams = teams => (
 export const teamsFromJson = teams => {
   return teams.map(team => ({
     id: team.id,
-    players: normalizeArray(team.players)
+    players: normalizeArray(team.players),
+    observers: false
   }))
 }
 
@@ -27,7 +28,8 @@ export const recvTeamsUpdator = ({ editTeams, dispTeams }, users, teams) => {
 const adjustTeamPlayers = (teams, users) => {
   let newTeams = teams.map(team => ({
     id: team.id,
-    players: team.players.filter(id => users.has(id))
+    players: team.players.filter(id => users.has(id)),
+    observers: team.observers
   }))
 
   let added = [...users.keys()].filter(id => (

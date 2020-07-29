@@ -16,7 +16,6 @@ export const beginEditTeams = () => {
     players: observers,
     observers: true
   }]
-
   store.dispatch(setTeams({
     dispTeams: editTeams,
     editTeams: editTeams
@@ -44,7 +43,7 @@ export const changeNumTeams = n => {
   const m = teams.length
   if (n > m) {
     for (let i = m; i < n; ++i) {
-      teams.push({ id: -1, players: [] })
+      teams.push({ id: -1, players: [], observers: false })
     }
   } else if (n < m) {
     const team = teams[0]
