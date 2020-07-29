@@ -1,4 +1,12 @@
+import update from 'immutability-helper'
 import { normalizeArray, shuffle } from './util'
+import { sendWs, SEND_TEAMS } from './send'
+import store from '../redux/store'
+import { setTeams } from '../redux/actions'
+
+export const playersOfTeams = teams => (
+  teams.map(team => team.players).reduce((a, c) => a.concat(c), [])
+)
 
 export const teamsFromJson = teams => {
   return teams.map(team => ({
@@ -7,16 +15,21 @@ export const teamsFromJson = teams => {
   }))
 }
 
-export const playersOfTeams = teams => (
-  teams.map(team => team.players).reduce((a, c) => a.concat(c), [])
-)
-
-export const mergeEditTeams = (editTeams, users) => {
+export const recvTeamsUpdator = ({ editTeams, dispTeams }, users, teams) => {
   if (!editTeams) {
-    return editTeams
+    return {
+      dispTeams: { $set: teams }
+    }
+  } else {
+    return {
+      editTeams: { $set: adjustTeamPlayers(editTeams, users) },
+      dispTeams: { $set: adjustTeamPlayers(dispTeams, users) }
+    }
   }
+}
 
-  let newTeams = editTeams.map(team => ({
+const adjustTeamPlayers = (teams, users) => {
+  let newTeams = teams.map(team => ({
     id: team.id,
     players: team.players.filter(id => users.has(id))
   }))
@@ -30,21 +43,50 @@ export const mergeEditTeams = (editTeams, users) => {
   return newTeams
 }
 
-export const teamsToEditTeams = (users, teams) => {
-  let observers = [...users.keys()].filter(id => (
+export const setTeamsUpdator = ({ editTeams, dispTeams }) => {
+  let updator = {}
+  if (editTeams) {
+    updator.editTeams = { $set: editTeams }
+  }
+  if (dispTeams) {
+    updator.dispTeams = { $set: dispTeams }
+  }
+  return updator
+}
+
+export const beginEditTeams = () => {
+  const { users, teams } = store.getState()
+  const observers = [...users.keys()].filter(id => (
     !users.get(id).isMaster &&
     !teams.some(team => team.players.includes(id))
   ))
+  const editTeams = [...teams, {
+    id: -1,
+    players: observers,
+    observers: true
+  }]
 
-  return [...teams, { id: -1, players: observers }]
+  store.dispatch(setTeams({
+    dispTeams: editTeams,
+    editTeams: editTeams
+  }))
 }
 
-export const editTeamsToTeams = editTeams => {
-  return editTeams.slice(0, -1)
+export const endEditTeams = () => {
+  const teams = editTeamsToTeams()
+  sendWs(SEND_TEAMS, teams)
 }
 
-export const changeNumTeams = (editTeams, n) => {
-  const [observerTeam, teams] = [editTeams[0], editTeams.slice(1)]
+export const cancelEditTeams = () => {
+  const { teams } = store.getState()
+  store.dispatch(setTeams({
+    editTeams: null,
+    dispTeams: teams
+  }))
+}
+
+export const changeNumTeams = n => {
+  const [teams, observersTeam] = splitEditTeams()
   const m = teams.length
   if (n > m) {
     for (let i = m; i < n; ++i) {
@@ -57,13 +99,78 @@ export const changeNumTeams = (editTeams, n) => {
     }
     teams.splice(n)
   }
-  return [observerTeam, ...teams]
+  const editTeams = [...teams, observersTeam]
+  store.dispatch(setTeams({
+    editTeams: editTeams,
+    dispTeams: editTeams
+  }))
 }
 
-export const randomAssignToTeams = editTeams => {
-  const teams = editTeams.slice(1).map(team => ({ id: team.id, players: [] }))
+export const randomAssignTeams = () => {
+  const [teams, observersTeam] = splitEditTeams()
+  const newTeams = teams.map(team => ({ id: team.id, players: [] }))
   const n = teams.length
-  const players = playersOfTeams(editTeams)
-  shuffle(players).forEach((id, i) => teams[i % n].players.push(id))
-  return [{ id: -1, players: [] }, ...teams]
+  const players = playersOfTeams(teams)
+  shuffle(players).forEach((id, i) => newTeams[i % n].players.push(id))
+  const editTeams = [...teams, observersTeam]
+  store.dispatch(setTeams({
+    editTeams: editTeams,
+    dispTeams: editTeams
+  }))
+}
+
+const editTeamsToTeams = () => {
+  const { editTeams } = store.getState()
+  return editTeams.slice(0, -1)
+}
+
+const splitEditTeams = () => {
+  const { editTeams } = store.getState()
+  return [editTeams.slice(0, -1), editTeams.slice(-1)[0]]
+}
+
+export const movingPlayerOrder = (teamIndex, fromPlayerIndex, toPlayerIndex) => {
+  const { dispTeams } = store.getState()
+  const player = dispTeams[teamIndex].players[fromPlayerIndex]
+  const newDispTeams = update(dispTeams, {
+    [teamIndex]: {
+      $splice: [[fromPlayerIndex, 1], [toPlayerIndex, 0, player]]
+    }
+  })
+  store.dispatch(setTeams({
+    dispTeams: newDispTeams
+  }))
+}
+
+export const movedPlayerOrder = () => {
+  const { dispTeams, editTeams } = store.getState()
+  if (!editTeams) {
+    sendWs(SEND_TEAMS, dispTeams)
+  } else {
+    store.dispatch({
+      editTeams: dispTeams
+    })
+  }
+}
+
+export const movePlayerTeam = (fromTeamIndex, fromPlayerIndex, toTeamIndex) => {
+  const { editTeams } = store.getState()
+
+  if (!editTeams) {
+    return
+  }
+
+  const player = editTeams[fromTeamIndex].players[fromPlayerIndex]
+  const newEditTeams = update(editTeams, {
+    [fromTeamIndex]: {
+      players: { $splice: [[fromPlayerIndex, 1]] }
+    },
+    [toTeamIndex]: {
+      players: { $push: [player] }
+    }
+  })
+  store.dispatch(setTeams({
+    editTeams: newEditTeams,
+    dispTeams: newEditTeams
+  }))
 }

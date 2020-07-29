@@ -1,11 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, FormLabel, Paper, TextField } from '@material-ui/core'
-import { playersOfTeams, changeNumTeams, randomAssignToTeams } from '../../lib/team'
-import { setEditTeams } from '../../redux/actions'
+import { playersOfTeams, changeNumTeams, randomAssignTeams } from '../../lib/team'
 import './TeamEdit.scss'
 
-const Master = ({ className, teams, editTeams, setEditTeams }) => {
+const Master = ({ className, teams, editTeams }) => {
   const [numTeams, setNumTeams] = React.useState('1')
 
   React.useEffect(
@@ -20,14 +19,6 @@ const Master = ({ className, teams, editTeams, setEditTeams }) => {
     return !isNaN(n) && n > 0 && n <= playersOfTeams(editTeams).length
   })()
 
-  const onSetNumTeams = () => {
-    setEditTeams(changeNumTeams(editTeams, parseInt(numTeams)))
-  }
-
-  const onAssignRandom = () => {
-    setEditTeams(randomAssignToTeams(editTeams))
-  }
-
   return (
     <Paper className={className}>
       <Box className="subactions-content subactions-team-edit">
@@ -38,12 +29,12 @@ const Master = ({ className, teams, editTeams, setEditTeams }) => {
                    onChange={evt => setNumTeams(evt.target.value)} />
         <Button variant="outlined"
                 disabled={!validNumTeams}
-                onClick={onSetNumTeams}>
+                onClick={() => changeNumTeams(parseInt(numTeams))}>
           チーム数変更
         </Button>
         <Button variant="outlined"
                 disabled={!validNumTeams}
-                onClick={onAssignRandom}>
+                onClick={randomAssignTeams}>
           ランダム配置
         </Button>
       </Box>
@@ -55,8 +46,5 @@ export default connect(
   state => ({
     teams: state.teams,
     editTeams: state.editTeams
-  }),
-  dispatch => ({
-    setEditTeams: editTeams => dispatch(setEditTeams(editTeams))
   })
 )(Master)

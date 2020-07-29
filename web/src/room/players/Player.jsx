@@ -1,47 +1,11 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { useDrag, useDrop } from 'react-dnd'
-import update from 'immutability-helper'
 import ItemTypes from '../../lib/item_types'
-import { sendWs, SEND_TEAMS } from '../../lib/send'
-import { setEditTeams } from '../../redux/actions'
+import { movingPlayerOrder, movedPlayerOrder } from '../../lib/team'
 import PlayerContainer from './PlayerContainer'
 
-const Player = ({ player, playerIndex, teamIndex, teams, editTeams }) => {
+const Player = ({ player, playerIndex, teamIndex }) => {
   const ref = React.useRef(null)
-  const curTeams = editTeams ? editTeams : teams
-  const [players, setPlayers] = React.useState(curTeams.players)
-
-  React.useEffect(
-    () => {
-      setPlayers((editTeams ? editTeams : teams).players)
-    },
-    [teams, editTeams]
-  )
-
-  const changingPlayerOrder = React.useCallback(
-    (dragPlayerIndex) => {
-      const player = players[dragPlayerIndex]
-      const newPlayers = update(players, {
-        $splice: [[dragPlayerIndex, 1], [playerIndex, 0, player]]
-      })
-      setPlayers(newPlayers)
-    },
-    [players]
-  )
-
-  const changePlayerOrder = () => {
-    const newTeams = update(curTeams, {
-      [teamIndex]: {
-        players: { $set: players }
-      }
-    })
-    if (editTeams) {
-      setEditTeams(newTeams)
-    } else {
-      sendWs(SEND_TEAMS, newTeams)
-    }
-  }
 
   const [, drop] = useDrop({
     accept: ItemTypes.PLAYER,
@@ -66,7 +30,7 @@ const Player = ({ player, playerIndex, teamIndex, teams, editTeams }) => {
           (dragPlayerIndex > playerIndex && hoverClientX > hoverMiddleX)) {
         return
       }
-      changingPlayerOrder(dragPlayerIndex)
+      movingPlayerOrder(teamIndex, dragPlayerIndex, playerIndex)
       item.playerIndex = playerIndex
     },
     drop(item, _monitor) {
@@ -74,7 +38,7 @@ const Player = ({ player, playerIndex, teamIndex, teams, editTeams }) => {
       if (dragTeamIndex !== teamIndex) {
         return
       }
-      changePlayerOrder()
+      movedPlayerOrder()
     }
   })
 
@@ -95,12 +59,4 @@ const Player = ({ player, playerIndex, teamIndex, teams, editTeams }) => {
   )
 }
 
-export default connect(
-  state => ({
-    teams: state.teams,
-    editTeams: state.editTeams
-  }),
-  dispatch => ({
-    setEditTeams: editTeams => dispatch(setEditTeams(editTeams))
-  })
-)(Player)
+export default Player

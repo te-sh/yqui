@@ -2,21 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { SupervisorAccount } from '@material-ui/icons'
-import { teamsToEditTeams } from '../../lib/team'
-import { setEditTeams } from '../../redux/actions'
+import { beginEditTeams } from '../../lib/team'
 
-const TeamButton = ({ users, user, teams, rule, editTeams, setEditTeams }) => {
-  const teamEdit = () => {
-    setEditTeams(teamsToEditTeams(users, teams))
-  }
-
+const TeamButton = ({ user, rule, editTeams }) => {
   return (
     <Box>
       <Tooltip title="チーム">
         <span>
           <IconButton color="inherit"
                       disabled={!user.isMaster || !rule.team.active || !!editTeams}
-                      onClick={teamEdit}>
+                      onClick={beginEditTeams}>
             <SupervisorAccount />
           </IconButton>
         </span>
@@ -27,13 +22,8 @@ const TeamButton = ({ users, user, teams, rule, editTeams, setEditTeams }) => {
 
 export default connect(
   state => ({
-    users: state.users,
     user: state.user,
-    teams: state.teams,
     rule: state.rule,
     editTeams: state.editTeams
-  }),
-  dispatch => ({
-    setEditTeams: editTeams => dispatch(setEditTeams(editTeams))
   })
 )(TeamButton)

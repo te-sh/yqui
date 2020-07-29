@@ -9,7 +9,7 @@ export const RECV_BOARD = 'RECV_BOARD'
 export const RECV_SG = 'RECV_SG'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_CHAT = 'RECV_CHAT'
-export const SET_EDIT_TEAMS = 'SET_EDIT_TEAMS'
+export const SET_TEAMS = 'SET_EDIT_TEAMS'
 export const SET_BOARD = 'SET_BOARD'
 export const ADD_EDIT_BOARD = 'ADD_EDIT_BOARD'
 export const REMOVE_EDIT_BOARD = 'REMOVE_EDIT_BOARD'
@@ -59,8 +59,8 @@ export const recvChat = chat => {
   return { type: RECV_CHAT, chat }
 }
 
-export const setEditTeams = editTeams => {
-  return { type: SET_EDIT_TEAMS, editTeams }
+export const setTeams = payload => {
+  return { type: SET_TEAMS, payload }
 }
 
 export const setBoard = board => {

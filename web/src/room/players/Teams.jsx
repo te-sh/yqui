@@ -5,23 +5,20 @@ import { Paper } from '@material-ui/core'
 import Team from './Team'
 import './Teams.scss'
 
-const Teams = ({ className, teams, editTeams }) => {
-  const curTeams = editTeams ? editTeams : teams
-
+const Teams = ({ className, dispTeams }) => {
   const teamComponent = (team, index) => (
-    <Team key={index} team={team} index={index} />
+    <Team key={index} team={team} teamIndex={index} />
   )
 
   return (
     <Paper className={classNames(className, 'teams')}>
-      {curTeams.map(teamComponent)}
+      {dispTeams.map(teamComponent)}
     </Paper>
   )
 }
 
 export default connect(
   state => ({
-    teams: state.teams,
-    editTeams: state.editTeams
+    dispTeams: state.dispTeams
   })
 )(Teams)

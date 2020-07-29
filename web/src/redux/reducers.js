@@ -2,7 +2,7 @@ import update from 'immutability-helper'
 import {
   RESET, SET_WEB_SOCKET, RECV_SELF_ID, RECV_ROOMS, RECV_JOINED,
   RECV_ROOM, RECV_BG, RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_CHAT,
-  SET_EDIT_TEAMS, SET_BOARD,
+  SET_TEAMS, SET_BOARD,
   ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
@@ -10,7 +10,9 @@ import { initBg, mergeBgWithJson } from '../lib/board'
 import { initSg, mergeSgWithJson } from '../lib/score'
 import { initButtons, buttonsFromJson } from '../lib/buttons'
 import { initRule } from '../lib/rule'
-import { teamsFromJson, playersOfTeams, mergeEditTeams } from '../lib/team'
+import {
+  playersOfTeams, teamsFromJson, recvTeamsUpdator, setTeamsUpdator
+} from '../lib/team'
 
 const initialState = {
   ws: null,
@@ -21,13 +23,14 @@ const initialState = {
   user: initUser,
   master: null,
   teams: [],
+  editTeams: null,
+  dispTeams: [],
   isPlayer: false,
   numPlayers: 0,
   bg: initBg,
   sg: initSg,
   buttons: initButtons,
   rule: initRule,
-  editTeams: null,
   editBoards: new Set(),
   chats: []
 }
@@ -40,14 +43,13 @@ const recvRoom = (action, state) => {
     users: { $set: users },
     user: { $set: users.get(state.selfID) },
     master: { $set: findMaster(users) },
-    teams: { $set: teams },
+    ...recvTeamsUpdator(state, users, teams),
     isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
     bg: { $set: mergeBgWithJson(state, action.room.bg) },
     sg: { $set: mergeSgWithJson(state, action.room.sg) },
     buttons: { $set: buttonsFromJson(action.room.buttons) },
-    rule: { $set: action.room.rule },
-    editTeams: { $set: mergeEditTeams(state.editTeams, users) }
+    rule: { $set: action.room.rule }
   })
 }
 
@@ -79,8 +81,8 @@ const yquiApp = (state = initialState, action) => {
     return update(state, { buttons: { $set: buttonsFromJson(action.buttons) } })
   case RECV_CHAT:
     return update(state, { chats: { $push: [action.chat] } })
-  case SET_EDIT_TEAMS:
-    return update(state, { editTeams: { $set: action.editTeams } })
+  case SET_TEAMS:
+    return update(state, setTeamsUpdator(action.payload))
   case SET_BOARD:
     return update(state, { bg: { boards: { $add: [[action.board.id, action.board]] } } })
   case ADD_EDIT_BOARD:
