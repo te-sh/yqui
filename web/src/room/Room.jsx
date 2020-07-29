@@ -28,7 +28,7 @@ const Room = ({ history, roomNo }) => {
       <RuleDisplay className="rule-display" />
       <Messages className="messages" />
       <Chat className="chat" />
-      <Teams className="mainarea" />
+      <Teams className="teams" />
       <Subactions className="subactions" />
       <Actions className="actions" />
     </Box>
