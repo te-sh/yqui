@@ -85,7 +85,7 @@ export const movingPlayerOrder = (teamIndex, fromPlayerIndex, toPlayerIndex) => 
   const player = dispTeams[teamIndex].players[fromPlayerIndex]
   const newDispTeams = update(dispTeams, {
     [teamIndex]: {
-      $splice: [[fromPlayerIndex, 1], [toPlayerIndex, 0, player]]
+      players: { $splice: [[fromPlayerIndex, 1], [toPlayerIndex, 0, player]] }
     }
   })
   store.dispatch(setTeams({
