@@ -66,7 +66,7 @@ export const randomAssignTeams = () => {
   const n = teams.length
   const players = playersOfTeams(teams)
   shuffle(players).forEach((id, i) => newTeams[i % n].players.push(id))
-  const editTeams = [...teams, observersTeam]
+  const editTeams = [...newTeams, observersTeam]
   store.dispatch(setTeams({
     editTeams: editTeams,
     dispTeams: editTeams
