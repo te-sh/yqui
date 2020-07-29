@@ -55,7 +55,7 @@ const Player = ({ player, playerIndex, teamIndex }) => {
     })
   })
 
-  const opacity = isDragging ? 0 : 1
+  const opacity = isDragging ? 0.2 : 1
   drag(drop(ref))
 
   return (
