@@ -1,23 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, FormLabel, Paper, TextField } from '@material-ui/core'
-import { playersOfTeams } from '../../lib/team'
 import { changeNumTeams, randomAssignTeams } from '../../lib/edit_team'
 import './TeamEdit.scss'
 
-const Master = ({ className, teams, editTeams }) => {
+const Master = ({ className, numPlayers, dispTeams }) => {
   const [numTeams, setNumTeams] = React.useState('1')
 
   React.useEffect(
     () => {
-      setNumTeams(teams.length)
+      setNumTeams(dispTeams.length)
     },
-    [teams]
+    [dispTeams]
   )
 
   const validNumTeams = (() => {
     const n = parseInt(numTeams)
-    return !isNaN(n) && n > 0 && n <= playersOfTeams(editTeams).length
+    return !isNaN(n) && n > 0 && n <= numPlayers
   })()
 
   return (
@@ -45,7 +44,7 @@ const Master = ({ className, teams, editTeams }) => {
 
 export default connect(
   state => ({
-    teams: state.teams,
-    editTeams: state.editTeams
+    numPlayers: state.numPlayers,
+    dispTeams: state.teams
   })
 )(Master)
