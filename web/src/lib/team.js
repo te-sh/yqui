@@ -34,17 +34,17 @@ const adjustTeamPlayers = (teams, users) => {
     !users.get(id).isMaster &&
     !playersOfTeams(newTeams).includes(id)
   ))
-  newTeams[1].players.push(...added)
+  newTeams[0].players.push(...added)
 
   return newTeams
 }
 
 export const setTeamsUpdator = ({ editTeams, dispTeams }) => {
   let updator = {}
-  if (editTeams) {
+  if (editTeams !== undefined) {
     updator.editTeams = { $set: editTeams }
   }
-  if (dispTeams) {
+  if (dispTeams !== undefined) {
     updator.dispTeams = { $set: dispTeams }
   }
   return updator

@@ -24,7 +24,10 @@ export const beginEditTeams = () => {
 }
 
 export const endEditTeams = () => {
-  const teams = editTeamsToTeams()
+  const teams = splitEditTeams()[0]
+  store.dispatch(setTeams({
+    editTeams: null
+  }))
   sendWs(SEND_TEAMS, teams)
 }
 
@@ -68,11 +71,6 @@ export const randomAssignTeams = () => {
     editTeams: editTeams,
     dispTeams: editTeams
   }))
-}
-
-const editTeamsToTeams = () => {
-  const { editTeams } = store.getState()
-  return editTeams.slice(0, -1)
 }
 
 const splitEditTeams = () => {
