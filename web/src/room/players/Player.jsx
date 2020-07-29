@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import ItemTypes from '../../lib/item_types'
-import { movingPlayerOrder, movedPlayerOrder } from '../../lib/team'
+import { movingPlayerOrder, movedPlayerOrder } from '../../lib/edit_team'
 import PlayerContainer from './PlayerContainer'
 
 const Player = ({ player, playerIndex, teamIndex }) => {
