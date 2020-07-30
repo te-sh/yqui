@@ -8,6 +8,11 @@ func (ss *ScoreSet) CanPush(id int64) bool {
 	}
 }
 
+func (score *Score) ExceedWinPoint(rule WinLoseRule) bool {
+	return score.Win == 0 &&
+		rule.WinPoint.Active && score.Point >= rule.WinPoint.Value
+}
+
 func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		score.Point += rule.Player.PointCorrect
@@ -26,8 +31,7 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 func (ss *ScoreSet) SetWin(rule WinLoseRule) (win bool) {
 	var wins []*Score
 	for _, score := range ss.Scores {
-		if score.Win == 0 &&
-			rule.WinPoint.Active && score.Point >= rule.WinPoint.Value {
+		if score.ExceedWinPoint(rule) {
 			wins = append(wins, score)
 		}
 	}
@@ -39,6 +43,12 @@ func (ss *ScoreSet) SetWin(rule WinLoseRule) (win bool) {
 		}
 	}
 	return
+}
+
+func (score *Score) ExceedLosePoint(rule WinLoseRule) bool {
+	return score.Lose == 0 &&
+		((rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
+			(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value))
 }
 
 func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
@@ -59,9 +69,7 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 	var loses []*Score
 	for _, score := range ss.Scores {
-		if score.Lose == 0 &&
-			((rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
-				(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value)) {
+		if score.ExceedLosePoint(rule) {
 			loses = append(loses, score)
 		}
 	}
