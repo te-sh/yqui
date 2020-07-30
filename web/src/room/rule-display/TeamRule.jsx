@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { winLoseText } from '../../lib/rule'
 
-const TeamRule = ({ display, rule }) => {
+const TeamRule = ({ rule }) => {
   const point = rule => {
     let text = 'ポイント'
     switch (rule.point) {
@@ -41,7 +41,7 @@ const TeamRule = ({ display, rule }) => {
   }
 
   return (
-    <Box display={display}>
+    <Box>
       <Box>
         <Typography variant="caption">チームスコア</Typography>
       </Box>

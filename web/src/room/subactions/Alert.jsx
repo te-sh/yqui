@@ -13,6 +13,7 @@ const Alert = ({ className, alert, rule, numPlayers }) => {
         return ''
     }
   })()
+
   return (
     <Paper className={classNames(className, 'subactions-alert')}>
       <Box className="subactions-content">

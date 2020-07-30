@@ -105,7 +105,7 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
   return (
     <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
       <Box className="actions-content">
-        { rule.board.active ? boardButtons : normalButtons }
+        {rule.board.active ? boardButtons : normalButtons}
         <Button {...buttonAttr} color="default" onClick={onThrough}>
           次の問題
         </Button>

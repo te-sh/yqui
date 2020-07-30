@@ -81,7 +81,7 @@ const Board = ({ className, user, board, setBoard, addEditBoard, removeEditBoard
   return (
     <Box className={className}>
       {user.isMaster && !board.open ? notOpened : opened}
-      {user.isMaster ? buttons : null}
+      {user.isMaster && buttons}
     </Box>
   )
 }

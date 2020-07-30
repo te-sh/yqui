@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Box, Button, Paper, TextField, Typography } from '@material-ui/core'
 import update from 'immutability-helper'
 import classNames from 'classnames'
-import { displayAttr } from '../../lib/util'
 import { sendWs, SEND_PUSH, SEND_BOARD } from '../../lib/send'
 import './Actions.scss'
 
@@ -32,29 +31,33 @@ const Player = ({ className, selfID, isPlayer, rule, bg }) => {
     setAnswer('')
   }
 
-  const playerBox = (
+  const boardComponent = (
+    <Box>
+      <form onSubmit={sendAnswer} className="boardactions-content">
+        <TextField id="message" variant="outlined" size="small"
+                   autoComplete="off" disabled={bg.lock}
+                   value={answer}
+                   onChange={evt => setAnswer(evt.target.value)}
+                   onKeyDown={evt => evt.stopPropagation()} />
+        <Button type="submit" variant="outlined" color="default" size="large"
+                disabled={bg.lock}>
+          ボード回答
+        </Button>
+      </form>
+    </Box>
+  )
+
+  const playerComponent = (
     <Box className={classNames('actions-content', { 'hidden': !isPlayer })}>
       <Button variant="outlined" color="primary" size="large"
               onClick={() => sendWs(SEND_PUSH)}>
         早押し
       </Button>
-      <Box {...displayAttr(rule.board.active)}>
-        <form onSubmit={sendAnswer} className="boardactions-content">
-          <TextField id="message" variant="outlined" size="small"
-                     autoComplete="off" disabled={bg.lock}
-                     value={answer}
-                     onChange={evt => setAnswer(evt.target.value)}
-                     onKeyDown={evt => evt.stopPropagation()} />
-          <Button type="submit" variant="outlined" color="default" size="large"
-                  disabled={bg.lock}>
-            ボード回答
-          </Button>
-        </form>
-      </Box>
+      {rule.board.active && boardComponent}
     </Box>
   )
 
-  const observerBox = (
+  const observerComponent = (
     <Box className={classNames('actions-content', { 'hidden': isPlayer })}>
       <Typography variant="h6">
         あなたは観戦者です
@@ -64,8 +67,8 @@ const Player = ({ className, selfID, isPlayer, rule, bg }) => {
 
   return (
     <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
-      {playerBox}
-      {observerBox}
+      {playerComponent}
+      {observerComponent}
     </Paper>
   )
 }

@@ -2,13 +2,13 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { winLoseText } from '../../lib/rule'
 
-const BoardRule = ({ display, rule }) => {
+const BoardRule = ({ rule }) => {
   const correct = (() => {
     return `正解 ${rule.board.pointCorrect}ポイント`
   })()
 
   return (
-    <Box display={display}>
+    <Box>
       <Box>
         <Typography variant="caption">ボードスコア</Typography>
       </Box>

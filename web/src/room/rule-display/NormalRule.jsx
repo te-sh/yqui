@@ -3,7 +3,7 @@ import { Box, Typography } from '@material-ui/core'
 import { displayAttr } from '../../lib/util'
 import { winLoseText } from '../../lib/rule'
 
-const NormalRule = ({ display, rule }) => {
+const NormalRule = ({ rule }) => {
   const title = (() => {
     if (rule.board.active) {
       return '1着スコア'
@@ -45,7 +45,7 @@ const NormalRule = ({ display, rule }) => {
   }
 
   return (
-    <Box display={display}>
+    <Box>
       <Box>
         <Typography variant="caption">{title}</Typography>
       </Box>
