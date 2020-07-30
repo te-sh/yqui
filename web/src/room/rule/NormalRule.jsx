@@ -1,7 +1,7 @@
 import React from 'react'
 import {
-  Checkbox, FormControl, FormGroup, FormLabel,
-  InputLabel, MenuItem, Select, TextField
+  Checkbox, FormControl, FormControlLabel, FormGroup,
+  FormLabel, InputLabel, MenuItem, Select, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
@@ -25,6 +25,10 @@ const NormalRule = ({ rule, changeRule }) => {
 
   const changeLockWrong = value => {
     changeRule(update(rule, { lockWrong: { $set: parseNumber(value) } }))
+  }
+
+  const changeUpdown = value => {
+    changeRule(update(rule, { updown: { $set: value } }))
   }
 
   const changeWinPointActive = value => {
@@ -78,6 +82,7 @@ const NormalRule = ({ rule, changeRule }) => {
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
+                     disabled={rule.updown}
                      value={rule.pointWrong}
                      onChange={evt => changePointWrong(evt.target.value)} />
           <TextField label="バツ" type="number"
@@ -86,6 +91,13 @@ const NormalRule = ({ rule, changeRule }) => {
           <TextField label="休み" type="number"
                      value={rule.lockWrong}
                      onChange={evt => changeLockWrong(evt.target.value)} />
+          <FormControlLabel
+            control={
+              <Checkbox color="default"
+                        checked={rule.updown}
+                        onChange={evt => changeUpdown(evt.target.checked)} />
+            }
+            label="アップダウン" />
         </FormGroup>
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">

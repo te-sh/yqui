@@ -6,6 +6,7 @@ export const initRule = {
     pointWrong: 0,
     batsuWrong: 1,
     lockWrong: 0,
+    updown: false,
     winPoint: { active: true, value: 7 },
     losePoint: { active: false, value: 0 },
     loseBatsu: { active: true, value: 3 }

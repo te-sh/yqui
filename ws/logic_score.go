@@ -43,7 +43,11 @@ func (ss *ScoreSet) SetWin(rule WinLoseRule) (win bool) {
 
 func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
-		score.Point += rule.Player.PointWrong
+		if rule.Player.Updown {
+			score.Point = 0
+		} else {
+			score.Point += rule.Player.PointWrong
+		}
 		score.Batsu += rule.Player.BatsuWrong
 		score.Lock = rule.Player.LockWrong
 		if rule.Player.BonusCorrect == "cons" {

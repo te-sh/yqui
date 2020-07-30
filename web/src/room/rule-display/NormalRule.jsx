@@ -26,7 +26,10 @@ const NormalRule = ({ rule }) => {
     const wrong = rule => {
       if (rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0) {
         let text = '誤答'
-        if (rule.pointWrong !== 0) {
+        if (rule.updown) {
+          text += ' アップダウン'
+        }
+        if (rule.pointWrong !== 0 && !rule.updown) {
           text += ` ${rule.pointWrong}ポイント`
         }
         if (rule.batsuWrong !== 0) {
