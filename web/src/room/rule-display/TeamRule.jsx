@@ -3,42 +3,28 @@ import { Box, Typography } from '@material-ui/core'
 import { winLoseText } from '../../lib/rule'
 
 const TeamRule = ({ rule }) => {
-  const point = rule => {
-    let text = 'ポイント'
-    switch (rule.point) {
-      case 'sum':
-        text += ' 個人ポイントの和'
-        break
-      case 'mul':
-        text += ' 個人ポイントの積'
-        break
-      default:
-        break
-    }
-    return text
-  }
+  const point = rule => (
+    <>
+      ポイント
+      {rule.point === 'sum' && <> 個人ポイントの和</>}
+      {rule.point === 'mul' && <> 個人ポイントの積</>}
+    </>
+  )
 
-  const batsu = rule => {
-    let text = 'バツ'
-    switch (rule.batsu) {
-      case 'sum':
-        text += ' 個人バツの和'
-        break
-      default:
-        break
-    }
-    return text
-  }
+  const batsu = rule => (
+    <>
+      バツ
+      {rule.batsu === 'sum' && <> 個人バツの和</>}
+    </>
+  )
 
-  const lock = rule => {
-    let text = '休み'
-    if (rule.shareLock) {
-      text += ' 共有する'
-    } else {
-      text += ' 共有しない'
-    }
-    return text
-  }
+  const lock = rule => (
+    <>
+      休み
+      {rule.shareLock && <> 共有する</>}
+      {!rule.shareLock && <> 共有しない</>}
+    </>
+  )
 
   return (
     <Box>

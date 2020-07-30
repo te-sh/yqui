@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
+import UpdownHelpButton from '../rule-help/UpdownHelpButton'
 
 const NormalRule = ({ rule, changeRule }) => {
   const changePointCorrect = value => {
@@ -97,7 +98,7 @@ const NormalRule = ({ rule, changeRule }) => {
                         checked={rule.updown}
                         onChange={evt => changeUpdown(evt.target.checked)} />
             }
-            label="アップダウン" />
+            label={<>アップダウン<UpdownHelpButton /></>} />
         </FormGroup>
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">

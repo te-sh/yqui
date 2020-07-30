@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { displayAttr } from '../../lib/util'
 import { winLoseText } from '../../lib/rule'
+import UpdownHelpButton from '../rule-help/UpdownHelpButton'
 
 const NormalRule = ({ rule }) => {
   const title = (() => {
@@ -16,35 +17,31 @@ const NormalRule = ({ rule }) => {
 
   const correctWrong = rule => {
     const correct = rule => {
-      let text = `正解 ${rule.pointCorrect}ポイント`
-      if (rule.bonusCorrect === 'cons') {
-        text += ` (連答ボーナス)`
-      }
-      return text
+      return (
+        <>
+          正解 {rule.pointCorrect}ポイント
+          {rule.bonusCorrect === 'cons' && <> (連答ボーナス)</>}
+        </>
+      )
     }
 
     const wrong = rule => {
       if (rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0) {
-        let text = '誤答'
-        if (rule.updown) {
-          text += ' アップダウン'
-        }
-        if (rule.pointWrong !== 0 && !rule.updown) {
-          text += ` ${rule.pointWrong}ポイント`
-        }
-        if (rule.batsuWrong !== 0) {
-          text += ` ${rule.batsuWrong}バツ`
-        }
-        if (rule.lockWrong !== 0) {
-          text += ` ${rule.lockWrong}休`
-        }
-        return text
+        return (
+          <>
+            誤答
+            {rule.updown && <> アップダウン<UpdownHelpButton /></>}
+            {rule.pointWrong !== 0 && !rule.updown && <> {rule.pointWrong}ポイント</>}
+            {rule.batsuWrong !== 0 && <> {rule.batsuWrong}バツ</>}
+            {rule.lockWrong !== 0 && <> {rule.lockWrong}休</>}
+          </>
+        )
       } else {
         return null
       }
     }
 
-    return `${correct(rule)} ${wrong(rule)}`
+    return <>{correct(rule)} {wrong(rule)}</>
   }
 
   return (
