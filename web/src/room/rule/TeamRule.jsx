@@ -78,21 +78,21 @@ const TeamRule = ({ rule, changeRule }) => {
           }
           label="休み共有" />
       </FormGroup>
-      <FormGroup className="rule-group">
+      <FormGroup className="rule-group" row={true}>
         <FormControl>
           <InputLabel id="team-point-label">ポイント</InputLabel>
-          <Select labelId="team-point-label" className="wide-select" disabled={!rule.active}
+          <Select labelId="team-point-label" className="wide-select"
+                  disabled={!rule.active}
                   value={rule.point}
                   onChange={evt => changePoint(evt.target.value)}>
             <MenuItem value="sum">個人ポイントの和</MenuItem>
             <MenuItem value="mul">個人ポイントの積</MenuItem>
           </Select>
         </FormControl>
-      </FormGroup>
-      <FormGroup className="rule-group">
         <FormControl>
           <InputLabel id="team-batsu-label">バツ</InputLabel>
-          <Select labelId="team-batsu-label" className="wide-select" disabled={!rule.active}
+          <Select labelId="team-batsu-label" className="wide-select"
+                  disabled={!rule.active}
                   value={rule.batsu}
                   onChange={evt => changeBatsu(evt.target.value)}>
             <MenuItem value="sum">個人バツの和</MenuItem>
