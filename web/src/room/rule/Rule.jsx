@@ -9,7 +9,7 @@ import { parseNumber } from '../../lib/util'
 import { sendWs, SEND_RULE } from '../../lib/send'
 import { initRule } from '../../lib/rule'
 import TabPanel from './TabPanel'
-import PlayerRule from './PlayerRule'
+import NormalRule from './NormalRule'
 import TeamRule from './TeamRule'
 import BoardRule from './BoardRule'
 import './Rule.scss'
@@ -57,7 +57,7 @@ const Rule = ({ open, close, rule }) => {
                          value={rightNum}
                          onChange={evt => setRightNum(evt.target.value)} />
             </FormGroup>
-            <PlayerRule rule={player}
+            <NormalRule rule={player}
                         changeRule={player => setPlayer(player)} />
           </TabPanel>
           <TabPanel value={tab} index={1} className="team-rule">

@@ -6,7 +6,7 @@ import {
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
 
-const PlayerRule = ({ rule, changeRule }) => {
+const NormalRule = ({ rule, changeRule }) => {
   const changePointCorrect = value => {
     changeRule(update(rule, { pointCorrect: { $set: parseNumber(value) } }))
   }
@@ -124,4 +124,4 @@ const PlayerRule = ({ rule, changeRule }) => {
   )
 }
 
-export default PlayerRule
+export default NormalRule
