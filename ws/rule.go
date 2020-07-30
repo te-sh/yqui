@@ -15,7 +15,6 @@ type NormalRule struct {
 	BatsuWrong   int    `json:"batsuWrong"`
 	LockWrong    int    `json:"lockWrong"`
 	Updown       bool   `json:"updown"`
-	PassQuiz     bool   `json:"passQuiz"`
 	WinLoseRule
 }
 
@@ -35,6 +34,7 @@ type BoardRule struct {
 }
 
 type WinLoseRule struct {
+	PassQuiz  bool           `json:"passQuiz"`
 	WinPoint  ActiveAndValue `json:"winPoint"`
 	LosePoint ActiveAndValue `json:"losePoint"`
 	LoseBatsu ActiveAndValue `json:"loseBatsu"`

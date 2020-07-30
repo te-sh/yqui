@@ -25,6 +25,14 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 				}
 			}
 		}
+		if rule.Player.PassQuiz {
+			for otherId, otherScore := range ss.Scores {
+				if otherId != id && otherScore.PassSeat {
+					otherScore.Point = 0
+					otherScore.PassSeat = false
+				}
+			}
+		}
 	}
 }
 
@@ -32,7 +40,11 @@ func (ss *ScoreSet) SetWin(rule WinLoseRule) (win bool) {
 	var wins []*Score
 	for _, score := range ss.Scores {
 		if score.ExceedWinPoint(rule) {
-			wins = append(wins, score)
+			if !rule.PassQuiz || score.PassSeat {
+				wins = append(wins, score)
+			} else {
+				score.PassSeat = true
+			}
 		}
 	}
 	win = len(wins) > 0
@@ -55,6 +67,9 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		if rule.Player.Updown {
 			score.Point = 0
+		} else if rule.Player.PassQuiz && score.PassSeat {
+			score.Point = 0
+			score.PassSeat = false
 		} else {
 			score.Point += rule.Player.PointWrong
 		}

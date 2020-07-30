@@ -16,9 +16,11 @@ const PlayerAbove = ({ order, delay, score, rule }) => {
 
   const pushSpeed = delay >= 0 ? readableTime(delay) : null
 
-  const consText = (() => {
+  const extText = (() => {
     if (rule.player.bonusCorrect === "cons" && score.cons > 0) {
       return `+${score.cons}`
+    } else if (rule.player.passQuiz && score.passSeat) {
+      return '通過席'
     } else {
       return ''
     }
@@ -39,7 +41,7 @@ const PlayerAbove = ({ order, delay, score, rule }) => {
       </Box>
       <Box className="cons">
         <Typography>
-          {consText}
+          {extText}
         </Typography>
       </Box>
     </Box>
