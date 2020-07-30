@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import { winLoseText } from '../../lib/rule'
+import WinLoseRule from './WinLoseRule'
 
 const TeamRule = ({ rule }) => {
   const point = rule => (
@@ -39,7 +39,7 @@ const TeamRule = ({ rule }) => {
         <Typography>{lock(rule.team)}</Typography>
       </Box>
       <Box>
-        <Typography>{winLoseText(rule.team)}</Typography>
+        <Typography><WinLoseRule rule={rule.team} /></Typography>
       </Box>
     </Box>
   )

@@ -6,6 +6,7 @@ import {
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
 import UpdownHelpButton from '../rule-help/UpdownHelpButton'
+import PassQuizHelpButton from '../rule-help/PassQuizHelpButton'
 
 const NormalRule = ({ rule, changeRule }) => {
   const changePointCorrect = value => {
@@ -38,6 +39,10 @@ const NormalRule = ({ rule, changeRule }) => {
 
   const changeWinPointValue = value => {
     changeRule(update(rule, { winPoint: { value: { $set: parseNumber(value) } } }))
+  }
+
+  const changePassQuiz = value => {
+    changeRule(update(rule, { passQuiz: { $set: value } }))
   }
 
   const changeLosePointActive = value => {
@@ -112,6 +117,14 @@ const NormalRule = ({ rule, changeRule }) => {
                      disabled={!rule.winPoint.active}
                      value={rule.winPoint.value}
                      onChange={evt => changeWinPointValue(evt.target.value)} />
+          <FormControlLabel
+            control={
+              <Checkbox color="default"
+                        disabled={!rule.winPoint.active}
+                        checked={rule.passQuiz}
+                        onChange={evt => changePassQuiz(evt.target.checked)} />
+            }
+            label={<>通過クイズ<PassQuizHelpButton disabled={!rule.winPoint.active} /></>} />
         </FormGroup>
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">

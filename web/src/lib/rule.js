@@ -7,6 +7,7 @@ export const initRule = {
     batsuWrong: 1,
     lockWrong: 0,
     updown: false,
+    passQuiz: false,
     winPoint: { active: true, value: 7 },
     losePoint: { active: false, value: 0 },
     loseBatsu: { active: true, value: 3 }
@@ -41,33 +42,4 @@ export const chanceText = (rule, numPlayers) => {
   } else {
     return `${rule.rightNum}チャンス`
   }
-}
-
-export const winLoseText = rule => {
-  const win = rule => {
-    if (rule.winPoint.active) {
-      return `勝ち抜け ${rule.winPoint.value}ポイント`
-    } else {
-      return '勝ち抜けなし'
-    }
-  }
-
-  const lose = rule => {
-    if (rule.losePoint.active || rule.loseBatsu.active) {
-      let text = '失格'
-      if (rule.losePoint.active) {
-        text += ` ${rule.losePoint.value}ポイント`
-      }
-      if (rule.loseBatsu.active) {
-        text += ` ${rule.loseBatsu.value}バツ`
-      }
-      return text
-    } else {
-      return '失格なし'
-    }
-  }
-
-  return (
-    `${win(rule)} ${lose(rule)}`
-  )
 }

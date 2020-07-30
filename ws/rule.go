@@ -15,6 +15,7 @@ type NormalRule struct {
 	BatsuWrong   int    `json:"batsuWrong"`
 	LockWrong    int    `json:"lockWrong"`
 	Updown       bool   `json:"updown"`
+	PassQuiz     bool   `json:"passQuiz"`
 	WinLoseRule
 }
 
@@ -62,6 +63,7 @@ func NewNormalRule() *NormalRule {
 	rule.BatsuWrong = 1
 	rule.LockWrong = 0
 	rule.Updown = false
+	rule.PassQuiz = false
 	rule.WinPoint = ActiveAndValue{true, 7}
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}

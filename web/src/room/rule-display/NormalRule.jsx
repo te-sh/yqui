@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { displayAttr } from '../../lib/util'
-import { winLoseText } from '../../lib/rule'
 import UpdownHelpButton from '../rule-help/UpdownHelpButton'
+import WinLoseRule from './WinLoseRule'
 
 const NormalRule = ({ rule }) => {
   const title = (() => {
@@ -53,7 +53,7 @@ const NormalRule = ({ rule }) => {
         <Typography>{correctWrong(rule.player)}</Typography>
       </Box>
       <Box {...displayAttr(!rule.board.active)}>
-        <Typography>{winLoseText(rule.player)}</Typography>
+        <Typography><WinLoseRule rule={rule.player} /></Typography>
       </Box>
     </Box>
   )
