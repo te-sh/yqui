@@ -1,18 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Typography } from '@material-ui/core'
-import { displayAttr } from '../../lib/util'
 import { chanceText } from '../../lib/rule'
+import ShareButtonHelpButton from '../rule-help/ShareButtonHelpButton'
 import './RuleDisplay.scss'
 
 const ButtonRule = ({ rule, numPlayers }) => {
-  const teamShareButton = (() => {
-    if (rule.team.active && rule.team.shareButton) {
-      return 'チームでボタンを共有'
-    } else {
-      return null
-    }
-  })()
+  const shareButtonComponent = (
+    <Box>
+      <Typography>チームでボタンを共有<ShareButtonHelpButton /></Typography>
+    </Box>
+  )
 
   return (
     <Box>
@@ -22,9 +20,7 @@ const ButtonRule = ({ rule, numPlayers }) => {
       <Box>
         <Typography>{chanceText(rule, numPlayers)}</Typography>
       </Box>
-      <Box {...displayAttr(teamShareButton)}>
-        <Typography>{teamShareButton}</Typography>
-      </Box>
+      {rule.team.active && rule.team.shareButton && shareButtonComponent}
     </Box>
   )
 }

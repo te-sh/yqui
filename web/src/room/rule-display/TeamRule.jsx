@@ -20,9 +20,7 @@ const TeamRule = ({ rule }) => {
 
   const lock = rule => (
     <>
-      休み
-      {rule.shareLock && <> 共有する</>}
-      {!rule.shareLock && <> 共有しない</>}
+      休み {rule.shareLock ? '共有する' : '共有しない'}
     </>
   )
 
