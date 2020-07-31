@@ -21,7 +21,7 @@ const Rule = ({ open, close, rule }) => {
   const [team, setTeam] = React.useState(initRule.team)
   const [board, setBoard] = React.useState(initRule.board)
 
-  const onEnter = () => {
+  const setRule = rule => {
     setRightNum(rule.rightNum)
     setPlayer(rule.player)
     setTeam(rule.team)
@@ -41,7 +41,7 @@ const Rule = ({ open, close, rule }) => {
   }
 
   return (
-    <Dialog open={open} onEnter={onEnter}
+    <Dialog open={open} onEnter={() => setRule(rule)}
             aria-labelledby="form-dialog-title">
       <form onSubmit={onSubmit}>
         <DialogTitle id="form-dialog-title">ルール</DialogTitle>
@@ -73,6 +73,9 @@ const Rule = ({ open, close, rule }) => {
         <DialogActions>
           <Button type="submit" color="primary">
             設定
+          </Button>
+          <Button color="default" onClick={() => setRule(initRule)}>
+            リセット
           </Button>
           <Button color="secondary" onClick={close}>
             閉じる
