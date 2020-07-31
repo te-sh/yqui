@@ -13,7 +13,7 @@ const UpdownHelp = ({ open, close }) => {
           誤答したときにポイントが 0 になります.
         </Typography>
         <Typography>
-          その他の誤答罰も適用されます.
+          ポイント以外の誤答罰も適用されます.
         </Typography>
       </DialogContent>
       <DialogActions>

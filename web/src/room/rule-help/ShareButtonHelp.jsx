@@ -10,7 +10,7 @@ const ShareButtonHelp = ({ open, close }) => {
       <DialogTitle id="form-dialog-title">ボタン共有ルール</DialogTitle>
       <DialogContent className="help">
         <Typography>
-          ある人がボタンを押しているときにその人と同じチームの他の人はボタンを押すことができません.
+          同じチームの他の人がボタンを押しているときはボタンを押すことができません.
         </Typography>
       </DialogContent>
       <DialogActions>

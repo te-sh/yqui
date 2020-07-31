@@ -19,7 +19,7 @@ const PassQuizHelp = ({ open, close }) => {
           通過席についているときに誤答した場合, もしくは他の人が正解した場合はポイントが 0 になります.
         </Typography>
         <Typography>
-          通過席についているときに誤答した場合はその他の誤答罰は適用されません.
+          通過席についているときに誤答した場合はポイント以外の誤答罰も適用されます.
         </Typography>
       </DialogContent>
       <DialogActions>
