@@ -1,6 +1,6 @@
 .rule {
   .MuiTab-root {
-    min-width: 170px;
+    min-width: 155px;
   }
 
   .rule-group {
@@ -8,7 +8,7 @@
   }
 
   .MuiInputBase-root {
-    width: 90px;
+    width: 75px;
 
     &.wide-select {
       width: 10em;
@@ -18,6 +18,10 @@
   .MuiFormControlLabel-root {
     &.after-text {
       margin-left: 3px;
+    }
+
+    .MuiFormControlLabel-label {
+      margin-left: -5px;
     }
   }
 
