@@ -34,10 +34,11 @@ type BoardRule struct {
 }
 
 type WinLoseRule struct {
-	PassQuiz  bool           `json:"passQuiz"`
-	WinPoint  ActiveAndValue `json:"winPoint"`
-	LosePoint ActiveAndValue `json:"losePoint"`
-	LoseBatsu ActiveAndValue `json:"loseBatsu"`
+	WinPlayers int            `json:"winPlayers"`
+	PassQuiz   bool           `json:"passQuiz"`
+	WinPoint   ActiveAndValue `json:"winPoint"`
+	LosePoint  ActiveAndValue `json:"losePoint"`
+	LoseBatsu  ActiveAndValue `json:"loseBatsu"`
 }
 
 type ActiveAndValue struct {
@@ -63,6 +64,7 @@ func NewNormalRule() *NormalRule {
 	rule.BatsuWrong = 1
 	rule.LockWrong = 0
 	rule.Updown = false
+	rule.WinPlayers = 0
 	rule.PassQuiz = false
 	rule.WinPoint = ActiveAndValue{true, 7}
 	rule.LosePoint = ActiveAndValue{false, 0}
@@ -77,6 +79,8 @@ func NewTeamRule() *TeamRule {
 	rule.Point = "sum"
 	rule.Batsu = "sum"
 	rule.ShareLock = true
+	rule.WinPlayers = 0
+	rule.PassQuiz = false
 	rule.WinPoint = ActiveAndValue{true, 7}
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}

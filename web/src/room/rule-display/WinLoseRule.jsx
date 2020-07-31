@@ -8,6 +8,7 @@ const WinLoseRule = ({ rule }) => {
         <>
           {rule.passQuiz && <>通過クイズ<PassQuizHelpButton /> </>}
           {<>勝ち抜け {rule.winPoint.value}ポイント</>}
+          {rule.winPlayers > 0 && <> {rule.winPlayers}人</>}
         </>
       )
     } else {

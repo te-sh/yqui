@@ -8,6 +8,7 @@ export const initRule = {
     lockWrong: 0,
     updown: false,
     passQuiz: false,
+    winPlayers: 1,
     winPoint: { active: true, value: 7 },
     losePoint: { active: false, value: 0 },
     loseBatsu: { active: true, value: 3 }
@@ -18,6 +19,8 @@ export const initRule = {
     point: 'sum',
     batsu: 'sum',
     shareLock: true,
+    passQuiz: false,
+    winPlayers: 1,
     winPoint: { active: true, value: 7 },
     losePoint: { active: false, value: 0 },
     loseBatsu: { active: true, value: 3 }

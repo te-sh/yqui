@@ -6,6 +6,7 @@ import {
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
 import UpdownHelpButton from '../rule-help/UpdownHelpButton'
+import WinPlayersHelpButton from '../rule-help/WinPlayersHelpButton'
 import PassQuizHelpButton from '../rule-help/PassQuizHelpButton'
 
 const NormalRule = ({ rule, changeRule }) => {
@@ -39,6 +40,10 @@ const NormalRule = ({ rule, changeRule }) => {
 
   const changeWinPointValue = value => {
     changeRule(update(rule, { winPoint: { value: { $set: parseNumber(value) } } }))
+  }
+
+  const changeWinPlayers = value => {
+    changeRule(update(rule, { winPlayers: { $set: parseNumber(value) } }))
   }
 
   const changePassQuiz = value => {
@@ -103,7 +108,8 @@ const NormalRule = ({ rule, changeRule }) => {
                         checked={rule.updown}
                         onChange={evt => changeUpdown(evt.target.checked)} />
             }
-            label={<>アップダウン<UpdownHelpButton /></>} />
+            label={<>アップダウン<UpdownHelpButton /></>}
+            classes={{ root: 'after-text' }} />
         </FormGroup>
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
@@ -117,6 +123,11 @@ const NormalRule = ({ rule, changeRule }) => {
                      disabled={!rule.winPoint.active}
                      value={rule.winPoint.value}
                      onChange={evt => changeWinPointValue(evt.target.value)} />
+          <TextField label={<>人数<WinPlayersHelpButton disabled={!rule.winPoint.active} /></>}
+                     type="number"
+                     disabled={!rule.winPoint.active}
+                     value={rule.winPlayers}
+                     onChange={evt => changeWinPlayers(evt.target.value)} />
           <FormControlLabel
             control={
               <Checkbox color="default"
@@ -124,7 +135,8 @@ const NormalRule = ({ rule, changeRule }) => {
                         checked={rule.passQuiz}
                         onChange={evt => changePassQuiz(evt.target.checked)} />
             }
-            label={<>通過クイズ<PassQuizHelpButton disabled={!rule.winPoint.active} /></>} />
+            label={<>通過クイズ<PassQuizHelpButton disabled={!rule.winPoint.active} /></>}
+            classes={{ root: 'after-text' }} />
         </FormGroup>
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">

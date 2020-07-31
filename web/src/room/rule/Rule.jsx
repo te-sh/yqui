@@ -16,7 +16,7 @@ import './Rule.scss'
 
 const Rule = ({ open, close, rule }) => {
   const [tab, setTab] = React.useState(0)
-  const [rightNum, setRightNum] = React.useState(0)
+  const [rightNum, setRightNum] = React.useState(initRule.rightNum)
   const [player, setPlayer] = React.useState(initRule.player)
   const [team, setTeam] = React.useState(initRule.team)
   const [board, setBoard] = React.useState(initRule.board)

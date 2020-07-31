@@ -15,6 +15,12 @@
     }
   }
 
+  .MuiFormControlLabel-root {
+    &.after-text {
+      margin-left: 3px;
+    }
+  }
+
   .tab-panel {
     height: 23em;
     padding: 1.5em;
