@@ -7,20 +7,20 @@ import { reset } from '../../redux/actions'
 import LeaveConfirm from '../dialogs/LeaveConfirm'
 
 const LeaveButton = ({ reset }) => {
-  const [openConfirm, setOpenConfirm] = React.useState(false)
+  const [dialogOpen, setDialogOpen] = React.useState(false)
 
   const open = () => {
-    setOpenConfirm(true)
+    setDialogOpen(true)
   }
 
   const leave = () => {
-    close()
+    setDialogOpen(false)
     sendWs(SEND_LEAVE)
     reset()
   }
 
   const close = () => {
-    setOpenConfirm(false)
+    setDialogOpen(false)
   }
 
   return (
@@ -32,7 +32,8 @@ const LeaveButton = ({ reset }) => {
           </IconButton>
         </span>
       </Tooltip>
-      <LeaveConfirm open={openConfirm} ok={leave} cancel={close} />
+      <LeaveConfirm open={dialogOpen}
+                    ok={leave} cancel={close} />
     </Box>
   )
 }
