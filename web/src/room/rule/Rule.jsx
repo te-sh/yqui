@@ -6,7 +6,6 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
-import { sendWs, SEND_RULE } from '../../lib/send'
 import { initRule } from '../../lib/rule'
 import TabPanel from './TabPanel'
 import NormalRule from './NormalRule'
@@ -14,7 +13,7 @@ import TeamRule from './TeamRule'
 import BoardRule from './BoardRule'
 import './Rule.scss'
 
-const Rule = ({ open, close, rule }) => {
+const Rule = ({ open, rule, ok, cancel }) => {
   const [tab, setTab] = React.useState(0)
   const [rightNum, setRightNum] = React.useState(initRule.rightNum)
   const [player, setPlayer] = React.useState(initRule.player)
@@ -28,11 +27,9 @@ const Rule = ({ open, close, rule }) => {
     setBoard(rule.board)
   }
 
-  const onSubmit = evt => {
+  const submit = evt => {
     evt.preventDefault()
-    close()
-
-    sendWs(SEND_RULE, update(rule, {
+    ok(update(rule, {
       rightNum: { $set: parseNumber(rightNum) },
       player: { $set: player },
       team: { $set: team },
@@ -43,7 +40,7 @@ const Rule = ({ open, close, rule }) => {
   return (
     <Dialog open={open} onEnter={() => setRule(rule)}
             aria-labelledby="form-dialog-title">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={submit}>
         <DialogTitle id="form-dialog-title">ルール</DialogTitle>
         <DialogContent className="rule">
           <Tabs value={tab} onChange={(evt, newTab) => setTab(newTab)}>
@@ -77,7 +74,7 @@ const Rule = ({ open, close, rule }) => {
           <Button color="default" onClick={() => setRule(initRule)}>
             リセット
           </Button>
-          <Button color="secondary" onClick={close}>
+          <Button color="secondary" onClick={cancel}>
             閉じる
           </Button>
         </DialogActions>
