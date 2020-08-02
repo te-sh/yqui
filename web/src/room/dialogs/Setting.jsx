@@ -1,33 +1,32 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import {
   Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
   FormControl, FormControlLabel, FormGroup, FormLabel, Slider
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import { sendWs, SEND_USER } from '../../lib/send'
 import './Setting.scss'
 
-const Setting = ({ open, close, user }) => {
+const Setting = ({ open, setting, ok, cancel }) => {
   const [chatAnswer, setChatAnswer] = React.useState(false)
   const [volume, setVolume] = React.useState(0)
 
   const onEnter = () => {
-    setChatAnswer(user.chatAnswer)
-    setVolume(parseInt(localStorage.getItem('volume') || '100'))
+    setChatAnswer(setting.chatAnswer)
+    setVolume(setting.volume)
   }
 
-  const onSubmit = evt => {
+  const submit = evt => {
     evt.preventDefault()
-    sendWs(SEND_USER, update(user, { chatAnswer: { $set: chatAnswer } }))
-    localStorage.setItem('volume', volume)
-    close()
+    ok(update(setting, {
+      chatAnswer: { $set: chatAnswer },
+      volume: { $set: parseInt(volume) }
+    }))
   }
 
   return (
     <Dialog open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={submit}>
         <DialogTitle id="form-dialog-title">設定</DialogTitle>
         <DialogContent className="setting">
           <FormGroup>
@@ -57,7 +56,7 @@ const Setting = ({ open, close, user }) => {
           <Button type="submit" color="primary">
             設定
           </Button>
-          <Button color="secondary" onClick={close}>
+          <Button color="secondary" onClick={cancel}>
             閉じる
           </Button>
         </DialogActions>
@@ -66,8 +65,4 @@ const Setting = ({ open, close, user }) => {
   )
 }
 
-export default connect(
-  state => ({
-    user: state.user
-  })
-)(Setting)
+export default Setting
