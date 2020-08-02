@@ -14,13 +14,13 @@ const PlayerAbove = ({ order, delay, score, rule }) => {
     'has-right': order < rule.rightNum
   })
 
-  const pushSpeed = delay >= 0 ? readableTime(delay) : null
-
-  const extText = (
-    <>
-      {rule.player.bonusCorrect === "cons" && score.cons > 0 && <>+{score.cons}</>}
-      {rule.player.passQuiz && score.passSeat && <>通過席</>}
-    </>
+  const extComponent = (
+    <Box className="cons">
+      <Typography>
+        {rule.player.bonusCorrect === "cons" && score.cons > 0 && <>+{score.cons}</>}
+        {rule.player.passQuiz && score.passSeat && <>通過席</>}
+      </Typography>
+    </Box>
   )
 
   return (
@@ -28,19 +28,15 @@ const PlayerAbove = ({ order, delay, score, rule }) => {
       <Paper className={pushOrderClass}>
         <Typography align="center"
                     className={pushOrderContentClass}>
-          {order >= 0 ? order + 1 : ''}
+          {order >= 0 && order + 1}
         </Typography>
       </Paper>
       <Box className="push-speed">
         <Typography variant="caption">
-          {pushSpeed}
+          {delay >= 0 && readableTime(delay)}
         </Typography>
       </Box>
-      <Box className="cons">
-        <Typography>
-          {extText}
-        </Typography>
-      </Box>
+      {extComponent}
     </Box>
   )
 }
