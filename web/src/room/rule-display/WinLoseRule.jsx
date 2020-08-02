@@ -1,8 +1,9 @@
 import React from 'react'
+import { Box, Typography } from '@material-ui/core'
 import PassQuizHelpButton from '../rule-help/PassQuizHelpButton'
 
 const WinLoseRule = ({ rule }) => {
-  const win = () => {
+  const win = rule => {
     if (rule.winPoint.active) {
       return (
         <>
@@ -16,7 +17,7 @@ const WinLoseRule = ({ rule }) => {
     }
   }
 
-  const lose = () => {
+  const lose = rule => {
     if (rule.losePoint.active || rule.loseBatsu.active) {
       return (
         <>
@@ -31,9 +32,9 @@ const WinLoseRule = ({ rule }) => {
   }
 
   return (
-    <>
-      {win()} {lose()}
-    </>
+    <Box>
+      <Typography>{win(rule)} {lose(rule)}</Typography>
+    </Box>
   )
 }
 

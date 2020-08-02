@@ -4,24 +4,30 @@ import WinLoseRule from './WinLoseRule'
 
 const TeamRule = ({ rule }) => {
   const point = rule => (
-    <>
-      ポイント
-      {rule.point === 'sum' && <> 個人ポイントの和</>}
-      {rule.point === 'mul' && <> 個人ポイントの積</>}
-    </>
+    <Box>
+      <Typography>
+        ポイント
+        {rule.point === 'sum' && <> 個人ポイントの和</>}
+        {rule.point === 'mul' && <> 個人ポイントの積</>}
+      </Typography>
+    </Box>
   )
 
   const batsu = rule => (
-    <>
-      バツ
-      {rule.batsu === 'sum' && <> 個人バツの和</>}
-    </>
+    <Box>
+      <Typography>
+        バツ
+        {rule.batsu === 'sum' && <> 個人バツの和</>}
+      </Typography>
+    </Box>
   )
 
   const lock = rule => (
-    <>
-      休み {rule.shareLock ? '共有する' : '共有しない'}
-    </>
+    <Box>
+      <Typography>
+        休み {rule.shareLock ? '共有する' : '共有しない'}
+      </Typography>
+    </Box>
   )
 
   return (
@@ -29,18 +35,10 @@ const TeamRule = ({ rule }) => {
       <Box>
         <Typography variant="caption">チームスコア</Typography>
       </Box>
-      <Box>
-        <Typography>{point(rule.team)}</Typography>
-      </Box>
-      <Box>
-        <Typography>{batsu(rule.team)}</Typography>
-      </Box>
-      <Box>
-        <Typography>{lock(rule.team)}</Typography>
-      </Box>
-      <Box>
-        <Typography><WinLoseRule rule={rule.team} /></Typography>
-      </Box>
+      {point(rule.team)}
+      {batsu(rule.team)}
+      {lock(rule.team)}
+      <WinLoseRule rule={rule.team} />
     </Box>
   )
 }

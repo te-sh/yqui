@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import { displayAttr } from '../../lib/util'
 import UpdownHelpButton from '../rule-help/UpdownHelpButton'
 import WinLoseRule from './WinLoseRule'
 
@@ -16,32 +15,29 @@ const NormalRule = ({ rule }) => {
   })()
 
   const correctWrong = rule => {
-    const correct = rule => {
-      return (
-        <>
-          正解 {rule.pointCorrect}ポイント
-          {rule.bonusCorrect === 'cons' && <> (連答ボーナス)</>}
-        </>
-      )
-    }
+    const correct = rule => (
+      <>
+        正解 {rule.pointCorrect}ポイント
+        {rule.bonusCorrect === 'cons' && <> (連答ボーナス)</>}
+      </>
+    )
 
-    const wrong = rule => {
-      if (rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0) {
-        return (
-          <>
-            誤答
-            {rule.updown && <> アップダウン<UpdownHelpButton /></>}
-            {rule.pointWrong !== 0 && !rule.updown && <> {rule.pointWrong}ポイント</>}
-            {rule.batsuWrong !== 0 && <> {rule.batsuWrong}バツ</>}
-            {rule.lockWrong !== 0 && <> {rule.lockWrong}休</>}
-          </>
-        )
-      } else {
-        return null
-      }
-    }
+    const showWrong = rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0
+    const wrong = rule => (
+      <>
+        誤答
+        {rule.updown && <> アップダウン<UpdownHelpButton /></>}
+        {rule.pointWrong !== 0 && !rule.updown && <> {rule.pointWrong}ポイント</>}
+        {rule.batsuWrong !== 0 && <> {rule.batsuWrong}バツ</>}
+        {rule.lockWrong !== 0 && <> {rule.lockWrong}休</>}
+      </>
+    )
 
-    return <>{correct(rule)} {wrong(rule)}</>
+    return (
+      <Box>
+        <Typography>{correct(rule)} {showWrong && wrong(rule)}</Typography>
+      </Box>
+    )
   }
 
   return (
@@ -49,12 +45,8 @@ const NormalRule = ({ rule }) => {
       <Box>
         <Typography variant="caption">{title}</Typography>
       </Box>
-      <Box>
-        <Typography>{correctWrong(rule.player)}</Typography>
-      </Box>
-      <Box {...displayAttr(!rule.board.active)}>
-        <Typography><WinLoseRule rule={rule.player} /></Typography>
-      </Box>
+      {correctWrong(rule.player)}
+      {!rule.board.active && <WinLoseRule rule={rule.player} />}
     </Box>
   )
 }
