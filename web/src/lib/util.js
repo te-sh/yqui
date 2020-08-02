@@ -7,8 +7,12 @@ export const toIntMap = obj => {
 export const normalizeArray = v => v || []
 
 export const parseNumber = text => {
-  const i = parseInt(text)
-  return isNaN(i) ? 0 : i
+  if (text !== '') {
+    const i = parseInt(text)
+    return isNaN(i) ? 0 : i
+  } else {
+    return ''
+  }
 }
 
 export const ordial = x => {

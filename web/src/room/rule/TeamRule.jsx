@@ -110,6 +110,7 @@ const TeamRule = ({ rule, changeRule }) => {
                     onChange={evt => changeWinPointActive(evt.target.checked)} />
           <TextField label="ポイント" type="number"
                      disabled={!rule.active || !rule.winPoint.active}
+                     InputProps={{ required: true }}
                      value={rule.winPoint.value}
                      onChange={evt => changeWinPointValue(evt.target.value)} />
         </FormGroup>
@@ -124,6 +125,7 @@ const TeamRule = ({ rule, changeRule }) => {
                     onChange={evt => changeLosePointActive(evt.target.checked)} />
           <TextField label="ポイント" type="number"
                      disabled={!rule.active || !rule.losePoint.active}
+                     InputProps={{ required: true }}
                      value={rule.losePoint.value}
                      onChange={evt => changeLosePointValue(evt.target.value)} />
           <Checkbox color="default" disabled={!rule.active}
@@ -131,6 +133,7 @@ const TeamRule = ({ rule, changeRule }) => {
                     onChange={evt => changeLoseBatsuActive(evt.target.checked)} />
           <TextField label="バツ" type="number"
                      disabled={!rule.active || !rule.loseBatsu.active}
+                     InputProps={{ required: true }}
                      value={rule.loseBatsu.value}
                      onChange={evt => changeLoseBatsuValue(evt.target.value)} />
         </FormGroup>

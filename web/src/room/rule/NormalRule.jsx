@@ -74,6 +74,7 @@ const NormalRule = ({ rule, changeRule }) => {
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
+                     InputProps={{ required: true }}
                      value={rule.pointCorrect}
                      onChange={evt => changePointCorrect(evt.target.value)} />
           <FormControl>
@@ -94,12 +95,15 @@ const NormalRule = ({ rule, changeRule }) => {
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
                      disabled={rule.updown}
+                     InputProps={{ required: true }}
                      value={rule.pointWrong}
                      onChange={evt => changePointWrong(evt.target.value)} />
           <TextField label="バツ" type="number"
+                     InputProps={{ required: true }}
                      value={rule.batsuWrong}
                      onChange={evt => changeBatsuWrong(evt.target.value)} />
           <TextField label="休み" type="number"
+                     InputProps={{ required: true, inputProps: { min: 0 } }}
                      value={rule.lockWrong}
                      onChange={evt => changeLockWrong(evt.target.value)} />
           <FormControlLabel
@@ -121,11 +125,13 @@ const NormalRule = ({ rule, changeRule }) => {
                     onChange={evt => changeWinPointActive(evt.target.checked)} />
           <TextField label="ポイント" type="number"
                      disabled={!rule.winPoint.active}
+                     InputProps={{ required: true }}
                      value={rule.winPoint.value}
                      onChange={evt => changeWinPointValue(evt.target.value)} />
           <TextField label={<>人数<WinPlayersHelpButton disabled={!rule.winPoint.active} /></>}
                      type="number"
                      disabled={!rule.winPoint.active}
+                     InputProps={{ required: true, inputProps: { min: 0 } }}
                      value={rule.winPlayers}
                      onChange={evt => changeWinPlayers(evt.target.value)} />
           <FormControlLabel
@@ -148,12 +154,14 @@ const NormalRule = ({ rule, changeRule }) => {
                     onChange={evt => changeLosePointActive(evt.target.checked)} />
           <TextField label="ポイント" type="number"
                      disabled={!rule.losePoint.active}
+                     InputProps={{ required: true }}
                      value={rule.losePoint.value}
                      onChange={evt => changeLosePointValue(evt.target.value)} />
           <Checkbox color="default" checked={rule.loseBatsu.active}
                     onChange={evt => changeLoseBatsuActive(evt.target.checked)} />
           <TextField label="バツ" type="number"
                      disabled={!rule.loseBatsu.active}
+                     InputProps={{ required: true }}
                      value={rule.loseBatsu.value}
                      onChange={evt => changeLoseBatsuValue(evt.target.value)} />
         </FormGroup>

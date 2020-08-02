@@ -51,6 +51,7 @@ const Rule = ({ open, rule, ok, cancel }) => {
           <TabPanel value={tab} index={0} className="normal-rule">
             <FormGroup component="fieldset" className="rule-group">
               <TextField label="解答権人数" type="number"
+                         InputProps={{ required: true, inputProps: { min: 1 } }}
                          value={rightNum}
                          onChange={evt => setRightNum(evt.target.value)} />
             </FormGroup>

@@ -37,6 +37,7 @@ const BoardRule = ({ rule, changeRule }) => {
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
                      disabled={!rule.active}
+                     InputProps={{ required: true }}
                      value={rule.pointCorrect}
                      onChange={evt => changePointCorrect(evt.target.value)} />
         </FormGroup>
