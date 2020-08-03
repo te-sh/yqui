@@ -30,6 +30,13 @@ export const initRule = {
     pointCorrect: 1,
     applyNormal: true
   },
+  other: {
+    timerace: {
+      active: false,
+      min: 0,
+      sec: 0
+    }
+  },
   showPoint: true
 }
 

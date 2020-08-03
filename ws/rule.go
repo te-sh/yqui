@@ -5,6 +5,7 @@ type Rule struct {
 	Player    *NormalRule `json:"player"`
 	Team      *TeamRule   `json:"team"`
 	Board     *BoardRule  `json:"board"`
+	Other     *OtherRule  `json:"other"`
 	ShowPoint bool        `json:"showPoint"`
 }
 
@@ -33,6 +34,16 @@ type BoardRule struct {
 	ApplyNormal  bool `json:"applyNormal"`
 }
 
+type OtherRule struct {
+	Timerace *TimeraceRule `json:"timerace"`
+}
+
+type TimeraceRule struct {
+	Active bool `json:"active"`
+	Min    int  `json:"min"`
+	Sec    int  `json:"sec"`
+}
+
 type WinLoseRule struct {
 	WinPlayers int            `json:"winPlayers"`
 	PassQuiz   bool           `json:"passQuiz"`
@@ -52,6 +63,7 @@ func NewRule() *Rule {
 	rule.Player = NewNormalRule()
 	rule.Team = NewTeamRule()
 	rule.Board = NewBoardRule()
+	rule.Other = NewOtherRule()
 	rule.ShowPoint = true
 	return rule
 }
@@ -92,5 +104,19 @@ func NewBoardRule() *BoardRule {
 	rule.Active = false
 	rule.PointCorrect = 1
 	rule.ApplyNormal = true
+	return rule
+}
+
+func NewOtherRule() *OtherRule {
+	rule := new(OtherRule)
+	rule.Timerace = NewTimeraceRule()
+	return rule
+}
+
+func NewTimeraceRule() *TimeraceRule {
+	rule := new(TimeraceRule)
+	rule.Active = false
+	rule.Min = 0
+	rule.Sec = 0
 	return rule
 }

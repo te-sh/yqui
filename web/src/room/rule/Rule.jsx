@@ -11,6 +11,7 @@ import TabPanel from './TabPanel'
 import NormalRule from './NormalRule'
 import TeamRule from './TeamRule'
 import BoardRule from './BoardRule'
+import OtherRule from './OtherRule'
 import './Rule.scss'
 
 const Rule = ({ open, rule, ok, cancel }) => {
@@ -19,12 +20,14 @@ const Rule = ({ open, rule, ok, cancel }) => {
   const [player, setPlayer] = React.useState(initRule.player)
   const [team, setTeam] = React.useState(initRule.team)
   const [board, setBoard] = React.useState(initRule.board)
+  const [other, setOther] = React.useState(initRule.other)
 
   const setRule = rule => {
     setRightNum(rule.rightNum)
     setPlayer(rule.player)
     setTeam(rule.team)
     setBoard(rule.board)
+    setOther(rule.other)
   }
 
   const submit = evt => {
@@ -33,7 +36,8 @@ const Rule = ({ open, rule, ok, cancel }) => {
       rightNum: { $set: parseNumber(rightNum) },
       player: { $set: player },
       team: { $set: team },
-      board: { $set: board }
+      board: { $set: board },
+      other: { $set: other }
     }))
   }
 
@@ -47,6 +51,7 @@ const Rule = ({ open, rule, ok, cancel }) => {
             <Tab label="通常" />
             <Tab label="チーム" />
             <Tab label="ボード" />
+            <Tab label="その他" />
           </Tabs>
           <TabPanel value={tab} index={0} className="normal-rule">
             <FormGroup component="fieldset" className="rule-group">
@@ -55,17 +60,16 @@ const Rule = ({ open, rule, ok, cancel }) => {
                          value={rightNum}
                          onChange={evt => setRightNum(evt.target.value)} />
             </FormGroup>
-            <NormalRule rule={player}
-                        changeRule={player => setPlayer(player)} />
+            <NormalRule rule={player} changeRule={setPlayer} />
           </TabPanel>
           <TabPanel value={tab} index={1} className="team-rule">
-            <TeamRule tab={tab}
-                      rule={team}
-                      changeRule={team => setTeam(team)} />
+            <TeamRule rule={team} changeRule={setTeam} />
           </TabPanel>
           <TabPanel value={tab} index={2} className="board-rule">
-            <BoardRule rule={board}
-                       changeRule={board => setBoard(board)} />
+            <BoardRule rule={board} changeRule={setBoard} />
+          </TabPanel>
+          <TabPanel value={tab} index={3} className="other-rule">
+            <OtherRule rule={other} changeRule={setOther} />
           </TabPanel>
         </DialogContent>
         <DialogActions>
