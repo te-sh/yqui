@@ -5,7 +5,7 @@ import { Visibility } from '@material-ui/icons'
 import { sendWs, SEND_TOGGLE_OBSERVER } from '../../lib/send'
 
 const ObserverButton = ({ user, isPlayer }) => {
-  const onToggleMaster = () => { sendWs(SEND_TOGGLE_OBSERVER) }
+  const toggleMaster = () => { sendWs(SEND_TOGGLE_OBSERVER) }
   const isObserver = !user.isMaster && !isPlayer
 
   return (
@@ -13,7 +13,7 @@ const ObserverButton = ({ user, isPlayer }) => {
       <Tooltip title="観戦">
         <span>
           <IconButton color={isObserver ? 'secondary' : 'inherit'}
-                      disabled={user.isMaster} onClick={onToggleMaster}>
+                      disabled={user.isMaster} onClick={toggleMaster}>
             <Visibility />
           </IconButton>
         </span>

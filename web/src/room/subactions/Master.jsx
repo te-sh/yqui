@@ -5,7 +5,7 @@ import update from 'immutability-helper'
 import { sendWs, SEND_RULE } from '../../lib/send'
 
 const Master = ({ className, rule }) => {
-  const onToggleShowPoint = evt => {
+  const toggleShowPoint = evt => {
     sendWs(SEND_RULE, update(rule, {
       showPoint: { $set: evt.target.checked }
     }))
@@ -18,7 +18,7 @@ const Master = ({ className, rule }) => {
           control={
             <Checkbox color="default"
                       checked={rule.showPoint}
-                      onChange={onToggleShowPoint} />
+                      onChange={toggleShowPoint} />
           }
           label="ポイント表示" />
       </Box>
