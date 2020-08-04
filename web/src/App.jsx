@@ -4,6 +4,10 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import store from './redux/store'
 import Root from './Root'
+import './fonts/DSEG7Classic-Regular.ttf'
+import './fonts/DSEG7Classic-Regular.woff'
+import './fonts/DSEG7Classic-Regular.woff2'
+import './App.scss'
 
 const App = () => {
   return (
