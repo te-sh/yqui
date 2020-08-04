@@ -28,6 +28,12 @@ export const ordial = x => {
   }
 }
 
+export const minSecTime = s => {
+  const min = Math.floor(s / 60)
+  const sec = s - min * 60
+  return `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`
+}
+
 export const readableTime = ms => {
   if (ms < 1000) {
     return `${ms}ms`

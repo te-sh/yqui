@@ -14,5 +14,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .timer {
+      display: flex;
+      margin-right: 10px;
+      align-items: center;
+      justify-content: center;
+
+      .timer-remaining {
+        margin: 0 10px;
+      }
+    }
+
+    .MuiFormControlLabel-label {
+      margin-left: -5px;
+    }
   }
 }

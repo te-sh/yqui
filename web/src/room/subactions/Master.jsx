@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Box, Button, Checkbox, FormControlLabel, Paper
+  Box, Button, Checkbox, FormControlLabel, Paper, Typography
 } from '@material-ui/core'
 import update from 'immutability-helper'
+import { minSecTime } from '../../lib/util'
 import { sendWs, SEND_RULE, SEND_TOGGLE_TIMER } from '../../lib/send'
 
 const Master = ({ className, rule, timer }) => {
@@ -18,18 +19,21 @@ const Master = ({ className, rule, timer }) => {
   }
 
   const timerComponent = (
-    <>
+    <Box className="timer">
       <Button variant="outlined" color="default"
               onClick={toggleTimer}>
         タイマー{timer.running ? '停止' : '駆動'}
       </Button>
-    </>
+      <Typography variant="h6" className="timer-remaining">
+        {minSecTime(timer.remaining)}
+      </Typography>
+    </Box>
   )
 
   return (
     <Paper className={className}>
       <Box className="subactions-content">
-        {rule.timer.active && timerComponent}
+        {rule.other.timer.active && timerComponent}
         <FormControlLabel
           control={
             <Checkbox color="default"

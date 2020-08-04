@@ -191,6 +191,10 @@ func (room *Room) SetRule(rule *Rule) {
 	if room.Rule.Team.Active && !rule.Team.Active {
 		room.TruncateTeams()
 	}
+	if rule.Other.Timer.Active {
+		timerRule := rule.Other.Timer
+		room.Timer.SetRemaining <- timerRule.Min * 60 + timerRule.Sec
+	}
 	room.Rule = rule
 }
 
@@ -205,4 +209,5 @@ func (room *Room) TruncateTeams() {
 }
 
 func (room *Room) ToggleTimer() {
+	room.Timer.ToggleRunning <- 0
 }

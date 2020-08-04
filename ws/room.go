@@ -8,6 +8,7 @@ type Room struct {
 	Buttons *Buttons    `json:"buttons"`
 	Rule    *Rule       `json:"rule"`
 	History *History    `json:"-"`
+	Timer   *Timer      `json:"-"`
 }
 
 func NewRoom() *Room {
@@ -22,6 +23,7 @@ func NewRoom() *Room {
 	room.Buttons = NewButtons()
 	room.Rule = NewRule()
 	room.History = NewHistory()
+	room.Timer = NewTimer(room)
 
 	return room
 }
