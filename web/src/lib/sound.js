@@ -1,7 +1,7 @@
 let context
 let buffer = {}
 
-const sounds = ['push', 'correct', 'wrong', 'roundwin', 'open']
+const sounds = ['push', 'correct', 'wrong', 'roundwin', 'open', 'timeup']
 
 window.addEventListener('load', () => {
   const AudioContext = window.AudioContext || window.webkitAudioContext

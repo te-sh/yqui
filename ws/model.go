@@ -32,6 +32,7 @@ type Sound struct {
 	Win     bool
 	Lose    bool
 	Open    bool
+	Timeup  bool
 }
 
 func NewSound() *Sound {
@@ -55,6 +56,9 @@ func (sound *Sound) MakeSounds() string {
 	}
 	if sound.Win {
 		sounds = append(sounds, "roundwin")
+	}
+	if sound.Timeup {
+		sounds = append(sounds, "timeup")
 	}
 	return strings.Join(sounds, ",")
 }
