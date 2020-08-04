@@ -6,16 +6,16 @@ import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
 
 const OtherRule = ({ rule, changeRule }) => {
-  const changeTimeraceActive = value => {
-    changeRule(update(rule, { timerace: { active: { $set: value } } }))
+  const changeTimerActive = value => {
+    changeRule(update(rule, { timer: { active: { $set: value } } }))
   }
 
-  const changeTimeraceMin = value => {
-    changeRule(update(rule, { timerace: { min: { $set: parseNumber(value) } } }))
+  const changeTimerMin = value => {
+    changeRule(update(rule, { timer: { min: { $set: parseNumber(value) } } }))
   }
 
-  const changeTimeraceSec = value => {
-    changeRule(update(rule, { timerace: { sec: { $set: parseNumber(value) } } }))
+  const changeTimerSec = value => {
+    changeRule(update(rule, { timer: { sec: { $set: parseNumber(value) } } }))
   }
 
   return (
@@ -24,23 +24,23 @@ const OtherRule = ({ rule, changeRule }) => {
         <FormControlLabel
           control={
             <Checkbox color="default"
-                      checked={rule.timerace.active}
-                      onChange={evt => changeTimeraceActive(evt.target.checked)} />
+                      checked={rule.timer.active}
+                      onChange={evt => changeTimerActive(evt.target.checked)} />
           }
-          label="タイムレース" />
+          label="タイマー" />
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
         <FormGroup row={true}>
           <TextField label="分" type="number"
-                     disabled={!rule.timerace.active}
+                     disabled={!rule.timer.active}
                      InputProps={{ required: true, inputProps: { min: 0 } }}
-                     value={rule.timerace.min}
-                     onChange={evt => changeTimeraceMin(evt.target.value)} />
+                     value={rule.timer.min}
+                     onChange={evt => changeTimerMin(evt.target.value)} />
           <TextField label="秒" type="number"
-                     disabled={!rule.timerace.active}
+                     disabled={!rule.timer.active}
                      InputProps={{ required: true, inputProps: { min: 0, max: 59 } }}
-                     value={rule.timerace.sec}
-                     onChange={evt => changeTimeraceSec(evt.target.value)} />
+                     value={rule.timer.sec}
+                     onChange={evt => changeTimerSec(evt.target.value)} />
         </FormGroup>
       </FormGroup>
     </>

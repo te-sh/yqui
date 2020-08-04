@@ -31,7 +31,7 @@ export const initRule = {
     applyNormal: true
   },
   other: {
-    timerace: {
+    timer: {
       active: false,
       min: 0,
       sec: 0

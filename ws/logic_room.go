@@ -203,3 +203,6 @@ func (room *Room) TruncateTeams() {
 		room.Teams = room.Teams[0:1]
 	}
 }
+
+func (room *Room) ToggleTimer() {
+}

@@ -95,6 +95,8 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, rule)
 		room.SetRule(rule)
 		room.SendRoom()
+	case "toggle-timer":
+		room.ToggleTimer()
 	case "chat":
 		if user, ok := room.Users[cmd.ID]; ok {
 			chat := Chat{Type: "message", Time: cmd.Time, Name: user.Name}

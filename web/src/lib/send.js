@@ -18,6 +18,7 @@ export const SEND_BOARD_LOCK = 'board-lock'
 export const SEND_TOGGLE_OBSERVER = 'toggle-observer'
 export const SEND_TOGGLE_MASTER = 'toggle-master'
 export const SEND_RULE = 'rule'
+export const SEND_TOGGLE_TIMER = 'toggle-timer'
 export const SEND_CHAT = 'chat'
 
 export const sendWs = (cmd, arg) => {

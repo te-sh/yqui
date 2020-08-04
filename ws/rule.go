@@ -35,10 +35,10 @@ type BoardRule struct {
 }
 
 type OtherRule struct {
-	Timerace *TimeraceRule `json:"timerace"`
+	Timer *TimerRule `json:"timer"`
 }
 
-type TimeraceRule struct {
+type TimerRule struct {
 	Active bool `json:"active"`
 	Min    int  `json:"min"`
 	Sec    int  `json:"sec"`
@@ -109,12 +109,12 @@ func NewBoardRule() *BoardRule {
 
 func NewOtherRule() *OtherRule {
 	rule := new(OtherRule)
-	rule.Timerace = NewTimeraceRule()
+	rule.Timer = NewTimerRule()
 	return rule
 }
 
-func NewTimeraceRule() *TimeraceRule {
-	rule := new(TimeraceRule)
+func NewTimerRule() *TimerRule {
+	rule := new(TimerRule)
 	rule.Active = false
 	rule.Min = 0
 	rule.Sec = 0

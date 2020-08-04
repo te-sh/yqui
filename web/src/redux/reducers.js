@@ -1,8 +1,8 @@
 import update from 'immutability-helper'
 import {
   RESET, SET_WEB_SOCKET, RECV_SELF_ID, RECV_ROOMS, RECV_JOINED,
-  RECV_ROOM, RECV_BG, RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_CHAT,
-  SET_TEAMS, SET_BOARD,
+  RECV_ROOM, RECV_BG, RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_TIMER,
+  RECV_CHAT, SET_TEAMS, SET_BOARD,
   ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
@@ -31,6 +31,10 @@ const initialState = {
   sg: initSg,
   buttons: initButtons,
   rule: initRule,
+  timer: {
+    running: false,
+    remaining: 0
+  },
   editBoards: new Set(),
   chats: []
 }
@@ -80,6 +84,8 @@ const yquiApp = (state = initialState, action) => {
     return update(state, { sg: { $set: mergeSgWithJson(state, action.sg) } })
   case RECV_BUTTONS:
     return update(state, { buttons: { $set: buttonsFromJson(action.buttons) } })
+  case RECV_TIMER:
+    return update(state, { timer: { $set: action.timer } })
   case RECV_CHAT:
     return update(state, { chats: { $push: [action.chat] } })
   case SET_TEAMS:

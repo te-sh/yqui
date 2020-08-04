@@ -1,19 +1,35 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box, Checkbox, FormControlLabel, Paper } from '@material-ui/core'
+import {
+  Box, Button, Checkbox, FormControlLabel, Paper
+} from '@material-ui/core'
 import update from 'immutability-helper'
-import { sendWs, SEND_RULE } from '../../lib/send'
+import { sendWs, SEND_RULE, SEND_TOGGLE_TIMER } from '../../lib/send'
 
-const Master = ({ className, rule }) => {
+const Master = ({ className, rule, timer }) => {
   const toggleShowPoint = evt => {
     sendWs(SEND_RULE, update(rule, {
       showPoint: { $set: evt.target.checked }
     }))
   }
 
+  const toggleTimer = () => {
+    sendWs(SEND_TOGGLE_TIMER)
+  }
+
+  const timerComponent = (
+    <>
+      <Button variant="outlined" color="default"
+              onClick={toggleTimer}>
+        タイマー{timer.running ? '停止' : '駆動'}
+      </Button>
+    </>
+  )
+
   return (
     <Paper className={className}>
       <Box className="subactions-content">
+        {rule.timer.active && timerComponent}
         <FormControlLabel
           control={
             <Checkbox color="default"
@@ -28,6 +44,7 @@ const Master = ({ className, rule }) => {
 
 export default connect(
   state => ({
-    rule: state.rule
+    rule: state.rule,
+    timer: state.timer
   })
 )(Master)
