@@ -69,6 +69,11 @@ func (room *Room) SendSG() {
 	}
 }
 
+func (room *Room) SendTimer() {
+	LogJson("timer", room.Timer)
+	room.Broadcast("timer", room.Timer)
+}
+
 func (room *Room) SendChat(chat Chat) {
 	LogJson("chat", chat)
 	room.Broadcast("chat", chat)

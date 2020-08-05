@@ -40,6 +40,12 @@ func NewSound() *Sound {
 	return sound
 }
 
+func TimeupSound() *Sound {
+	sound := new(Sound)
+	sound.Timeup = true
+	return sound
+}
+
 func (sound *Sound) MakeSounds() string {
 	var sounds []string
 	if sound.Push {

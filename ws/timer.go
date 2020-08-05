@@ -41,7 +41,7 @@ func (timer *Timer) Activate() {
 			timer.Running = false
 			timer.Remaining = remaining
 			timer.RemainingMilli = int64(remaining) * 1000
-			timer.Room.SendToMaster("timer", timer)
+			timer.Room.SendTimer()
 		case <-timer.ToggleRunning:
 			if timer.Running {
 				timer.Running = false
@@ -51,20 +51,18 @@ func (timer *Timer) Activate() {
 				timer.Running = true
 				timer.StartTime = time.Now()
 			}
-			timer.Room.SendToMaster("timer", timer)
+			timer.Room.SendTimer()
 		case <-ticker.C:
 			if !timer.Running {
 				continue
 			}
 			if changed, remainingMilli := timer.CalcRemaining(); changed {
-				timer.Room.SendToMaster("timer", timer)
 				if timer.Remaining <= 0 {
 					timer.Running = false
 					timer.RemainingMilli = remainingMilli
-					sound := NewSound()
-					sound.Timeup = true
-					timer.Room.SendSound(sound)
+					timer.Room.SendSound(TimeupSound())
 				}
+				timer.Room.SendTimer()
 			}
 		}
 	}
