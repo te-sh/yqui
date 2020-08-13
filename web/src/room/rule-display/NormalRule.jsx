@@ -22,7 +22,7 @@ const NormalRule = ({ rule }) => {
       </>
     )
 
-    const showWrong = rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0
+    const showWrong = rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0 || rule.updown
     const wrong = rule => (
       <>
         誤答
