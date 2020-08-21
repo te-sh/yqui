@@ -4,13 +4,21 @@
   background-color: #e0e0e0;
   display: grid;
   grid-template-rows: auto auto auto 1fr 72px auto auto;
-  grid-template-columns: 25% 1fr;
-  grid-gap: 5px;
+  grid-template-columns: 25% 24px 1fr;
+  grid-row-gap: 5px;
   min-height: 0;
   min-width: 0;
 
+  &.hide-left {
+    grid-template-columns: 0 24px 1fr;
+
+    .master-display, .rule-display, .messages, .chat {
+      display: none;
+    }
+  }
+
   .top-bar {
-    grid-column: 1/3;
+    grid-column: 1/4;
     grid-row: 1/2;
   }
 
@@ -34,20 +42,25 @@
     grid-row: 7/8;
   }
 
-  .teams {
+  .toggle-left {
     grid-column: 2/3;
+    grid-row: 2/8;
+  }
+
+  .teams {
+    grid-column: 3/4;
     grid-row: 2/5;
     overflow: hidden;
     min-width: 0;
   }
 
   .subactions {
-    grid-column: 2/3;
+    grid-column: 3/4;
     grid-row: 5/6;
   }
 
   .actions {
-    grid-column: 2/3;
+    grid-column: 3/4;
     grid-row: 6/8;
   }
 }

@@ -1,17 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box } from '@material-ui/core'
+import classNames from 'classnames'
 import Topbar from './topbar/TopBar'
 import MasterDisplay from './MasterDisplay'
 import RuleDisplay from './rule-display/RuleDisplay'
-import Chat from './chat/Chat'
 import Messages from './chat/Messages'
+import Chat from './chat/Chat'
+import ToggleLeft from './ToggleLeft'
 import Teams from './players/Teams'
 import Subactions from './subactions/Subactions'
 import Actions from './actions/Actions'
 import './Room.scss'
 
-const Room = ({ history, roomNo }) => {
+const Room = ({ history, showLeft, roomNo }) => {
   React.useEffect(
     () => {
       if (roomNo === null) {
@@ -21,13 +23,18 @@ const Room = ({ history, roomNo }) => {
     [history, roomNo]
   )
 
+  const roomClass = classNames('room', {
+    'hide-left': !showLeft
+  })
+
   return (
-    <Box className="room">
+    <Box className={roomClass}>
       <Topbar className="top-bar" />
       <MasterDisplay className="master-display" />
       <RuleDisplay className="rule-display" />
       <Messages className="messages" />
       <Chat className="chat" />
+      <ToggleLeft className="toggle-left" />
       <Teams className="teams" />
       <Subactions className="subactions" />
       <Actions className="actions" />
@@ -37,6 +44,7 @@ const Room = ({ history, roomNo }) => {
 
 export default connect(
   state => ({
+    showLeft: state.showLeft,
     roomNo: state.roomNo
   })
 )(Room)
