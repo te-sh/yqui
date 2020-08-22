@@ -194,7 +194,7 @@ func (room *Room) SetRule(rule *Rule) {
 	}
 	if rule.Other.Timer.Active {
 		timerRule := rule.Other.Timer
-		room.Timer.SetRemaining <- timerRule.Min * 60 + timerRule.Sec
+		room.Timer.SetRemaining <- timerRule.Min*60 + timerRule.Sec
 	}
 	room.Rule = rule
 }
