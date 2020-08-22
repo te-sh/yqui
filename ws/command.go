@@ -44,19 +44,15 @@ func (room *Room) RunCommand(cmd Cmd) {
 		sound.Wrong = true
 		room.SendSound(sound)
 	case "through":
-		room.BG.Reset()
-		room.NextQuiz()
-		room.History.Add(room.SG, room.Buttons)
+		room.Through()
 		room.SendBG()
 		room.SendSG()
 		room.SendButtons()
 	case "reset":
-		room.BG.Reset()
-		room.Buttons.Reset()
+		room.Reset()
 		room.SendBG()
 		room.SendButtons()
 	case "all-clear":
-		room.BG.Reset()
 		room.AllClear()
 		room.SendBG()
 		room.SendSG()

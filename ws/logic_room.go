@@ -181,10 +181,22 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	room.BG.Boards.Merge(newBoards)
 }
 
+func (room *Room) Through() {
+	room.NextQuiz()
+	room.BG.Reset()
+	room.History.Add(room.SG, room.Buttons)
+}
+
+func (room *Room) Reset() {
+	room.Buttons.Reset()
+	room.BG.Reset()
+}
+
 func (room *Room) AllClear() {
 	sg, buttons := room.SG, room.Buttons
-	buttons.Reset()
 	sg.Reset()
+	buttons.Reset()
+	room.BG.Reset()
 	room.History.Add(sg, buttons)
 }
 
