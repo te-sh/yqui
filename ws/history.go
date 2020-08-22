@@ -28,6 +28,19 @@ func NewHistoryItem() *HistoryItem {
 	return item
 }
 
+func (history *History) Join(id int64) {
+	for _, item := range history.Items {
+		item.SG.Player.Add(id)
+	}
+}
+
+func (history *History) Leave(id int64) {
+	for _, item := range history.Items {
+		item.SG.Player.Remove(id)
+		item.Buttons.Remove(id)
+	}
+}
+
 func (history *History) Save(sg *ScoreGroup, buttons *Buttons) {
 	if history.NeedSave {
 		history.Add(sg, buttons)

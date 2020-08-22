@@ -13,6 +13,8 @@ func (room *Room) JoinUser(id int64, conn *Conn, join Join, time int64) {
 	room.BG.Boards.Add(id)
 	room.SG.Player.Add(id)
 
+	room.History.Join(id)
+
 	chat := Chat{Type: "join", Time: time, Name: join.Name}
 	room.SendChat(chat)
 }
@@ -25,10 +27,12 @@ func (room *Room) LeaveUser(id int64, time int64) {
 	room.Teams.RemovePlayer(user)
 	delete(room.Users, id)
 
-	room.Buttons.Leave(id)
+	room.Buttons.Remove(id)
 	if room.NoCanAnswer() {
 		room.NextQuiz()
 	}
+
+	room.History.Leave(id)
 
 	if len(room.Users) == 0 {
 		room.TruncateTeams()
