@@ -46,7 +46,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "through":
 		room.BG.Reset()
 		room.NextQuiz()
-		room.History.Add(room.SG)
+		room.History.Add(room.SG, room.Buttons)
 		room.SendBG()
 		room.SendSG()
 		room.SendButtons()
@@ -62,10 +62,10 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendSG()
 		room.SendButtons()
 	case "undo":
-		room.History.Move(-1, room.SG)
+		room.History.Move(-1, room.SG, room.Buttons)
 		room.SendSG()
 	case "redo":
-		room.History.Move(+1, room.SG)
+		room.History.Move(+1, room.SG, room.Buttons)
 		room.SendSG()
 	case "boards":
 		newBoards := make(Boards)

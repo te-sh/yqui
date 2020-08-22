@@ -15,6 +15,21 @@ func NewButtons() *Buttons {
 	return buttons
 }
 
+func (buttons *Buttons) Clone() *Buttons {
+	newButtons := NewButtons()
+	newButtons.Merge(buttons)
+	return newButtons
+}
+
+func (buttons *Buttons) Merge(newButtons *Buttons) {
+	buttons.Pushers = make([]int64, len(newButtons.Pushers))
+	copy(buttons.Pushers, newButtons.Pushers)
+	buttons.PushTimes = make([]int64, len(newButtons.PushTimes))
+	copy(buttons.PushTimes, newButtons.PushTimes)
+	buttons.Answerers = make([]int64, len(newButtons.Answerers))
+	copy(buttons.Answerers, newButtons.Answerers)
+}
+
 func (buttons *Buttons) Reset() {
 	buttons.Pushers = nil
 	buttons.PushTimes = nil

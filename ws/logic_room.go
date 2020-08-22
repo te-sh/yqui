@@ -108,7 +108,7 @@ func (room *Room) Correct(sound *Sound) {
 	sg.Team.CalcTeams(room.Teams, sg.Player, rule, sound)
 
 	room.NextQuiz()
-	room.History.Add(sg)
+	room.History.Add(sg, buttons)
 }
 
 func (room *Room) NumCanAnswer() int {
@@ -152,7 +152,7 @@ func (room *Room) Wrong(sound *Sound) {
 	if room.NoCanAnswer() {
 		room.NextQuiz()
 	}
-	room.History.Add(sg)
+	room.History.Add(sg, buttons)
 }
 
 func (room *Room) NextQuiz() {
@@ -175,7 +175,7 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 	sg.Team.CalcTeams(room.Teams, sg.Player, rule, sound)
 
 	if len(corrects) > 0 || len(wrongs) > 0 {
-		room.History.Add(sg)
+		room.History.Add(sg, buttons)
 	}
 
 	room.BG.Boards.Merge(newBoards)
@@ -185,7 +185,7 @@ func (room *Room) AllClear() {
 	sg, buttons := room.SG, room.Buttons
 	buttons.Reset()
 	sg.Reset()
-	room.History.Add(sg)
+	room.History.Add(sg, buttons)
 }
 
 func (room *Room) SetRule(rule *Rule) {

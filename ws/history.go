@@ -6,7 +6,8 @@ type History struct {
 }
 
 type HistoryItem struct {
-	SG *ScoreGroup
+	SG      *ScoreGroup
+	Buttons *Buttons
 }
 
 const HistoryMaxLen = 100
@@ -21,14 +22,16 @@ func NewHistory() *History {
 func NewHistoryItem() *HistoryItem {
 	item := new(HistoryItem)
 	item.SG = NewScoreGroup()
+	item.Buttons = NewButtons()
 	return item
 }
 
-func (history *History) Add(sg *ScoreGroup) {
+func (history *History) Add(sg *ScoreGroup, buttons *Buttons) {
 	history.Items = history.Items[:history.Curr+1]
 
 	item := NewHistoryItem()
 	item.SG = sg.Clone()
+	item.Buttons = buttons.Clone()
 
 	history.Items = append(history.Items, item)
 	history.Curr += 1
@@ -39,7 +42,7 @@ func (history *History) Add(sg *ScoreGroup) {
 	}
 }
 
-func (history *History) Move(d int, sg *ScoreGroup) {
+func (history *History) Move(d int, sg *ScoreGroup, buttons *Buttons) {
 	i := history.Curr + d
 	if i < 0 || i >= len(history.Items) {
 		return
@@ -47,6 +50,7 @@ func (history *History) Move(d int, sg *ScoreGroup) {
 
 	item := history.Items[i]
 	sg.Merge(item.SG)
+	buttons.Merge(item.Buttons)
 
 	history.Curr = i
 }
