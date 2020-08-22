@@ -93,6 +93,7 @@ func (room *Room) PushButton(id int64, time int64, sound *Sound) {
 			(!room.Rule.Team.Active || room.SG.Team.CanPush(user.Team.ID)) {
 			sound.Push = room.Buttons.AllAnswered()
 			room.Buttons.Push(id, time)
+			room.History.NeedSave = true
 		}
 	}
 }
@@ -103,12 +104,12 @@ func (room *Room) Correct(sound *Sound) {
 	if err != nil {
 		return
 	}
+	room.History.Save(sg, buttons)
 
 	sg.Player.Correct(id, rule, sound)
 	sg.Team.CalcTeams(room.Teams, sg.Player, rule, sound)
 
 	room.NextQuiz()
-	room.History.Add(sg, buttons)
 }
 
 func (room *Room) NumCanAnswer() int {
@@ -144,6 +145,7 @@ func (room *Room) Wrong(sound *Sound) {
 	if err != nil {
 		return
 	}
+	room.History.Save(sg, buttons)
 
 	sg.Player.Wrong(id, rule, sound)
 	sg.Team.CalcTeams(room.Teams, sg.Player, rule, sound)
@@ -151,8 +153,9 @@ func (room *Room) Wrong(sound *Sound) {
 	buttons.Answer(id)
 	if room.NoCanAnswer() {
 		room.NextQuiz()
+	} else {
+		room.History.NeedSave = true
 	}
-	room.History.Add(sg, buttons)
 }
 
 func (room *Room) NextQuiz() {
@@ -160,6 +163,7 @@ func (room *Room) NextQuiz() {
 	sg.Player.DecreaseLock(buttons)
 	sg.Team.CalcTeams(room.Teams, sg.Player, rule, nil)
 	buttons.Reset()
+	room.History.Add(sg, buttons)
 }
 
 func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
@@ -182,18 +186,21 @@ func (room *Room) UpdateBoards(newBoards Boards, sound *Sound) {
 }
 
 func (room *Room) Through() {
+	room.History.Save(room.SG, room.Buttons)
+	room.BG.Reset()
 	room.NextQuiz()
+}
+
+func (room *Room) Reset() {
+	room.History.Save(room.SG, room.Buttons)
+	room.Buttons.Reset()
 	room.BG.Reset()
 	room.History.Add(room.SG, room.Buttons)
 }
 
-func (room *Room) Reset() {
-	room.Buttons.Reset()
-	room.BG.Reset()
-}
-
 func (room *Room) AllClear() {
 	sg, buttons := room.SG, room.Buttons
+	room.History.Save(sg, buttons)
 	sg.Reset()
 	buttons.Reset()
 	room.BG.Reset()

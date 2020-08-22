@@ -60,9 +60,11 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "undo":
 		room.History.Move(-1, room.SG, room.Buttons)
 		room.SendSG()
+		room.SendButtons()
 	case "redo":
 		room.History.Move(+1, room.SG, room.Buttons)
 		room.SendSG()
+		room.SendButtons()
 	case "boards":
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)

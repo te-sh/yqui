@@ -1,8 +1,9 @@
 package main
 
 type History struct {
-	Items []*HistoryItem
-	Curr  int
+	Items    []*HistoryItem
+	Curr     int
+	NeedSave bool
 }
 
 type HistoryItem struct {
@@ -16,6 +17,7 @@ func NewHistory() *History {
 	history := new(History)
 	history.Items = append(history.Items, NewHistoryItem())
 	history.Curr = 0
+	history.NeedSave = false
 	return history
 }
 
@@ -24,6 +26,12 @@ func NewHistoryItem() *HistoryItem {
 	item.SG = NewScoreGroup()
 	item.Buttons = NewButtons()
 	return item
+}
+
+func (history *History) Save(sg *ScoreGroup, buttons *Buttons) {
+	if history.NeedSave {
+		history.Add(sg, buttons)
+	}
 }
 
 func (history *History) Add(sg *ScoreGroup, buttons *Buttons) {
@@ -35,6 +43,7 @@ func (history *History) Add(sg *ScoreGroup, buttons *Buttons) {
 
 	history.Items = append(history.Items, item)
 	history.Curr += 1
+	history.NeedSave = false
 
 	if len(history.Items) > HistoryMaxLen {
 		history.Curr -= len(history.Items) - HistoryMaxLen
@@ -43,6 +52,14 @@ func (history *History) Add(sg *ScoreGroup, buttons *Buttons) {
 }
 
 func (history *History) Move(d int, sg *ScoreGroup, buttons *Buttons) {
+	if history.NeedSave {
+		if d < 0 {
+			d += 1
+		} else {
+			return
+		}
+	}
+
 	i := history.Curr + d
 	if i < 0 || i >= len(history.Items) {
 		return
@@ -53,4 +70,5 @@ func (history *History) Move(d int, sg *ScoreGroup, buttons *Buttons) {
 	buttons.Merge(item.Buttons)
 
 	history.Curr = i
+	history.NeedSave = false
 }
