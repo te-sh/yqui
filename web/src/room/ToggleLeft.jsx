@@ -13,7 +13,7 @@ const ToggleLeft = ({ className, showLeft, toggleShowLeft }) => {
       </ButtonBase>
     </Box>
   )
-      }
+}
 
 export default connect(
   state => ({
