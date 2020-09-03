@@ -1,13 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, Toolbar, Typography } from '@material-ui/core'
-import TeamButton from './TeamButton'
-import RuleButton from './RuleButton'
-import MasterButton from './MasterButton'
-import ObserverButton from './ObserverButton'
-import SettingButton from './SettingButton'
-import HelpButton from './HelpButton'
-import LeaveButton from './LeaveButton'
+import TopMenu from './TopMenu'
 import './TopBar.scss'
 
 const Topbar = ({ className, roomNo }) => {
@@ -21,13 +15,7 @@ const Topbar = ({ className, roomNo }) => {
           Room {roomNo + 1}
         </Typography>
         <div className="toolbar-grow" />
-        <TeamButton />
-        <RuleButton />
-        <MasterButton />
-        <ObserverButton />
-        <SettingButton />
-        <HelpButton />
-        <LeaveButton />
+        <TopMenu />
       </Toolbar>
     </AppBar>
   )
