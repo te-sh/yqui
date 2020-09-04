@@ -6,7 +6,7 @@ import {
 import { sendWs, SEND_LEAVE } from '../../lib/send'
 import { reset, setOpenLeave } from '../../redux/actions'
 
-const LeaveConfirm = ({ open, setOpen, reset }) => {
+const Leave = ({ open, setOpen, reset }) => {
   const ok = () => {
     setOpen(false)
     sendWs(SEND_LEAVE)
@@ -46,4 +46,4 @@ export default connect(
     setOpen: open => dispatch(setOpenLeave(open)),
     reset: () => dispatch(reset())
   })
-)(LeaveConfirm)
+)(Leave)
