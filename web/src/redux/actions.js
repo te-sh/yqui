@@ -16,6 +16,7 @@ export const SET_BOARD = 'SET_BOARD'
 export const ADD_EDIT_BOARD = 'ADD_EDIT_BOARD'
 export const REMOVE_EDIT_BOARD = 'REMOVE_EDIT_BOARD'
 export const CLEAR_EDIT_BOARDS = 'CLEAR_EDIT_BOARDS'
+export const SET_OPEN_SETTING = 'SET_SETTING_OPEN'
 export const SET_OPEN_HELP = 'SET_OPEN_HELP'
 
 export const reset = () => {
@@ -88,6 +89,10 @@ export const removeEditBoard = board => {
 
 export const clearEditBoards = () => {
   return { type: CLEAR_EDIT_BOARDS }
+}
+
+export const setOpenSetting = open => {
+  return { type: SET_OPEN_SETTING, open }
 }
 
 export const setOpenHelp = open => {

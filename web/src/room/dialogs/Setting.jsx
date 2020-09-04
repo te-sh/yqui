@@ -1,26 +1,31 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
   FormControl, FormControlLabel, FormGroup, FormLabel, Slider
 } from '@material-ui/core'
 import update from 'immutability-helper'
+import { sendWs, SEND_USER } from '../../lib/send'
+import { setOpenSetting } from '../../redux/actions'
 import './Setting.scss'
 
-const Setting = ({ open, setting, ok, cancel }) => {
+const Setting = ({ user, open }) => {
   const [chatAnswer, setChatAnswer] = React.useState(false)
   const [volume, setVolume] = React.useState(0)
 
   const onEnter = () => {
-    setChatAnswer(setting.chatAnswer)
-    setVolume(setting.volume)
+    setChatAnswer(user.chatAnswer)
+    setVolume(parseInt(localStorage.getItem('volume') || '100'))
   }
 
-  const submit = evt => {
-    evt.preventDefault()
-    ok(update(setting, {
-      chatAnswer: { $set: chatAnswer },
-      volume: { $set: parseInt(volume) }
-    }))
+  const submit = () => {
+    sendWs(SEND_USER, update(user, { chatAnswer: { $set: chatAnswer } }))
+    localStorage.setItem('volume', volume)
+    setOpenSetting(false)
+  }
+
+  const cancel = () => {
+    setOpenSetting(false)
   }
 
   return (
@@ -65,4 +70,9 @@ const Setting = ({ open, setting, ok, cancel }) => {
   )
 }
 
-export default Setting
+export default connect(
+  state => ({
+    user: state.user,
+    open: state.open.setting
+  })
+)(Setting)

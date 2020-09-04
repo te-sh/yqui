@@ -1,9 +1,13 @@
 import React from 'react'
+import Setting from './Setting'
 import Help from './Help'
 
 const Dialogs = () => {
   return (
-    <Help />
+    <>
+      <Setting />
+      <Help />
+    </>
   )
 }
 

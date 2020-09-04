@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography
 } from '@material-ui/core'
-import { setOpenHelp } from '../../actions'
+import { setOpenHelp } from '../../redux/actions'
 import './Help.scss'
 
 const Help = ({ open }) => {
