@@ -3,7 +3,8 @@ import {
   RESET, SET_WEB_SOCKET, RECV_SELF_ID, RECV_ROOMS, RECV_JOINED,
   TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_BG, RECV_BOARD, RECV_SG,
   RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS, SET_BOARD,
-  ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS
+  ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
+  SET_OPEN_HELP
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { initBg, mergeBgWithJson } from '../lib/board'
@@ -37,7 +38,10 @@ const initialState = {
     remaining: 0
   },
   editBoards: new Set(),
-  chats: []
+  chats: [],
+  open: {
+    help: false
+  }
 }
 
 const recvRoom = (action, state) => {
@@ -101,6 +105,8 @@ const yquiApp = (state = initialState, action) => {
     return update(state, { editBoards: { $remove: [action.board.id] } })
   case CLEAR_EDIT_BOARDS:
     return update(state, { editBoards: { $set: new Set() } })
+  case SET_OPEN_HELP:
+    return update(state, { open: { help: { $set: action.open } } }
   default:
     return state
   }

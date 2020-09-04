@@ -1,29 +1,23 @@
 import React from 'react'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { HelpOutline } from '@material-ui/icons'
-import Help from '../dialogs/Help'
+import { setOpenHelp } from '../../actions'
 
 const HelpButton = () => {
-  const [dialogOpen, setDialogOpen] = React.useState(false)
-
-  const open = () => {
-    setDialogOpen(true)
-  }
-
-  const close = () => {
-    setDialogOpen(false)
+  const openDialog = () => {
+    setOpenHelp(true)
   }
 
   return (
     <Box>
       <Tooltip title="ヘルプ">
         <span>
-          <IconButton color="inherit" onClick={open}>
+          <IconButton color="inherit"
+                      onClick={openDialog}>
             <HelpOutline />
           </IconButton>
         </span>
       </Tooltip>
-      <Help open={dialogOpen} close={close} />
     </Box>
   )
 }

@@ -1,10 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography
 } from '@material-ui/core'
+import { setOpenHelp } from '../../actions'
 import './Help.scss'
 
-const Help = ({ open, close }) => {
+const Help = ({ open }) => {
+  const close = () => {
+    setOpenHelp(false)
+  }
+
   return (
     <Dialog open={open}
             aria-labelledby="form-dialog-title">
@@ -58,4 +64,8 @@ const Help = ({ open, close }) => {
   )
 }
 
-export default Help
+export default connect(
+  state => ({
+    open: state.open.help
+  })
+)(Help)

@@ -11,6 +11,7 @@ import ToggleLeft from './ToggleLeft'
 import Teams from './players/Teams'
 import Subactions from './subactions/Subactions'
 import Actions from './actions/Actions'
+import Dialogs from './dialogs/Dialogs'
 import './Room.scss'
 
 const Room = ({ history, showLeft, roomNo }) => {
@@ -38,6 +39,7 @@ const Room = ({ history, showLeft, roomNo }) => {
       <Teams className="teams" />
       <Subactions className="subactions" />
       <Actions className="actions" />
+      <Dialogs />
     </Box>
   )
 }
