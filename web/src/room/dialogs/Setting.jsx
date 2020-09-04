@@ -18,7 +18,8 @@ const Setting = ({ user, open, setOpen }) => {
     setVolume(parseInt(localStorage.getItem('volume') || '100'))
   }
 
-  const submit = () => {
+  const submit = evt => {
+    evt.preventDefault()
     sendWs(SEND_USER, update(user, { chatAnswer: { $set: chatAnswer } }))
     localStorage.setItem('volume', volume)
     setOpen(false)
