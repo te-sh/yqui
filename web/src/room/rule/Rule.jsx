@@ -7,6 +7,8 @@ import {
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
 import { initRule } from '../../lib/rule'
+import { sendWs, SEND_RULE } from '../../lib/send'
+import { setOpenRule } from '../../redux/actions'
 import TabPanel from './TabPanel'
 import NormalRule from './NormalRule'
 import TeamRule from './TeamRule'
@@ -14,7 +16,7 @@ import BoardRule from './BoardRule'
 import OtherRule from './OtherRule'
 import './Rule.scss'
 
-const Rule = ({ open, rule, ok, cancel }) => {
+const Rule = ({ rule, open, setOpen }) => {
   const [tab, setTab] = React.useState(0)
   const [rightNum, setRightNum] = React.useState(initRule.rightNum)
   const [player, setPlayer] = React.useState(initRule.player)
@@ -23,6 +25,7 @@ const Rule = ({ open, rule, ok, cancel }) => {
   const [other, setOther] = React.useState(initRule.other)
 
   const setRule = rule => {
+    setTab(0)
     setRightNum(rule.rightNum)
     setPlayer(rule.player)
     setTeam(rule.team)
@@ -31,14 +34,20 @@ const Rule = ({ open, rule, ok, cancel }) => {
   }
 
   const submit = evt => {
-    evt.preventDefault()
-    ok(update(rule, {
+    const newRule = update(rule, {
       rightNum: { $set: parseNumber(rightNum) },
       player: { $set: player },
       team: { $set: team },
       board: { $set: board },
       other: { $set: other }
-    }))
+    })
+    sendWs(SEND_RULE, newRule)
+    setOpen(false)
+    evt.preventDefault()
+  }
+
+  const cancel = () => {
+    setOpen(false)
   }
 
   return (
@@ -90,6 +99,10 @@ const Rule = ({ open, rule, ok, cancel }) => {
 
 export default connect(
   state => ({
-    rule: state.rule
+    rule: state.rule,
+    open: state.open.rule
+  }),
+  dispatch => ({
+    setOpen: open => dispatch(setOpenRule(open))
   })
 )(Rule)

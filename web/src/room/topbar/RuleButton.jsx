@@ -2,23 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { PlaylistAddCheck } from '@material-ui/icons'
-import { sendWs, SEND_RULE } from '../../lib/send'
-import Rule from '../rule/Rule'
+import { setOpenRule } from '../../redux/actions'
 
-const RuleButton = ({ user, rule, editTeams }) => {
-  const [dialogOpen, setDialogOpen] = React.useState(false)
-
+const RuleButton = ({ user, editTeams, setOpen }) => {
   const open = () => {
-    setDialogOpen(true)
-  }
-
-  const ok = rule => {
-    setDialogOpen(false)
-    sendWs(SEND_RULE, rule)
-  }
-
-  const cancel = () => {
-    setDialogOpen(false)
+    setOpen(true)
   }
 
   return (
@@ -32,8 +20,6 @@ const RuleButton = ({ user, rule, editTeams }) => {
           </IconButton>
         </span>
       </Tooltip>
-      <Rule open={dialogOpen} rule={rule}
-            ok={ok} cancel={cancel} />
     </Box>
   )
 }
@@ -41,7 +27,9 @@ const RuleButton = ({ user, rule, editTeams }) => {
 export default connect(
   state => ({
     user: state.user,
-    rule: state.rule,
     editTeams: state.editTeams
+  }),
+  dispatch => ({
+    setOpen: open => dispatch(setOpenRule(open))
   })
 )(RuleButton)
