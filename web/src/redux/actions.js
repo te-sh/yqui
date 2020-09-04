@@ -18,6 +18,7 @@ export const REMOVE_EDIT_BOARD = 'REMOVE_EDIT_BOARD'
 export const CLEAR_EDIT_BOARDS = 'CLEAR_EDIT_BOARDS'
 export const SET_OPEN_SETTING = 'SET_SETTING_OPEN'
 export const SET_OPEN_HELP = 'SET_OPEN_HELP'
+export const SET_OPEN_LEAVE = 'SET_OPEN_LEAVE'
 
 export const reset = () => {
   return { type: RESET }
@@ -97,4 +98,8 @@ export const setOpenSetting = open => {
 
 export const setOpenHelp = open => {
   return { type: SET_OPEN_HELP, open }
+}
+
+export const setOpenLeave = open => {
+  return { type: SET_OPEN_LEAVE, open }
 }

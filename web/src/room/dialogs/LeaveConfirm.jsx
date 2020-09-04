@@ -1,10 +1,22 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography
 } from '@material-ui/core'
-import './Help.scss'
+import { sendWs, SEND_LEAVE } from '../../lib/send'
+import { reset, setOpenLeave } from '../../redux/actions'
 
-const LeaveConfirm = ({ open, ok, cancel }) => {
+const LeaveConfirm = ({ open, setOpen, reset }) => {
+  const ok = () => {
+    setOpen(false)
+    sendWs(SEND_LEAVE)
+    reset()
+  }
+
+  const cancel = () => {
+    setOpen(false)
+  }
+
   return (
     <Dialog open={open}
             aria-labelledby="form-dialog-title">
@@ -26,4 +38,12 @@ const LeaveConfirm = ({ open, ok, cancel }) => {
   )
 }
 
-export default LeaveConfirm
+export default connect(
+  state => ({
+    open: state.open.leave
+  }),
+  dispatch => ({
+    setOpen: open => dispatch(setOpenLeave(open)),
+    reset: () => dispatch(reset())
+  })
+)(LeaveConfirm)

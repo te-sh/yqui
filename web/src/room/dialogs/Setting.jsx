@@ -19,10 +19,10 @@ const Setting = ({ user, open, setOpen }) => {
   }
 
   const submit = evt => {
-    evt.preventDefault()
     sendWs(SEND_USER, update(user, { chatAnswer: { $set: chatAnswer } }))
     localStorage.setItem('volume', volume)
     setOpen(false)
+    evt.preventDefault()
   }
 
   const cancel = () => {

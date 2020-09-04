@@ -4,7 +4,7 @@ import {
   TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_BG, RECV_BOARD, RECV_SG,
   RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS, SET_BOARD,
   ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
-  SET_OPEN_SETTING, SET_OPEN_HELP
+  SET_OPEN_SETTING, SET_OPEN_HELP, SET_OPEN_LEAVE
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { initBg, mergeBgWithJson } from '../lib/board'
@@ -41,7 +41,8 @@ const initialState = {
   chats: [],
   open: {
     setting: false,
-    help: false
+    help: false,
+    leave: false
   }
 }
 
@@ -110,6 +111,8 @@ const yquiApp = (state = initialState, action) => {
     return update(state, { open: { setting: { $set: action.open } } })
   case SET_OPEN_HELP:
     return update(state, { open: { help: { $set: action.open } } })
+  case SET_OPEN_LEAVE:
+    return update(state, { open: { leave: { $set: action.open } } })
   default:
     return state
   }

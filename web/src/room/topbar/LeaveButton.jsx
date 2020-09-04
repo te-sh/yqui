@@ -2,25 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { Close } from '@material-ui/icons'
-import { sendWs, SEND_LEAVE } from '../../lib/send'
-import { reset } from '../../redux/actions'
-import LeaveConfirm from '../dialogs/LeaveConfirm'
+import { setOpenLeave } from '../../redux/actions'
 
-const LeaveButton = ({ reset }) => {
-  const [dialogOpen, setDialogOpen] = React.useState(false)
-
+const LeaveButton = ({ setOpen }) => {
   const open = () => {
-    setDialogOpen(true)
-  }
-
-  const leave = () => {
-    setDialogOpen(false)
-    sendWs(SEND_LEAVE)
-    reset()
-  }
-
-  const close = () => {
-    setDialogOpen(false)
+    setOpen(true)
   }
 
   return (
@@ -32,8 +18,6 @@ const LeaveButton = ({ reset }) => {
           </IconButton>
         </span>
       </Tooltip>
-      <LeaveConfirm open={dialogOpen}
-                    ok={leave} cancel={close} />
     </Box>
   )
 }
@@ -41,6 +25,6 @@ const LeaveButton = ({ reset }) => {
 export default connect(
   null,
   dispatch => ({
-    reset: () => dispatch(reset())
+    setOpen: open => dispatch(setOpenLeave(open))
   })
 )(LeaveButton)

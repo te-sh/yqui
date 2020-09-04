@@ -5,7 +5,7 @@ import { HelpOutline } from '@material-ui/icons'
 import { setOpenHelp } from '../../redux/actions'
 
 const HelpButton = ({ setOpen }) => {
-  const openDialog = () => {
+  const open = () => {
     setOpen(true)
   }
 
@@ -13,8 +13,7 @@ const HelpButton = ({ setOpen }) => {
     <Box>
       <Tooltip title="ヘルプ">
         <span>
-          <IconButton color="inherit"
-                      onClick={openDialog}>
+          <IconButton color="inherit" onClick={open}>
             <HelpOutline />
           </IconButton>
         </span>
