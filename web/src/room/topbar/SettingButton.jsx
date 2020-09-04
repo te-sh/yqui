@@ -1,12 +1,13 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { Settings } from '@material-ui/icons'
 import { setOpenSetting } from '../../redux/actions'
 import './TopBar.scss'
 
-const SettingButton = () => {
+const SettingButton = ({ setOpen }) => {
   const open = () => {
-    setOpenSetting(true)
+    setOpen(true)
   }
 
   return (
@@ -22,4 +23,9 @@ const SettingButton = () => {
   )
 }
 
-export default SettingButton
+export default connect(
+  null,
+  dispatch => ({
+    setOpen: open => dispatch(setOpenSetting(open))
+  })
+)(SettingButton)

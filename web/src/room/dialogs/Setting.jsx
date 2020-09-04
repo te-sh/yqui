@@ -9,7 +9,7 @@ import { sendWs, SEND_USER } from '../../lib/send'
 import { setOpenSetting } from '../../redux/actions'
 import './Setting.scss'
 
-const Setting = ({ user, open }) => {
+const Setting = ({ user, open, setOpen }) => {
   const [chatAnswer, setChatAnswer] = React.useState(false)
   const [volume, setVolume] = React.useState(0)
 
@@ -21,11 +21,11 @@ const Setting = ({ user, open }) => {
   const submit = () => {
     sendWs(SEND_USER, update(user, { chatAnswer: { $set: chatAnswer } }))
     localStorage.setItem('volume', volume)
-    setOpenSetting(false)
+    setOpen(false)
   }
 
   const cancel = () => {
-    setOpenSetting(false)
+    setOpen(false)
   }
 
   return (
@@ -74,5 +74,8 @@ export default connect(
   state => ({
     user: state.user,
     open: state.open.setting
+  }),
+  dispatch => ({
+    setOpen: open => dispatch(setOpenSetting(open))
   })
 )(Setting)

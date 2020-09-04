@@ -6,9 +6,9 @@ import {
 import { setOpenHelp } from '../../redux/actions'
 import './Help.scss'
 
-const Help = ({ open }) => {
+const Help = ({ open, setOpen }) => {
   const close = () => {
-    setOpenHelp(false)
+    setOpen(false)
   }
 
   return (
@@ -67,5 +67,8 @@ const Help = ({ open }) => {
 export default connect(
   state => ({
     open: state.open.help
+  }),
+  dispatch => ({
+    setOpen: open => dispatch(setOpenHelp(open))
   })
 )(Help)

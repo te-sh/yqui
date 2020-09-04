@@ -1,11 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { HelpOutline } from '@material-ui/icons'
 import { setOpenHelp } from '../../redux/actions'
 
-const HelpButton = () => {
+const HelpButton = ({ setOpen }) => {
   const openDialog = () => {
-    setOpenHelp(true)
+    setOpen(true)
   }
 
   return (
@@ -22,4 +23,9 @@ const HelpButton = () => {
   )
 }
 
-export default HelpButton
+export default connect(
+  null,
+  dispatch => ({
+    setOpen: open => dispatch(setOpenHelp(open))
+  })
+)(HelpButton)
