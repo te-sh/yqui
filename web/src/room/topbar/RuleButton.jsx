@@ -1,31 +1,45 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box, IconButton, Tooltip } from '@material-ui/core'
+import {
+  Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
+} from '@material-ui/core'
 import { PlaylistAddCheck } from '@material-ui/icons'
 import { setOpenRule } from '../../redux/actions'
 
-const RuleButton = ({ user, editTeams, setOpen }) => {
+const RuleButton = ({ mobile, user, editTeams, setOpen }) => {
   const open = () => {
     setOpen(true)
   }
 
-  return (
-    <Box>
-      <Tooltip title="ルール">
-        <span>
-          <IconButton color="inherit"
-                      disabled={!user.isMaster || !!editTeams}
-                      onClick={open}>
-            <PlaylistAddCheck />
-          </IconButton>
-        </span>
-      </Tooltip>
-    </Box>
-  )
+  const disabled = !user.isMaster || !!editTeams
+
+  if (!mobile) {
+    return (
+      <Box>
+        <Tooltip title="ルール">
+          <span>
+            <IconButton color="inherit"
+                        disabled={disabled} onClick={open}>
+              <PlaylistAddCheck />
+            </IconButton>
+          </span>
+        </Tooltip>
+      </Box>
+    )
+  } else {
+    return (
+      <ListItem button
+                disabled={disabled} onClick={open}>
+        <ListItemIcon><PlaylistAddCheck /></ListItemIcon>
+        <ListItemText>ルール</ListItemText>
+      </ListItem>
+    )
+  }
 }
 
 export default connect(
   state => ({
+    mobile: state.mobile,
     user: state.user,
     editTeams: state.editTeams
   }),

@@ -1,18 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { useMediaQuery } from '@material-ui/core'
 import URI from 'urijs'
 import playSound from './lib/sound'
 import {
-  reset, setWebSocket, recvSelfID, recvRooms, recvJoined, recvRoom,
-  recvBg, recvBoard, recvSg, recvButtons, recvTimer, recvChat
+  setMobile, reset, setWebSocket, recvSelfID, recvRooms, recvJoined,
+  recvRoom, recvBg, recvBoard, recvSg, recvButtons, recvTimer, recvChat
 } from './redux/actions'
 import Rooms from './rooms/Rooms'
 import Room from './room/Room'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
-const Root = ({ reset, setWebSocket, recv }) => {
+const Root = ({ setMobile, reset, setWebSocket, recv }) => {
+  setMobile(useMediaQuery('(max-width:667px'))
+
   const createWebSocket = () => {
     const ws = new WebSocket(uri.toString())
     setWebSocket(ws)
@@ -56,6 +59,7 @@ const Root = ({ reset, setWebSocket, recv }) => {
 export default connect(
   null,
   dispatch => ({
+    setMobile: mobile => dispatch(setMobile(mobile)),
     reset: () => dispatch(reset()),
     setWebSocket: ws => dispatch(setWebSocket(ws)),
     recv: {

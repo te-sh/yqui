@@ -1,3 +1,4 @@
+export const SET_MOBILE = 'SET_MOBILE'
 export const RESET = 'RESET'
 export const SET_WEB_SOCKET = 'SET_WEB_SOCKET'
 export const RECV_ROOMS = 'RECV_ROOMS'
@@ -20,6 +21,10 @@ export const SET_OPEN_RULE = 'SET_OPEN_RULE'
 export const SET_OPEN_SETTING = 'SET_OPEN_SETTING'
 export const SET_OPEN_HELP = 'SET_OPEN_HELP'
 export const SET_OPEN_LEAVE = 'SET_OPEN_LEAVE'
+
+export const setMobile = mobile => {
+  return { type: SET_MOBILE, mobile }
+}
 
 export const reset = () => {
   return { type: RESET }

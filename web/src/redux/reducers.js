@@ -1,9 +1,10 @@
 import update from 'immutability-helper'
 import {
-  RESET, SET_WEB_SOCKET, RECV_SELF_ID, RECV_ROOMS, RECV_JOINED,
-  TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_BG, RECV_BOARD, RECV_SG,
-  RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS, SET_BOARD,
-  ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
+  SET_MOBILE, RESET, SET_WEB_SOCKET, RECV_SELF_ID,
+  RECV_ROOMS, RECV_JOINED, TOGGLE_SHOW_LEFT,
+  RECV_ROOM, RECV_BG, RECV_BOARD, RECV_SG,
+  RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS,
+  SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
   SET_OPEN_RULE, SET_OPEN_SETTING, SET_OPEN_HELP, SET_OPEN_LEAVE
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
@@ -16,6 +17,7 @@ import {
 } from '../lib/team'
 
 const initialState = {
+  mobile: false,
   ws: null,
   selfID: null,
   rooms: [],
@@ -68,8 +70,11 @@ const recvRoom = (action, state) => {
 
 const yquiApp = (state = initialState, action) => {
   switch (action.type) {
+  case SET_MOBILE:
+    return update(state, { mobile: { $set: action.mobile } })
   case RESET:
     return update(initialState, {
+      mobile: { $set: state.mobile },
       ws: { $set: state.ws },
       selfID: { $set: state.selfID },
       rooms: { $set: state.rooms }
