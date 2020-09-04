@@ -1,14 +1,15 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
+import { pointText, batsuText } from '../../lib/rule'
 import WinLoseRule from './WinLoseRule'
 
-const TeamRule = ({ rule }) => {
+const TeamRule = ({ simple, rule }) => {
   const point = rule => (
     <Box>
       <Typography>
         ポイント
-        {rule.point === 'sum' && <> 個人ポイントの和</>}
-        {rule.point === 'mul' && <> 個人ポイントの積</>}
+        {rule.point === 'sum' && <> 個人{pointText(simple)}の和</>}
+        {rule.point === 'mul' && <> 個人{pointText(simple)}の積</>}
       </Typography>
     </Box>
   )
@@ -17,7 +18,7 @@ const TeamRule = ({ rule }) => {
     <Box>
       <Typography>
         バツ
-        {rule.batsu === 'sum' && <> 個人バツの和</>}
+        {rule.batsu === 'sum' && <> 個人{batsuText(simple)}の和</>}
       </Typography>
     </Box>
   )
@@ -38,7 +39,7 @@ const TeamRule = ({ rule }) => {
       {point(rule.team)}
       {batsu(rule.team)}
       {lock(rule.team)}
-      <WinLoseRule rule={rule.team} />
+      <WinLoseRule simple={simple} rule={rule.team} />
     </Box>
   )
 }

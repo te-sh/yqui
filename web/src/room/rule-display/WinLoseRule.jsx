@@ -1,14 +1,15 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
+import { pointText, batsuText } from '../../lib/rule'
 import PassQuizHelpButton from '../rule-help/PassQuizHelpButton'
 
-const WinLoseRule = ({ rule }) => {
+const WinLoseRule = ({ simple, rule }) => {
   const win = rule => {
     if (rule.winPoint.active) {
       return (
         <>
           {rule.passQuiz && <>通過クイズ<PassQuizHelpButton /> </>}
-          {<>勝ち抜け {rule.winPoint.value}ポイント</>}
+          {<>勝ち抜け {rule.winPoint.value}{pointText(simple)}</>}
           {rule.winPlayers > 0 && <> {rule.winPlayers}人</>}
         </>
       )
@@ -22,8 +23,8 @@ const WinLoseRule = ({ rule }) => {
       return (
         <>
           失格
-          {rule.losePoint.active && <> {rule.losePoint.value}ポイント</>}
-          {rule.loseBatsu.active && <> {rule.loseBatsu.value}バツ</>}
+          {rule.losePoint.active && <> {rule.losePoint.value}{pointText(simple)}</>}
+          {rule.loseBatsu.active && <> {rule.loseBatsu.value}{batsuText(simple)}</>}
         </>
       )
     } else {

@@ -40,16 +40,21 @@ export const initRule = {
   showPoint: true
 }
 
-export const chanceText = (rule, numPlayers) => {
+export const chanceText = (simple, rule, numPlayers) => {
+  const postfix = simple ? '' : 'チャンス'
+
   if (rule.rightNum === 1) {
-    return 'シングルチャンス'
+    return 'シングル' + postfix
   } else if (rule.rightNum >= numPlayers) {
-    return 'エンドレスチャンス'
+    return 'エンドレス' + postfix
   } else if (rule.rightNum === 2) {
-    return 'ダブルチャンス'
+    return 'ダブル' + postfix
   } else if (rule.rightNum === 3) {
-    return 'トリプルチャンス'
+    return 'トリプル' + postfix
   } else {
     return `${rule.rightNum}チャンス`
   }
 }
+
+export const pointText = simple => simple ? 'pt' : 'ポイント'
+export const batsuText = simple => simple ? 'x' : 'バツ'

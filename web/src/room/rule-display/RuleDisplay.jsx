@@ -7,23 +7,24 @@ import NormalRule from './NormalRule'
 import TeamRule from './TeamRule'
 import './RuleDisplay.scss'
 
-const RuleDisplay = ({ className, rule }) => {
+const RuleDisplay = ({ className, mobile, rule }) => {
   const showBoardRule = rule.board.active
   const showNormalRule = (rule.board.active && rule.board.applyNormal) || !rule.board.active
   const showTeamRule = rule.team.active
 
   return (
     <Paper className={className}>
-      <ButtonRule rule={rule} />
-      {showBoardRule && <BoardRule rule={rule} />}
-      {showNormalRule && <NormalRule rule={rule} />}
-      {showTeamRule && <TeamRule rule={rule} />}
+      <ButtonRule simple={mobile} rule={rule} />
+      {showBoardRule && <BoardRule simple={mobile} rule={rule} />}
+      {showNormalRule && <NormalRule simple={mobile} rule={rule} />}
+      {showTeamRule && <TeamRule simple={mobile} rule={rule} />}
     </Paper>
   )
 }
 
 export default connect(
   state => ({
+    mobile: state.mobile,
     rule: state.rule
   })
 )(RuleDisplay)
