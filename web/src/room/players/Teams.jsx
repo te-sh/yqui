@@ -28,6 +28,7 @@ const Teams = ({ className, dispTeams }) => {
 
   const teamComponent = (team, index) => (
     <div key={index} ref={el => refs.current[index] = el}
+         className="team-container"
          style={{height: teamHeight}}>
       <Team team={team} teamIndex={index} />
     </div>
