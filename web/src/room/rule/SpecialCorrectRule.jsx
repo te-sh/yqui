@@ -3,9 +3,8 @@ import {
   Box, Button, Checkbox, FormControlLabel, Popover
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import UpdownHelpButton from '../rule-help/UpdownHelpButton'
 
-const SpecialWrongRule = ({ rule, changeRule }) => {
+const SpecialCorrectRule = ({ rule, changeRule }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   const handleClick = evt => {
@@ -16,13 +15,13 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
     setAnchorEl(null)
   }
 
-  const changeUpdown = value => {
-    changeRule(update(rule, { updown: { $set: value } }))
+  const changeConsBonus = value => {
+    changeRule(update(rule, { consBonus: { $set: value } }))
   }
 
   const open = Boolean(anchorEl)
 
-  const noSpecial = !rule.updown
+  const noSpecial = !rule.consBonus
 
   return (
     <>
@@ -38,10 +37,10 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
           <FormControlLabel
             control={
               <Checkbox color="default"
-                        checked={rule.updown}
-                        onChange={evt => changeUpdown(evt.target.checked)} />
+                        checked={rule.consBonus}
+                        onChange={evt => changeConsBonus(evt.target.checked)} />
             }
-            label={<>アップダウン<UpdownHelpButton /></>}
+            label="連答ボーナス"
             classes={{ root: 'after-text' }} />
         </Box>
       </Popover>
@@ -49,4 +48,4 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
   )
 }
 
-export default SpecialWrongRule
+export default SpecialCorrectRule

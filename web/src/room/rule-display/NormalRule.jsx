@@ -19,7 +19,7 @@ const NormalRule = ({ simple, rule }) => {
     const correct = rule => (
       <>
         正解 {rule.pointCorrect}{pointText(simple)}
-        {rule.bonusCorrect === 'cons' && <> (連答ボーナス)</>}
+        {rule.specialCorrect.consBonus && <> (連答ボーナス)</>}
       </>
     )
 

@@ -17,7 +17,7 @@ const PlayerAbove = ({ order, delay, score, rule }) => {
   const extComponent = (
     <Box className="cons">
       <Typography>
-        {rule.player.bonusCorrect === "cons" && score.cons > 0 && <>+{score.cons}</>}
+        {rule.player.specialCorrect.consBonus && score.cons > 0 && <>+{score.cons}</>}
         {rule.player.passQuiz && score.passSeat && <>通過席</>}
       </Typography>
     </Box>

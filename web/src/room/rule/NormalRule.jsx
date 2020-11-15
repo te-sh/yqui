@@ -1,12 +1,12 @@
 import React from 'react'
 import {
-  Checkbox, FormControl, FormControlLabel, FormGroup,
-  FormLabel, InputLabel, MenuItem, Select, TextField
+  Checkbox, FormControlLabel, FormGroup, FormLabel, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
 import WinPlayersHelpButton from '../rule-help/WinPlayersHelpButton'
 import PassQuizHelpButton from '../rule-help/PassQuizHelpButton'
+import SpecialCorrectRule from './SpecialCorrectRule'
 import SpecialWrongRule from './SpecialWrongRule'
 
 const NormalRule = ({ rule, changeRule }) => {
@@ -20,10 +20,6 @@ const NormalRule = ({ rule, changeRule }) => {
 
   const changePointCorrect = value => {
     changeRule(update(rule, { pointCorrect: { $set: parseNumber(value) } }))
-  }
-
-  const changeBonusCorrect = value => {
-    changeRule(update(rule, { bonusCorrect: { $set: value } }))
   }
 
   const changePointWrong = value => {
@@ -70,6 +66,10 @@ const NormalRule = ({ rule, changeRule }) => {
     changeRule(update(rule, { loseBatsu: { value: { $set: parseNumber(value) } } }))
   }
 
+  const changeSpecialCorrect = value => {
+    changeRule(update(rule, { specialCorrect: { $set: value } }))
+  }
+
   const changeSpecialWrong = value => {
     changeRule(update(rule, { specialWrong: { $set: value } }))
   }
@@ -100,15 +100,8 @@ const NormalRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true }}
                      value={rule.pointCorrect}
                      onChange={evt => changePointCorrect(evt.target.value)} />
-          <FormControl>
-            <InputLabel id="bonus-correct-label">ボーナス</InputLabel>
-            <Select labelId="bonus-correct-label"
-                    value={rule.bonusCorrect}
-                    onChange={evt => changeBonusCorrect(evt.target.value)}>
-              <MenuItem value="none">なし</MenuItem>
-              <MenuItem value="cons">連答</MenuItem>
-            </Select>
-          </FormControl>
+          <SpecialCorrectRule rule={rule.specialCorrect}
+                              changeRule={changeSpecialCorrect} />
         </FormGroup>
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">

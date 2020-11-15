@@ -10,15 +10,19 @@ type Rule struct {
 }
 
 type NormalRule struct {
-	InitPoint    int               `json:"initPoint"`
-	InitBatsu    int               `json:"initBatsu"`
-	PointCorrect int               `json:"pointCorrect"`
-	BonusCorrect string            `json:"bonusCorrect"`
-	PointWrong   int               `json:"pointWrong"`
-	BatsuWrong   int               `json:"batsuWrong"`
-	LockWrong    int               `json:"lockWrong"`
-	SpecialWrong *SpecialWrongRule `json:"specialWrong"`
+	InitPoint      int                 `json:"initPoint"`
+	InitBatsu      int                 `json:"initBatsu"`
+	PointCorrect   int                 `json:"pointCorrect"`
+	PointWrong     int                 `json:"pointWrong"`
+	BatsuWrong     int                 `json:"batsuWrong"`
+	LockWrong      int                 `json:"lockWrong"`
+	SpecialCorrect *SpecialCorrectRule `json:"specialCorrect"`
+	SpecialWrong   *SpecialWrongRule   `json:"specialWrong"`
 	WinLoseRule
+}
+
+type SpecialCorrectRule struct {
+	ConsBonus bool `json:"consBonus"`
 }
 
 type SpecialWrongRule struct {
@@ -77,7 +81,6 @@ func NewRule() *Rule {
 func NewNormalRule() *NormalRule {
 	rule := new(NormalRule)
 	rule.PointCorrect = 1
-	rule.BonusCorrect = "none"
 	rule.PointWrong = 0
 	rule.BatsuWrong = 1
 	rule.LockWrong = 0
@@ -86,7 +89,14 @@ func NewNormalRule() *NormalRule {
 	rule.WinPoint = ActiveAndValue{true, 7}
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}
+	rule.SpecialCorrect = NewSpecialCorrectRule()
 	rule.SpecialWrong = NewSpecialWrongRule()
+	return rule
+}
+
+func NewSpecialCorrectRule() *SpecialCorrectRule {
+	rule := new(SpecialCorrectRule)
+	rule.ConsBonus = false
 	return rule
 }
 

@@ -16,7 +16,7 @@ func (score *Score) ExceedWinPoint(rule WinLoseRule) bool {
 func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		score.Point += rule.Player.PointCorrect
-		if rule.Player.BonusCorrect == "cons" {
+		if rule.Player.SpecialCorrect.ConsBonus {
 			score.Point += score.Cons
 			score.Cons += 1
 			for otherId, otherScore := range ss.Scores {
@@ -75,7 +75,7 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 		}
 		score.Batsu += rule.Player.BatsuWrong
 		score.Lock = rule.Player.LockWrong
-		if rule.Player.BonusCorrect == "cons" {
+		if rule.Player.SpecialCorrect.ConsBonus {
 			score.Cons = 0
 		}
 	}
