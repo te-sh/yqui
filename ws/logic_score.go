@@ -65,7 +65,7 @@ func (score *Score) ExceedLosePoint(rule WinLoseRule) bool {
 
 func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
-		if rule.Player.Updown {
+		if rule.Player.SpecialWrong.Updown {
 			score.Point = 0
 		} else if rule.Player.PassQuiz && score.PassSeat {
 			score.Point = 0

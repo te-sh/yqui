@@ -27,7 +27,7 @@ const NormalRule = ({ simple, rule }) => {
     const wrong = rule => (
       <>
         誤答
-        {rule.updown && <> アップダウン<UpdownHelpButton /></>}
+        {rule.specialWrong.updown && <> アップダウン<UpdownHelpButton /></>}
         {rule.pointWrong !== 0 && !rule.updown && <> {rule.pointWrong}{pointText(simple)}</>}
         {rule.batsuWrong !== 0 && <> {rule.batsuWrong}{batsuText(simple)}</>}
         {rule.lockWrong !== 0 && <> {rule.lockWrong}休</>}

@@ -10,15 +10,19 @@ type Rule struct {
 }
 
 type NormalRule struct {
-	InitPoint    int    `json:"initPoint"`
-	InitBatsu    int    `json:"initBatsu"`
-	PointCorrect int    `json:"pointCorrect"`
-	BonusCorrect string `json:"bonusCorrect"`
-	PointWrong   int    `json:"pointWrong"`
-	BatsuWrong   int    `json:"batsuWrong"`
-	LockWrong    int    `json:"lockWrong"`
-	Updown       bool   `json:"updown"`
+	InitPoint    int               `json:"initPoint"`
+	InitBatsu    int               `json:"initBatsu"`
+	PointCorrect int               `json:"pointCorrect"`
+	BonusCorrect string            `json:"bonusCorrect"`
+	PointWrong   int               `json:"pointWrong"`
+	BatsuWrong   int               `json:"batsuWrong"`
+	LockWrong    int               `json:"lockWrong"`
+	SpecialWrong *SpecialWrongRule `json:"specialWrong"`
 	WinLoseRule
+}
+
+type SpecialWrongRule struct {
+	Updown bool `json:"updown"`
 }
 
 type TeamRule struct {
@@ -77,12 +81,18 @@ func NewNormalRule() *NormalRule {
 	rule.PointWrong = 0
 	rule.BatsuWrong = 1
 	rule.LockWrong = 0
-	rule.Updown = false
 	rule.WinPlayers = 0
 	rule.PassQuiz = false
 	rule.WinPoint = ActiveAndValue{true, 7}
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}
+	rule.SpecialWrong = NewSpecialWrongRule()
+	return rule
+}
+
+func NewSpecialWrongRule() *SpecialWrongRule {
+	rule := new(SpecialWrongRule)
+	rule.Updown = false
 	return rule
 }
 

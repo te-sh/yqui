@@ -8,12 +8,14 @@ export const initRule = {
     pointWrong: 0,
     batsuWrong: 1,
     lockWrong: 0,
-    updown: false,
     winPlayers: 1,
     passQuiz: false,
     winPoint: { active: true, value: 7 },
     losePoint: { active: false, value: 0 },
-    loseBatsu: { active: true, value: 3 }
+    loseBatsu: { active: true, value: 3 },
+    specialWrong: {
+      updown: false
+    }
   },
   team: {
     active: false,

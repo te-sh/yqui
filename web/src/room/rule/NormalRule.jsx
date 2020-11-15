@@ -5,9 +5,9 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
-import UpdownHelpButton from '../rule-help/UpdownHelpButton'
 import WinPlayersHelpButton from '../rule-help/WinPlayersHelpButton'
 import PassQuizHelpButton from '../rule-help/PassQuizHelpButton'
+import SpecialWrongRule from './SpecialWrongRule'
 
 const NormalRule = ({ rule, changeRule }) => {
   const changeInitPoint = value => {
@@ -36,10 +36,6 @@ const NormalRule = ({ rule, changeRule }) => {
 
   const changeLockWrong = value => {
     changeRule(update(rule, { lockWrong: { $set: parseNumber(value) } }))
-  }
-
-  const changeUpdown = value => {
-    changeRule(update(rule, { updown: { $set: value } }))
   }
 
   const changeWinPointActive = value => {
@@ -72,6 +68,10 @@ const NormalRule = ({ rule, changeRule }) => {
 
   const changeLoseBatsuValue = value => {
     changeRule(update(rule, { loseBatsu: { value: { $set: parseNumber(value) } } }))
+  }
+
+  const changeSpecialWrong = value => {
+    changeRule(update(rule, { specialWrong: { $set: value } }))
   }
 
   return (
@@ -117,7 +117,7 @@ const NormalRule = ({ rule, changeRule }) => {
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
-                     disabled={rule.updown}
+                     disabled={rule.specialWrong.updown}
                      InputProps={{ required: true }}
                      value={rule.pointWrong}
                      onChange={evt => changePointWrong(evt.target.value)} />
@@ -129,14 +129,8 @@ const NormalRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true, inputProps: { min: 0 } }}
                      value={rule.lockWrong}
                      onChange={evt => changeLockWrong(evt.target.value)} />
-          <FormControlLabel
-            control={
-              <Checkbox color="default"
-                        checked={rule.updown}
-                        onChange={evt => changeUpdown(evt.target.checked)} />
-            }
-            label={<>アップダウン<UpdownHelpButton /></>}
-            classes={{ root: 'after-text' }} />
+          <SpecialWrongRule rule={rule.specialWrong}
+                            changeRule={changeSpecialWrong} />
         </FormGroup>
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
