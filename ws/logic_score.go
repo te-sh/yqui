@@ -74,8 +74,8 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 			score.Point += rule.Player.PointWrong
 		}
 		if rule.Player.SpecialWrong.Swedish {
-			for i := 1; i <= score.Point+1 ; i++ {
-				if score.Point < i * (i+1) / 2 {
+			for i := 1; i <= score.Point+1; i++ {
+				if score.Point < i*(i+1)/2 {
 					score.Batsu += i
 					break
 				}
