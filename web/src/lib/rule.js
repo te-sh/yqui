@@ -16,7 +16,8 @@ export const initRule = {
       consBonus: false
     },
     specialWrong: {
-      updown: false
+      updown: false,
+      swedish: false
     }
   },
   team: {

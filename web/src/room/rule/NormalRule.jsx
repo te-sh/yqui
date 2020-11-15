@@ -115,6 +115,7 @@ const NormalRule = ({ rule, changeRule }) => {
                      value={rule.pointWrong}
                      onChange={evt => changePointWrong(evt.target.value)} />
           <TextField label="バツ" type="number"
+                     disabled={rule.specialWrong.swedish}
                      InputProps={{ required: true }}
                      value={rule.batsuWrong}
                      onChange={evt => changeBatsuWrong(evt.target.value)} />

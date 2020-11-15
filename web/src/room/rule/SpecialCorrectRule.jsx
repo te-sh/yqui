@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Box, Button, Checkbox, FormControlLabel, Popover
+  Box, Button, Checkbox, FormControlLabel, FormGroup, Popover
 } from '@material-ui/core'
 import update from 'immutability-helper'
 
@@ -34,14 +34,16 @@ const SpecialCorrectRule = ({ rule, changeRule }) => {
                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                onClose={handleClose}>
         <Box className="special-rule">
-          <FormControlLabel
-            control={
-              <Checkbox color="default"
-                        checked={rule.consBonus}
-                        onChange={evt => changeConsBonus(evt.target.checked)} />
-            }
-            label="連答ボーナス"
-            classes={{ root: 'after-text' }} />
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox color="default"
+                          checked={rule.consBonus}
+                          onChange={evt => changeConsBonus(evt.target.checked)} />
+              }
+              label="連答ボーナス"
+              classes={{ root: 'after-text' }} />
+          </FormGroup>
         </Box>
       </Popover>
     </>

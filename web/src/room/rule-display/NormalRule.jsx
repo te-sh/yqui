@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { pointText, batsuText } from '../../lib/rule'
 import UpdownHelpButton from '../rule-help/UpdownHelpButton'
+import SwedishHelpButton from '../rule-help/SwedishHelpButton'
 import WinLoseRule from './WinLoseRule'
 
 const NormalRule = ({ simple, rule }) => {
@@ -28,8 +29,9 @@ const NormalRule = ({ simple, rule }) => {
       <>
         誤答
         {rule.specialWrong.updown && <> アップダウン<UpdownHelpButton /></>}
-        {rule.pointWrong !== 0 && !rule.updown && <> {rule.pointWrong}{pointText(simple)}</>}
-        {rule.batsuWrong !== 0 && <> {rule.batsuWrong}{batsuText(simple)}</>}
+        {rule.pointWrong !== 0 && !rule.specialWrong.updown && <> {rule.pointWrong}{pointText(simple)}</>}
+        {rule.specialWrong.swedish && <> Swedish<SwedishHelpButton /></>}
+        {rule.batsuWrong !== 0 && !rule.specialWrong.swedish && <> {rule.batsuWrong}{batsuText(simple)}</>}
         {rule.lockWrong !== 0 && <> {rule.lockWrong}休</>}
       </>
     )

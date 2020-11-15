@@ -26,7 +26,8 @@ type SpecialCorrectRule struct {
 }
 
 type SpecialWrongRule struct {
-	Updown bool `json:"updown"`
+	Updown  bool `json:"updown"`
+	Swedish bool `json:"swedish"`
 }
 
 type TeamRule struct {
@@ -103,6 +104,7 @@ func NewSpecialCorrectRule() *SpecialCorrectRule {
 func NewSpecialWrongRule() *SpecialWrongRule {
 	rule := new(SpecialWrongRule)
 	rule.Updown = false
+	rule.Swedish = false
 	return rule
 }
 
