@@ -12,6 +12,7 @@ func (room *Room) JoinUser(id int64, conn *Conn, join Join, time int64) {
 	}
 	room.BG.Boards.Add(id)
 	room.SG.Player.Add(id)
+	room.SG.Player.Scores[id].Init(room.Rule.Player)
 
 	room.History.Join(id)
 
@@ -206,6 +207,7 @@ func (room *Room) AllClear() {
 	sg, buttons := room.SG, room.Buttons
 	room.History.Save(sg, buttons)
 	sg.Reset()
+	sg.Init(room.Rule)
 	buttons.Reset()
 	room.BG.Reset()
 	room.History.Add(sg, buttons)

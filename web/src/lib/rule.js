@@ -1,6 +1,8 @@
 export const initRule = {
   rightNum: 1,
   player: {
+    initPoint: 0,
+    initBatsu: 0,
     pointCorrect: 1,
     bonusCorrect: 'none',
     pointWrong: 0,

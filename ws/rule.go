@@ -10,6 +10,8 @@ type Rule struct {
 }
 
 type NormalRule struct {
+	InitPoint    int    `json:"initPoint"`
+	InitBatsu    int    `json:"initBatsu"`
 	PointCorrect int    `json:"pointCorrect"`
 	BonusCorrect string `json:"bonusCorrect"`
 	PointWrong   int    `json:"pointWrong"`

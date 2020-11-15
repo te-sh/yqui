@@ -103,6 +103,21 @@ func (ss *ScoreSet) Remove(id int64) {
 	delete(ss.Scores, id)
 }
 
+func (sg *ScoreGroup) Init(rule *Rule) {
+	sg.Player.Init(rule.Player)
+}
+
+func (ss *ScoreSet) Init(rule *NormalRule) {
+	for _, score := range ss.Scores {
+		score.Init(rule)
+	}
+}
+
+func (score *Score) Init(rule *NormalRule) {
+	score.Point = rule.InitPoint
+	score.Batsu = rule.InitBatsu
+}
+
 func (sg *ScoreGroup) SetZero() {
 	sg.Player.SetZero()
 	sg.Team.SetZero()
