@@ -17,14 +17,18 @@
 
     .timer {
       display: flex;
-      margin-right: 10px;
+      margin-left: 20px;
       align-items: center;
       justify-content: center;
 
       .timer-remaining {
         font-family: 'DSEG7Classic';
-        margin: 0 10px;
+        margin-left: 5px;
       }
+    }
+
+    .show-point {
+      margin-left: 20px;
     }
 
     .MuiFormControlLabel-label {

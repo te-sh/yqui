@@ -5,17 +5,25 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { minSecTime } from '../../lib/util'
-import { sendWs, SEND_RULE, SEND_TOGGLE_TIMER } from '../../lib/send'
+import {
+  sendWs, SEND_ALL_CLEAR, SEND_RULE, SEND_TOGGLE_TIMER
+} from '../../lib/send'
+import { clearEditBoards } from '../../redux/actions'
 
-const Master = ({ className, rule, timer }) => {
-  const toggleShowPoint = evt => {
-    sendWs(SEND_RULE, update(rule, {
-      showPoint: { $set: evt.target.checked }
-    }))
+const Master = ({ className, rule, timer, clearEditBoards }) => {
+  const onAllClear = () => {
+    clearEditBoards()
+    sendWs(SEND_ALL_CLEAR)
   }
 
   const toggleTimer = () => {
     sendWs(SEND_TOGGLE_TIMER)
+  }
+
+  const toggleShowPoint = evt => {
+    sendWs(SEND_RULE, update(rule, {
+      showPoint: { $set: evt.target.checked }
+    }))
   }
 
   const timerComponent = (
@@ -33,14 +41,20 @@ const Master = ({ className, rule, timer }) => {
   return (
     <Paper className={className}>
       <Box className="subactions-content">
+        <Button variant="outlined" color="default"
+                onClick={onAllClear}>
+          オールクリア
+        </Button>
         {rule.other.timer.active && timerComponent}
-        <FormControlLabel
-          control={
-            <Checkbox color="default"
-                      checked={rule.showPoint}
-                      onChange={toggleShowPoint} />
-          }
-          label="ポイント表示" />
+        <Box className="show-point">
+          <FormControlLabel
+            control={
+              <Checkbox color="default"
+                        checked={rule.showPoint}
+                        onChange={toggleShowPoint} />
+            }
+            label="ポイント表示" />
+        </Box>
       </Box>
     </Paper>
   )
@@ -50,5 +64,8 @@ export default connect(
   state => ({
     rule: state.rule,
     timer: state.timer
+  }),
+  dispatch => ({
+    clearEditBoards: () => dispatch(clearEditBoards())
   })
 )(Master)

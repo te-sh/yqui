@@ -4,9 +4,8 @@ import { Box, Button, Paper } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import update from 'immutability-helper'
 import {
-  sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH,
-  SEND_RESET, SEND_ALL_CLEAR, SEND_UNDO, SEND_REDO,
-  SEND_BOARDS, SEND_BOARD_LOCK
+  sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH, SEND_RESET,
+  SEND_UNDO, SEND_REDO, SEND_BOARDS, SEND_BOARD_LOCK
 } from '../../lib/send'
 import { clearEditBoards } from '../../redux/actions'
 import './Actions.scss'
@@ -22,10 +21,6 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
   const onReset = () => {
     clearEditBoards()
     sendWs(SEND_RESET)
-  }
-  const onAllClear = () => {
-    clearEditBoards()
-    sendWs(SEND_ALL_CLEAR)
   }
 
   const onUndo = () => { sendWs(SEND_UNDO) }
@@ -61,9 +56,6 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
         break
       case 82: // r
         onReset()
-        break
-      case 84: // t
-        onAllClear()
         break
       case 37: // <-
         onUndo()
@@ -111,9 +103,6 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
         </Button>
         <Button {...buttonAttr} color="default" onClick={onReset}>
           リセット
-        </Button>
-        <Button {...buttonAttr} color="default" onClick={onAllClear}>
-          オールクリア
         </Button>
         <Button {...buttonAttr} color="default" onClick={onUndo}>
           Undo
