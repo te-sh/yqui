@@ -47,8 +47,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
                           checked={rule.updown}
                           onChange={evt => changeUpdown(evt.target.checked)} />
               }
-              label={<>アップダウン<UpdownHelp /></>}
-              classes={{ root: 'after-text' }} />
+              label={<>アップダウン<UpdownHelp /></>} />
           </FormGroup>
           <FormGroup>
             <FormControlLabel
@@ -57,8 +56,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
                           checked={rule.swedish}
                           onChange={evt => changeSwedish(evt.target.checked)} />
               }
-              label={<>Swedish<SwedishHelp /></>}
-              classes={{ root: 'after-text' }} />
+              label={<>Swedish<SwedishHelp /></>} />
           </FormGroup>
         </Box>
       </Popover>

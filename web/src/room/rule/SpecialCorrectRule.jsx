@@ -41,8 +41,7 @@ const SpecialCorrectRule = ({ rule, changeRule }) => {
                           checked={rule.consBonus}
                           onChange={evt => changeConsBonus(evt.target.checked)} />
               }
-              label="連答ボーナス"
-              classes={{ root: 'after-text' }} />
+              label="連答ボーナス" />
           </FormGroup>
         </Box>
       </Popover>
