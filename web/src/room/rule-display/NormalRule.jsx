@@ -38,7 +38,7 @@ const NormalRule = ({ simple, rule }) => {
 
     return (
       <Box>
-        <Typography>{correct(rule)} {showWrong && wrong(rule)}</Typography>
+        <Typography variant="body2">{correct(rule)} {showWrong && wrong(rule)}</Typography>
       </Box>
     )
   }

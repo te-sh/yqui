@@ -6,7 +6,7 @@ import WinLoseRule from './WinLoseRule'
 const TeamRule = ({ simple, rule }) => {
   const point = rule => (
     <Box>
-      <Typography>
+      <Typography variant="body2">
         ポイント
         {rule.point === 'sum' && <> 個人{pointText(simple)}の和</>}
         {rule.point === 'mul' && <> 個人{pointText(simple)}の積</>}
@@ -16,7 +16,7 @@ const TeamRule = ({ simple, rule }) => {
 
   const batsu = rule => (
     <Box>
-      <Typography>
+      <Typography variant="body2">
         バツ
         {rule.batsu === 'sum' && <> 個人{batsuText(simple)}の和</>}
       </Typography>
@@ -25,7 +25,7 @@ const TeamRule = ({ simple, rule }) => {
 
   const lock = rule => (
     <Box>
-      <Typography>
+      <Typography variant="body2">
         休み {rule.shareLock ? '共有する' : '共有しない'}
       </Typography>
     </Box>

@@ -10,7 +10,7 @@ const BoardRule = ({ simple, rule }) => {
         <Typography variant="caption">ボードスコア</Typography>
       </Box>
       <Box>
-        <Typography>正解 {rule.board.pointCorrect}{pointText(simple)}</Typography>
+        <Typography variant="body2">正解 {rule.board.pointCorrect}{pointText(simple)}</Typography>
       </Box>
       <WinLoseRule simple={simple} rule={rule.player} passQuiz={rule.other.passQuiz} />
     </Box>

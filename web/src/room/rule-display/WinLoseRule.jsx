@@ -36,7 +36,7 @@ const WinLoseRule = ({ simple, rule, passQuiz }) => {
 
   return (
     <Box>
-      <Typography>{win(rule)} {lose(rule)}</Typography>
+      <Typography variant="body2">{win(rule)} {lose(rule)}</Typography>
     </Box>
   )
 }
