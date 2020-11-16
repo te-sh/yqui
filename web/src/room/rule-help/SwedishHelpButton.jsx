@@ -1,18 +1,25 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Tooltip, Typography } from '@material-ui/core'
 import { Help } from '@material-ui/icons'
-import SwedishHelp from './SwedishHelp'
 
 const SwedishHelpButton = () => {
-  const [open, setOpen] = React.useState(false)
+  const tooltip = (
+    <>
+      <Typography variant="body2">
+        誤答したときに与えられるバツの数がそのときのポイントに依存します.
+      </Typography>
+      <Typography variant="body2">
+        0ポイントのときは1バツ, 1か2ポイントのときは2バツ, 3か4か5ポイントのときは3バツ…となります.
+      </Typography>
+    </>
+  )
 
   return (
-    <>
-      <IconButton size="small" edge="start" onClick={() => setOpen(true)}>
+    <Tooltip title={tooltip}>
+      <IconButton size="small" edge="start">
         <Help />
       </IconButton>
-      <SwedishHelp open={open} close={() => setOpen(false)} />
-    </>
+    </Tooltip>
   )
 }
 

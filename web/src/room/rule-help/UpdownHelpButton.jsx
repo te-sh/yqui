@@ -1,18 +1,25 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Tooltip, Typography } from '@material-ui/core'
 import { Help } from '@material-ui/icons'
-import UpdownHelp from './UpdownHelp'
 
 const UpdownHelpButton = () => {
-  const [open, setOpen] = React.useState(false)
+  const tooltip = (
+    <>
+      <Typography variant="body2">
+        誤答したときにポイントが初期値になります.
+      </Typography>
+      <Typography variant="body2">
+        ポイント以外の誤答罰も適用されます.
+      </Typography>
+    </>
+  )
 
   return (
-    <>
-      <IconButton size="small" edge="start" onClick={() => setOpen(true)}>
+    <Tooltip title={tooltip}>
+      <IconButton size="small" edge="start">
         <Help />
       </IconButton>
-      <UpdownHelp open={open} close={() => setOpen(false)} />
-    </>
+    </Tooltip>
   )
 }
 

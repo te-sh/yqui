@@ -1,19 +1,27 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Tooltip, Typography } from '@material-ui/core'
 import { Help } from '@material-ui/icons'
-import WinPlayersHelp from './WinPlayersHelp'
 
 const WinPlayersHelpButton = ({ disabled }) => {
-  const [open, setOpen] = React.useState(false)
+  const tooltip = (
+    <>
+      <Typography variant="body2">
+        この値はルール表示にだけ使用されます. それ以外の処理は行われません.
+      </Typography>
+      <Typography variant="body2">
+        この値を 0 以下にするとルール表示で表示されません.
+      </Typography>
+    </>
+  )
 
   return (
-    <>
-      <IconButton size="small" edge="start" disabled={disabled}
-                  onClick={() => setOpen(true)}>
-        <Help />
-      </IconButton>
-      <WinPlayersHelp open={open} close={() => setOpen(false)} />
-    </>
+    <Tooltip title={tooltip}>
+      <span>
+        <IconButton size="small" edge="start" disabled={disabled}>
+          <Help />
+        </IconButton>
+      </span>
+    </Tooltip>
   )
 }
 

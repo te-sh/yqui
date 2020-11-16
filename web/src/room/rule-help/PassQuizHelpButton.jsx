@@ -1,19 +1,33 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Tooltip, Typography } from '@material-ui/core'
 import { Help } from '@material-ui/icons'
-import PassQuizHelp from './PassQuizHelp'
 
 const PassQuizHelpButton = ({ disabled }) => {
-  const [open, setOpen] = React.useState(false)
+  const tooltip = (
+    <>
+      <Typography variant="body2">
+        ポイントが勝ち抜け条件を満たす状態になったら通過席につきます.
+      </Typography>
+      <Typography variant="body2">
+        通過席についているときに正解すると勝ち抜けです.
+      </Typography>
+      <Typography variant="body2">
+        通過席についているときに誤答した場合, もしくは他の人が正解した場合はポイントが初期値になります.
+      </Typography>
+      <Typography variant="body2">
+        通過席についているときに誤答した場合はポイント以外の誤答罰も適用されます.
+      </Typography>
+    </>
+  )
 
   return (
-    <>
-      <IconButton size="small" edge="start" disabled={disabled}
-                  onClick={() => setOpen(true)}>
-        <Help />
-      </IconButton>
-      <PassQuizHelp open={open} close={() => setOpen(false)} />
-    </>
+    <Tooltip title={tooltip}>
+      <span>
+        <IconButton size="small" edge="start" disabled={disabled}>
+          <Help />
+        </IconButton>
+      </span>
+    </Tooltip>
   )
 }
 
