@@ -10,7 +10,7 @@ const UpdownHelp = ({ open, close }) => {
       <DialogTitle id="form-dialog-title">アップダウンルール</DialogTitle>
       <DialogContent className="help">
         <Typography>
-          誤答したときにポイントが 0 になります.
+          誤答したときにポイントが初期値になります.
         </Typography>
         <Typography>
           ポイント以外の誤答罰も適用されます.
