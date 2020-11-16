@@ -27,7 +27,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
 
   const open = Boolean(anchorEl)
 
-  const noSpecial = !rule.updown
+  const noSpecial = !rule.updown || !rule.swedish
 
   return (
     <>
