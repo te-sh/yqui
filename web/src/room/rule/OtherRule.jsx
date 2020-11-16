@@ -32,20 +32,17 @@ const OtherRule = ({ rule, changeRule }) => {
                       checked={rule.passQuiz}
                       onChange={evt => changePassQuiz(evt.target.checked)} />
           }
-          label={<>通過クイズ<PassQuizHelp /></>}
-          classes={{ root: 'after-text' }} />
+          label={<>通過クイズ<PassQuizHelp /></>} />
       </FormGroup>
       <FormGroup className="rule-group">
-        <FormControlLabel
-          control={
-            <Checkbox color="default"
-                      checked={rule.timer.active}
-                      onChange={evt => changeTimerActive(evt.target.checked)} />
-          }
-          label="タイマー" />
-      </FormGroup>
-      <FormGroup component="fieldset" className="rule-group">
         <FormGroup row={true}>
+          <FormControlLabel
+            control={
+              <Checkbox color="default"
+                        checked={rule.timer.active}
+                        onChange={evt => changeTimerActive(evt.target.checked)} />
+            }
+            label="タイマー" />
           <TextField label="分" type="number"
                      disabled={!rule.timer.active}
                      InputProps={{ required: true, inputProps: { min: 0 } }}
