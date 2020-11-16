@@ -8,9 +8,9 @@ export const initRule = {
     batsuWrong: 1,
     lockWrong: 0,
     winPlayers: 1,
-    winPoint: { active: true, value: 7 },
-    losePoint: { active: false, value: 0 },
-    loseBatsu: { active: true, value: 3 },
+    winPoint: { active: true, value: 7, above: true },
+    losePoint: { active: false, value: 0, above: false },
+    loseBatsu: { active: true, value: 3, above: true },
     specialCorrect: {
       consBonus: false
     },
@@ -26,9 +26,9 @@ export const initRule = {
     batsu: 'sum',
     shareLock: true,
     winPlayers: 1,
-    winPoint: { active: true, value: 7 },
-    losePoint: { active: false, value: 0 },
-    loseBatsu: { active: true, value: 3 }
+    winPoint: { active: true, value: 7, above: true },
+    losePoint: { active: false, value: 0, above: false },
+    loseBatsu: { active: true, value: 3, above: true }
   },
   board: {
     active: false,

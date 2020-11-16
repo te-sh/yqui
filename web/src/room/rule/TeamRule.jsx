@@ -36,6 +36,10 @@ const TeamRule = ({ rule, changeRule }) => {
     changeRule(update(rule, { winPoint: { value: { $set: parseNumber(value) } } }))
   }
 
+  const changeWinPointAbove = value => {
+    changeRule(update(rule, { winPoint: { above: { $set: value } } }))
+  }
+
   const changeLosePointActive = value => {
     changeRule(update(rule, { losePoint: { active: { $set: value } } }))
   }
@@ -44,12 +48,20 @@ const TeamRule = ({ rule, changeRule }) => {
     changeRule(update(rule, { losePoint: { value: { $set: parseNumber(value) } } }))
   }
 
+  const changeLosePointAbove = value => {
+    changeRule(update(rule, { losePoint: { above: { $set: value } } }))
+  }
+
   const changeLoseBatsuActive = value => {
     changeRule(update(rule, { loseBatsu: { active: { $set: value } } }))
   }
 
   const changeLoseBatsuValue = value => {
     changeRule(update(rule, { loseBatsu: { value: { $set: parseNumber(value) } } }))
+  }
+
+  const changeLoseBatsuAbove = value => {
+    changeRule(update(rule, { loseBatsu: { above: { $set: value } } }))
   }
 
   return (
@@ -113,6 +125,16 @@ const TeamRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true }}
                      value={rule.winPoint.value}
                      onChange={evt => changeWinPointValue(evt.target.value)} />
+          <FormGroup>
+            <InputLabel id="win-point-above">&nbsp;</InputLabel>
+            <Select labelId="win-point-above"
+                    disabled={!rule.active || !rule.winPoint.active}
+                    value={rule.winPoint.above}
+                    onChange={evt => changeWinPointAbove(evt.target.value)}>
+              <MenuItem value={true}>以上</MenuItem>
+              <MenuItem value={false}>以下</MenuItem>
+            </Select>
+          </FormGroup>
         </FormGroup>
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
@@ -128,6 +150,16 @@ const TeamRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true }}
                      value={rule.losePoint.value}
                      onChange={evt => changeLosePointValue(evt.target.value)} />
+          <FormGroup>
+            <InputLabel id="lose-point-above">&nbsp;</InputLabel>
+            <Select labelId="lose-point-above"
+                    disabled={!rule.active || !rule.losePoint.active}
+                    value={rule.losePoint.above}
+                    onChange={evt => changeLosePointAbove(evt.target.value)}>
+              <MenuItem value={true}>以上</MenuItem>
+              <MenuItem value={false}>以下</MenuItem>
+            </Select>
+          </FormGroup>
           <Checkbox color="default" disabled={!rule.active}
                     checked={rule.loseBatsu.active}
                     onChange={evt => changeLoseBatsuActive(evt.target.checked)} />
@@ -136,6 +168,16 @@ const TeamRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true }}
                      value={rule.loseBatsu.value}
                      onChange={evt => changeLoseBatsuValue(evt.target.value)} />
+          <FormGroup>
+            <InputLabel id="lose-batsu-above">&nbsp;</InputLabel>
+            <Select labelId="lose-batsu-above"
+                    disabled={!rule.active || !rule.loseBatsu.active}
+                    value={rule.loseBatsu.above}
+                    onChange={evt => changeLoseBatsuAbove(evt.target.value)}>
+              <MenuItem value={true}>以上</MenuItem>
+              <MenuItem value={false}>以下</MenuItem>
+            </Select>
+          </FormGroup>
         </FormGroup>
       </FormGroup>
     </>

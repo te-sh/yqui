@@ -66,6 +66,7 @@ type WinLoseRule struct {
 type ActiveAndValue struct {
 	Active bool `json:"active"`
 	Value  int  `json:"value"`
+	Above  bool `json:"above"`
 }
 
 func NewRule() *Rule {
@@ -86,9 +87,9 @@ func NewNormalRule() *NormalRule {
 	rule.BatsuWrong = 1
 	rule.LockWrong = 0
 	rule.WinPlayers = 0
-	rule.WinPoint = ActiveAndValue{true, 7}
-	rule.LosePoint = ActiveAndValue{false, 0}
-	rule.LoseBatsu = ActiveAndValue{true, 3}
+	rule.WinPoint = ActiveAndValue{true, 7, true}
+	rule.LosePoint = ActiveAndValue{false, 0, false}
+	rule.LoseBatsu = ActiveAndValue{true, 3, true}
 	rule.SpecialCorrect = NewSpecialCorrectRule()
 	rule.SpecialWrong = NewSpecialWrongRule()
 	return rule
@@ -115,9 +116,9 @@ func NewTeamRule() *TeamRule {
 	rule.Batsu = "sum"
 	rule.ShareLock = true
 	rule.WinPlayers = 0
-	rule.WinPoint = ActiveAndValue{true, 7}
-	rule.LosePoint = ActiveAndValue{false, 0}
-	rule.LoseBatsu = ActiveAndValue{true, 3}
+	rule.WinPoint = ActiveAndValue{true, 7, true}
+	rule.LosePoint = ActiveAndValue{false, 0, false}
+	rule.LoseBatsu = ActiveAndValue{true, 3, true}
 	return rule
 }
 

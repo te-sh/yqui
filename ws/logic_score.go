@@ -9,8 +9,16 @@ func (ss *ScoreSet) CanPush(id int64) bool {
 }
 
 func (score *Score) ExceedWinPoint(rule WinLoseRule) bool {
-	return score.Win == 0 &&
-		rule.WinPoint.Active && score.Point >= rule.WinPoint.Value
+	if score.Win != 0 {
+		return false
+	}
+	if rule.WinPoint.Active {
+		if rule.WinPoint.Above && score.Point >= rule.WinPoint.Value ||
+			!rule.WinPoint.Above && score.Point <= rule.WinPoint.Value {
+			return true
+		}
+	}
+	return false
 }
 
 func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
@@ -58,9 +66,22 @@ func (ss *ScoreSet) SetWin(rule WinLoseRule, passQuiz bool) (win bool) {
 }
 
 func (score *Score) ExceedLosePoint(rule WinLoseRule) bool {
-	return score.Lose == 0 &&
-		((rule.LosePoint.Active && score.Point <= rule.LosePoint.Value) ||
-			(rule.LoseBatsu.Active && score.Batsu >= rule.LoseBatsu.Value))
+	if score.Lose != 0 {
+		return false
+	}
+	if rule.LosePoint.Active {
+		if rule.LosePoint.Above && score.Point >= rule.LosePoint.Value ||
+			!rule.LosePoint.Above && score.Point <= rule.LosePoint.Value {
+			return true
+		}
+	}
+	if rule.LoseBatsu.Active {
+		if rule.LoseBatsu.Above && score.Batsu >= rule.LoseBatsu.Value ||
+			!rule.LoseBatsu.Above && score.Batsu <= rule.LoseBatsu.Value {
+			return true
+		}
+	}
+	return false
 }
 
 func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {

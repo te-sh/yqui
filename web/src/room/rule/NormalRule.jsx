@@ -1,5 +1,7 @@
 import React from 'react'
-import { Checkbox, FormGroup, FormLabel, TextField } from '@material-ui/core'
+import {
+  Checkbox, FormGroup, FormLabel, InputLabel, MenuItem, Select, TextField
+} from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
 import WinPlayersHelp from '../rule-help/WinPlayersHelp'
@@ -39,6 +41,10 @@ const NormalRule = ({ rule, changeRule }) => {
     changeRule(update(rule, { winPoint: { value: { $set: parseNumber(value) } } }))
   }
 
+  const changeWinPointAbove = value => {
+    changeRule(update(rule, { winPoint: { above: { $set: value } } }))
+  }
+
   const changeWinPlayers = value => {
     changeRule(update(rule, { winPlayers: { $set: parseNumber(value) } }))
   }
@@ -51,12 +57,20 @@ const NormalRule = ({ rule, changeRule }) => {
     changeRule(update(rule, { losePoint: { value: { $set: parseNumber(value) } } }))
   }
 
+  const changeLosePointAbove = value => {
+    changeRule(update(rule, { losePoint: { above: { $set: value } } }))
+  }
+
   const changeLoseBatsuActive = value => {
     changeRule(update(rule, { loseBatsu: { active: { $set: value } } }))
   }
 
   const changeLoseBatsuValue = value => {
     changeRule(update(rule, { loseBatsu: { value: { $set: parseNumber(value) } } }))
+  }
+
+  const changeLoseBatsuAbove = value => {
+    changeRule(update(rule, { loseBatsu: { above: { $set: value } } }))
   }
 
   const changeSpecialCorrect = value => {
@@ -132,6 +146,16 @@ const NormalRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true }}
                      value={rule.winPoint.value}
                      onChange={evt => changeWinPointValue(evt.target.value)} />
+          <FormGroup>
+            <InputLabel id="win-point-above">&nbsp;</InputLabel>
+            <Select labelId="win-point-above"
+                    disabled={!rule.winPoint.active}
+                    value={rule.winPoint.above}
+                    onChange={evt => changeWinPointAbove(evt.target.value)}>
+              <MenuItem value={true}>以上</MenuItem>
+              <MenuItem value={false}>以下</MenuItem>
+            </Select>
+          </FormGroup>
           <TextField label={<>人数<WinPlayersHelp disabled={!rule.winPoint.active} /></>}
                      type="number"
                      disabled={!rule.winPoint.active}
@@ -152,6 +176,16 @@ const NormalRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true }}
                      value={rule.losePoint.value}
                      onChange={evt => changeLosePointValue(evt.target.value)} />
+          <FormGroup>
+            <InputLabel id="lose-point-above">&nbsp;</InputLabel>
+            <Select labelId="lose-point-above"
+                    disabled={!rule.losePoint.active}
+                    value={rule.losePoint.above}
+                    onChange={evt => changeLosePointAbove(evt.target.value)}>
+              <MenuItem value={true}>以上</MenuItem>
+              <MenuItem value={false}>以下</MenuItem>
+            </Select>
+          </FormGroup>
           <Checkbox color="default" checked={rule.loseBatsu.active}
                     onChange={evt => changeLoseBatsuActive(evt.target.checked)} />
           <TextField label="バツ" type="number"
@@ -159,6 +193,16 @@ const NormalRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true }}
                      value={rule.loseBatsu.value}
                      onChange={evt => changeLoseBatsuValue(evt.target.value)} />
+          <FormGroup>
+            <InputLabel id="lose-batsu-above">&nbsp;</InputLabel>
+            <Select labelId="lose-batsu-above"
+                    disabled={!rule.loseBatsu.active}
+                    value={rule.loseBatsu.above}
+                    onChange={evt => changeLoseBatsuAbove(evt.target.value)}>
+              <MenuItem value={true}>以上</MenuItem>
+              <MenuItem value={false}>以下</MenuItem>
+            </Select>
+          </FormGroup>
         </FormGroup>
       </FormGroup>
     </>
