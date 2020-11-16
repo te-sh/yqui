@@ -2,14 +2,14 @@ import React from 'react'
 import { IconButton, Tooltip, Typography } from '@material-ui/core'
 import { Help } from '@material-ui/icons'
 
-const UpdownHelpButton = () => {
+const SwedishHelp = () => {
   const tooltip = (
     <>
       <Typography variant="body2">
-        誤答したときにポイントが初期値になります.
+        誤答したときに与えられるバツの数がそのときのポイントに依存します.
       </Typography>
       <Typography variant="body2">
-        ポイント以外の誤答罰も適用されます.
+        0ポイントのときは1バツ, 1か2ポイントのときは2バツ, 3か4か5ポイントのときは3バツ…となります.
       </Typography>
     </>
   )
@@ -23,4 +23,4 @@ const UpdownHelpButton = () => {
   )
 }
 
-export default UpdownHelpButton
+export default SwedishHelp

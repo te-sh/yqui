@@ -3,8 +3,8 @@ import {
   Box, Button, Checkbox, FormControlLabel, FormGroup, Popover
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import UpdownHelpButton from '../rule-help/UpdownHelpButton'
-import SwedishHelpButton from '../rule-help/SwedishHelpButton'
+import UpdownHelp from '../rule-help/UpdownHelp'
+import SwedishHelp from '../rule-help/SwedishHelp'
 
 const SpecialWrongRule = ({ rule, changeRule }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -47,7 +47,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
                           checked={rule.updown}
                           onChange={evt => changeUpdown(evt.target.checked)} />
               }
-              label={<>アップダウン<UpdownHelpButton /></>}
+              label={<>アップダウン<UpdownHelp /></>}
               classes={{ root: 'after-text' }} />
           </FormGroup>
           <FormGroup>
@@ -57,7 +57,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
                           checked={rule.swedish}
                           onChange={evt => changeSwedish(evt.target.checked)} />
               }
-              label={<>Swedish<SwedishHelpButton /></>}
+              label={<>Swedish<SwedishHelp /></>}
               classes={{ root: 'after-text' }} />
           </FormGroup>
         </Box>

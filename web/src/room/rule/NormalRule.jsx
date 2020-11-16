@@ -4,8 +4,8 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
-import WinPlayersHelpButton from '../rule-help/WinPlayersHelpButton'
-import PassQuizHelpButton from '../rule-help/PassQuizHelpButton'
+import WinPlayersHelp from '../rule-help/WinPlayersHelp'
+import PassQuizHelp from '../rule-help/PassQuizHelp'
 import SpecialCorrectRule from './SpecialCorrectRule'
 import SpecialWrongRule from './SpecialWrongRule'
 
@@ -139,7 +139,7 @@ const NormalRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true }}
                      value={rule.winPoint.value}
                      onChange={evt => changeWinPointValue(evt.target.value)} />
-          <TextField label={<>人数<WinPlayersHelpButton disabled={!rule.winPoint.active} /></>}
+          <TextField label={<>人数<WinPlayersHelp disabled={!rule.winPoint.active} /></>}
                      type="number"
                      disabled={!rule.winPoint.active}
                      InputProps={{ required: true, inputProps: { min: 0 } }}
@@ -152,7 +152,7 @@ const NormalRule = ({ rule, changeRule }) => {
                         checked={rule.passQuiz}
                         onChange={evt => changePassQuiz(evt.target.checked)} />
             }
-            label={<>通過クイズ<PassQuizHelpButton disabled={!rule.winPoint.active} /></>}
+            label={<>通過クイズ<PassQuizHelp disabled={!rule.winPoint.active} /></>}
             classes={{ root: 'after-text' }} />
         </FormGroup>
       </FormGroup>

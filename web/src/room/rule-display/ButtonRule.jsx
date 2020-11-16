@@ -2,13 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Typography } from '@material-ui/core'
 import { chanceText } from '../../lib/rule'
-import ShareButtonHelpButton from '../rule-help/ShareButtonHelpButton'
+import ShareButtonHelp from '../rule-help/ShareButtonHelp'
 import './RuleDisplay.scss'
 
 const ButtonRule = ({ simple, rule, numPlayers }) => {
   const shareButtonComponent = (
     <Box>
-      <Typography>チームでボタンを共有<ShareButtonHelpButton /></Typography>
+      <Typography>チームでボタンを共有<ShareButtonHelp /></Typography>
     </Box>
   )
 

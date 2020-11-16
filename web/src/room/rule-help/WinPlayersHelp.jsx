@@ -2,11 +2,14 @@ import React from 'react'
 import { IconButton, Tooltip, Typography } from '@material-ui/core'
 import { Help } from '@material-ui/icons'
 
-const ShareButtonHelpButton = ({ disabled }) => {
+const WinPlayersHelp = ({ disabled }) => {
   const tooltip = (
     <>
       <Typography variant="body2">
-        同じチームの他の人がボタンを押しているときはボタンを押すことができません.
+        この値はルール表示にだけ使用されます. それ以外の処理は行われません.
+      </Typography>
+      <Typography variant="body2">
+        この値を 0 以下にするとルール表示で表示されません.
       </Typography>
     </>
   )
@@ -22,4 +25,4 @@ const ShareButtonHelpButton = ({ disabled }) => {
   )
 }
 
-export default ShareButtonHelpButton
+export default WinPlayersHelp

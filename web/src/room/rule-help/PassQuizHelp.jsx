@@ -2,7 +2,7 @@ import React from 'react'
 import { IconButton, Tooltip, Typography } from '@material-ui/core'
 import { Help } from '@material-ui/icons'
 
-const PassQuizHelpButton = ({ disabled }) => {
+const PassQuizHelp = ({ disabled }) => {
   const tooltip = (
     <>
       <Typography variant="body2">
@@ -31,4 +31,4 @@ const PassQuizHelpButton = ({ disabled }) => {
   )
 }
 
-export default PassQuizHelpButton
+export default PassQuizHelp

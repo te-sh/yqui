@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
-import ShareButtonHelpButton from '../rule-help/ShareButtonHelpButton'
+import ShareButtonHelp from '../rule-help/ShareButtonHelp'
 
 const TeamRule = ({ rule, changeRule }) => {
   const changeActive = value => {
@@ -70,7 +70,7 @@ const TeamRule = ({ rule, changeRule }) => {
                       checked={rule.shareButton}
                       onChange={evt => changeShareButton(evt.target.checked)} />
           }
-          label={<>ボタン共有<ShareButtonHelpButton disabled={!rule.active} /></>} />
+          label={<>ボタン共有<ShareButtonHelp disabled={!rule.active} /></>} />
         <FormControlLabel
           control={
             <Checkbox color="default" disabled={!rule.active}
