@@ -9,14 +9,6 @@ import SpecialCorrectRule from './SpecialCorrectRule'
 import SpecialWrongRule from './SpecialWrongRule'
 
 const NormalRule = ({ rule, changeRule }) => {
-  const changeInitPoint = value => {
-    changeRule(update(rule, { initPoint: { $set: parseNumber(value) } }))
-  }
-
-  const changeInitBatsu = value => {
-    changeRule(update(rule, { initBatsu: { $set: parseNumber(value) } }))
-  }
-
   const changePointCorrect = value => {
     changeRule(update(rule, { pointCorrect: { $set: parseNumber(value) } }))
   }
@@ -83,21 +75,6 @@ const NormalRule = ({ rule, changeRule }) => {
 
   return (
     <>
-      <FormGroup component="fieldset" className="rule-group">
-        <FormLabel component="legend">
-          初期値
-        </FormLabel>
-        <FormGroup row={true}>
-          <TextField label="ポイント" type="number"
-                     InputProps={{ required: true }}
-                     value={rule.initPoint}
-                     onChange={evt => changeInitPoint(evt.target.value)} />
-          <TextField label="バツ" type="number"
-                     InputProps={{ required: true }}
-                     value={rule.initBatsu}
-                     onChange={evt => changeInitBatsu(evt.target.value)} />
-        </FormGroup>
-      </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
         <FormLabel component="legend">
           正答時

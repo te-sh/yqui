@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Button, Dialog, DialogActions, DialogContent,
+  Box, Button, Dialog, DialogActions, DialogContent,
   DialogTitle, FormGroup, Tabs, Tab, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
@@ -10,6 +10,7 @@ import { initRule } from '../../lib/rule'
 import { sendWs, SEND_RULE } from '../../lib/send'
 import { setOpenRule } from '../../redux/actions'
 import TabPanel from './TabPanel'
+import InitValueRule from './InitValueRule'
 import NormalRule from './NormalRule'
 import TeamRule from './TeamRule'
 import BoardRule from './BoardRule'
@@ -63,11 +64,13 @@ const Rule = ({ rule, open, setOpen }) => {
             <Tab label="その他" />
           </Tabs>
           <TabPanel value={tab} index={0} className="normal-rule">
-            <FormGroup component="fieldset" className="rule-group">
-              <TextField label="解答権人数" type="number"
+            <FormGroup component="fieldset" className="rule-group" row={true}>
+              <TextField label="解答権数" type="number"
                          InputProps={{ required: true, inputProps: { min: 1 } }}
                          value={rightNum}
                          onChange={evt => setRightNum(evt.target.value)} />
+              <Box style={{ flexGrow: 1 }}></Box>
+              <InitValueRule rule={player} changeRule={setPlayer} />
             </FormGroup>
             <NormalRule rule={player} changeRule={setPlayer} />
           </TabPanel>
