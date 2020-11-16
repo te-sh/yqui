@@ -46,7 +46,8 @@ type BoardRule struct {
 }
 
 type OtherRule struct {
-	Timer *TimerRule `json:"timer"`
+	PassQuiz bool       `json:"passQuiz"`
+	Timer    *TimerRule `json:"timer"`
 }
 
 type TimerRule struct {
@@ -57,7 +58,6 @@ type TimerRule struct {
 
 type WinLoseRule struct {
 	WinPlayers int            `json:"winPlayers"`
-	PassQuiz   bool           `json:"passQuiz"`
 	WinPoint   ActiveAndValue `json:"winPoint"`
 	LosePoint  ActiveAndValue `json:"losePoint"`
 	LoseBatsu  ActiveAndValue `json:"loseBatsu"`
@@ -86,7 +86,6 @@ func NewNormalRule() *NormalRule {
 	rule.BatsuWrong = 1
 	rule.LockWrong = 0
 	rule.WinPlayers = 0
-	rule.PassQuiz = false
 	rule.WinPoint = ActiveAndValue{true, 7}
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}
@@ -116,7 +115,6 @@ func NewTeamRule() *TeamRule {
 	rule.Batsu = "sum"
 	rule.ShareLock = true
 	rule.WinPlayers = 0
-	rule.PassQuiz = false
 	rule.WinPoint = ActiveAndValue{true, 7}
 	rule.LosePoint = ActiveAndValue{false, 0}
 	rule.LoseBatsu = ActiveAndValue{true, 3}
@@ -133,6 +131,7 @@ func NewBoardRule() *BoardRule {
 
 func NewOtherRule() *OtherRule {
 	rule := new(OtherRule)
+	rule.PassQuiz = false
 	rule.Timer = NewTimerRule()
 	return rule
 }

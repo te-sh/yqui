@@ -49,7 +49,7 @@ const NormalRule = ({ simple, rule }) => {
         <Typography variant="caption">{title}</Typography>
       </Box>
       {correctWrong(rule.player)}
-      {!rule.board.active && <WinLoseRule simple={simple} rule={rule.player} />}
+      {!rule.board.active && <WinLoseRule simple={simple} rule={rule.player} passQuiz={rule.other.passQuiz} />}
     </Box>
   )
 }

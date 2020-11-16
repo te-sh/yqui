@@ -25,7 +25,7 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 				}
 			}
 		}
-		if rule.Player.PassQuiz {
+		if rule.Other.PassQuiz {
 			for otherId, otherScore := range ss.Scores {
 				if otherId != id && otherScore.PassSeat {
 					otherScore.Point = 0
@@ -36,11 +36,11 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 	}
 }
 
-func (ss *ScoreSet) SetWin(rule WinLoseRule) (win bool) {
+func (ss *ScoreSet) SetWin(rule WinLoseRule, passQuiz bool) (win bool) {
 	var wins []*Score
 	for _, score := range ss.Scores {
 		if score.ExceedWinPoint(rule) {
-			if !rule.PassQuiz || score.PassSeat {
+			if !passQuiz || score.PassSeat {
 				wins = append(wins, score)
 			} else {
 				score.PassSeat = true
@@ -67,7 +67,7 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		if rule.Player.SpecialWrong.Updown {
 			score.Point = rule.Player.InitPoint
-		} else if rule.Player.PassQuiz && score.PassSeat {
+		} else if rule.Other.PassQuiz && score.PassSeat {
 			score.Point = rule.Player.InitPoint
 			score.PassSeat = false
 		} else {
@@ -109,7 +109,7 @@ func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 
 func (ss *ScoreSet) Correct(id int64, rule *Rule, sound *Sound) {
 	ss.SetCorrect(id, rule)
-	sound.Win = ss.SetWin(rule.Player.WinLoseRule)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Other.PassQuiz)
 }
 
 func (ss *ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
@@ -167,7 +167,7 @@ func (ss *ScoreSet) CalcTeams(teams Teams, playerSS *ScoreSet, rule *Rule, sound
 		}
 	}
 	if sound != nil {
-		sound.Win = sound.Win || ss.SetWin(rule.Team.WinLoseRule)
+		sound.Win = sound.Win || ss.SetWin(rule.Team.WinLoseRule, false)
 		sound.Lose = sound.Lose || ss.SetLose(rule.Team.WinLoseRule)
 	}
 }
@@ -182,7 +182,7 @@ func (ss *ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *So
 			sound.Correct = true
 		}
 	}
-	sound.Win = ss.SetWin(rule.Player.WinLoseRule)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Other.PassQuiz)
 }
 
 func (ss *ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Sound) {

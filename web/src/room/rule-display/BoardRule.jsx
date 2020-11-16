@@ -12,7 +12,7 @@ const BoardRule = ({ simple, rule }) => {
       <Box>
         <Typography>正解 {rule.board.pointCorrect}{pointText(simple)}</Typography>
       </Box>
-      <WinLoseRule simple={simple} rule={rule.player} />
+      <WinLoseRule simple={simple} rule={rule.player} passQuiz={rule.other.passQuiz} />
     </Box>
   )
 }

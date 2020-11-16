@@ -3,12 +3,12 @@ import { Box, Typography } from '@material-ui/core'
 import { pointText, batsuText } from '../../lib/rule'
 import PassQuizHelp from '../rule-help/PassQuizHelp'
 
-const WinLoseRule = ({ simple, rule }) => {
+const WinLoseRule = ({ simple, rule, passQuiz }) => {
   const win = rule => {
     if (rule.winPoint.active) {
       return (
         <>
-          {rule.passQuiz && <>通過クイズ<PassQuizHelp /> </>}
+          {passQuiz && <>通過クイズ<PassQuizHelp /> </>}
           {<>勝ち抜け {rule.winPoint.value}{pointText(simple)}</>}
           {rule.winPlayers > 0 && <> {rule.winPlayers}人</>}
         </>

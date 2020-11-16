@@ -4,8 +4,13 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
+import PassQuizHelp from '../rule-help/PassQuizHelp'
 
 const OtherRule = ({ rule, changeRule }) => {
+  const changePassQuiz = value => {
+    changeRule(update(rule, { passQuiz: { $set: value } }))
+  }
+
   const changeTimerActive = value => {
     changeRule(update(rule, { timer: { active: { $set: value } } }))
   }
@@ -20,6 +25,16 @@ const OtherRule = ({ rule, changeRule }) => {
 
   return (
     <>
+      <FormGroup className="rule-group">
+        <FormControlLabel
+          control={
+            <Checkbox color="default"
+                      checked={rule.passQuiz}
+                      onChange={evt => changePassQuiz(evt.target.checked)} />
+          }
+          label={<>通過クイズ<PassQuizHelp /></>}
+          classes={{ root: 'after-text' }} />
+      </FormGroup>
       <FormGroup className="rule-group">
         <FormControlLabel
           control={

@@ -8,7 +8,6 @@ export const initRule = {
     batsuWrong: 1,
     lockWrong: 0,
     winPlayers: 1,
-    passQuiz: false,
     winPoint: { active: true, value: 7 },
     losePoint: { active: false, value: 0 },
     loseBatsu: { active: true, value: 3 },
@@ -27,7 +26,6 @@ export const initRule = {
     batsu: 'sum',
     shareLock: true,
     winPlayers: 1,
-    passQuiz: false,
     winPoint: { active: true, value: 7 },
     losePoint: { active: false, value: 0 },
     loseBatsu: { active: true, value: 3 }
@@ -38,6 +36,7 @@ export const initRule = {
     applyNormal: true
   },
   other: {
+    passQuiz: false,
     timer: {
       active: false,
       min: 0,

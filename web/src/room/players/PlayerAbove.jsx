@@ -18,7 +18,7 @@ const PlayerAbove = ({ order, delay, score, rule }) => {
     <Box className="cons">
       <Typography>
         {rule.player.specialCorrect.consBonus && score.cons > 0 && <>+{score.cons}</>}
-        {rule.player.passQuiz && score.passSeat && <>通過席</>}
+        {rule.other.passQuiz && score.passSeat && <>通過席</>}
       </Typography>
     </Box>
   )

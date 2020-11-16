@@ -1,11 +1,8 @@
 import React from 'react'
-import {
-  Checkbox, FormControlLabel, FormGroup, FormLabel, TextField
-} from '@material-ui/core'
+import { Checkbox, FormGroup, FormLabel, TextField } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
 import WinPlayersHelp from '../rule-help/WinPlayersHelp'
-import PassQuizHelp from '../rule-help/PassQuizHelp'
 import SpecialCorrectRule from './SpecialCorrectRule'
 import SpecialWrongRule from './SpecialWrongRule'
 
@@ -44,10 +41,6 @@ const NormalRule = ({ rule, changeRule }) => {
 
   const changeWinPlayers = value => {
     changeRule(update(rule, { winPlayers: { $set: parseNumber(value) } }))
-  }
-
-  const changePassQuiz = value => {
-    changeRule(update(rule, { passQuiz: { $set: value } }))
   }
 
   const changeLosePointActive = value => {
@@ -145,15 +138,6 @@ const NormalRule = ({ rule, changeRule }) => {
                      InputProps={{ required: true, inputProps: { min: 0 } }}
                      value={rule.winPlayers}
                      onChange={evt => changeWinPlayers(evt.target.value)} />
-          <FormControlLabel
-            control={
-              <Checkbox color="default"
-                        disabled={!rule.winPoint.active}
-                        checked={rule.passQuiz}
-                        onChange={evt => changePassQuiz(evt.target.checked)} />
-            }
-            label={<>通過クイズ<PassQuizHelp disabled={!rule.winPoint.active} /></>}
-            classes={{ root: 'after-text' }} />
         </FormGroup>
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
