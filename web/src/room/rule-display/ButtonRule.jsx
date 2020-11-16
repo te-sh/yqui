@@ -8,7 +8,7 @@ import './RuleDisplay.scss'
 const ButtonRule = ({ simple, rule, numPlayers }) => {
   const shareButtonComponent = (
     <Box>
-      <Typography variant="body2">チームでボタンを共有<ShareButtonHelp /></Typography>
+      <Typography variant="body2">チームでボタンを共有<ShareButtonHelp size="small" /></Typography>
     </Box>
   )
 

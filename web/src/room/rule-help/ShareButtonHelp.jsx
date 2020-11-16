@@ -1,8 +1,8 @@
 import React from 'react'
-import { IconButton, Tooltip, Typography } from '@material-ui/core'
-import { Help } from '@material-ui/icons'
+import { Tooltip, Typography } from '@material-ui/core'
+import HelpButton from './HelpButton'
 
-const ShareButtonHelp = ({ disabled }) => {
+const ShareButtonHelp = ({ size, disabled }) => {
   const tooltip = (
     <>
       <Typography variant="body2">
@@ -14,9 +14,7 @@ const ShareButtonHelp = ({ disabled }) => {
   return (
     <Tooltip title={tooltip}>
       <span>
-        <IconButton size="small" edge="start" disabled={disabled}>
-          <Help />
-        </IconButton>
+        <HelpButton size={size} disabled={disabled} />
       </span>
     </Tooltip>
   )

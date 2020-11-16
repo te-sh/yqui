@@ -28,9 +28,9 @@ const NormalRule = ({ simple, rule }) => {
     const wrong = rule => (
       <>
         誤答
-        {rule.specialWrong.updown && <> アップダウン<UpdownHelp /></>}
+        {rule.specialWrong.updown && <> アップダウン<UpdownHelp size="small" /></>}
         {rule.pointWrong !== 0 && !rule.specialWrong.updown && <> {rule.pointWrong}{pointText(simple)}</>}
-        {rule.specialWrong.swedish && <> Swedish<SwedishHelp /></>}
+        {rule.specialWrong.swedish && <> Swedish<SwedishHelp size="small" /></>}
         {rule.batsuWrong !== 0 && !rule.specialWrong.swedish && <> {rule.batsuWrong}{batsuText(simple)}</>}
         {rule.lockWrong !== 0 && <> {rule.lockWrong}休</>}
       </>

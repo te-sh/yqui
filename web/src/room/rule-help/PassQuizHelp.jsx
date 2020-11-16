@@ -1,8 +1,8 @@
 import React from 'react'
-import { IconButton, Tooltip, Typography } from '@material-ui/core'
-import { Help } from '@material-ui/icons'
+import { Tooltip, Typography } from '@material-ui/core'
+import HelpButton from './HelpButton'
 
-const PassQuizHelp = () => {
+const PassQuizHelp = ({ size }) => {
   const tooltip = (
     <>
       <Typography variant="body2">
@@ -22,9 +22,9 @@ const PassQuizHelp = () => {
 
   return (
     <Tooltip title={tooltip}>
-      <IconButton size="small" edge="start">
-        <Help />
-      </IconButton>
+      <span>
+        <HelpButton size={size} />
+      </span>
     </Tooltip>
   )
 }
