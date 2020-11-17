@@ -1,17 +1,23 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import { pointText, batsuText } from '../../lib/rule'
+import { initRule, pointText, batsuText } from '../../lib/rule'
 import PassQuizHelp from '../rule-help/PassQuizHelp'
 
 const WinLoseRule = ({ simple, rule, passQuiz }) => {
   const aboveText = value => value ? '以上' : '以下'
 
   const win = rule => {
-    if (rule.winPoint.active) {
+    const comprehensive = rule.comprehensive || initRule.player.comprehensive
+
+    if (rule.winPoint.active || comprehensive.winPoint.active) {
+      const point = `${rule.winPoint.value}${pointText(simple)}${aboveText(rule.winPoint.above)}`
+
+      const compPoint = `${comprehensive.winPoint.value}総合${pointText(simple)}${aboveText(comprehensive.winPoint.above)}`
+
       return (
         <>
           {passQuiz && <>通過クイズ<PassQuizHelp size="small" /> </>}
-          {<>勝ち抜け {rule.winPoint.value}{pointText(simple)}{aboveText(rule.winPoint.above)}</>}
+          {<>勝ち抜け {rule.winPoint.active && point} {comprehensive.winPoint.active && compPoint}</>}
           {rule.winPlayers > 0 && <> {rule.winPlayers}人</>}
         </>
       )

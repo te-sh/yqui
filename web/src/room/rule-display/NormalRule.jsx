@@ -25,6 +25,7 @@ const NormalRule = ({ simple, rule }) => {
     )
 
     const showWrong = rule.pointWrong !== 0 || rule.batsuWrong !== 0 || rule.lockWrong !== 0 || rule.updown
+
     const wrong = rule => (
       <>
         誤答
@@ -36,9 +37,18 @@ const NormalRule = ({ simple, rule }) => {
       </>
     )
 
+    const comp = rule => (
+      <>
+        総合ポイント
+        {rule.comprehensive.calc === 'mul' && <> {pointText(simple)}と{batsuText(simple)}の積</>}
+        {rule.comprehensive.calc === 'sub' && <> {pointText(simple)}と{batsuText(simple)}の差</>}
+      </>
+    )
+
     return (
       <Box>
         <Typography variant="body2">{correct(rule)} {showWrong && wrong(rule)}</Typography>
+        {rule.comprehensive.active && <Typography variant="body2">{comp(rule)}</Typography>}
       </Box>
     )
   }

@@ -134,6 +134,8 @@ func (score *Score) CalcCompPoint(rule *NormalRule) {
 	switch rule.Comprehensive.Calc {
 	case "mul":
 		score.CompPoint = score.Point * score.Batsu
+	case "sub":
+		score.CompPoint = score.Point - score.Batsu
 	}
 }
 
