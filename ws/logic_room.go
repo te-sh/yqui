@@ -213,6 +213,16 @@ func (room *Room) AllClear() {
 	room.History.Add(sg, buttons)
 }
 
+func (room *Room) WinTop(sound *Sound) {
+	room.Reset()
+	room.SG.Player.WinTop(sound)
+}
+
+func (room *Room) LoseBottom(sound *Sound) {
+	room.Reset()
+	room.SG.Player.LoseBottom(sound)
+}
+
 func (room *Room) SetRule(rule *Rule) {
 	if room.Rule.Team.Active && !rule.Team.Active {
 		room.TruncateTeams()

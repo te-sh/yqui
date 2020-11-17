@@ -6,7 +6,8 @@ import {
 import update from 'immutability-helper'
 import { minSecTime } from '../../lib/util'
 import {
-  sendWs, SEND_ALL_CLEAR, SEND_RULE, SEND_TOGGLE_TIMER
+  sendWs, SEND_ALL_CLEAR, SEND_WIN_TOP, SEND_LOSE_BOTTOM,
+  SEND_RULE, SEND_TOGGLE_TIMER
 } from '../../lib/send'
 import { clearEditBoards } from '../../redux/actions'
 
@@ -14,6 +15,14 @@ const Master = ({ className, rule, timer, clearEditBoards }) => {
   const onAllClear = () => {
     clearEditBoards()
     sendWs(SEND_ALL_CLEAR)
+  }
+
+  const winTop = () => {
+    sendWs(SEND_WIN_TOP)
+  }
+
+  const loseBottom = () => {
+    sendWs(SEND_LOSE_BOTTOM)
   }
 
   const toggleTimer = () => {
@@ -44,6 +53,16 @@ const Master = ({ className, rule, timer, clearEditBoards }) => {
         <Button variant="outlined" color="default"
                 onClick={onAllClear}>
           オールクリア
+        </Button>
+        <Button variant="outlined" color="default"
+                className="win-top"
+                onClick={winTop}>
+          最上位勝ち抜け
+        </Button>
+        <Button variant="outlined" color="default"
+                className="lose-bottom"
+                onClick={loseBottom}>
+          最下位失格
         </Button>
         {rule.other.timer.active && timerComponent}
         <Box className="show-point">

@@ -65,6 +65,16 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.History.Move(+1, room.SG, room.Buttons)
 		room.SendSG()
 		room.SendButtons()
+	case "win-top":
+		room.WinTop(sound)
+		room.SendBG()
+		room.SendSG()
+		room.SendButtons()
+	case "lose-bottom":
+		room.LoseBottom(sound)
+		room.SendBG()
+		room.SendSG()
+		room.SendButtons()
 	case "boards":
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)

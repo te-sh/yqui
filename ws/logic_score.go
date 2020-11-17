@@ -138,6 +138,12 @@ func (ss *ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
 	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
 }
 
+func (ss *ScoreSet) WinTop(sound *Sound) {
+}
+
+func (ss *ScoreSet) LoseBottom(sound *Sound) {
+}
+
 func (ss *ScoreSet) DecreaseLock(buttons *Buttons) {
 	for id, score := range ss.Scores {
 		if !buttons.Answered(id) && score.Lock > 0 {
