@@ -2,4 +2,13 @@
   .MuiButtonBase-root {
     margin: 3px;
   }
+
+  .tab-panel {
+    height: 27em;
+    padding: 1.5em;
+
+    h6:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
 }

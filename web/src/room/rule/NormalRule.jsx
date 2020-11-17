@@ -4,7 +4,6 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
-import WinPlayersHelp from '../rule-help/WinPlayersHelp'
 import SpecialCorrectRule from './SpecialCorrectRule'
 import SpecialWrongRule from './SpecialWrongRule'
 
@@ -133,7 +132,7 @@ const NormalRule = ({ rule, changeRule }) => {
               <MenuItem value={false}>以下</MenuItem>
             </Select>
           </FormGroup>
-          <TextField label={<>人数<WinPlayersHelp disabled={!rule.winPoint.active} /></>}
+          <TextField label="人数"
                      type="number"
                      disabled={!rule.winPoint.active}
                      InputProps={{ required: true, inputProps: { min: 0 } }}
