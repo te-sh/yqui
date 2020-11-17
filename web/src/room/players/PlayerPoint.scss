@@ -3,8 +3,9 @@
   grid-row: 2/3;
   display: grid;
   grid-template-columns: 60% 40%;
+  width: 120px;
 
-  .correct {
+  .point {
     grid-column: 1/2;
     display: flex;
     justify-content: center;
@@ -14,10 +15,11 @@
     .content {
       font-family: 'Krona One';
       font-size: 32px;
+      transform: scaleX(0.9);
     }
   }
 
-  .wrong {
+  .batsu {
     grid-column: 2/3;
     display: flex;
     justify-content: center;
@@ -27,6 +29,43 @@
     .content {
       font-family: 'Krona One';
       font-size: 24px;
+      transform: scaleX(0.9);
+    }
+  }
+
+  .comp-point {
+    grid-column: 2/3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #3f51b5;
+
+    .content {
+      font-family: 'Krona One';
+      font-size: 32px;
+      transform: scaleX(0.7);
+    }
+  }
+
+  &.comp {
+    grid-template-columns: 28% 44% 28%;
+
+    .point {
+      grid-column: 1/2;
+
+      .content {
+        font-size: 24px;
+        transform: scaleX(0.7);
+      }
+    }
+
+    .batsu {
+      grid-column: 3/4;
+
+      .content {
+        font-size: 24px;
+        transform: scaleX(0.7);
+      }
     }
   }
 }
