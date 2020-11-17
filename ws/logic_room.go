@@ -214,13 +214,17 @@ func (room *Room) AllClear() {
 }
 
 func (room *Room) WinTop(sound *Sound) {
+	room.History.Save(room.SG, room.Buttons)
 	room.Reset()
 	room.SG.Player.WinTop(sound)
+	room.History.Add(room.SG, room.Buttons)
 }
 
 func (room *Room) LoseBottom(sound *Sound) {
+	room.History.Save(room.SG, room.Buttons)
 	room.Reset()
 	room.SG.Player.LoseBottom(sound)
+	room.History.Add(room.SG, room.Buttons)
 }
 
 func (room *Room) SetRule(rule *Rule) {

@@ -70,11 +70,13 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendBG()
 		room.SendSG()
 		room.SendButtons()
+		room.SendSound(sound)
 	case "lose-bottom":
 		room.LoseBottom(sound)
 		room.SendBG()
 		room.SendSG()
 		room.SendButtons()
+		room.SendSound(sound)
 	case "boards":
 		newBoards := make(Boards)
 		json.Unmarshal(cmd.A, &newBoards)

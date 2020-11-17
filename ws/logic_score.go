@@ -139,9 +139,59 @@ func (ss *ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
 }
 
 func (ss *ScoreSet) WinTop(sound *Sound) {
+	alive := false
+	max := 0
+	for _, score := range ss.Scores {
+		if score.Win == 0 && score.Lose == 0 {
+			alive = true
+			max = score.Point
+		}
+	}
+	if !alive {
+		return
+	}
+	sound.Win = true
+	for _, score := range ss.Scores {
+		if score.Win == 0 && score.Lose == 0 {
+			if max < score.Point {
+				max = score.Point
+			}
+		}
+	}
+	ss.WinLose.WinNum += 1
+	for _, score := range ss.Scores {
+		if score.Win == 0 && score.Lose == 0 && score.Point == max {
+			score.Win = ss.WinLose.WinNum
+		}
+	}
 }
 
 func (ss *ScoreSet) LoseBottom(sound *Sound) {
+	alive := false
+	min := 0
+	for _, score := range ss.Scores {
+		if score.Win == 0 && score.Lose == 0 {
+			alive = true
+			min = score.Point
+		}
+	}
+	if !alive {
+		return
+	}
+	sound.Lose = true
+	for _, score := range ss.Scores {
+		if score.Win == 0 && score.Lose == 0 {
+			if min > score.Point {
+				min = score.Point
+			}
+		}
+	}
+	ss.WinLose.LoseNum += 1
+	for _, score := range ss.Scores {
+		if score.Win == 0 && score.Lose == 0 && score.Point == min {
+			score.Lose = ss.WinLose.LoseNum
+		}
+	}
 }
 
 func (ss *ScoreSet) DecreaseLock(buttons *Buttons) {
