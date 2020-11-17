@@ -17,7 +17,7 @@ const WinLoseRule = ({ simple, rule, passQuiz }) => {
       return (
         <>
           {passQuiz && <>通過クイズ<PassQuizHelp size="small" /> </>}
-          {<>勝ち抜け {rule.winPoint.active && point} {comprehensive.winPoint.active && compPoint}</>}
+          {<>勝ち抜け {rule.winPoint.active && point} {comprehensive.active && comprehensive.winPoint.active && compPoint}</>}
           {rule.winPlayers > 0 && <> {rule.winPlayers}人</>}
         </>
       )
