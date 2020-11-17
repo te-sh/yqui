@@ -40,7 +40,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                onClose={handleClose}>
         <Box className="special-rule">
-          <FormGroup>
+          <FormGroup className="rule-group">
             <FormControlLabel
               control={
                 <Checkbox color="default"
@@ -49,7 +49,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
               }
               label={<>アップダウン<UpdownHelp /></>} />
           </FormGroup>
-          <FormGroup>
+          <FormGroup className="rule-group">
             <FormControlLabel
               control={
                 <Checkbox color="default"

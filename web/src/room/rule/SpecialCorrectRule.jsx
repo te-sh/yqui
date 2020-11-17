@@ -34,7 +34,7 @@ const SpecialCorrectRule = ({ rule, changeRule }) => {
                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                onClose={handleClose}>
         <Box className="special-rule">
-          <FormGroup>
+          <FormGroup className="rule-group">
             <FormControlLabel
               control={
                 <Checkbox color="default"

@@ -37,7 +37,7 @@ const InitValueRule = ({ rule, changeRule }) => {
                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                onClose={handleClose}>
         <Box className="rule special-rule">
-          <FormGroup row={true}>
+          <FormGroup row={true} className="rule-group">
             <TextField label="ポイント" type="number"
                        InputProps={{ required: true }}
                        value={rule.initPoint}
