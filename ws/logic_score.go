@@ -8,13 +8,19 @@ func (ss *ScoreSet) CanPush(id int64) bool {
 	}
 }
 
-func (score *Score) ExceedWinPoint(rule WinLoseRule) bool {
+func (score *Score) ExceedWinPoint(rule WinLoseRule, comprehensive *ComprehensiveRule) bool {
 	if score.Win != 0 {
 		return false
 	}
 	if rule.WinPoint.Active {
 		if rule.WinPoint.Above && score.Point >= rule.WinPoint.Value ||
 			!rule.WinPoint.Above && score.Point <= rule.WinPoint.Value {
+			return true
+		}
+	}
+	if comprehensive != nil && comprehensive.Active && comprehensive.WinPoint.Active {
+		if comprehensive.WinPoint.Above && score.CompPoint >= comprehensive.WinPoint.Value ||
+			!comprehensive.WinPoint.Above && score.CompPoint <= comprehensive.WinPoint.Value {
 			return true
 		}
 	}
@@ -45,10 +51,10 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 	ss.CalcCompPoint(rule.Player)
 }
 
-func (ss *ScoreSet) SetWin(rule WinLoseRule, passQuiz bool) (win bool) {
+func (ss *ScoreSet) SetWin(rule WinLoseRule, comprehensive *ComprehensiveRule, passQuiz bool) (win bool) {
 	var wins []*Score
 	for _, score := range ss.Scores {
-		if score.ExceedWinPoint(rule) {
+		if score.ExceedWinPoint(rule, comprehensive) {
 			if !passQuiz || score.PassSeat {
 				wins = append(wins, score)
 			} else {
@@ -135,7 +141,7 @@ func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 
 func (ss *ScoreSet) Correct(id int64, rule *Rule, sound *Sound) {
 	ss.SetCorrect(id, rule)
-	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Other.PassQuiz)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive, rule.Other.PassQuiz)
 }
 
 func (ss *ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
@@ -249,7 +255,7 @@ func (ss *ScoreSet) CalcTeams(teams Teams, playerSS *ScoreSet, rule *Rule, sound
 		}
 	}
 	if sound != nil {
-		sound.Win = sound.Win || ss.SetWin(rule.Team.WinLoseRule, false)
+		sound.Win = sound.Win || ss.SetWin(rule.Team.WinLoseRule, nil, false)
 		sound.Lose = sound.Lose || ss.SetLose(rule.Team.WinLoseRule)
 	}
 }
@@ -264,7 +270,7 @@ func (ss *ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *So
 			sound.Correct = true
 		}
 	}
-	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Other.PassQuiz)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive, rule.Other.PassQuiz)
 }
 
 func (ss *ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Sound) {
