@@ -93,7 +93,7 @@ const NormalRule = ({ rule, changeRule }) => {
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
-                     disabled={rule.specialWrong.updown}
+                     disabled={rule.specialWrong.updown || rule.specialWrong.divide}
                      InputProps={{ required: true }}
                      value={rule.pointWrong}
                      onChange={evt => changePointWrong(evt.target.value)} />
