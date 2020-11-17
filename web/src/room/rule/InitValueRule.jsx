@@ -24,10 +24,12 @@ const InitValueRule = ({ rule, changeRule }) => {
     changeRule(update(rule, { initBatsu: { $set: parseNumber(value) } }))
   }
 
+  const noSpecial = rule.initPoint === 0 && rule.initBatsu === 0
+
   return (
     <>
       <Button color="primary" size="small"
-              variant="outlined"
+              variant={noSpecial ? 'outlined' : 'contained'}
               onClick={handleClick}>
         初期値
       </Button>
