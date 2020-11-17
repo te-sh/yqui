@@ -5,6 +5,7 @@ import {
 import update from 'immutability-helper'
 import UpdownHelp from '../rule-help/UpdownHelp'
 import SwedishHelp from '../rule-help/SwedishHelp'
+import DivideHelp from '../rule-help/DivideHelp'
 
 const SpecialWrongRule = ({ rule, changeRule }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -25,9 +26,13 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
     changeRule(update(rule, { swedish: { $set: value } }))
   }
 
+  const changeDivide = value => {
+    changeRule(update(rule, { divide: { $set: value } }))
+  }
+
   const open = Boolean(anchorEl)
 
-  const noSpecial = !rule.updown && !rule.swedish
+  const noSpecial = !rule.updown && !rule.swedish && !rule.divide
 
   return (
     <>
@@ -57,6 +62,15 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
                           onChange={evt => changeSwedish(evt.target.checked)} />
               }
               label={<>Swedish<SwedishHelp /></>} />
+          </FormGroup>
+          <FormGroup className="rule-group">
+            <FormControlLabel
+              control={
+                <Checkbox color="default"
+                          checked={rule.divide}
+                          onChange={evt => changeDivide(evt.target.checked)} />
+              }
+              label={<>Divide<DivideHelp /></>} />
           </FormGroup>
         </Box>
       </Popover>

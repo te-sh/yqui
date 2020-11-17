@@ -105,6 +105,9 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 		} else {
 			score.Batsu += rule.Player.BatsuWrong
 		}
+		if rule.Player.SpecialWrong.Divide && score.Batsu != 0 {
+			score.Point /= score.Batsu
+		}
 		score.Lock = rule.Player.LockWrong
 		if rule.Player.SpecialCorrect.ConsBonus {
 			score.Cons = 0

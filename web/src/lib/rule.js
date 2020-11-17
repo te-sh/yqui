@@ -16,7 +16,8 @@ export const initRule = {
     },
     specialWrong: {
       updown: false,
-      swedish: false
+      swedish: false,
+      divide: false
     },
     comprehensive: {
       active: false,
