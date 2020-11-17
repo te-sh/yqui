@@ -42,6 +42,7 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 			}
 		}
 	}
+	ss.CalcCompPoint(rule.Player)
 }
 
 func (ss *ScoreSet) SetWin(rule WinLoseRule, passQuiz bool) (win bool) {
@@ -109,6 +110,7 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 			score.Cons = 0
 		}
 	}
+	ss.CalcCompPoint(rule.Player)
 }
 
 func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {

@@ -18,6 +18,7 @@ type NormalRule struct {
 	LockWrong      int                 `json:"lockWrong"`
 	SpecialCorrect *SpecialCorrectRule `json:"specialCorrect"`
 	SpecialWrong   *SpecialWrongRule   `json:"specialWrong"`
+	Comprehensive  *ComprehensiveRule  `json:"comprehensive"`
 	WinLoseRule
 }
 
@@ -28,6 +29,12 @@ type SpecialCorrectRule struct {
 type SpecialWrongRule struct {
 	Updown  bool `json:"updown"`
 	Swedish bool `json:"swedish"`
+}
+
+type ComprehensiveRule struct {
+	Active   bool           `json:"active"`
+	Calc     string         `json:"calc"`
+	WinPoint ActiveAndValue `json:"winPoint"`
 }
 
 type TeamRule struct {
@@ -92,6 +99,7 @@ func NewNormalRule() *NormalRule {
 	rule.LoseBatsu = ActiveAndValue{true, 3, true}
 	rule.SpecialCorrect = NewSpecialCorrectRule()
 	rule.SpecialWrong = NewSpecialWrongRule()
+	rule.Comprehensive = NewComprehensiveRule()
 	return rule
 }
 
@@ -105,6 +113,14 @@ func NewSpecialWrongRule() *SpecialWrongRule {
 	rule := new(SpecialWrongRule)
 	rule.Updown = false
 	rule.Swedish = false
+	return rule
+}
+
+func NewComprehensiveRule() *ComprehensiveRule {
+	rule := new(ComprehensiveRule)
+	rule.Active = false
+	rule.Calc = "mul"
+	rule.WinPoint = ActiveAndValue{true, 100, true}
 	return rule
 }
 

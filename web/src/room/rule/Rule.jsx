@@ -11,6 +11,7 @@ import { sendWs, SEND_RULE } from '../../lib/send'
 import { setOpenRule } from '../../redux/actions'
 import TabPanel from '../../lib/TabPanel'
 import InitValueRule from './InitValueRule'
+import ComprehensiveRule from './ComprehensiveRule'
 import NormalRule from './NormalRule'
 import TeamRule from './TeamRule'
 import BoardRule from './BoardRule'
@@ -32,6 +33,10 @@ const Rule = ({ rule, open, setOpen }) => {
     setTeam(rule.team)
     setBoard(rule.board)
     setOther(rule.other)
+  }
+
+  const changePlayerComprehensive = value => {
+    setPlayer(update(player, { comprehensive: { $set: value } }))
   }
 
   const submit = evt => {
@@ -71,6 +76,7 @@ const Rule = ({ rule, open, setOpen }) => {
                          onChange={evt => setRightNum(evt.target.value)} />
               <Box style={{ flexGrow: 1 }}></Box>
               <InitValueRule rule={player} changeRule={setPlayer} />
+              <ComprehensiveRule rule={player.comprehensive} changeRule={changePlayerComprehensive} />
             </FormGroup>
             <NormalRule rule={player} changeRule={setPlayer} />
           </TabPanel>

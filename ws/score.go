@@ -13,13 +13,14 @@ type ScoreSet struct {
 type Scores map[int64]*Score
 
 type Score struct {
-	Point    int  `json:"point"`
-	Batsu    int  `json:"batsu"`
-	Lock     int  `json:"lock"`
-	Cons     int  `json:"cons"`
-	PassSeat bool `json:"passSeat"`
-	Win      int  `json:"win"`
-	Lose     int  `json:"lose"`
+	Point     int  `json:"point"`
+	Batsu     int  `json:"batsu"`
+	Lock      int  `json:"lock"`
+	CompPoint int  `json:"compPoint"`
+	Cons      int  `json:"cons"`
+	PassSeat  bool `json:"passSeat"`
+	Win       int  `json:"win"`
+	Lose      int  `json:"lose"`
 }
 
 func NewScoreGroup() *ScoreGroup {
@@ -89,6 +90,7 @@ func (score *Score) Reset() {
 	score.Point = 0
 	score.Batsu = 0
 	score.Lock = 0
+	score.CompPoint = 0
 	score.Cons = 0
 	score.PassSeat = false
 	score.Win = 0
@@ -111,11 +113,28 @@ func (ss *ScoreSet) Init(rule *NormalRule) {
 	for _, score := range ss.Scores {
 		score.Init(rule)
 	}
+	ss.CalcCompPoint(rule)
 }
 
 func (score *Score) Init(rule *NormalRule) {
 	score.Point = rule.InitPoint
 	score.Batsu = rule.InitBatsu
+}
+
+func (ss *ScoreSet) CalcCompPoint(rule *NormalRule) {
+	if !rule.Comprehensive.Active {
+		return
+	}
+	for _, score := range ss.Scores {
+		score.CalcCompPoint(rule)
+	}
+}
+
+func (score *Score) CalcCompPoint(rule *NormalRule) {
+	switch rule.Comprehensive.Calc {
+	case "mul":
+		score.CompPoint = score.Point * score.Batsu
+	}
 }
 
 func (sg *ScoreGroup) SetZero() {

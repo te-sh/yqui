@@ -11,13 +11,17 @@
     width: 65px;
 
     &.wide-select {
-      width: 10em;
+      width: 11em;
     }
   }
 
   .tab-panel {
     height: 27em;
     padding: 1.5em;
+  }
+
+  .comprehensive-button {
+    margin-left: 10px;
   }
 }
 

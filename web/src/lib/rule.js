@@ -17,6 +17,11 @@ export const initRule = {
     specialWrong: {
       updown: false,
       swedish: false
+    },
+    comprehensive: {
+      active: false,
+      calc: 'mul',
+      winPoint: { active: true, value: 100, above: true }
     }
   },
   team: {
