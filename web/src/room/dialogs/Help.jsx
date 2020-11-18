@@ -61,7 +61,9 @@ const Help = ({ open, setOpen }) => {
           </Typography>
           <Typography>
             設定でチャット回答マークをオンにすると名前欄にチャット回答マークが付きます.
-            こうすると回答時にカウントを長めにしてもらえるかもしれません.
+          </Typography>
+          <Typography>
+            こうすると司会者があなたがチャット回答かどうかを容易に判断できるようになり, 円滑な進行の助けになるでしょう.
           </Typography>
         </TabPanel>
         <TabPanel value={tab} index={1}>
