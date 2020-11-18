@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {
   Box, Button, Checkbox, FormControlLabel, Paper, Typography
 } from '@material-ui/core'
+import classNames from 'classnames'
 import update from 'immutability-helper'
 import { minSecTime } from '../../lib/util'
 import {
@@ -41,7 +42,8 @@ const Master = ({ className, rule, timer, clearEditBoards }) => {
               onClick={toggleTimer}>
         タイマー{timer.running ? '停止' : '駆動'}
       </Button>
-      <Typography variant="h6" className="timer-remaining">
+      <Typography variant="h6"
+                  className={classNames('timer-remaining', { running: timer.running })}>
         {minSecTime(timer.remaining)}
       </Typography>
     </Box>

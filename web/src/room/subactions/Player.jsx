@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
+import classNames from 'classnames'
 import { minSecTime } from '../../lib/util'
 
 const Player = ({ className, rule, timer }) => {
@@ -9,7 +10,8 @@ const Player = ({ className, rule, timer }) => {
       <Typography>
         タイマー{timer.running ? '駆動' : '停止'}中
       </Typography>
-      <Typography variant="h6" className="timer-remaining">
+      <Typography variant="h6"
+                  className={classNames('timer-remaining', { running: timer.running })}>
         {minSecTime(timer.remaining)}
       </Typography>
     </Box>

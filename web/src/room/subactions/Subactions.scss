@@ -32,6 +32,11 @@
       .timer-remaining {
         font-family: 'DSEG7Classic';
         margin-left: 5px;
+        color: #424242;
+
+        &.running {
+          color: #c62828;
+        }
       }
     }
 
