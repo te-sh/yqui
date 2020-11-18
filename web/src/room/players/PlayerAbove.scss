@@ -38,11 +38,18 @@
     color: #bdbdbd;
   }
 
-  .cons {
+  .ext {
     grid-row: 1/2;
     grid-column: 3/4;
     display: flex;
     align-items: flex-end;
-    color: #f9a825;
+
+    .cons-correct {
+      color: #f9a825;
+    }
+
+    .pass-seat {
+      color: #f9a825;
+    }
   }
 }

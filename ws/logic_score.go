@@ -57,6 +57,7 @@ func (ss *ScoreSet) SetWin(rule WinLoseRule, comprehensive *ComprehensiveRule, p
 		if score.ExceedWinPoint(rule, comprehensive) {
 			if !passQuiz || score.PassSeat {
 				wins = append(wins, score)
+				score.PassSeat = false
 			} else {
 				score.PassSeat = true
 			}
