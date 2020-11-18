@@ -14,6 +14,7 @@ type Timer struct {
 	StartTime      time.Time `json:"-"`
 	SetRemaining   chan int  `json:"-"`
 	ToggleRunning  chan int  `json:"-"`
+	Destruct       chan int  `json:"-"`
 }
 
 func NewTimer(room *Room) *Timer {
@@ -25,6 +26,7 @@ func NewTimer(room *Room) *Timer {
 	timer.StartTime = time.Now()
 	timer.SetRemaining = make(chan int)
 	timer.ToggleRunning = make(chan int)
+	timer.Destruct = make(chan int)
 	go timer.Activate()
 	return timer
 }
@@ -35,6 +37,7 @@ func (timer *Timer) Activate() {
 	ticker := time.NewTicker(TimerTickInterval * time.Millisecond)
 	defer ticker.Stop()
 
+LOOP:
 	for {
 		select {
 		case remaining := <-timer.SetRemaining:
@@ -52,6 +55,8 @@ func (timer *Timer) Activate() {
 				timer.StartTime = time.Now()
 			}
 			timer.Room.SendTimer()
+		case <-timer.Destruct:
+			break LOOP
 		case <-ticker.C:
 			if !timer.Running {
 				continue

@@ -210,6 +210,10 @@ func (room *Room) AllClear() {
 	sg.Init(room.Rule)
 	buttons.Reset()
 	room.BG.Reset()
+	if room.Timer != nil {
+		timerRule := room.Rule.Other.Timer
+		room.Timer.SetRemaining <- timerRule.Min*60 + timerRule.Sec
+	}
 	room.History.Add(sg, buttons)
 }
 
@@ -231,9 +235,13 @@ func (room *Room) SetRule(rule *Rule) {
 	if room.Rule.Team.Active && !rule.Team.Active {
 		room.TruncateTeams()
 	}
-	if rule.Other.Timer.Active {
+	if !room.Rule.Other.Timer.Active && rule.Other.Timer.Active {
+		room.Timer = NewTimer(room)
 		timerRule := rule.Other.Timer
 		room.Timer.SetRemaining <- timerRule.Min*60 + timerRule.Sec
+	} else if room.Rule.Other.Timer.Active && !rule.Other.Timer.Active {
+		room.Timer.Destruct <- 0
+		room.Timer = nil
 	}
 	room.Rule = rule
 }

@@ -23,7 +23,7 @@ func NewRoom() *Room {
 	room.Buttons = NewButtons()
 	room.Rule = NewRule()
 	room.History = NewHistory()
-	room.Timer = NewTimer(room)
+	room.Timer = nil
 
 	return room
 }
