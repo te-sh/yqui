@@ -33,9 +33,9 @@ type SpecialWrongRule struct {
 }
 
 type ComprehensiveRule struct {
-	Active   bool           `json:"active"`
-	Calc     string         `json:"calc"`
-	WinPoint ActiveAndValue `json:"winPoint"`
+	Active   bool        `json:"active"`
+	Calc     string      `json:"calc"`
+	WinPoint WinLoseCond `json:"winPoint"`
 }
 
 type TeamRule struct {
@@ -65,13 +65,13 @@ type TimerRule struct {
 }
 
 type WinLoseRule struct {
-	WinPlayers int            `json:"winPlayers"`
-	WinPoint   ActiveAndValue `json:"winPoint"`
-	LosePoint  ActiveAndValue `json:"losePoint"`
-	LoseBatsu  ActiveAndValue `json:"loseBatsu"`
+	WinPlayers int         `json:"winPlayers"`
+	WinPoint   WinLoseCond `json:"winPoint"`
+	LosePoint  WinLoseCond `json:"losePoint"`
+	LoseBatsu  WinLoseCond `json:"loseBatsu"`
 }
 
-type ActiveAndValue struct {
+type WinLoseCond struct {
 	Active bool `json:"active"`
 	Value  int  `json:"value"`
 	Above  bool `json:"above"`
@@ -95,9 +95,9 @@ func NewNormalRule() *NormalRule {
 	rule.BatsuWrong = 1
 	rule.LockWrong = 0
 	rule.WinPlayers = 0
-	rule.WinPoint = ActiveAndValue{true, 7, true}
-	rule.LosePoint = ActiveAndValue{false, 0, false}
-	rule.LoseBatsu = ActiveAndValue{true, 3, true}
+	rule.WinPoint = WinLoseCond{true, 7, true}
+	rule.LosePoint = WinLoseCond{false, 0, false}
+	rule.LoseBatsu = WinLoseCond{true, 3, true}
 	rule.SpecialCorrect = NewSpecialCorrectRule()
 	rule.SpecialWrong = NewSpecialWrongRule()
 	rule.Comprehensive = NewComprehensiveRule()
@@ -122,7 +122,7 @@ func NewComprehensiveRule() *ComprehensiveRule {
 	rule := new(ComprehensiveRule)
 	rule.Active = false
 	rule.Calc = "mul"
-	rule.WinPoint = ActiveAndValue{true, 100, true}
+	rule.WinPoint = WinLoseCond{true, 100, true}
 	return rule
 }
 
@@ -134,9 +134,9 @@ func NewTeamRule() *TeamRule {
 	rule.Batsu = "sum"
 	rule.ShareLock = true
 	rule.WinPlayers = 0
-	rule.WinPoint = ActiveAndValue{true, 7, true}
-	rule.LosePoint = ActiveAndValue{false, 0, false}
-	rule.LoseBatsu = ActiveAndValue{true, 3, true}
+	rule.WinPoint = WinLoseCond{true, 7, true}
+	rule.LosePoint = WinLoseCond{false, 0, false}
+	rule.LoseBatsu = WinLoseCond{true, 3, true}
 	return rule
 }
 
