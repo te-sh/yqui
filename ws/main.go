@@ -82,7 +82,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 			log.Println("err read: ", err)
 			break
 		}
-		LogJson("received from " + r.Header.Get("X-Real-IP"), cmd)
+		LogJson("received from "+r.Header.Get("X-Real-IP"), cmd)
 
 		switch cmd.C {
 		case "join":
