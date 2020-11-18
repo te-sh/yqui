@@ -82,7 +82,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 			log.Println("err read: ", err)
 			break
 		}
-		LogJson("received", cmd)
+		LogJson("received from " + c.RemoteAddr().String(), cmd)
 
 		switch cmd.C {
 		case "join":
