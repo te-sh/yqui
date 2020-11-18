@@ -31,11 +31,11 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		score.Point += rule.Player.PointCorrect
 		if rule.Player.SpecialCorrect.ConsBonus {
-			score.Point += score.Cons
-			score.Cons += 1
+			score.Point += rule.Player.PointCorrect * score.ConsCorrect
+			score.ConsCorrect += 1
 			for otherId, otherScore := range ss.Scores {
 				if otherId != id {
-					otherScore.Cons = 0
+					otherScore.ConsCorrect = 0
 				}
 			}
 		}
@@ -116,7 +116,7 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 		}
 		score.Lock = rule.Player.LockWrong
 		if rule.Player.SpecialCorrect.ConsBonus {
-			score.Cons = 0
+			score.ConsCorrect = 0
 		}
 	}
 	ss.CalcCompPoint(rule.Player)

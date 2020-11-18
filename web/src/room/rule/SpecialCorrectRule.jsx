@@ -3,6 +3,7 @@ import {
   Box, Button, Checkbox, FormControlLabel, FormGroup, Popover
 } from '@material-ui/core'
 import update from 'immutability-helper'
+import ConsBonusHelp from '../rule-help/ConsBonusHelp'
 
 const SpecialCorrectRule = ({ rule, changeRule }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -41,7 +42,7 @@ const SpecialCorrectRule = ({ rule, changeRule }) => {
                           checked={rule.consBonus}
                           onChange={evt => changeConsBonus(evt.target.checked)} />
               }
-              label="連答ボーナス" />
+              label={<>連答ボーナス<ConsBonusHelp /></>} />
           </FormGroup>
         </Box>
       </Popover>

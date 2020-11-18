@@ -13,14 +13,14 @@ type ScoreSet struct {
 type Scores map[int64]*Score
 
 type Score struct {
-	Point     int  `json:"point"`
-	Batsu     int  `json:"batsu"`
-	Lock      int  `json:"lock"`
-	CompPoint int  `json:"compPoint"`
-	Cons      int  `json:"cons"`
-	PassSeat  bool `json:"passSeat"`
-	Win       int  `json:"win"`
-	Lose      int  `json:"lose"`
+	Point       int  `json:"point"`
+	Batsu       int  `json:"batsu"`
+	Lock        int  `json:"lock"`
+	CompPoint   int  `json:"compPoint"`
+	ConsCorrect int  `json:"consCorrect"`
+	PassSeat    bool `json:"passSeat"`
+	Win         int  `json:"win"`
+	Lose        int  `json:"lose"`
 }
 
 func NewScoreGroup() *ScoreGroup {
@@ -91,7 +91,7 @@ func (score *Score) Reset() {
 	score.Batsu = 0
 	score.Lock = 0
 	score.CompPoint = 0
-	score.Cons = 0
+	score.ConsCorrect = 0
 	score.PassSeat = false
 	score.Win = 0
 	score.Lose = 0
