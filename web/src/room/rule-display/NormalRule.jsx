@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { pointText, batsuText } from '../../lib/rule'
 import ConsBonusHelp from '../rule-help/ConsBonusHelp'
+import SurvivalHelp from '../rule-help/SurvivalHelp'
 import UpdownHelp from '../rule-help/UpdownHelp'
 import SwedishHelp from '../rule-help/SwedishHelp'
 import DivideHelp from '../rule-help/DivideHelp'
@@ -18,11 +19,20 @@ const NormalRule = ({ simple, rule }) => {
     }
   })()
 
+  const consBonus = (
+    <> 連答ボーナス<ConsBonusHelp size="small" /></>
+  )
+
+  const survival = rule => (
+    <> サバイバル ({rule.specialCorrect.survival.value}{pointText(simple)})<SurvivalHelp size="small" /></>
+  )
+
   const correctWrong = rule => {
     const correct = rule => (
       <>
         正解 {rule.pointCorrect}{pointText(simple)}
-        {rule.specialCorrect.consBonus && <> 連答ボーナス<ConsBonusHelp size="small" /></>}
+        {rule.specialCorrect.consBonus && consBonus}
+        {rule.specialCorrect.survival.active && survival(rule)}
       </>
     )
 

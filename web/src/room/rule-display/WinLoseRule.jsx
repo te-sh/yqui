@@ -9,7 +9,7 @@ const WinLoseRule = ({ simple, rule, passQuiz }) => {
   const win = rule => {
     const comprehensive = rule.comprehensive || initRule.player.comprehensive
 
-    if (rule.winPoint.active || comprehensive.winPoint.active) {
+    if (rule.winPoint.active || comprehensive.active && comprehensive.winPoint.active) {
       const point = `${rule.winPoint.value}${pointText(simple)}${aboveText(rule.winPoint.above)}`
 
       const compPoint = `${comprehensive.winPoint.value}総合${pointText(simple)}${aboveText(comprehensive.winPoint.above)}`

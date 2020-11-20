@@ -39,6 +39,13 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 				}
 			}
 		}
+		if rule.Player.SpecialCorrect.Survival.Active {
+			for otherId, otherScore := range ss.Scores {
+				if otherId != id {
+					otherScore.Point += rule.Player.SpecialCorrect.Survival.Value
+				}
+			}
+		}
 		if rule.Other.PassQuiz {
 			for otherId, otherScore := range ss.Scores {
 				if otherId != id && otherScore.PassSeat {

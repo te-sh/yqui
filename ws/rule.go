@@ -23,7 +23,8 @@ type NormalRule struct {
 }
 
 type SpecialCorrectRule struct {
-	ConsBonus bool `json:"consBonus"`
+	ConsBonus bool           `json:"consBonus"`
+	Survival  ActiveAndValue `json:"survival"`
 }
 
 type SpecialWrongRule struct {
@@ -77,6 +78,11 @@ type WinLoseCond struct {
 	Above  bool `json:"above"`
 }
 
+type ActiveAndValue struct {
+	Active bool `json:"active"`
+	Value  int  `json:"value"`
+}
+
 func NewRule() *Rule {
 	rule := new(Rule)
 	rule.RightNum = 1
@@ -107,6 +113,7 @@ func NewNormalRule() *NormalRule {
 func NewSpecialCorrectRule() *SpecialCorrectRule {
 	rule := new(SpecialCorrectRule)
 	rule.ConsBonus = false
+	rule.Survival = ActiveAndValue{false, -1}
 	return rule
 }
 

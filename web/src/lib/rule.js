@@ -12,7 +12,8 @@ export const initRule = {
     losePoint: { active: false, value: 0, above: false },
     loseBatsu: { active: true, value: 3, above: true },
     specialCorrect: {
-      consBonus: false
+      consBonus: false,
+      survival: { active: false, value: -1 }
     },
     specialWrong: {
       updown: false,
