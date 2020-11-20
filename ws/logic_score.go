@@ -150,10 +150,12 @@ func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 func (ss *ScoreSet) Correct(id int64, rule *Rule, sound *Sound) {
 	ss.SetCorrect(id, rule)
 	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive, rule.Other.PassQuiz)
+	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
 }
 
 func (ss *ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
 	ss.SetWrong(id, rule)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive, rule.Other.PassQuiz)
 	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
 }
 
