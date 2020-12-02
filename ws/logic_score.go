@@ -265,8 +265,8 @@ func (ss *ScoreSet) CalcTeams(teams Teams, playerSS *ScoreSet, rule *Rule, sound
 		}
 	}
 	if sound != nil {
-		sound.Win = sound.Win || ss.SetWin(rule.Team.WinLoseRule, nil, false)
-		sound.Lose = sound.Lose || ss.SetLose(rule.Team.WinLoseRule)
+		sound.Win = ss.SetWin(rule.Team.WinLoseRule, nil, false) || sound.Win
+		sound.Lose = ss.SetLose(rule.Team.WinLoseRule) || sound.Lose
 	}
 }
 
