@@ -16,7 +16,7 @@ services:
     volumes:
       - './ws:/app'
   proxy:
-    image: nginx:1.19.4-alpine
+    image: nginx:1.19.5-alpine
     ports:
       - '8085:8085'
     volumes:
