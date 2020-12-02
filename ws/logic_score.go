@@ -41,7 +41,7 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 		}
 		if rule.Player.SpecialCorrect.Survival.Active {
 			for otherId, otherScore := range ss.Scores {
-				if otherId != id {
+				if otherId != id && otherScore.Win != 0 && otherScore.Lose != 0 {
 					otherScore.Point += rule.Player.SpecialCorrect.Survival.Value
 				}
 			}
