@@ -21,7 +21,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "redux": "^4.0.5",
-    "urijs": "^1.19.2",
+    "urijs": "^1.19.4",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
