@@ -15,7 +15,7 @@ services:
       - './ws/log:/app/log'
     restart: on-failure
   proxy:
-    image: nginx:1.19.5-alpine
+    image: nginx:1.19.6-alpine
     ports:
       - '8085:8085'
     volumes:
