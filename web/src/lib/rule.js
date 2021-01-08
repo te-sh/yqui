@@ -19,7 +19,8 @@ export const initRule = {
       updown: false,
       swedish: false,
       backstream: false,
-      divide: false
+      divide: false,
+      belowLock: false
     },
     comprehensive: {
       active: false,

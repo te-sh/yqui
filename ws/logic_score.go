@@ -126,6 +126,10 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 			score.Point /= score.Batsu
 		}
 		score.Lock = rule.Player.LockWrong
+		if rule.Player.SpecialWrong.BelowLock && score.Point < rule.Player.InitPoint {
+			score.Lock += rule.Player.InitPoint - score.Point
+			score.Point = rule.Player.InitPoint
+		}
 		if rule.Player.SpecialCorrect.ConsBonus {
 			score.ConsCorrect = 0
 		}

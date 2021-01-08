@@ -7,6 +7,7 @@ import UpdownHelp from '../rule-help/UpdownHelp'
 import SwedishHelp from '../rule-help/SwedishHelp'
 import BackstreamHelp from '../rule-help/BackstreamHelp'
 import DivideHelp from '../rule-help/DivideHelp'
+import BelowLockHelp from '../rule-help/BelowLockHelp'
 import WinLoseRule from './WinLoseRule'
 
 const NormalRule = ({ simple, rule }) => {
@@ -47,6 +48,7 @@ const NormalRule = ({ simple, rule }) => {
         {rule.specialWrong.swedish && <> Swedish<SwedishHelp size="small" /></>}
         {rule.specialWrong.backstream && <> Backstream<BackstreamHelp size="small" /></>}
         {rule.specialWrong.divide && <> Divide<DivideHelp size="small" /></>}
+        {rule.specialWrong.belowLock && <> BelowLock<BelowLockHelp size="small" /></>}
         {rule.batsuWrong !== 0 && !rule.specialWrong.swedish && <> {rule.batsuWrong}{batsuText(simple)}</>}
         {rule.lockWrong !== 0 && <> {rule.lockWrong}休</>}
       </>

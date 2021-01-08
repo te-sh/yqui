@@ -32,6 +32,7 @@ type SpecialWrongRule struct {
 	Swedish    bool `json:"swedish"`
 	Backstream bool `json:"backstream"`
 	Divide     bool `json:"divide"`
+	BelowLock  bool `json:"belowLock"`
 }
 
 type ComprehensiveRule struct {

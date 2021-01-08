@@ -7,6 +7,7 @@ import UpdownHelp from '../rule-help/UpdownHelp'
 import SwedishHelp from '../rule-help/SwedishHelp'
 import BackstreamHelp from '../rule-help/BackstreamHelp'
 import DivideHelp from '../rule-help/DivideHelp'
+import BelowLockHelp from '../rule-help/BelowLockHelp'
 
 const SpecialWrongRule = ({ rule, changeRule }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -35,9 +36,14 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
     changeRule(update(rule, { divide: { $set: value } }))
   }
 
+  const changeBelowLock = value => {
+    changeRule(update(rule, { belowLock: { $set: value } }))
+  }
+
   const open = Boolean(anchorEl)
 
-  const noSpecial = !rule.updown && !rule.swedish && !rule.divide
+  const noSpecial = !rule.updown && !rule.swedish && !rule.backstream &&
+                    !rule.divide && !rule.belowLock
 
   return (
     <>
@@ -85,6 +91,15 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
                           onChange={evt => changeDivide(evt.target.checked)} />
               }
               label={<>Divide<DivideHelp /></>} />
+          </FormGroup>
+          <FormGroup className="rule-group">
+            <FormControlLabel
+              control={
+                <Checkbox color="default"
+                          checked={rule.belowLock}
+                          onChange={evt => changeBelowLock(evt.target.checked)} />
+              }
+              label={<>BelowLock<BelowLockHelp /></>} />
           </FormGroup>
         </Box>
       </Popover>
