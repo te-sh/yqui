@@ -18,6 +18,10 @@ type Join struct {
 	Observer bool   `json:"observer"`
 }
 
+type JudgeArg struct {
+	NextQuiz bool `json:"nextQuiz"`
+}
+
 type Chat struct {
 	Type string `json:"type"`
 	Time int64  `json:"time"`

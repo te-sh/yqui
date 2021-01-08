@@ -11,8 +11,8 @@ import { clearEditBoards } from '../../redux/actions'
 import './Actions.scss'
 
 const Master = ({ className, rule, bg, clearEditBoards }) => {
-  const onCorrect = () => { sendWs(SEND_CORRECT) }
-  const onWrong = () => { sendWs(SEND_WRONG) }
+  const onCorrect = nextQuiz => { sendWs(SEND_CORRECT, { nextQuiz }) }
+  const onWrong = nextQuiz => { sendWs(SEND_WRONG, { nextQuiz }) }
 
   const onThrough = () => {
     clearEditBoards()
@@ -41,14 +41,14 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
         if (rule.board.active) {
           onBoardLock()
         } else {
-          onCorrect()
+          onCorrect(!evt.shiftKey)
         }
         break
       case 87: // w
         if (rule.board.active) {
           onOpenAll()
         } else {
-          onWrong()
+          onWrong(!evt.shiftKey)
         }
         break
       case 69: // e
@@ -72,11 +72,11 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
 
   const normalButtons = (
     <>
-      <Button {...buttonAttr} color="primary" onClick={onCorrect}
+      <Button {...buttonAttr} color="primary" onClick={() => onCorrect(true)}
               startIcon={<RadioButtonUnchecked />}>
         正解
       </Button>
-      <Button {...buttonAttr} color="secondary" onClick={onWrong}
+      <Button {...buttonAttr} color="secondary" onClick={() => onWrong(true)}
               startIcon={<Close />}>
         不正解
       </Button>

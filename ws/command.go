@@ -32,13 +32,17 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendButtons()
 		room.SendSound(sound)
 	case "correct":
-		room.Correct(sound)
+		judgeArg := new(JudgeArg)
+		json.Unmarshal(cmd.A, judgeArg)
+		room.Correct(judgeArg, sound)
 		room.SendSG()
 		room.SendButtons()
 		sound.Correct = true
 		room.SendSound(sound)
 	case "wrong":
-		room.Wrong(sound)
+		judgeArg := new(JudgeArg)
+		json.Unmarshal(cmd.A, judgeArg)
+		room.Wrong(judgeArg, sound)
 		room.SendSG()
 		room.SendButtons()
 		sound.Wrong = true

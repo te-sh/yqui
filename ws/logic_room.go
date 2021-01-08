@@ -103,7 +103,7 @@ func (room *Room) PushButton(id int64, time int64, sound *Sound) {
 	}
 }
 
-func (room *Room) Correct(sound *Sound) {
+func (room *Room) Correct(judgeArg *JudgeArg, sound *Sound) {
 	sg, buttons, rule := room.SG, room.Buttons, room.Rule
 	id, err := buttons.RightPlayer()
 	if err != nil {
@@ -114,7 +114,11 @@ func (room *Room) Correct(sound *Sound) {
 	sg.Player.Correct(id, rule, sound)
 	sg.Team.CalcTeams(room.Teams, sg.Player, rule, sound)
 
-	room.NextQuiz()
+	if judgeArg.NextQuiz {
+		room.NextQuiz()
+	} else {
+		room.History.Add(sg, buttons)
+	}
 }
 
 func (room *Room) NumCanAnswer() int {
@@ -144,7 +148,7 @@ func (room *Room) NoCanAnswer() bool {
 	return len(room.Buttons.Answerers) >= room.Rule.RightNum || room.NumCanAnswer() == 0
 }
 
-func (room *Room) Wrong(sound *Sound) {
+func (room *Room) Wrong(judgeArg *JudgeArg, sound *Sound) {
 	sg, buttons, rule := room.SG, room.Buttons, room.Rule
 	id, err := buttons.RightPlayer()
 	if err != nil {
@@ -155,11 +159,15 @@ func (room *Room) Wrong(sound *Sound) {
 	sg.Player.Wrong(id, rule, sound)
 	sg.Team.CalcTeams(room.Teams, sg.Player, rule, sound)
 
-	buttons.Answer(id)
-	if room.NoCanAnswer() {
-		room.NextQuiz()
+	if judgeArg.NextQuiz {
+		buttons.Answer(id)
+		if room.NoCanAnswer() {
+			room.NextQuiz()
+		} else {
+			room.History.NeedSave = true
+		}
 	} else {
-		room.History.NeedSave = true
+		room.History.Add(sg, buttons)
 	}
 }
 
