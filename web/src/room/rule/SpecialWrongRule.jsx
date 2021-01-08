@@ -5,6 +5,7 @@ import {
 import update from 'immutability-helper'
 import UpdownHelp from '../rule-help/UpdownHelp'
 import SwedishHelp from '../rule-help/SwedishHelp'
+import BackstreamHelp from '../rule-help/BackstreamHelp'
 import DivideHelp from '../rule-help/DivideHelp'
 
 const SpecialWrongRule = ({ rule, changeRule }) => {
@@ -24,6 +25,10 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
 
   const changeSwedish = value => {
     changeRule(update(rule, { swedish: { $set: value } }))
+  }
+
+  const changeBackstream = value => {
+    changeRule(update(rule, { backstream: { $set: value } }))
   }
 
   const changeDivide = value => {
@@ -62,6 +67,15 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
                           onChange={evt => changeSwedish(evt.target.checked)} />
               }
               label={<>Swedish<SwedishHelp /></>} />
+          </FormGroup>
+          <FormGroup className="rule-group">
+            <FormControlLabel
+              control={
+                <Checkbox color="default"
+                          checked={rule.backstream}
+                          onChange={evt => changeBackstream(evt.target.checked)} />
+              }
+              label={<>Backstream<BackstreamHelp /></>} />
           </FormGroup>
           <FormGroup className="rule-group">
             <FormControlLabel

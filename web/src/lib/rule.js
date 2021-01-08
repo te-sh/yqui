@@ -18,6 +18,7 @@ export const initRule = {
     specialWrong: {
       updown: false,
       swedish: false,
+      backstream: false,
       divide: false
     },
     comprehensive: {

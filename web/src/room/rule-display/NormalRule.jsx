@@ -5,6 +5,7 @@ import ConsBonusHelp from '../rule-help/ConsBonusHelp'
 import SurvivalHelp from '../rule-help/SurvivalHelp'
 import UpdownHelp from '../rule-help/UpdownHelp'
 import SwedishHelp from '../rule-help/SwedishHelp'
+import BackstreamHelp from '../rule-help/BackstreamHelp'
 import DivideHelp from '../rule-help/DivideHelp'
 import WinLoseRule from './WinLoseRule'
 
@@ -44,6 +45,7 @@ const NormalRule = ({ simple, rule }) => {
         {rule.specialWrong.updown && <> アップダウン<UpdownHelp size="small" /></>}
         {rule.pointWrong !== 0 && !rule.specialWrong.updown && <> {rule.pointWrong}{pointText(simple)}</>}
         {rule.specialWrong.swedish && <> Swedish<SwedishHelp size="small" /></>}
+        {rule.specialWrong.backstream && <> Backstream<BackstreamHelp size="small" /></>}
         {rule.specialWrong.divide && <> Divide<DivideHelp size="small" /></>}
         {rule.batsuWrong !== 0 && !rule.specialWrong.swedish && <> {rule.batsuWrong}{batsuText(simple)}</>}
         {rule.lockWrong !== 0 && <> {rule.lockWrong}休</>}
@@ -52,8 +54,8 @@ const NormalRule = ({ simple, rule }) => {
 
     const comp = rule => (
       <>
-      総合ポイント
-      {rule.comprehensive.calc === 'mul' && <> {pointText(simple)}と{batsuText(simple)}の積</>}
+        総合ポイント
+        {rule.comprehensive.calc === 'mul' && <> {pointText(simple)}と{batsuText(simple)}の積</>}
         {rule.comprehensive.calc === 'sub' && <> {pointText(simple)}と{batsuText(simple)}の差</>}
       </>
     )

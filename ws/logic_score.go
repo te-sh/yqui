@@ -119,6 +119,9 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 		} else {
 			score.Batsu += rule.Player.BatsuWrong
 		}
+		if rule.Player.SpecialWrong.Backstream {
+			score.Point -= score.Batsu
+		}
 		if rule.Player.SpecialWrong.Divide && score.Batsu != 0 {
 			score.Point /= score.Batsu
 		}
