@@ -1,4 +1,8 @@
 .setting {
+  .form-group:not(:first-child) {
+    margin-top: 15px;
+  }
+
   .MuiSlider-root {
     margin-left: 10%;
     width: 80%;

@@ -4,22 +4,31 @@ import {
   Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
   FormControl, FormControlLabel, FormGroup, FormLabel, Slider
 } from '@material-ui/core'
+import { GithubPicker } from 'react-color'
 import update from 'immutability-helper'
+import { initUser } from '../../lib/user'
 import { sendWs, SEND_USER } from '../../lib/send'
 import { setOpenSetting } from '../../redux/actions'
 import './Setting.scss'
 
+const COLORS = ['#FFFFFF', '#FF0000', '#0070C0', '#FFFF00', '#00B050', '#7030A0', '#808080']
+
 const Setting = ({ user, open, setOpen }) => {
-  const [chatAnswer, setChatAnswer] = React.useState(false)
+  const [chatAnswer, setChatAnswer] = React.useState(initUser.chatAnswer)
+  const [borderColor, setBorderColor] = React.useState(initUser.borderColor)
   const [volume, setVolume] = React.useState(0)
 
   const onEnter = () => {
     setChatAnswer(user.chatAnswer)
+    setBorderColor(user.borderColor)
     setVolume(parseInt(localStorage.getItem('volume') || '100'))
   }
 
   const submit = evt => {
-    sendWs(SEND_USER, update(user, { chatAnswer: { $set: chatAnswer } }))
+    sendWs(SEND_USER, update(user, {
+      chatAnswer: { $set: chatAnswer },
+      borderColor: { $set: borderColor }
+    }))
     localStorage.setItem('volume', volume)
     setOpen(false)
     evt.preventDefault()
@@ -35,7 +44,7 @@ const Setting = ({ user, open, setOpen }) => {
       <form onSubmit={submit}>
         <DialogTitle id="form-dialog-title">設定</DialogTitle>
         <DialogContent className="setting">
-          <FormGroup>
+          <FormGroup className="form-group">
             <FormControl>
               <FormControlLabel
                 control={
@@ -46,11 +55,19 @@ const Setting = ({ user, open, setOpen }) => {
                 label="チャット解答マーク" />
             </FormControl>
           </FormGroup>
-          <FormGroup>
+          <FormGroup className="form-group">
             <FormControl>
-              <FormLabel>
-                音量
-              </FormLabel>
+              <FormLabel>枠の色</FormLabel>
+              <GithubPicker width="175"
+                            colors={COLORS}
+                            triangle="hide"
+                            color={borderColor}
+                            onChange={color => setBorderColor(color.hex)} />
+            </FormControl>
+          </FormGroup>
+          <FormGroup className="form-group">
+            <FormControl>
+              <FormLabel>音量</FormLabel>
               <Slider min={0} max={100}
                       valueLabelDisplay="auto"
                       marks={[{ value: 0, label: '0%' }, { value: 100, label: '100%' }]}
