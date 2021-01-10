@@ -12,7 +12,8 @@ const PlayerName = ({ player, myTurn, selfID, users }) => {
 
   return (
     <Box className="player-name">
-      <Box className={nameClass}>
+      <Box className={nameClass}
+           style={{ borderColor: user.borderColor }}>
         <Typography className={nameMainClass}>
           <span className="chat-mark">
             {user.chatAnswer ? '©' : ''}

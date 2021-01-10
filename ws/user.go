@@ -3,12 +3,13 @@ package main
 type Users map[int64]*User
 
 type User struct {
-	ID         int64  `json:"id"`
-	Conn       *Conn  `json:"-"`
-	Team       *Team  `json:"-"`
-	IsMaster   bool   `json:"isMaster"`
-	Name       string `json:"name"`
-	ChatAnswer bool   `json:"chatAnswer"`
+	ID          int64  `json:"id"`
+	Conn        *Conn  `json:"-"`
+	Team        *Team  `json:"-"`
+	IsMaster    bool   `json:"isMaster"`
+	Name        string `json:"name"`
+	ChatAnswer  bool   `json:"chatAnswer"`
+	BorderColor string `json:"borderColor"`
 }
 
 type Teams []*Team
@@ -26,6 +27,7 @@ func NewUser(id int64, conn *Conn, name string) *User {
 	user.IsMaster = false
 	user.Name = name
 	user.ChatAnswer = false
+	user.BorderColor = "#ffffff"
 	return user
 }
 
@@ -38,6 +40,7 @@ func NewTeam() *Team {
 func (users Users) Update(user *User) {
 	if target, ok := users[user.ID]; ok {
 		target.ChatAnswer = user.ChatAnswer
+		target.BorderColor = user.BorderColor
 	}
 }
 

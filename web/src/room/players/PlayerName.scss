@@ -6,6 +6,8 @@
   .player-name-content {
     display: flex;
     justify-content: center;
+    border-width: 2px;
+    border-style: solid;
 
     &.my-turn {
       background-color: #ffab91;
