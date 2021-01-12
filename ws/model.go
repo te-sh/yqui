@@ -13,9 +13,11 @@ type Cmd struct {
 }
 
 type Join struct {
-	RoomNo   int    `json:"roomNo"`
-	Name     string `json:"name"`
-	Observer bool   `json:"observer"`
+	RoomNo      int    `json:"roomNo"`
+	Name        string `json:"name"`
+	Observer    bool   `json:"observer"`
+	ChatAnswer  bool   `json:"chatAnswer"`
+	BorderColor string `json:"borderColor"`
 }
 
 type JudgeArg struct {

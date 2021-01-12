@@ -6,6 +6,8 @@ func (room *Room) JoinUser(id int64, conn *Conn, join Join, time int64) {
 	}
 
 	user := NewUser(id, conn, join.Name)
+	user.ChatAnswer = join.ChatAnswer
+	user.BorderColor = join.BorderColor
 	room.Users[id] = user
 	if !join.Observer {
 		room.Teams.AddPlayer(user)

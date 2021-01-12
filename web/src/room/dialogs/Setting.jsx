@@ -6,12 +6,10 @@ import {
 } from '@material-ui/core'
 import { GithubPicker } from 'react-color'
 import update from 'immutability-helper'
-import { initUser } from '../../lib/user'
+import { COLORS, initUser } from '../../lib/user'
 import { sendWs, SEND_USER } from '../../lib/send'
 import { setOpenSetting } from '../../redux/actions'
 import './Setting.scss'
-
-const COLORS = ['#ffffff', '#ff0000', '#0070c0', '#ffff00', '#00B050', '#7030a0', '#808080']
 
 const Setting = ({ user, open, setOpen }) => {
   const [chatAnswer, setChatAnswer] = React.useState(initUser.chatAnswer)
@@ -19,8 +17,8 @@ const Setting = ({ user, open, setOpen }) => {
   const [volume, setVolume] = React.useState(0)
 
   const onEnter = () => {
-    setChatAnswer(user.chatAnswer === '#ff000000' ? '#ffffff' : user.chatAnswer)
-    setBorderColor(user.borderColor)
+    setChatAnswer(user.chatAnswer)
+    setBorderColor(user.borderColor === '#ff000000' ? '#ffffff' : user.borderColor)
     setVolume(parseInt(localStorage.getItem('volume') || '100'))
   }
 

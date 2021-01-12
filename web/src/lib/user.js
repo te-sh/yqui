@@ -1,5 +1,7 @@
 import { toIntMap } from './util'
 
+export const COLORS = ['#ffffff', '#ff0000', '#0070c0', '#ffff00', '#00B050', '#7030a0', '#808080']
+
 export const initUsers = new Map()
 
 export const initUser = {
