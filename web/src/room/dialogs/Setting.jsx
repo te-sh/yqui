@@ -11,7 +11,7 @@ import { sendWs, SEND_USER } from '../../lib/send'
 import { setOpenSetting } from '../../redux/actions'
 import './Setting.scss'
 
-const COLORS = ['#FFFFFF', '#FF0000', '#0070C0', '#FFFF00', '#00B050', '#7030A0', '#808080']
+const COLORS = ['#ffffff', '#ff0000', '#0070c0', '#ffff00', '#00B050', '#7030a0', '#808080']
 
 const Setting = ({ user, open, setOpen }) => {
   const [chatAnswer, setChatAnswer] = React.useState(initUser.chatAnswer)
@@ -26,7 +26,7 @@ const Setting = ({ user, open, setOpen }) => {
   }
 
   const onEnter = () => {
-    setChatAnswer(user.chatAnswer)
+    setChatAnswer(user.chatAnswer === '#ff000000' ? '#ffffff' : user.chatAnswer)
     setBorderColor(user.borderColor)
     setVolume(parseInt(localStorage.getItem('volume') || '100'))
   }

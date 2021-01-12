@@ -7,7 +7,7 @@ export const initUser = {
   isMaster: false,
   name: '',
   chatAnswer: false,
-  borderColor: '#ffffff'
+  borderColor: '#ff000000'
 }
 
 export const usersFromJson = json => toIntMap(json)
