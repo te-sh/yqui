@@ -18,13 +18,6 @@ const Setting = ({ user, open, setOpen }) => {
   const [borderColor, setBorderColor] = React.useState(initUser.borderColor)
   const [volume, setVolume] = React.useState(0)
 
-  const changeBorderColor = color => {
-    if (color.hex === '#ffffff')
-      setBorderColor('#ff000000')
-    else
-      setBorderColor(color.hex)
-  }
-
   const onEnter = () => {
     setChatAnswer(user.chatAnswer === '#ff000000' ? '#ffffff' : user.chatAnswer)
     setBorderColor(user.borderColor)
@@ -34,7 +27,7 @@ const Setting = ({ user, open, setOpen }) => {
   const submit = evt => {
     sendWs(SEND_USER, update(user, {
       chatAnswer: { $set: chatAnswer },
-      borderColor: { $set: borderColor }
+      borderColor: { $set: borderColor === '#ffffff' ? '#ff000000' : borderColor }
     }))
     localStorage.setItem('volume', volume)
     setOpen(false)
@@ -69,7 +62,7 @@ const Setting = ({ user, open, setOpen }) => {
                             colors={COLORS}
                             triangle="hide"
                             color={borderColor}
-                            onChange={changeBorderColor} />
+                            onChange={color => setBorderColor(color.hex)} />
             </FormControl>
           </FormGroup>
           <FormGroup className="form-group">
