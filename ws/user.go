@@ -27,7 +27,7 @@ func NewUser(id int64, conn *Conn, name string) *User {
 	user.IsMaster = false
 	user.Name = name
 	user.ChatAnswer = false
-	user.BorderColor = "#ffffff"
+	user.BorderColor = "#ff000000"
 	return user
 }
 

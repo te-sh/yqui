@@ -18,6 +18,13 @@ const Setting = ({ user, open, setOpen }) => {
   const [borderColor, setBorderColor] = React.useState(initUser.borderColor)
   const [volume, setVolume] = React.useState(0)
 
+  const changeBorderColor = color => {
+    if (color.hex === '#ffffff')
+      setBorderColor('#ff000000')
+    else
+      setBorderColor(color.hex)
+  }
+
   const onEnter = () => {
     setChatAnswer(user.chatAnswer)
     setBorderColor(user.borderColor)
@@ -62,7 +69,7 @@ const Setting = ({ user, open, setOpen }) => {
                             colors={COLORS}
                             triangle="hide"
                             color={borderColor}
-                            onChange={color => setBorderColor(color.hex)} />
+                            onChange={changeBorderColor} />
             </FormControl>
           </FormGroup>
           <FormGroup className="form-group">
