@@ -10,9 +10,12 @@ import (
 
 type Conns map[int64]*Conn
 
-const numRooms = 5
+const numRooms = 16
 
-var rooms = [numRooms]*Room{NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom()}
+var rooms = [numRooms]*Room{
+	NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom(),
+	NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom(), NewRoom(),
+}
 var id2room = make(map[int64]*Room)
 var id2conn = make(Conns)
 var Received = make(chan Cmd)
