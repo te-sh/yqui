@@ -1,6 +1,6 @@
 import { toIntMap } from './util'
 
-export const COLORS = ['#ffffff', '#d50000', '#2979ff', '#f9a825', '#00c853', '#ffd600', '#651fff', '#9e9e9e']
+export const COLORS = ['#ffffff', '#d50000', '#2979ff', '#ffd600', '#00c853', '#ff6d00', '#651fff', '#9e9e9e']
 
 export const initUsers = new Map()
 
