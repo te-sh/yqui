@@ -1,4 +1,4 @@
-FROM node:14.15.4-buster-slim
+FROM node:12.20.1-slim
 
 RUN apt-get update \
     && apt-get install -y wget gnupg \

@@ -1,0 +1,3 @@
+{
+  "testMatch": ["/home/node/test/src/**/*.js"]
+}

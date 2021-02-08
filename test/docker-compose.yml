@@ -7,4 +7,4 @@ services:
       - "./:/home/node/test"
     cap_add:
       - SYS_ADMIN
-    command: "mocha --recursive /home/node/src"
+    command: ["yarn", "test"]
