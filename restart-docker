@@ -1,15 +1,13 @@
 git pull
 
+docker-compose --file docker-compose.prod.yml build
+
 export COMPOSE_PROJECT_NAME=yqui
-export PORT=8085
-docker-compose -f docker-compose.prod.yml build
 docker-compose down
-docker-compose --file docker-compose.prod.yml up -d
+PORT=8085 docker-compose --file docker-compose.prod.yml up -d
 
 export COMPOSE_PROJECT_NAME=test
-export PORT=8800
-docker-compose -f docker-compose.prod.yml build
-COMPOSE_PROJECT_NAME=test docker-compose down
-docker-compose --file docker-compose.prod.yml up -d
+docker-compose down
+PORT=8800 docker-compose --file docker-compose.prod.yml up -d
 
 docker system prune --volumes --force

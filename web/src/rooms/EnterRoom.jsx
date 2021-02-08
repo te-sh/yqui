@@ -22,13 +22,15 @@ const EnterRoom = ({ open, close, submit }) => {
   }
 
   return (
-    <Dialog open={open} aria-labelledby="form-dialog-title">
+    <Dialog className="enter-room-dialog" open={open}
+            aria-labelledby="form-dialog-title">
       <form onSubmit={onSubmit}>
         <DialogTitle id="form-dialog-title">入室</DialogTitle>
         <DialogContent className="enter-room">
           <FormGroup className="form-group">
             <FormControl>
               <TextField id="name" label="ハンドル"
+                         className="name"
                          inputProps={{maxLength: 9}}
                          value={name}
                          onChange={evt => setName(evt.target.value)} />
@@ -38,7 +40,7 @@ const EnterRoom = ({ open, close, submit }) => {
             <FormControl>
               <FormControlLabel
                 control={
-                  <Checkbox color="default"
+                  <Checkbox color="default" className="observe"
                             checked={observer}
                             onChange={evt => setObserver(evt.target.checked)} />
                 }
@@ -49,7 +51,7 @@ const EnterRoom = ({ open, close, submit }) => {
             <FormControl>
               <FormControlLabel
                 control={
-                  <Checkbox color="default"
+                  <Checkbox color="default" className="chat-answer"
                             checked={chatAnswer}
                             onChange={evt => setChatAnswer(evt.target.checked)} />
                 }
@@ -68,10 +70,11 @@ const EnterRoom = ({ open, close, submit }) => {
           </FormGroup>
         </DialogContent>
         <DialogActions>
-          <Button type="submit" color="primary" disabled={name.length === 0}>
+          <Button type="submit" className="submit" color="primary"
+                  disabled={name.length === 0}>
             入室
           </Button>
-          <Button color="secondary" onClick={close}>
+          <Button className="close" color="secondary" onClick={close}>
             キャンセル
           </Button>
         </DialogActions>

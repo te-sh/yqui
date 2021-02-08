@@ -8,10 +8,10 @@ const Topbar = ({ className, roomNo }) => {
   return (
     <AppBar position="static" className={className}>
       <Toolbar>
-        <Typography variant="h6">
+        <Typography variant="h6" className="app-name">
           Yqui
         </Typography>
-        <Typography className="room-no">
+        <Typography className="room-name">
           Room {roomNo + 1}
         </Typography>
         <div className="toolbar-grow" />

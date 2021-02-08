@@ -18,7 +18,7 @@ const Leave = ({ open, setOpen, reset }) => {
   }
 
   return (
-    <Dialog open={open}
+    <Dialog className="leave-room-dialog" open={open}
             aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">退室</DialogTitle>
       <DialogContent>
@@ -27,10 +27,10 @@ const Leave = ({ open, setOpen, reset }) => {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button color="primary" onClick={ok}>
+        <Button className="submit" color="primary" onClick={ok}>
           はい
         </Button>
-        <Button color="secondary" onClick={cancel}>
+        <Button className="close" color="secondary" onClick={cancel}>
           いいえ
         </Button>
       </DialogActions>

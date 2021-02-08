@@ -16,7 +16,7 @@ const Help = ({ open, setOpen }) => {
   }
 
   return (
-    <Dialog open={open}
+    <Dialog className="help-dialog" open={open}
             aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">ヘルプ</DialogTitle>
       <DialogContent className="help">
@@ -103,7 +103,7 @@ const Help = ({ open, setOpen }) => {
         </TabPanel>
       </DialogContent>
       <DialogActions>
-        <Button color="secondary" onClick={close}>
+        <Button className="close" color="secondary" onClick={close}>
           閉じる
         </Button>
       </DialogActions>

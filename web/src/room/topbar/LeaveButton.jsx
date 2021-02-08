@@ -16,7 +16,8 @@ const LeaveButton = ({ mobile, setOpen }) => {
       <Box>
         <Tooltip title="退室">
           <span>
-            <IconButton color="inherit" onClick={open}>
+            <IconButton className="leave-room-button"
+                        color="inherit" onClick={open}>
               <Close />
             </IconButton>
           </span>

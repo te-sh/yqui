@@ -16,7 +16,8 @@ const HelpButton = ({ mobile, setOpen }) => {
       <Box>
         <Tooltip title="ヘルプ">
           <span>
-            <IconButton color="inherit" onClick={open}>
+            <IconButton className="open-help-button"
+                        color="inherit" onClick={open}>
               <HelpOutline />
             </IconButton>
           </span>

@@ -18,7 +18,8 @@ const MasterButton = ({ mobile, user, master, editTeams }) => {
       <Box>
         <Tooltip title="司会">
           <span>
-            <IconButton color={user.isMaster ? 'secondary' : 'inherit'}
+            <IconButton className="toggle-master-button"
+                        color={user.isMaster ? 'secondary' : 'inherit'}
                         disabled={disabled} onClick={onToggleMaster}>
               <Portrait />
             </IconButton>

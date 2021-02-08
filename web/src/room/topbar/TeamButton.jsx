@@ -14,7 +14,8 @@ const TeamButton = ({ mobile, user, rule, editTeams }) => {
       <Box>
         <Tooltip title="チーム">
           <span>
-            <IconButton color="inherit"
+            <IconButton className="toggle-team-button"
+                        color="inherit"
                         disabled={disabled} onClick={beginEditTeams}>
               <SupervisorAccount />
             </IconButton>

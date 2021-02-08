@@ -19,7 +19,7 @@ services:
   proxy:
     image: nginx:1.19.6-alpine
     ports:
-      - $PORT:8080
+      - ${PORT:-8085}:8080
     volumes:
       - ./proxy/proxy.prod.conf:/etc/nginx/conf.d/proxy.conf:ro
     depends_on:

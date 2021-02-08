@@ -57,7 +57,7 @@ const Rule = ({ rule, open, setOpen }) => {
   }
 
   return (
-    <Dialog open={open} onEnter={() => setRule(rule)}
+    <Dialog className="rule-dialog" open={open} onEnter={() => setRule(rule)}
             aria-labelledby="form-dialog-title">
       <form onSubmit={submit}>
         <DialogTitle id="form-dialog-title">ルール</DialogTitle>
@@ -91,13 +91,13 @@ const Rule = ({ rule, open, setOpen }) => {
           </TabPanel>
         </DialogContent>
         <DialogActions>
-          <Button type="submit" color="primary">
+          <Button type="submit" className="submit" color="primary">
             設定
           </Button>
-          <Button color="default" onClick={() => setRule(initRule)}>
+          <Button className="reset" color="default" onClick={() => setRule(initRule)}>
             リセット
           </Button>
-          <Button color="secondary" onClick={cancel}>
+          <Button className="close" color="secondary" onClick={cancel}>
             閉じる
           </Button>
         </DialogActions>

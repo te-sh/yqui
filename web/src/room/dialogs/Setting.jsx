@@ -37,7 +37,7 @@ const Setting = ({ user, open, setOpen }) => {
   }
 
   return (
-    <Dialog open={open} onEnter={onEnter}
+    <Dialog className="setting-dialog" open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
       <form onSubmit={submit}>
         <DialogTitle id="form-dialog-title">設定</DialogTitle>
@@ -74,10 +74,10 @@ const Setting = ({ user, open, setOpen }) => {
           </FormGroup>
         </DialogContent>
         <DialogActions>
-          <Button type="submit" color="primary">
+          <Button type="submit" className="submit" color="primary">
             設定
           </Button>
-          <Button color="secondary" onClick={cancel}>
+          <Button className="close" color="secondary" onClick={cancel}>
             閉じる
           </Button>
         </DialogActions>
