@@ -10,8 +10,9 @@ import (
 
 func LogInit() {
 	if os.Getenv("YQUI_ENV") == "prod" {
+		project_name := os.Getenv("COMPOSE_PROJECT_NAME")
 		log.SetOutput(&lumberjack.Logger{
-			Filename:   "./log/yqui.log",
+			Filename:   "./log/" + project_name + ".log",
 			MaxSize:    10,
 			MaxBackups: 10,
 			Compress:   true,

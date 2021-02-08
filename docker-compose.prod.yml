@@ -13,6 +13,8 @@ services:
     image: te-sh/yqui-ws-prod
     volumes:
       - './ws/log:/app/log'
+    environment:
+      - COMPOSE_PROJECT_NAME
     restart: on-failure
   proxy:
     image: nginx:1.19.6-alpine

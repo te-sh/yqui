@@ -42,7 +42,7 @@ const Rooms = ({ history, rooms, roomNo }) => {
       <Topbar />
       <Box>
         <TableContainer component={Paper}>
-          <Table>
+          <Table className="rooms-table">
             <RoomsHead />
             <RoomsBody rooms={rooms} click={openEnterRoom} />
           </Table>
