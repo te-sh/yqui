@@ -1,6 +1,11 @@
 FROM node:14.15.4-alpine3.12
 
-WORKDIR /app
+USER node
+ENV HOME /home/node
+
+ENV APPDIR $HOME/app
+RUN mkdir -p $APPDIR
+WORKDIR $APPDIR
 
 ADD package.json yarn.lock ./
 RUN yarn install \
