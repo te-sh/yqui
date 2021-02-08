@@ -12,7 +12,7 @@ services:
       dockerfile: './Dockerfile.prod'
     image: te-sh/yqui-ws-prod
     volumes:
-      - './ws/log:/app/log'
+      - './ws/log:/home/yqui/app/log'
     environment:
       - COMPOSE_PROJECT_NAME
     restart: on-failure

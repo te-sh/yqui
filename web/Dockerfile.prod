@@ -1,11 +1,6 @@
 FROM node:14.15.4-alpine3.12 AS builder
 
-USER node
-ENV HOME /home/node
-
-ENV APPDIR $HOME/app
-RUN mkdir -p $APPDIR
-WORKDIR $APPDIR
+WORKDIR /app
 
 ADD . ./
 RUN yarn install \
@@ -13,6 +8,10 @@ RUN yarn install \
 
 FROM node:14.15.4-alpine3.12
 
+RUN apk update \
+ && apk upgrade \
+ && rm -rf /var/cache/apk/*
+
 USER node
 ENV HOME /home/node
 
@@ -20,12 +19,9 @@ ENV APPDIR $HOME/app
 RUN mkdir -p $APPDIR
 WORKDIR $APPDIR
 
-RUN apk update \
- && apk upgrade \
- && rm -rf /var/cache/apk/* \
- && yarn global add serve \
+RUN yarn add serve \
  && yarn cache clean
 
-COPY --from=builder $APPDIR/build ./build
+COPY --from=builder --chown=node:node /app/build ./build
 
-CMD ["serve", "-s", "build"]
+CMD ["yarn", "run", "serve", "-s", "build"]
