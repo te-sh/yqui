@@ -1,8 +1,10 @@
 version: '3'
+
 services:
   test:
     build:
       context: .
+    image: tesh/yqui-e2e-test
     volumes:
       - "./:/home/node/test"
     cap_add:
