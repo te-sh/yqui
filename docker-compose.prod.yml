@@ -5,12 +5,12 @@ services:
     build:
       context: './web'
       dockerfile: './Dockerfile.prod'
-    image: te-sh/yqui-web-prod
+    image: tesh/yqui-web
   ws:
     build:
       context: './ws'
       dockerfile: './Dockerfile.prod'
-    image: te-sh/yqui-ws-prod
+    image: tesh/yqui-ws
     volumes:
       - './ws/log:/home/yqui/app/log'
     environment:
