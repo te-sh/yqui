@@ -9,6 +9,7 @@ import (
 const PingInterval = 30
 
 type Conn struct {
+	Id      int64
 	Ws      *websocket.Conn
 	Cmd     chan Cmd
 	Message chan Message
@@ -20,8 +21,9 @@ type Message struct {
 	Content interface{} `json:"content"`
 }
 
-func NewConn(ws *websocket.Conn) *Conn {
+func NewConn(ws *websocket.Conn, id int64) *Conn {
 	conn := new(Conn)
+	conn.Id = id
 	conn.Ws = ws
 	conn.Cmd = make(chan Cmd)
 	conn.Message = make(chan Message)
@@ -36,7 +38,7 @@ func (conn *Conn) ActivateReader() error {
 	for {
 		err := conn.Ws.ReadJSON(&cmd)
 		if err != nil {
-			LogWrite("err", "read ws", err)
+			LogError("read ws", err, conn.Id)
 			conn.Close <- 0
 			return nil
 		}
@@ -55,14 +57,14 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 		case message := <-conn.Message:
 			err := conn.Ws.WriteJSON(message)
 			if err != nil {
-				LogWrite("err", "write ws", err)
+				LogError("write ws", err, conn.Id)
 				conn.Close <- 0
 				return err
 			}
 		case <-ticker.C:
 			err := conn.Ws.WriteMessage(websocket.PingMessage, []byte{})
 			if err != nil {
-				LogWrite("err", "ping ws", err)
+				LogError("ping ws", err, conn.Id)
 				conn.Close <- 0
 				return err
 			}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"os"
@@ -32,10 +33,14 @@ func LogWrite(act string, typ string, message interface{}) {
 	log.Println(act, ":", typ, ":", message);
 }
 
+func LogError(typ string, err error, id int64) {
+	LogWrite("err", typ, fmt.Sprintf("%s (id = %d)", err.Error(), id))
+}
+
 func LogJson(act string, typ string, o interface{}) {
 	if text, err := json.Marshal(o); err == nil {
 		LogWrite(act, typ, string(text))
 	} else {
-		LogWrite("err", "JSON marshal", err)
+		LogError("JSON marshal", err, -1)
 	}
 }

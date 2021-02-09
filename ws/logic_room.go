@@ -1,8 +1,10 @@
 package main
 
+import "errors"
+
 func (room *Room) JoinUser(id int64, conn *Conn, join Join, time int64) {
 	if _, ok := room.Users[id]; ok {
-		LogWrite("err", "duplicated id", id)
+		LogError("join user", errors.New("duplicated id"), id)
 		return
 	}
 
