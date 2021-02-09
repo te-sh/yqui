@@ -5,7 +5,7 @@ func (room *Room) SendRoom() {
 	if !room.Rule.Board.Active {
 		roomLog.BG = nil
 	}
-	LogJson("room", roomLog)
+	LogJson("write", "room", roomLog)
 	for id, user := range room.Users {
 		newRoom := room.Clone()
 		if room.Rule.Board.Active {
@@ -28,7 +28,7 @@ func (room *Room) HideBG(bg *BoardGroup, user *User) {
 
 func (room *Room) SendBG() {
 	if room.Rule.Board.Active {
-		LogJson("bg", room.BG)
+		LogJson("write", "bg", room.BG)
 		for id, user := range room.Users {
 			newBG := room.BG.Clone()
 			room.HideBG(newBG, user)
@@ -39,7 +39,7 @@ func (room *Room) SendBG() {
 
 func (room *Room) SendBoard(id int64) {
 	if board, ok := room.BG.Boards[id]; ok {
-		LogJson("board", board)
+		LogJson("write", "board", board)
 		if board.Open {
 			room.Broadcast("board", board)
 		} else {
@@ -50,7 +50,7 @@ func (room *Room) SendBoard(id int64) {
 }
 
 func (room *Room) SendButtons() {
-	LogJson("buttons", room.Buttons)
+	LogJson("write", "buttons", room.Buttons)
 	room.Broadcast("buttons", room.Buttons)
 }
 
@@ -61,7 +61,7 @@ func (room *Room) HideSG(sg *ScoreGroup, user *User) {
 }
 
 func (room *Room) SendSG() {
-	LogJson("sg", room.SG)
+	LogJson("write", "sg", room.SG)
 	for id, user := range room.Users {
 		newSG := room.SG.Clone()
 		room.HideSG(newSG, user)
@@ -70,19 +70,19 @@ func (room *Room) SendSG() {
 }
 
 func (room *Room) SendTimer() {
-	LogJson("timer", room.Timer)
+	LogJson("write", "timer", room.Timer)
 	room.Broadcast("timer", room.Timer)
 }
 
 func (room *Room) SendChat(chat Chat) {
-	LogJson("chat", chat)
+	LogJson("write", "chat", chat)
 	room.Broadcast("chat", chat)
 }
 
 func (room *Room) SendSound(sound *Sound) {
 	sounds := sound.MakeSounds()
 	if sounds != "" {
-		LogJson("sounds", sounds)
+		LogJson("write", "sounds", sounds)
 		room.Broadcast("sound", sounds)
 	}
 }

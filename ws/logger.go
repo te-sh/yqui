@@ -28,10 +28,14 @@ func LogPanic() {
 	}
 }
 
-func LogJson(typ string, o interface{}) {
+func LogWrite(act string, typ string, message interface{}) {
+	log.Println(act, ":", typ, ":", message);
+}
+
+func LogJson(act string, typ string, o interface{}) {
 	if text, err := json.Marshal(o); err == nil {
-		log.Println(typ, ":", string(text))
+		LogWrite(act, typ, string(text))
 	} else {
-		log.Println("JSON marshal error: ", err)
+		LogWrite("err", "JSON marshal", err)
 	}
 }

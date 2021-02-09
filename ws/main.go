@@ -29,15 +29,22 @@ var upgrader = websocket.Upgrader{
 func JoinUser(id int64, conn *Conn, cmd Cmd) {
 	var join Join
 	json.Unmarshal(cmd.A, &join)
-	if 0 <= join.RoomNo && join.RoomNo < len(rooms) {
-		if room := rooms[join.RoomNo]; room != nil {
-			id2room[id] = room
-			room.JoinUser(id, conn, join, NowMilliSec())
-			room.SendRoom()
-			conn.SendJoined(join.RoomNo)
-			id2conn.SendRooms(rooms)
-		}
+	if join.RoomNo < 0 || join.RoomNo >= len(rooms) {
+		LogWrite("err", "join user", "roon No is invalid")
+		return
 	}
+
+	room := rooms[join.RoomNo]
+	if room == nil {
+		LogWrite("err", "join user", "room does not exist")
+		return
+	}
+
+	id2room[id] = room
+	room.JoinUser(id, conn, join, NowMilliSec())
+	room.SendRoom()
+	conn.SendJoined(join.RoomNo)
+	id2conn.SendRooms(rooms)
 }
 
 func LeaveUser(id int64) {
@@ -54,7 +61,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println("err upgrade: ", err)
+		log.Println("err", "upgrade", err)
 		return
 	}
 	defer c.Close()
@@ -72,7 +79,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	defer delete(id2conn, id)
 
 	c.SetCloseHandler(func(code int, text string) error {
-		log.Println("close: ", text)
+		LogWrite("err", "close ws", text)
 		conn.Close <- 0
 		return nil
 	})
@@ -83,7 +90,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case cmd := <-conn.Cmd:
-			LogJson("received from "+r.Header.Get("X-Real-IP"), cmd)
+			LogJson("read", "from "+r.Header.Get("X-Real-IP"), cmd)
 
 			switch cmd.C {
 			case "join":
@@ -97,7 +104,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 				Received <- cmd
 			}
 		case <-conn.Close:
-			log.Println("exit HandleConnection")
+			LogWrite("info", "close", "exit HandleConnection")
 			return
 		}
 	}

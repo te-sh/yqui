@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"github.com/gorilla/websocket"
-	"log"
 	"time"
 )
 
@@ -37,7 +36,7 @@ func (conn *Conn) ActivateReader() error {
 	for {
 		err := conn.Ws.ReadJSON(&cmd)
 		if err != nil {
-			log.Println("err read: ", err)
+			LogWrite("err", "read ws", err)
 			conn.Close <- 0
 			return nil
 		}
@@ -56,14 +55,14 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 		case message := <-conn.Message:
 			err := conn.Ws.WriteJSON(message)
 			if err != nil {
-				log.Println("err write: ", err)
+				LogWrite("err", "write ws", err)
 				conn.Close <- 0
 				return err
 			}
 		case <-ticker.C:
 			err := conn.Ws.WriteMessage(websocket.PingMessage, []byte{})
 			if err != nil {
-				log.Println("err ping: ", err)
+				LogWrite("err", "ping ws", err)
 				conn.Close <- 0
 				return err
 			}
@@ -75,7 +74,7 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 
 func (conn *Conn) SendSelfID(id int64) {
 	msg := Message{"selfID", id}
-	LogJson("write", msg)
+	LogJson("write", "selfID", msg)
 	conn.Message <- msg
 }
 
@@ -99,18 +98,18 @@ func (conns Conns) SendRooms(rooms [numRooms]*Room) {
 	for _, conn := range conns {
 		conn.Message <- msg
 	}
-	LogJson("write", msg)
+	LogJson("write", "rooms", msg)
 }
 
 func (conn *Conn) SendRooms(rooms [numRooms]*Room) {
 	msg := Message{"rooms", makeRoomsSend(rooms)}
-	LogJson("write", msg)
+	LogJson("write", "rooms", msg)
 	conn.Message <- msg
 }
 
 func (conn *Conn) SendJoined(roomNo int) {
 	msg := Message{"joined", roomNo}
-	LogJson("write", msg)
+	LogJson("write", "joined", msg)
 	conn.Message <- msg
 }
 
