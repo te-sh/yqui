@@ -1,20 +1,20 @@
 #! /bin/sh
 
-args=$(getopt -o '' -l skip-build,skip-yqui,skip-test -- "$@") || exit 1
+args=$(getopt -o '' -l skip-pull,skip-yqui,skip-test -- "$@") || exit 1
 eval "set -- $args"
 
 while [ $# -gt 0 ]; do
     case $1 in
-        --skip-build) SKIP_BUILD=1; shift ;;
+        --skip-pull) SKIP_PULL=1; shift ;;
         --skip-yqui) SKIP_YQUI=1; shift ;;
         --skip-test) SKIP_TEST=1; shift ;;
         --) shift; break ;;
     esac
 done
 
-if [ -z $SKIP_BUILD ]; then
+if [ -z $SKIP_PULL ]; then
     git pull
-    docker-compose --file docker-compose.prod.yml build
+    docker-compose --file docker-compose.prod.yml pull
 fi
 
 if [ -z $SKIP_YQUI ]; then

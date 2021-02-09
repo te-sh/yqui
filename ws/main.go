@@ -71,10 +71,9 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	id2conn[id] = conn
 	defer delete(id2conn, id)
 
-	close := make(chan int)
 	c.SetCloseHandler(func(code int, text string) error {
 		log.Println("close: ", text)
-		close <- 0
+		conn.Close <- 0
 		return nil
 	})
 
@@ -97,7 +96,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 				cmd.Time = NowMilliSec()
 				Received <- cmd
 			}
-		case <-close:
+		case <-conn.Close:
 			log.Println("exit HandleConnection")
 			return
 		}

@@ -13,6 +13,7 @@ type Conn struct {
 	Ws      *websocket.Conn
 	Cmd     chan Cmd
 	Message chan Message
+	Close   chan int
 }
 
 type Message struct {
@@ -25,6 +26,7 @@ func NewConn(ws *websocket.Conn) *Conn {
 	conn.Ws = ws
 	conn.Cmd = make(chan Cmd)
 	conn.Message = make(chan Message)
+	conn.Close = make(chan int)
 	return conn
 }
 
@@ -36,6 +38,7 @@ func (conn *Conn) ActivateReader() error {
 		err := conn.Ws.ReadJSON(&cmd)
 		if err != nil {
 			log.Println("err read: ", err)
+			conn.Close <- 0
 			return nil
 		}
 		conn.Cmd <- cmd
@@ -54,12 +57,14 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 			err := conn.Ws.WriteJSON(message)
 			if err != nil {
 				log.Println("err write: ", err)
+				conn.Close <- 0
 				return err
 			}
 		case <-ticker.C:
 			err := conn.Ws.WriteMessage(websocket.PingMessage, []byte{})
 			if err != nil {
 				log.Println("err ping: ", err)
+				conn.Close <- 0
 				return err
 			}
 		case <-ctx.Done():
