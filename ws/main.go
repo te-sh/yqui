@@ -62,41 +62,44 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 
 	conn := NewConn(c)
+	go conn.ActivateReader()
 	cctx, cancelConn := context.WithCancel(ctx)
-	go conn.Activate(cctx)
+	go conn.ActivateWriter(cctx)
 	defer cancelConn()
-
-	c.SetCloseHandler(func(code int, text string) error {
-		log.Println("close: ", text)
-		return nil
-	})
 
 	id := NewID()
 	id2conn[id] = conn
 	defer delete(id2conn, id)
 
+	close := make(chan int)
+	c.SetCloseHandler(func(code int, text string) error {
+		log.Println("close: ", text)
+		close <- 0
+		return nil
+	})
+
 	conn.SendSelfID(id)
 	conn.SendRooms(rooms)
 
 	for {
-		var cmd Cmd
-		err := c.ReadJSON(&cmd)
-		if err != nil {
-			log.Println("err read: ", err)
-			break
-		}
-		LogJson("received from "+r.Header.Get("X-Real-IP"), cmd)
+		select {
+		case cmd := <-conn.Cmd:
+			LogJson("received from "+r.Header.Get("X-Real-IP"), cmd)
 
-		switch cmd.C {
-		case "join":
-			JoinUser(id, conn, cmd)
-			defer LeaveUser(id)
-		case "leave":
-			LeaveUser(id)
-		default:
-			cmd.ID = id
-			cmd.Time = NowMilliSec()
-			Received <- cmd
+			switch cmd.C {
+			case "join":
+				JoinUser(id, conn, cmd)
+				defer LeaveUser(id)
+			case "leave":
+				LeaveUser(id)
+			default:
+				cmd.ID = id
+				cmd.Time = NowMilliSec()
+				Received <- cmd
+			}
+		case <-close:
+			log.Println("exit HandleConnection")
+			return
 		}
 	}
 }

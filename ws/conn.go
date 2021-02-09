@@ -11,6 +11,7 @@ const PingInterval = 30
 
 type Conn struct {
 	Ws      *websocket.Conn
+	Cmd     chan Cmd
 	Message chan Message
 }
 
@@ -22,11 +23,26 @@ type Message struct {
 func NewConn(ws *websocket.Conn) *Conn {
 	conn := new(Conn)
 	conn.Ws = ws
+	conn.Cmd = make(chan Cmd)
 	conn.Message = make(chan Message)
 	return conn
 }
 
-func (conn *Conn) Activate(ctx context.Context) error {
+func (conn *Conn) ActivateReader() error {
+	defer LogPanic()
+
+	var cmd Cmd
+	for {
+		err := conn.Ws.ReadJSON(&cmd)
+		if err != nil {
+			log.Println("err read: ", err)
+			return nil
+		}
+		conn.Cmd <- cmd
+	}
+}
+
+func (conn *Conn) ActivateWriter(ctx context.Context) error {
 	defer LogPanic()
 
 	ticker := time.NewTicker(PingInterval * time.Second)
