@@ -68,15 +68,16 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	defer c.Close()
 
 	id := NewID()
+	conn := NewConn(c, id)
 
 	ctx := context.Background()
-	conn := NewConn(c, id)
 	go conn.ActivateReader()
 	cctx, cancelConn := context.WithCancel(ctx)
 	go conn.ActivateWriter(cctx)
 	defer cancelConn()
 
 	id2conn[id] = conn
+	defer LeaveUser(id)
 	defer delete(id2conn, id)
 
 	c.SetCloseHandler(func(code int, text string) error {
@@ -105,7 +106,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 				Received <- cmd
 			}
 		case <-conn.Close:
-			LogWrite("info", "close", "exit HandleConnection(id = "+string(id)+")")
+			LogError("close", errors.New("exit HandleConnection"), id)
 			return
 		}
 	}
