@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"os"
@@ -13,6 +14,42 @@ type Log struct {
 	Message string
 	Json    interface{}
 	Error   error
+}
+
+func (content *Log) ID() string {
+	if content.Conn != nil {
+		return fmt.Sprintf("%v", content.Conn.ID)
+	} else {
+		return ""
+	}
+}
+
+func (content *Log) IpAddress() string {
+	if content.Conn != nil {
+		return content.Conn.IpAddress
+	} else {
+		return ""
+	}
+}
+
+func (content *Log) JsonText() string {
+	if content.Json != nil {
+		if text, err := json.Marshal(content.Json); err == nil {
+			return string(text)
+		} else {
+			return "JSON marshal error"
+		}
+	} else {
+		return ""
+	}
+}
+
+func (content *Log) ErrorText() string {
+	if content.Error != nil {
+		return content.Error.Error()
+	} else {
+		return ""
+	}
 }
 
 func LogInit() {
@@ -36,38 +73,10 @@ func LogPanic() {
 }
 
 func WriteLog(typ string, action string, content Log) {
-	log.Print(typ)
-	log.Print(":")
-
-	log.Print(action)
-	log.Print(":")
-
-	if content.Conn != nil {
-		log.Print(content.Conn.ID)
-	}
-	log.Print(":")
-
-	if content.Conn != nil {
-		log.Print(content.Conn.IpAddress)
-	}
-	log.Print(":")
-
-	log.Print(content.Message)
-	log.Print(":")
-
-	if content.Json != nil {
-		if text, err := json.Marshal(content.Json); err == nil {
-			log.Print(string(text))
-		} else {
-			log.Print("JSON marshal error")
-		}
-	}
-	log.Print(":")
-
-	if content.Error != nil {
-		log.Print(content.Error)
-	}
-	log.Println()
+	log.Printf(
+		"%v : %v : %v : %v : %v : %v : %v",
+		typ, action, content.ID(), content.IpAddress(),
+		content.Message, content.JsonText(), content.ErrorText())
 }
 
 func LogError(action string, content Log) {
