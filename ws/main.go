@@ -28,6 +28,7 @@ var upgrader = websocket.Upgrader{
 }
 
 func JoinUser(id int64, conn *Conn, cmd Cmd) {
+	LogError("join user", errors.New("join room"), id)
 	var join Join
 	json.Unmarshal(cmd.A, &join)
 	if join.RoomNo < 0 || join.RoomNo >= len(rooms) {
@@ -49,6 +50,7 @@ func JoinUser(id int64, conn *Conn, cmd Cmd) {
 }
 
 func LeaveUser(id int64) {
+	LogError("leave user", errors.New("leave room"), id)
 	if room, ok := id2room[id]; ok {
 		delete(id2room, id)
 		room.LeaveUser(id, NowMilliSec())
@@ -69,6 +71,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 
 	id := NewID()
 	conn := NewConn(c, id)
+	LogError("connect", errors.New("connect"), id)
 
 	ctx := context.Background()
 	go conn.ActivateReader()
@@ -77,7 +80,6 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	defer cancelConn()
 
 	id2conn[id] = conn
-	defer LeaveUser(id)
 	defer delete(id2conn, id)
 
 	c.SetCloseHandler(func(code int, text string) error {

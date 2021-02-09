@@ -2,13 +2,14 @@ FROM golang:1.15.8-alpine3.13 AS builder
 
 WORKDIR /app
 
-ADD . ./
-
 RUN apk update \
  && apk add git \
  && go get gopkg.in/natefinch/lumberjack.v2 \
- && go get github.com/gorilla/websocket \
- && go build
+ && go get github.com/gorilla/websocket
+
+ADD . ./
+
+RUN go build
 
 FROM alpine:3.13
 
