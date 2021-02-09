@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
@@ -27,33 +26,33 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func JoinUser(id int64, conn *Conn, cmd Cmd) {
-	LogError("join user", errors.New("join room"), id)
+func JoinUser(conn *Conn, cmd Cmd) {
+	LogInfo("join user", Log{Conn: conn})
 	var join Join
 	json.Unmarshal(cmd.A, &join)
 	if join.RoomNo < 0 || join.RoomNo >= len(rooms) {
-		LogError("join user", errors.New("roon No is invalid"), id)
+		LogError("join user", Log{Conn: conn, Message: "roon No is invalid"})
 		return
 	}
 
 	room := rooms[join.RoomNo]
 	if room == nil {
-		LogError("join user", errors.New("room does not exist"), id)
+		LogError("join user", Log{Conn: conn, Message: "room does not exist"})
 		return
 	}
 
-	id2room[id] = room
-	room.JoinUser(id, conn, join, NowMilliSec())
+	id2room[conn.ID] = room
+	room.JoinUser(conn, join, NowMilliSec())
 	room.SendRoom()
 	conn.SendJoined(join.RoomNo)
 	id2conn.SendRooms(rooms)
 }
 
-func LeaveUser(id int64) {
-	LogError("leave user", errors.New("leave room"), id)
-	if room, ok := id2room[id]; ok {
-		delete(id2room, id)
-		room.LeaveUser(id, NowMilliSec())
+func LeaveUser(conn *Conn) {
+	LogInfo("leave user", Log{Conn: conn})
+	if room, ok := id2room[conn.ID]; ok {
+		delete(id2room, conn.ID)
+		room.LeaveUser(conn, NowMilliSec())
 		room.SendRoom()
 		id2conn.SendRooms(rooms)
 	}
@@ -64,14 +63,14 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		LogError("upgrade", err, -1)
+		LogError("upgrade", Log{Error: err})
 		return
 	}
 	defer c.Close()
 
 	id := NewID()
-	conn := NewConn(c, id)
-	LogError("connect", errors.New("connect"), id)
+	conn := NewConn(id, r.Header.Get("X-Real-IP"), c)
+	LogInfo("connect", Log{Conn: conn})
 
 	ctx := context.Background()
 	go conn.ActivateReader()
@@ -83,7 +82,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	defer delete(id2conn, id)
 
 	c.SetCloseHandler(func(code int, text string) error {
-		LogError("close ws", errors.New("close handler is called"), id)
+		LogInfo("close handler", Log{Conn: conn})
 		conn.Close <- 0
 		return nil
 	})
@@ -94,21 +93,19 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case cmd := <-conn.Cmd:
-			LogJson("read", "from "+r.Header.Get("X-Real-IP"), cmd)
-
 			switch cmd.C {
 			case "join":
-				JoinUser(id, conn, cmd)
-				defer LeaveUser(id)
+				JoinUser(conn, cmd)
+				defer LeaveUser(conn)
 			case "leave":
-				LeaveUser(id)
+				LeaveUser(conn)
 			default:
 				cmd.ID = id
 				cmd.Time = NowMilliSec()
 				Received <- cmd
 			}
 		case <-conn.Close:
-			LogError("close", errors.New("exit HandleConnection"), id)
+			LogInfo("close", Log{Conn: conn, Message: "exit HandleConnection"})
 			return
 		}
 	}

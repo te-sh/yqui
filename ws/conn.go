@@ -9,11 +9,12 @@ import (
 const PingInterval = 30
 
 type Conn struct {
-	Id      int64
-	Ws      *websocket.Conn
-	Cmd     chan Cmd
-	Message chan Message
-	Close   chan int
+	ID        int64
+	IpAddress string
+	Ws        *websocket.Conn
+	Cmd       chan Cmd
+	Message   chan Message
+	Close     chan int
 }
 
 type Message struct {
@@ -21,9 +22,10 @@ type Message struct {
 	Content interface{} `json:"content"`
 }
 
-func NewConn(ws *websocket.Conn, id int64) *Conn {
+func NewConn(id int64, ipAddress string, ws *websocket.Conn) *Conn {
 	conn := new(Conn)
-	conn.Id = id
+	conn.ID = id
+	conn.IpAddress = ipAddress
 	conn.Ws = ws
 	conn.Cmd = make(chan Cmd)
 	conn.Message = make(chan Message)
@@ -38,10 +40,12 @@ func (conn *Conn) ActivateReader() error {
 	for {
 		err := conn.Ws.ReadJSON(&cmd)
 		if err != nil {
-			LogError("read ws", err, conn.Id)
+			LogError("read", Log{Conn: conn, Error: err})
 			conn.Close <- 0
 			return nil
 		}
+
+		LogInfo("read", Log{Conn: conn, Json: cmd})
 		conn.Cmd <- cmd
 	}
 }
@@ -57,14 +61,14 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 		case message := <-conn.Message:
 			err := conn.Ws.WriteJSON(message)
 			if err != nil {
-				LogError("write ws", err, conn.Id)
+				LogError("write", Log{Conn: conn, Error: err})
 				conn.Close <- 0
 				return err
 			}
 		case <-ticker.C:
 			err := conn.Ws.WriteMessage(websocket.PingMessage, []byte{})
 			if err != nil {
-				LogError("ping ws", err, conn.Id)
+				LogError("ping", Log{Conn: conn, Error: err})
 				conn.Close <- 0
 				return err
 			}
@@ -76,7 +80,7 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 
 func (conn *Conn) SendSelfID(id int64) {
 	msg := Message{"selfID", id}
-	LogJson("write", "selfID", msg)
+	LogInfo("write", Log{Conn: conn, Message: "selfID", Json: msg})
 	conn.Message <- msg
 }
 
@@ -100,18 +104,18 @@ func (conns Conns) SendRooms(rooms [numRooms]*Room) {
 	for _, conn := range conns {
 		conn.Message <- msg
 	}
-	LogJson("write", "rooms", msg)
+	LogInfo("write", Log{Message: "rooms", Json: msg})
 }
 
 func (conn *Conn) SendRooms(rooms [numRooms]*Room) {
 	msg := Message{"rooms", makeRoomsSend(rooms)}
-	LogJson("write", "rooms", msg)
+	LogInfo("write", Log{Conn: conn, Message: "rooms", Json: msg})
 	conn.Message <- msg
 }
 
 func (conn *Conn) SendJoined(roomNo int) {
 	msg := Message{"joined", roomNo}
-	LogJson("write", "joined", msg)
+	LogInfo("write", Log{Conn: conn, Message: "joined", Json: msg})
 	conn.Message <- msg
 }
 

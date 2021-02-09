@@ -5,7 +5,7 @@ func (room *Room) SendRoom() {
 	if !room.Rule.Board.Active {
 		roomLog.BG = nil
 	}
-	LogJson("write", "room", roomLog)
+	LogInfo("write", Log{Message: "room", Json: roomLog})
 	for id, user := range room.Users {
 		newRoom := room.Clone()
 		if room.Rule.Board.Active {
@@ -28,7 +28,7 @@ func (room *Room) HideBG(bg *BoardGroup, user *User) {
 
 func (room *Room) SendBG() {
 	if room.Rule.Board.Active {
-		LogJson("write", "bg", room.BG)
+		LogInfo("write", Log{Message: "bg", Json: room.BG})
 		for id, user := range room.Users {
 			newBG := room.BG.Clone()
 			room.HideBG(newBG, user)
@@ -39,7 +39,7 @@ func (room *Room) SendBG() {
 
 func (room *Room) SendBoard(id int64) {
 	if board, ok := room.BG.Boards[id]; ok {
-		LogJson("write", "board", board)
+		LogInfo("write", Log{Message: "board", Json: board})
 		if board.Open {
 			room.Broadcast("board", board)
 		} else {
@@ -50,7 +50,7 @@ func (room *Room) SendBoard(id int64) {
 }
 
 func (room *Room) SendButtons() {
-	LogJson("write", "buttons", room.Buttons)
+	LogInfo("write", Log{Message: "buttons", Json: room.Buttons})
 	room.Broadcast("buttons", room.Buttons)
 }
 
@@ -61,7 +61,7 @@ func (room *Room) HideSG(sg *ScoreGroup, user *User) {
 }
 
 func (room *Room) SendSG() {
-	LogJson("write", "sg", room.SG)
+	LogInfo("write", Log{Message: "sg", Json: room.SG})
 	for id, user := range room.Users {
 		newSG := room.SG.Clone()
 		room.HideSG(newSG, user)
@@ -70,19 +70,19 @@ func (room *Room) SendSG() {
 }
 
 func (room *Room) SendTimer() {
-	LogJson("write", "timer", room.Timer)
+	LogInfo("write", Log{Message: "timer", Json: room.Timer})
 	room.Broadcast("timer", room.Timer)
 }
 
 func (room *Room) SendChat(chat Chat) {
-	LogJson("write", "chat", chat)
+	LogInfo("write", Log{Message: "chat", Json: chat})
 	room.Broadcast("chat", chat)
 }
 
 func (room *Room) SendSound(sound *Sound) {
 	sounds := sound.MakeSounds()
 	if sounds != "" {
-		LogJson("write", "sounds", sounds)
+		LogInfo("write", Log{Message: "sounds", Json: sounds})
 		room.Broadcast("sound", sounds)
 	}
 }

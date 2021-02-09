@@ -1,10 +1,10 @@
 package main
 
-import "errors"
+func (room *Room) JoinUser(conn *Conn, join Join, time int64) {
+	id := conn.ID
 
-func (room *Room) JoinUser(id int64, conn *Conn, join Join, time int64) {
 	if _, ok := room.Users[id]; ok {
-		LogError("join user", errors.New("duplicated id"), id)
+		LogError("join user", Log{Conn: conn, Message: "duplicated id"})
 		return
 	}
 
@@ -25,7 +25,8 @@ func (room *Room) JoinUser(id int64, conn *Conn, join Join, time int64) {
 	room.SendChat(chat)
 }
 
-func (room *Room) LeaveUser(id int64, time int64) {
+func (room *Room) LeaveUser(conn *Conn, time int64) {
+	id := conn.ID
 	user := room.Users[id]
 
 	room.SG.Player.Remove(id)

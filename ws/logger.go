@@ -2,12 +2,18 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"os"
 	"runtime/debug"
 )
+
+type Log struct {
+	Conn    *Conn
+	Message string
+	Json    interface{}
+	Error   error
+}
 
 func LogInit() {
 	if os.Getenv("YQUI_ENV") == "prod" {
@@ -29,18 +35,45 @@ func LogPanic() {
 	}
 }
 
-func LogWrite(act string, typ string, message interface{}) {
-	log.Println(act, ":", typ, ":", message);
-}
+func WriteLog(typ string, action string, content Log) {
+	log.Print(typ)
+	log.Print(":")
 
-func LogError(typ string, err error, id int64) {
-	LogWrite("err", typ, fmt.Sprintf("%s (id = %d)", err.Error(), id))
-}
+	log.Print(action)
+	log.Print(":")
 
-func LogJson(act string, typ string, o interface{}) {
-	if text, err := json.Marshal(o); err == nil {
-		LogWrite(act, typ, string(text))
-	} else {
-		LogError("JSON marshal", err, -1)
+	if content.Conn != nil {
+		log.Print(content.Conn.ID)
 	}
+	log.Print(":")
+
+	if content.Conn != nil {
+		log.Print(content.Conn.IpAddress)
+	}
+	log.Print(":")
+
+	log.Print(content.Message)
+	log.Print(":")
+
+	if content.Json != nil {
+		if text, err := json.Marshal(content.Json); err == nil {
+			log.Print(string(text))
+		} else {
+			log.Print("JSON marshal error")
+		}
+	}
+	log.Print(":")
+
+	if content.Error != nil {
+		log.Print(content.Error)
+	}
+	log.Println()
+}
+
+func LogError(action string, content Log) {
+	WriteLog("error", action, content)
+}
+
+func LogInfo(action string, content Log) {
+	WriteLog("info", action, content)
 }
