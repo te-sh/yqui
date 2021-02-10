@@ -85,13 +85,6 @@ func (room *Room) Broadcast(typ string, cnt interface{}) {
 	}
 }
 
-func (room *Room) SendToOne(id int64, typ string, cnt interface{}) {
-	msg := Message{Type: typ, Content: cnt}
-	if user, ok := room.Users[id]; ok {
-		user.Conn.Message <- msg
-	}
-}
-
 func (room *Room) SendToMaster(typ string, cnt interface{}) {
 	msg := Message{Type: typ, Content: cnt}
 	if user := room.Users.Master(); user != nil {

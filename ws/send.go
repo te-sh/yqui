@@ -14,7 +14,7 @@ func (room *Room) SendRoom() {
 			newRoom.BG = nil
 		}
 		room.HideSG(newRoom.SG, user)
-		room.SendToOne(id, "room", newRoom)
+		SendToOne(id, "room", newRoom)
 	}
 }
 
@@ -32,7 +32,7 @@ func (room *Room) SendBG() {
 		for id, user := range room.Users {
 			newBG := room.BG.Clone()
 			room.HideBG(newBG, user)
-			room.SendToOne(id, "bg", newBG)
+			SendToOne(id, "bg", newBG)
 		}
 	}
 }
@@ -43,7 +43,7 @@ func (room *Room) SendBoard(id int64) {
 		if board.Open {
 			room.Broadcast("board", board)
 		} else {
-			room.SendToOne(id, "board", board)
+			SendToOne(id, "board", board)
 			room.SendToMaster("board", board)
 		}
 	}
@@ -65,7 +65,7 @@ func (room *Room) SendSG() {
 	for id, user := range room.Users {
 		newSG := room.SG.Clone()
 		room.HideSG(newSG, user)
-		room.SendToOne(id, "sg", newSG)
+		SendToOne(id, "sg", newSG)
 	}
 }
 
