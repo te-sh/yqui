@@ -59,11 +59,11 @@ func (users Users) MasterID() (int64, bool) {
 	return 0, false
 }
 
-func (teams Teams) First() *Team {
+func (teams Teams) First() (*Team, bool) {
 	if len(teams) > 0 {
-		return teams[0]
+		return teams[0], true
 	} else {
-		return nil
+		return nil, false
 	}
 }
 
@@ -85,7 +85,7 @@ func (teams Teams) Removed(target *Team) Teams {
 }
 
 func (teams Teams) AddPlayer(user *User) {
-	if team := teams.First(); team != nil {
+	if team, ok := teams.First(); ok {
 		team.Players = append(team.Players, user.ID)
 		user.Team = team
 	}
@@ -99,7 +99,7 @@ func (teams Teams) RemovePlayer(user *User) {
 }
 
 func (teams Teams) MergePlayersToFirst(team *Team, users Users) {
-	if first := teams.First(); first != nil {
+	if first, ok := teams.First(); ok {
 		first.Players = append(first.Players, team.Players...)
 		for _, player := range team.Players {
 			if user, ok := users[player]; ok {

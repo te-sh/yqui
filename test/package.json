@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "jest --config config.json"
+    "test": "jest --config config.json --runInBand"
   },
   "devDependencies": {
     "jest": "^26.6.3",

@@ -1,3 +1,4 @@
+// set global variables
 global.puppeteer = require('puppeteer');
 
 global.ROOT_DIR = '/home/node/test';
@@ -11,6 +12,10 @@ console.log(`Accessing to ${YQUI_URL}`)
 
 global.PLAYERS = 2;
 
+// jest settings
+jest.setTimeout(10000);
+
+// setup/teadown for test
 beforeAll(async () => {
   let browser = await puppeteer.launch();
   global.browser = browser;
