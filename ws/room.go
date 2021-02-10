@@ -1,5 +1,8 @@
 package main
 
+const numRooms = 16
+var rooms = NewRooms()
+
 type Room struct {
 	Users   Users       `json:"users"`
 	Teams   Teams       `json:"teams"`
@@ -9,6 +12,28 @@ type Room struct {
 	Rule    *Rule       `json:"rule"`
 	History *History    `json:"-"`
 	Timer   *Timer      `json:"-"`
+}
+
+type Rooms []*Room
+
+type RoomSummary struct {
+	NumUsers int `json:"numUsers"`
+}
+
+type RoomsSummary []*RoomSummary
+
+func NewRooms() Rooms {
+	var rooms Rooms
+	for i := 0; i < numRooms; i++ {
+		rooms = append(rooms, NewRoom())
+	}
+	return rooms
+}
+
+func NewRoomSummary(room *Room) *RoomSummary {
+	roomSummary := new(RoomSummary)
+	roomSummary.NumUsers = len(room.Users)
+	return roomSummary
 }
 
 func NewRoom() *Room {
@@ -33,4 +58,12 @@ func (room *Room) Clone() *Room {
 	newRoom.SG = room.SG.Clone()
 	newRoom.BG = room.BG.Clone()
 	return &newRoom
+}
+
+func (rooms Rooms) MakeSummary() RoomsSummary {
+	var roomsSummary RoomsSummary
+	for _, room := range rooms {
+		roomsSummary = append(roomsSummary, NewRoomSummary(room))
+	}
+	return roomsSummary
 }

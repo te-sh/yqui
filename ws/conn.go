@@ -84,31 +84,16 @@ func (conn *Conn) SendSelfID(id int64) {
 	conn.Message <- msg
 }
 
-type RoomSummary struct {
-	NumUsers int `json:"numUsers"`
-}
-
-func makeRoomsSend(rooms [numRooms]*Room) [numRooms]*RoomSummary {
-	var roomsSend [numRooms]*RoomSummary
-	for i, room := range rooms {
-		roomSummary := RoomSummary{
-			NumUsers: len(room.Users),
-		}
-		roomsSend[i] = &roomSummary
-	}
-	return roomsSend
-}
-
-func (conns Conns) SendRooms(rooms [numRooms]*Room) {
-	msg := Message{"rooms", makeRoomsSend(rooms)}
+func (conns Conns) SendRooms(rooms Rooms) {
+	msg := Message{"rooms", rooms.MakeSummary()}
 	for _, conn := range conns {
 		conn.Message <- msg
 	}
 	LogInfo("write", Log{Message: "rooms", Json: msg})
 }
 
-func (conn *Conn) SendRooms(rooms [numRooms]*Room) {
-	msg := Message{"rooms", makeRoomsSend(rooms)}
+func (conn *Conn) SendRooms(rooms Rooms) {
+	msg := Message{"rooms", rooms.MakeSummary()}
 	LogInfo("write", Log{Conn: conn, Message: "rooms", Json: msg})
 	conn.Message <- msg
 }
