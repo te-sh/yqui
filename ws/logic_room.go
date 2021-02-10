@@ -83,7 +83,7 @@ func (room *Room) ToggleMaster(id int64) {
 		if user.IsMaster {
 			user.IsMaster = false
 			room.Teams.AddPlayer(user)
-		} else if room.Users.Master() == nil {
+		} else if _, ok := room.Users.MasterID(); ok {
 			user.IsMaster = true
 			room.Teams.RemovePlayer(user)
 		}

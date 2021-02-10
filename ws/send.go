@@ -1,7 +1,6 @@
 package main
 
 func (room *Room) SendRoom() {
-	LogInfo("write", Log{Message: "room", Json: room})
 	room.Broadcast("room", room)
 	room.SendRule()
 	room.SendBG()
@@ -9,7 +8,6 @@ func (room *Room) SendRoom() {
 }
 
 func (room *Room) SendRule() {
-	LogInfo("write", Log{Message: "rule", Json: room})
 	room.Broadcast("rule", room.Rule)
 }
 
@@ -41,7 +39,6 @@ func (room *Room) SendBoard(id int64) {
 }
 
 func (room *Room) SendButtons() {
-	LogInfo("write", Log{Message: "buttons", Json: room.Buttons})
 	room.Broadcast("buttons", room.Buttons)
 }
 
@@ -57,19 +54,26 @@ func (room *Room) SendSG() {
 }
 
 func (room *Room) SendTimer() {
-	LogInfo("write", Log{Message: "timer", Json: room.Timer})
 	room.Broadcast("timer", room.Timer)
 }
 
 func (room *Room) SendChat(chat Chat) {
-	LogInfo("write", Log{Message: "chat", Json: chat})
 	room.Broadcast("chat", chat)
 }
 
 func (room *Room) SendSound(sound *Sound) {
 	sounds := sound.MakeSounds()
 	if len(sounds) > 0 {
-		LogInfo("write", Log{Message: "sounds", Json: sounds})
 		room.Broadcast("sound", sounds)
+	}
+}
+
+func (room *Room) Broadcast(typ string, content interface{}) {
+	SendToOnes(room.Users.IDs(), typ, content)
+}
+
+func (room *Room) SendToMaster(typ string, content interface{}) {
+	if id, ok := room.Users.MasterID(); ok {
+		SendToOne(id, typ, content)
 	}
 }

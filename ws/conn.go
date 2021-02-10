@@ -78,25 +78,21 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 	}
 }
 
-func (room *Room) Broadcast(typ string, cnt interface{}) {
-	msg := Message{Type: typ, Content: cnt}
-	for _, user := range room.Users {
-		user.Conn.Message <- msg
-	}
-}
-
-func (room *Room) SendToMaster(typ string, cnt interface{}) {
-	msg := Message{Type: typ, Content: cnt}
-	if user := room.Users.Master(); user != nil {
-		user.Conn.Message <- msg
-	}
-}
-
 func SendToOne(id int64, typ string, content interface{}) {
 	message := Message{Type: typ, Content: content}
 	if conn, ok := mapper.GetConn(id); ok {
 		LogInfo("write", Log{Conn: conn, Message: typ, Json: content})
 		conn.Message <- message
+	}
+}
+
+func SendToOnes(ids []int64, typ string, content interface{}) {
+	message := Message{Type: typ, Content: content}
+	LogInfo("write", Log{Message: typ, Json: content})
+	for _, id := range ids {
+		if conn, ok := mapper.GetConn(id); ok {
+			conn.Message <- message
+		}
 	}
 }
 

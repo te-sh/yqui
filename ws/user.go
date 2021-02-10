@@ -44,13 +44,24 @@ func (users Users) Update(user *User) {
 	}
 }
 
-func (users Users) Master() *User {
+func (users Users) IDs() []int64 {
+	var ids []int64
+	for _, user := range users {
+		ids = append(ids, user.ID)
+	}
+	return ids
+}
+
+func (users Users) MasterID() (id int64, ok bool) {
 	for _, user := range users {
 		if user.IsMaster {
-			return user
+			id = user.ID
+			ok = true
+			return
 		}
 	}
-	return nil
+	ok = false
+	return
 }
 
 func (teams Teams) First() *Team {
