@@ -4,12 +4,14 @@ import (
 	"encoding/json"
 )
 
-func HandleMessage() {
+var Command = make(chan Cmd)
+
+func HandleCommand() {
 	defer LogPanic()
 
 	for {
-		cmd := <-Received
-		if room, ok := id2room[cmd.ID]; ok {
+		cmd := <-Command
+		if room, ok := mapper.GetRoom(cmd.ID); ok {
 			room.RunCommand(cmd)
 		}
 	}

@@ -8,11 +8,7 @@ import (
 	"net/http"
 )
 
-type Conns map[int64]*Conn
-
 var mapper = NewMapper()
-var id2room = make(map[int64]*Room)
-var Received = make(chan Cmd)
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
@@ -35,7 +31,7 @@ func JoinUser(conn *Conn, cmd Cmd) {
 		return
 	}
 
-	id2room[conn.ID] = room
+	mapper.RegisterRoom(conn.ID, room)
 	room.JoinUser(conn, join, NowMilliSec())
 	room.SendRoom()
 	SendToOne(conn.ID, "joined", join.RoomNo)
@@ -44,8 +40,8 @@ func JoinUser(conn *Conn, cmd Cmd) {
 
 func LeaveUser(conn *Conn) {
 	LogInfo("leave user", Log{Conn: conn})
-	if room, ok := id2room[conn.ID]; ok {
-		delete(id2room, conn.ID)
+	if room, ok := mapper.GetRoom(conn.ID); ok {
+		mapper.UnregisterRoom(conn.ID)
 		room.LeaveUser(conn, NowMilliSec())
 		room.SendRoom()
 		SendToAll("rooms", rooms.MakeSummary())
@@ -66,14 +62,14 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	conn := NewConn(id, r.Header.Get("X-Real-IP"), c)
 	LogInfo("connect", Log{Conn: conn})
 
+	mapper.RegisterConn(id, conn)
+	defer mapper.UnregisterConn(id)
+
 	ctx := context.Background()
 	go conn.ActivateReader()
 	cctx, cancelConn := context.WithCancel(ctx)
 	go conn.ActivateWriter(cctx)
 	defer cancelConn()
-
-	mapper.RegisterConn(id, conn)
-	defer mapper.UnregisterConn(id)
 
 	c.SetCloseHandler(func(code int, text string) error {
 		LogInfo("close handler", Log{Conn: conn})
@@ -96,7 +92,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 			default:
 				cmd.ID = id
 				cmd.Time = NowMilliSec()
-				Received <- cmd
+				Command <- cmd
 			}
 		case <-conn.Close:
 			LogInfo("close", Log{Conn: conn, Message: "exit HandleConnection"})
@@ -108,7 +104,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 func main() {
 	LogInit()
 	SetRandSeed()
-	go HandleMessage()
+	go HandleCommand()
 
 	http.HandleFunc("/", HandleConnection)
 	log.Fatal(http.ListenAndServe(":8000", nil))
