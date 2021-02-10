@@ -25,6 +25,10 @@ func HandleCommand() {
 func (room *Room) RunCommand(cmd Cmd) {
 	sound := NewSound()
 	switch cmd.C {
+	case "leave":
+		room.LeaveUser(cmd.ID, NowMilliSec())
+		room.SendRoom()
+		SendToAll("rooms", rooms.MakeSummary(), true)
 	case "user":
 		user := new(User)
 		json.Unmarshal(cmd.A, user)

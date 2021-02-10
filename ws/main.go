@@ -54,14 +54,12 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		switch cmd.C {
 		case "join":
 			JoinUser(conn, cmd)
-		case "leave":
-			LeaveUser(conn)
 		default:
 			Command <- cmd
 		}
 	}
 
-	LeaveUser(conn)
+	Command <- Cmd{C: "leave", ID: id, Time: NowMilliSec()}
 	LogInfo("finish", Log{Conn: conn, Message: "exit HandleConnection"})
 }
 

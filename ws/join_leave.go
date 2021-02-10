@@ -39,17 +39,6 @@ func JoinUser(conn *Conn, cmd Cmd) {
 	LogInfo("joined user", Log{Conn: conn})
 }
 
-func LeaveUser(conn *Conn) {
-	LogInfo("leaving user", Log{Conn: conn})
-	if room, ok := mapper.GetRoom(conn.ID); ok {
-		mapper.UnregisterRoom(conn.ID)
-		room.LeaveUser(conn.ID, NowMilliSec())
-		room.SendRoom()
-		SendToAll("rooms", rooms.MakeSummary(), true)
-		LogInfo("left user", Log{Conn: conn})
-	}
-}
-
 func (room *Room) JoinUser(id int64, join *Join, time int64) {
 	if _, ok := room.Users[id]; ok {
 		LogError("join user", Log{Message: "duplicated id", Json: join})
@@ -93,6 +82,8 @@ func (room *Room) LeaveUser(id int64, time int64) {
 		room.Rule = NewRule()
 		room.SG.Reset()
 	}
+
+	mapper.UnregisterRoom(id)
 
 	chat := Chat{Type: "leave", Time: time, Name: user.Name}
 	room.SendChat(chat)
