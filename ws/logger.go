@@ -75,7 +75,7 @@ func LogPanic() {
 func WriteLog(typ string, action string, content Log) {
 	log.Printf(
 		"%v : %v : %v : %v : %v : %v : %v",
-		typ, action, content.ID(), content.IpAddress(),
+		typ, content.ID(), content.IpAddress(), action,
 		content.Message, content.JsonText(), content.ErrorText())
 }
 
