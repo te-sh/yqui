@@ -10,10 +10,16 @@ type Join struct {
 	BorderColor string `json:"borderColor"`
 }
 
+func MakeJoin(cmd Cmd) *Join {
+	join := new(Join)
+	json.Unmarshal(cmd.A, join)
+	return join
+}
+
 func JoinUser(conn *Conn, cmd Cmd) {
 	LogInfo("joining user", Log{Conn: conn})
-	var join Join
-	json.Unmarshal(cmd.A, &join)
+
+	join := MakeJoin(cmd)
 	if join.RoomNo < 0 || join.RoomNo >= len(rooms) {
 		LogError("join user", Log{Conn: conn, Message: "roon No is invalid"})
 		return
@@ -26,7 +32,7 @@ func JoinUser(conn *Conn, cmd Cmd) {
 	}
 
 	mapper.RegisterRoom(conn.ID, room)
-	room.JoinUser(conn, join, NowMilliSec())
+	room.JoinUser(conn.ID, join, NowMilliSec())
 	room.SendRoom()
 	SendToOne(conn.ID, "joined", join.RoomNo, true)
 	SendToAll("rooms", rooms.MakeSummary(), true)
@@ -37,22 +43,20 @@ func LeaveUser(conn *Conn) {
 	LogInfo("leaving user", Log{Conn: conn})
 	if room, ok := mapper.GetRoom(conn.ID); ok {
 		mapper.UnregisterRoom(conn.ID)
-		room.LeaveUser(conn, NowMilliSec())
+		room.LeaveUser(conn.ID, NowMilliSec())
 		room.SendRoom()
 		SendToAll("rooms", rooms.MakeSummary(), true)
 		LogInfo("left user", Log{Conn: conn})
 	}
 }
 
-func (room *Room) JoinUser(conn *Conn, join Join, time int64) {
-	id := conn.ID
-
+func (room *Room) JoinUser(id int64, join *Join, time int64) {
 	if _, ok := room.Users[id]; ok {
-		LogError("join user", Log{Conn: conn, Message: "duplicated id"})
+		LogError("join user", Log{Message: "duplicated id", Json: join})
 		return
 	}
 
-	user := NewUser(id, conn, join.Name)
+	user := NewUser(id, join.Name)
 	user.ChatAnswer = join.ChatAnswer
 	user.BorderColor = join.BorderColor
 	room.Users[id] = user
@@ -69,8 +73,7 @@ func (room *Room) JoinUser(conn *Conn, join Join, time int64) {
 	room.SendChat(chat)
 }
 
-func (room *Room) LeaveUser(conn *Conn, time int64) {
-	id := conn.ID
+func (room *Room) LeaveUser(id int64, time int64) {
 	user := room.Users[id]
 
 	room.SG.Player.Remove(id)

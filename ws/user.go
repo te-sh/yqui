@@ -4,7 +4,6 @@ type Users map[int64]*User
 
 type User struct {
 	ID          int64  `json:"id"`
-	Conn        *Conn  `json:"-"`
 	Team        *Team  `json:"-"`
 	IsMaster    bool   `json:"isMaster"`
 	Name        string `json:"name"`
@@ -19,10 +18,9 @@ type Team struct {
 	Players []int64 `json:"players"`
 }
 
-func NewUser(id int64, conn *Conn, name string) *User {
+func NewUser(id int64, name string) *User {
 	user := new(User)
 	user.ID = id
-	user.Conn = conn
 	user.Team = nil
 	user.IsMaster = false
 	user.Name = name
