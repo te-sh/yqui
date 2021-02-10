@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   web:
@@ -19,9 +19,9 @@ services:
   proxy:
     image: nginx:1.19.6-alpine
     ports:
-      - ${PORT:-8080}:8080
+      - '${PORT:-8080}:8080'
     volumes:
-      - ./proxy/proxy.prod.conf:/etc/nginx/conf.d/proxy.conf:ro
+      - './proxy/proxy.prod.conf:/etc/nginx/conf.d/proxy.conf:ro'
     depends_on:
       - web
       - ws

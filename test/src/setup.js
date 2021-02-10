@@ -1,7 +1,14 @@
 global.puppeteer = require('puppeteer');
 
 global.ROOT_DIR = '/home/node/test';
-global.YQUI_URL = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/';
+
+if (process.env.LOCAL_SERVER) {
+  global.YQUI_URL = 'http://docker-host:8085/';
+} else {
+  global.YQUI_URL = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/';
+}
+console.log(`Accessing to ${YQUI_URL}`)
+
 global.PLAYERS = 2;
 
 beforeAll(async () => {
