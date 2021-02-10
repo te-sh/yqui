@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 var mapper = NewMapper()
@@ -48,10 +50,19 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	SendToOne(id, "selfID", id, true)
 	SendToOne(id, "rooms", rooms.MakeSummary(), true)
 
-	for cmd := range conn.Receive {
-		cmd.ID = id
-		cmd.Time = NowMilliSec()
-		Command <- cmd
+LOOP:
+	for {
+		LogInfo("receive channel", Log{Conn: conn, Message: fmt.Sprintf("%v", conn.Receive)})
+		select {
+		case cmd, ok := <- conn.Receive:
+			if !ok {
+				break LOOP
+			}
+			cmd.ID = id
+			cmd.Time = NowMilliSec()
+			LogInfo("receive", Log{Conn: conn, Message: strconv.FormatBool(ok), Json: cmd})
+			Command <- cmd
+		}
 	}
 
 	Command <- Cmd{C: "leave", ID: id, Time: NowMilliSec()}

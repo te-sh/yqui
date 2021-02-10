@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/gorilla/websocket"
 	"sync"
 	"time"
@@ -51,7 +52,7 @@ func (conn *Conn) ActivateReader() error {
 }
 
 func (conn *Conn) CloseRead() {
-	LogInfo("closing read channel", Log{Conn: conn})
+	LogInfo("closing read channel", Log{Conn: conn, Message: fmt.Sprintf("%v", conn.Receive)})
 	conn.CloseOnce.Do(func() {
 		close(conn.Receive)
 		LogInfo("closed read channel", Log{Conn: conn})
@@ -70,14 +71,14 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 			err := conn.Ws.WriteJSON(message)
 			if err != nil {
 				LogError("write", Log{Conn: conn, Error: err})
-				conn.CloseRead()
+				//conn.CloseRead()
 				return err
 			}
 		case <-ticker.C:
 			err := conn.Ws.WriteMessage(websocket.PingMessage, []byte{})
 			if err != nil {
 				LogError("ping", Log{Conn: conn, Error: err})
-				conn.CloseRead()
+				//conn.CloseRead()
 				return err
 			}
 		case <-ctx.Done():
@@ -92,6 +93,7 @@ func SendToOne(id int64, typ string, content interface{}, log bool) {
 		if log {
 			LogInfo("write", Log{Conn: conn, Message: typ, Json: content})
 		}
+		LogInfo("send channel", Log{Conn: conn, Message: fmt.Sprintf("%v", conn.Send)})
 		conn.Send <- send
 	}
 }
@@ -103,6 +105,7 @@ func SendToOnes(ids []int64, typ string, content interface{}, log bool) {
 	}
 	for _, id := range ids {
 		if conn, ok := mapper.GetConn(id); ok {
+			LogInfo("send channel", Log{Conn: conn, Message: fmt.Sprintf("%v", conn.Send)})
 			conn.Send <- send
 		}
 	}
@@ -114,6 +117,7 @@ func SendToAll(typ string, content interface{}, log bool) {
 		LogInfo("write", Log{Message: typ, Json: content})
 	}
 	for _, conn := range mapper.GetConns() {
+		LogInfo("send channel", Log{Conn: conn, Message: fmt.Sprintf("%v", conn.Send)})
 		conn.Send <- send
 	}
 }
