@@ -11,25 +11,30 @@ import (
 
 type Log struct {
 	Conn    *Conn
+	ID      int64
 	Message string
 	Json    interface{}
 	Error   error
 }
 
-func (content *Log) ID() string {
+func (content *Log) IDText() string {
 	if content.Conn != nil {
 		return fmt.Sprintf("%v", content.Conn.ID)
-	} else {
-		return ""
+	} else if content.ID > 0 {
+		return fmt.Sprintf("%v", content.ID)
 	}
+	return ""
 }
 
 func (content *Log) IpAddress() string {
 	if content.Conn != nil {
 		return content.Conn.IpAddress
-	} else {
-		return ""
+	} else if content.ID > 0 {
+		if conn, ok := mapper.GetConn(content.ID); ok {
+			return conn.IpAddress
+		}
 	}
+	return ""
 }
 
 func (content *Log) JsonText() string {
@@ -75,7 +80,7 @@ func LogPanic() {
 func WriteLog(typ string, action string, content Log) {
 	log.Printf(
 		"%v : %v : %v : %v : %v : %v : %v",
-		typ, content.ID(), content.IpAddress(), action,
+		typ, content.IDText(), content.IpAddress(), action,
 		content.Message, content.JsonText(), content.ErrorText())
 }
 

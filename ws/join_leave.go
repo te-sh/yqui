@@ -16,10 +16,10 @@ func MakeJoin(cmd Cmd) *Join {
 	return join
 }
 
-func (room *Room) JoinUser(id int64, join *Join, time int64) {
+func (room *Room) JoinUser(id int64, join *Join) (*User, bool) {
 	if _, ok := room.Users[id]; ok {
-		LogError("join user", Log{Message: "duplicated id", Json: join})
-		return
+		LogError("join user", Log{ID: id, Message: "duplicated id", Json: join})
+		return nil, false
 	}
 
 	user := NewUser(id, join.Name)
@@ -37,11 +37,14 @@ func (room *Room) JoinUser(id int64, join *Join, time int64) {
 
 	mapper.RegisterRoom(id, room)
 
-	chat := Chat{Type: "join", Time: time, Name: join.Name}
-	room.SendChat(chat)
+	return user, true
 }
 
-func (room *Room) LeaveUser(id int64, time int64) {
+func (room *Room) LeaveUser(id int64) (*User, bool) {
+	if _, ok := room.Users[id]; !ok {
+		LogError("leave user", Log{ID: id, Message: "user is not found"})
+		return nil, false
+	}
 	user := room.Users[id]
 
 	room.SG.Player.Remove(id)
@@ -64,6 +67,5 @@ func (room *Room) LeaveUser(id int64, time int64) {
 
 	mapper.UnregisterRoom(id)
 
-	chat := Chat{Type: "leave", Time: time, Name: user.Name}
-	room.SendChat(chat)
+	return user, true
 }
