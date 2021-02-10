@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
@@ -14,38 +13,6 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},
-}
-
-func JoinUser(conn *Conn, cmd Cmd) {
-	LogInfo("join user", Log{Conn: conn})
-	var join Join
-	json.Unmarshal(cmd.A, &join)
-	if join.RoomNo < 0 || join.RoomNo >= len(rooms) {
-		LogError("join user", Log{Conn: conn, Message: "roon No is invalid"})
-		return
-	}
-
-	room := rooms[join.RoomNo]
-	if room == nil {
-		LogError("join user", Log{Conn: conn, Message: "room does not exist"})
-		return
-	}
-
-	mapper.RegisterRoom(conn.ID, room)
-	room.JoinUser(conn, join, NowMilliSec())
-	room.SendRoom()
-	SendToOne(conn.ID, "joined", join.RoomNo, true)
-	SendToAll("rooms", rooms.MakeSummary(), true)
-}
-
-func LeaveUser(conn *Conn) {
-	LogInfo("leave user", Log{Conn: conn})
-	if room, ok := mapper.GetRoom(conn.ID); ok {
-		mapper.UnregisterRoom(conn.ID)
-		room.LeaveUser(conn, NowMilliSec())
-		room.SendRoom()
-		SendToAll("rooms", rooms.MakeSummary(), true)
-	}
 }
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {

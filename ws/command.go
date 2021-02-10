@@ -4,6 +4,13 @@ import "encoding/json"
 
 var Command = make(chan Cmd)
 
+type Cmd struct {
+	C    string          `json:"c"`
+	A    json.RawMessage `json:"a"`
+	ID   int64           `json:"-"`
+	Time int64           `json:"-"`
+}
+
 func HandleCommand() {
 	defer LogPanic()
 

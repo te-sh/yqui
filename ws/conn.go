@@ -51,8 +51,10 @@ func (conn *Conn) ActivateReader() error {
 }
 
 func (conn *Conn) CloseRead() {
+	LogInfo("closing read channel", Log{Conn: conn})
 	conn.CloseOnce.Do(func() {
 		close(conn.Receive)
+		LogInfo("closed read channel", Log{Conn: conn})
 	})
 }
 

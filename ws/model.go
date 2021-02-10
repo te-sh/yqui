@@ -1,22 +1,5 @@
 package main
 
-import "encoding/json"
-
-type Cmd struct {
-	C    string          `json:"c"`
-	A    json.RawMessage `json:"a"`
-	ID   int64           `json:"-"`
-	Time int64           `json:"-"`
-}
-
-type Join struct {
-	RoomNo      int    `json:"roomNo"`
-	Name        string `json:"name"`
-	Observer    bool   `json:"observer"`
-	ChatAnswer  bool   `json:"chatAnswer"`
-	BorderColor string `json:"borderColor"`
-}
-
 type JudgeArg struct {
 	NextQuiz bool `json:"nextQuiz"`
 }
