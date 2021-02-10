@@ -1,9 +1,6 @@
 package main
 
-import (
-	"encoding/json"
-	"strings"
-)
+import "encoding/json"
 
 type Cmd struct {
 	C    string          `json:"c"`
@@ -52,7 +49,7 @@ func TimeupSound() *Sound {
 	return sound
 }
 
-func (sound *Sound) MakeSounds() string {
+func (sound *Sound) MakeSounds() []string {
 	var sounds []string
 	if sound.Push {
 		sounds = append(sounds, "push")
@@ -72,5 +69,5 @@ func (sound *Sound) MakeSounds() string {
 	if sound.Timeup {
 		sounds = append(sounds, "timeup")
 	}
-	return strings.Join(sounds, ",")
+	return sounds
 }

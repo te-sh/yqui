@@ -4,9 +4,7 @@ func (room *Room) SendRoom() {
 	LogInfo("write", Log{Message: "room", Json: room})
 	room.Broadcast("room", room)
 	room.SendRule()
-	if room.Rule.Board.Active {
-		room.SendBG()
-	}
+	room.SendBG()
 	room.SendSG()
 }
 
@@ -70,7 +68,7 @@ func (room *Room) SendChat(chat Chat) {
 
 func (room *Room) SendSound(sound *Sound) {
 	sounds := sound.MakeSounds()
-	if sounds != "" {
+	if len(sounds) > 0 {
 		LogInfo("write", Log{Message: "sounds", Json: sounds})
 		room.Broadcast("sound", sounds)
 	}

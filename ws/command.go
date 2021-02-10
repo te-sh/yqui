@@ -111,6 +111,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, rule)
 		room.SetRule(rule)
 		room.SendRule()
+		room.SendBG()
 		room.SendSG()
 	case "toggle-timer":
 		room.ToggleTimer()

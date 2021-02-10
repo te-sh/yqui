@@ -26,9 +26,9 @@ const loadSound = (name, url) => {
   request.send()
 }
 
-const playSound = names => {
+const playSound = sounds => {
   let t = 0
-  for (let name of names.split(',')) {
+  for (let name of sounds) {
     const source = context.createBufferSource()
     source.buffer = buffer[name]
 
