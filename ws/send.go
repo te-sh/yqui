@@ -43,13 +43,13 @@ func (room *Room) SendButtons() {
 }
 
 func (room *Room) SendSG() {
-	LogInfo("write", Log{Message: "sg", Json: room.SG})
-	for id, user := range room.Users {
+	if room.Rule.ShowPoint {
+		room.Broadcast("sg", room.SG)
+	} else {
+		room.SendToMaster("sg", room.SG)
 		newSG := room.SG.Clone()
-		if !user.IsMaster && !room.Rule.ShowPoint {
-			newSG.SetZero()
-		}
-		SendToOne(id, "sg", newSG)
+		newSG.SetZero()
+		room.SendToExceptMaster("sg", newSG)
 	}
 }
 
@@ -75,5 +75,13 @@ func (room *Room) Broadcast(typ string, content interface{}) {
 func (room *Room) SendToMaster(typ string, content interface{}) {
 	if id, ok := room.Users.MasterID(); ok {
 		SendToOne(id, typ, content)
+	}
+}
+
+func (room *Room) SendToExceptMaster(typ string, content interface{}) {
+	if id, ok := room.Users.MasterID(); ok {
+		SendToOnes(Int64Remove(room.Users.IDs(), id), typ, content)
+	} else {
+		room.Broadcast(typ, content)
 	}
 }
