@@ -6,8 +6,8 @@ var rooms = NewRooms()
 type Room struct {
 	Users   Users       `json:"users"`
 	Teams   Teams       `json:"teams"`
-	BG      *BoardGroup `json:"bg,omitempty"`
-	SG      *ScoreGroup `json:"sg"`
+	BG      *BoardGroup `json:"-"`
+	SG      *ScoreGroup `json:"-"`
 	Buttons *Buttons    `json:"buttons"`
 	Rule    *Rule       `json:"rule"`
 	History *History    `json:"-"`
@@ -51,13 +51,6 @@ func NewRoom() *Room {
 	room.Timer = nil
 
 	return room
-}
-
-func (room *Room) Clone() *Room {
-	newRoom := *room
-	newRoom.SG = room.SG.Clone()
-	newRoom.BG = room.BG.Clone()
-	return &newRoom
 }
 
 func (rooms Rooms) MakeSummary() RoomsSummary {

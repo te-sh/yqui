@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Box, Paper } from '@material-ui/core'
 import classNames from 'classnames'
 import { pushOrder } from '../../lib/buttons'
+import { initBoard } from '../../lib/board'
+import { initScore } from '../../lib/score'
 import PlayerAbove from './PlayerAbove'
 import PlayerName from './PlayerName'
 import PlayerPoint from './PlayerPoint'
@@ -12,8 +14,8 @@ import './PlayerContainer.scss'
 
 const PlayerContainer = ({ player, bg, sg, buttons, rule }) => {
   const [order, delay, myTurn] = pushOrder(buttons, player)
-  const board = bg.boards.get(player)
-  const score = sg.player.scores.get(player)
+  const board = bg.boards.get(player) || initBoard
+  const score = sg.player.scores.get(player) || initScore
 
   const playerClass = classNames('player', { 'my-turn': myTurn })
 

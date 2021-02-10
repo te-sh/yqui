@@ -61,8 +61,6 @@ const recvRoom = (action, state) => {
     numPlayers: { $set: players.length },
     teams: { $set: teams },
     ...recvTeamsUpdator(state, users, teams),
-    bg: { $set: mergeBgWithJson(state, action.room.bg) },
-    sg: { $set: mergeSgWithJson(state, action.room.sg) },
     buttons: { $set: buttonsFromJson(action.room.buttons) },
     rule: { $set: action.room.rule }
   })

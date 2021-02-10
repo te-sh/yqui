@@ -22,8 +22,10 @@ func (mapper *Mapper) UnregisterConn(id int64) {
 
 func (mapper *Mapper) GetConn(id int64) (conn *Conn, ok bool) {
 	_conn, _ok := mapper.ID2Conn.Load(id)
-	conn = _conn.(*Conn)
 	ok = _ok
+	if ok {
+		conn = _conn.(*Conn)
+	}
 	return
 }
 
@@ -46,7 +48,9 @@ func (mapper *Mapper) UnregisterRoom(id int64) {
 
 func (mapper *Mapper) GetRoom(id int64) (room *Room, ok bool) {
 	_room, _ok := mapper.ID2Room.Load(id)
-	room = _room.(*Room)
 	ok = _ok
+	if ok {
+		room = _room.(*Room)
+	}
 	return
 }

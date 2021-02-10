@@ -5,6 +5,13 @@ export const initBg = {
   lock: false
 }
 
+export const initBoard = {
+  id: -1,
+  text: '',
+  correct: 'none',
+  open: false
+}
+
 export const mergeBgWithJson = ({ bg, editBoards }, json) => {
   if (json === undefined) {
     return bg;
