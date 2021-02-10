@@ -72,31 +72,26 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	defer cancelConn()
 
 	c.SetCloseHandler(func(code int, text string) error {
-		LogInfo("close handler", Log{Conn: conn})
-		conn.Close <- 0
+		LogInfo("close handler", Log{Conn: conn, Message: text})
+		conn.CloseRead()
 		return nil
 	})
 
 	SendToOne(id, "selfID", id, true)
 	SendToOne(id, "rooms", rooms.MakeSummary(), true)
 
-	for {
-		select {
-		case cmd := <-conn.Cmd:
-			switch cmd.C {
-			case "join":
-				JoinUser(conn, cmd)
-				defer LeaveUser(conn)
-			case "leave":
-				LeaveUser(conn)
-			default:
-				cmd.ID = id
-				cmd.Time = NowMilliSec()
-				Command <- cmd
-			}
-		case <-conn.Close:
-			LogInfo("close", Log{Conn: conn, Message: "exit HandleConnection"})
-			return
+	for cmd := range conn.Receive {
+		cmd.ID = id
+		cmd.Time = NowMilliSec()
+
+		switch cmd.C {
+		case "join":
+			JoinUser(conn, cmd)
+			defer LeaveUser(conn)
+		case "leave":
+			LeaveUser(conn)
+		default:
+			Command <- cmd
 		}
 	}
 }

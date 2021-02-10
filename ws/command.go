@@ -1,8 +1,6 @@
 package main
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 var Command = make(chan Cmd)
 

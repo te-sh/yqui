@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/gorilla/websocket"
+	"sync"
 	"time"
 )
 
@@ -12,12 +13,12 @@ type Conn struct {
 	ID        int64
 	IpAddress string
 	Ws        *websocket.Conn
-	Cmd       chan Cmd
-	Message   chan Message
-	Close     chan int
+	Receive   chan Cmd
+	CloseOnce sync.Once
+	Send      chan Send
 }
 
-type Message struct {
+type Send struct {
 	Type    string      `json:"type"`
 	Content interface{} `json:"content"`
 }
@@ -27,9 +28,8 @@ func NewConn(id int64, ipAddress string, ws *websocket.Conn) *Conn {
 	conn.ID = id
 	conn.IpAddress = ipAddress
 	conn.Ws = ws
-	conn.Cmd = make(chan Cmd)
-	conn.Message = make(chan Message)
-	conn.Close = make(chan int)
+	conn.Receive = make(chan Cmd)
+	conn.Send = make(chan Send)
 	return conn
 }
 
@@ -41,13 +41,19 @@ func (conn *Conn) ActivateReader() error {
 		err := conn.Ws.ReadJSON(&cmd)
 		if err != nil {
 			LogError("read", Log{Conn: conn, Error: err})
-			conn.Close <- 0
+			conn.CloseRead()
 			return nil
 		}
 
 		LogInfo("read", Log{Conn: conn, Json: cmd})
-		conn.Cmd <- cmd
+		conn.Receive <- cmd
 	}
+}
+
+func (conn *Conn) CloseRead() {
+	conn.CloseOnce.Do(func() {
+		close(conn.Receive)
+	})
 }
 
 func (conn *Conn) ActivateWriter(ctx context.Context) error {
@@ -58,18 +64,18 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 
 	for {
 		select {
-		case message := <-conn.Message:
+		case message := <-conn.Send:
 			err := conn.Ws.WriteJSON(message)
 			if err != nil {
 				LogError("write", Log{Conn: conn, Error: err})
-				conn.Close <- 0
+				conn.CloseRead()
 				return err
 			}
 		case <-ticker.C:
 			err := conn.Ws.WriteMessage(websocket.PingMessage, []byte{})
 			if err != nil {
 				LogError("ping", Log{Conn: conn, Error: err})
-				conn.Close <- 0
+				conn.CloseRead()
 				return err
 			}
 		case <-ctx.Done():
@@ -79,33 +85,33 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 }
 
 func SendToOne(id int64, typ string, content interface{}, log bool) {
-	message := Message{Type: typ, Content: content}
+	send := Send{Type: typ, Content: content}
 	if conn, ok := mapper.GetConn(id); ok {
 		if log {
 			LogInfo("write", Log{Conn: conn, Message: typ, Json: content})
 		}
-		conn.Message <- message
+		conn.Send <- send
 	}
 }
 
 func SendToOnes(ids []int64, typ string, content interface{}, log bool) {
-	message := Message{Type: typ, Content: content}
+	send := Send{Type: typ, Content: content}
 	if log {
 		LogInfo("write", Log{Message: typ, Json: content})
 	}
 	for _, id := range ids {
 		if conn, ok := mapper.GetConn(id); ok {
-			conn.Message <- message
+			conn.Send <- send
 		}
 	}
 }
 
 func SendToAll(typ string, content interface{}, log bool) {
-	message := Message{Type: typ, Content: content}
+	send := Send{Type: typ, Content: content}
 	if log {
 		LogInfo("write", Log{Message: typ, Json: content})
 	}
 	for _, conn := range mapper.GetConns() {
-		conn.Message <- message
+		conn.Send <- send
 	}
 }
