@@ -10,8 +10,8 @@ import (
 
 type Conns map[int64]*Conn
 
+var mapper = NewMapper()
 var id2room = make(map[int64]*Room)
-var id2conn = make(Conns)
 var Received = make(chan Cmd)
 
 var upgrader = websocket.Upgrader{
@@ -38,8 +38,8 @@ func JoinUser(conn *Conn, cmd Cmd) {
 	id2room[conn.ID] = room
 	room.JoinUser(conn, join, NowMilliSec())
 	room.SendRoom()
-	conn.SendJoined(join.RoomNo)
-	id2conn.SendRooms(rooms)
+	SendToOne(conn.ID, "joined", join.RoomNo)
+	SendToAll("rooms", rooms.MakeSummary())
 }
 
 func LeaveUser(conn *Conn) {
@@ -48,7 +48,7 @@ func LeaveUser(conn *Conn) {
 		delete(id2room, conn.ID)
 		room.LeaveUser(conn, NowMilliSec())
 		room.SendRoom()
-		id2conn.SendRooms(rooms)
+		SendToAll("rooms", rooms.MakeSummary())
 	}
 }
 
@@ -72,8 +72,8 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	go conn.ActivateWriter(cctx)
 	defer cancelConn()
 
-	id2conn[id] = conn
-	defer delete(id2conn, id)
+	mapper.RegisterConn(id, conn)
+	defer mapper.UnregisterConn(id)
 
 	c.SetCloseHandler(func(code int, text string) error {
 		LogInfo("close handler", Log{Conn: conn})
@@ -81,8 +81,8 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 
-	conn.SendSelfID(id)
-	conn.SendRooms(rooms)
+	SendToOne(id, "selfID", id)
+	SendToOne(id, "rooms", rooms.MakeSummary())
 
 	for {
 		select {

@@ -78,32 +78,6 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 	}
 }
 
-func (conn *Conn) SendSelfID(id int64) {
-	msg := Message{"selfID", id}
-	LogInfo("write", Log{Conn: conn, Message: "selfID", Json: msg})
-	conn.Message <- msg
-}
-
-func (conns Conns) SendRooms(rooms Rooms) {
-	msg := Message{"rooms", rooms.MakeSummary()}
-	for _, conn := range conns {
-		conn.Message <- msg
-	}
-	LogInfo("write", Log{Message: "rooms", Json: msg})
-}
-
-func (conn *Conn) SendRooms(rooms Rooms) {
-	msg := Message{"rooms", rooms.MakeSummary()}
-	LogInfo("write", Log{Conn: conn, Message: "rooms", Json: msg})
-	conn.Message <- msg
-}
-
-func (conn *Conn) SendJoined(roomNo int) {
-	msg := Message{"joined", roomNo}
-	LogInfo("write", Log{Conn: conn, Message: "joined", Json: msg})
-	conn.Message <- msg
-}
-
 func (room *Room) Broadcast(typ string, cnt interface{}) {
 	msg := Message{Type: typ, Content: cnt}
 	for _, user := range room.Users {
@@ -122,5 +96,21 @@ func (room *Room) SendToMaster(typ string, cnt interface{}) {
 	msg := Message{Type: typ, Content: cnt}
 	if user := room.Users.Master(); user != nil {
 		user.Conn.Message <- msg
+	}
+}
+
+func SendToOne(id int64, typ string, content interface{}) {
+	message := Message{Type: typ, Content: content}
+	if conn, ok := mapper.GetConn(id); ok {
+		LogInfo("write", Log{Conn: conn, Message: typ, Json: content})
+		conn.Message <- message
+	}
+}
+
+func SendToAll(typ string, content interface{}) {
+	message := Message{Type: typ, Content: content}
+	LogInfo("write", Log{Message: typ, Json: content})
+	for _, conn := range mapper.GetConns() {
+		conn.Message <- message
 	}
 }
