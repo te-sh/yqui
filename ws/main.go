@@ -2,11 +2,9 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 var mapper = NewMapper()
@@ -34,8 +32,6 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	mapper.RegisterConn(id, conn)
 	defer mapper.UnregisterConn(id)
 
-	go conn.ActivateReader()
-
 	ctx := context.Background()
 	cctx, cancelConn := context.WithCancel(ctx)
 	go conn.ActivateWriter(cctx)
@@ -43,7 +39,6 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 
 	c.SetCloseHandler(func(code int, text string) error {
 		LogInfo("close handler", Log{Conn: conn, Message: text})
-		conn.CloseRead()
 		return nil
 	})
 
@@ -52,21 +47,19 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 
 LOOP:
 	for {
-		LogInfo("receive channel", Log{Conn: conn, Message: fmt.Sprintf("%v", conn.Receive)})
-		select {
-		case cmd, ok := <- conn.Receive:
-			if !ok {
-				break LOOP
-			}
-			cmd.ID = id
-			cmd.Time = NowMilliSec()
-			LogInfo("receive", Log{Conn: conn, Message: strconv.FormatBool(ok), Json: cmd})
-			Command <- cmd
+		var cmd Cmd
+		err := conn.Ws.ReadJSON(&cmd)
+		if err != nil {
+			LogInfo("read error", Log{Conn: conn, Error: err})
+			break LOOP
 		}
+		cmd.ID = id
+		cmd.Time = NowMilliSec()
+		LogInfo("receive", Log{Conn: conn, Json: cmd})
+		Command <- cmd
 	}
 
 	Command <- Cmd{C: "leave", ID: id, Time: NowMilliSec()}
-	LogInfo("finish", Log{Conn: conn, Message: "exit HandleConnection"})
 }
 
 func main() {

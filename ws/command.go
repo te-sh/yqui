@@ -34,21 +34,17 @@ func (room *Room) RunCommand(cmd Cmd) {
 	switch cmd.C {
 	case "join":
 		join := MakeJoin(cmd)
-		LogInfo("joining user", Log{ID: cmd.ID, Json: join})
 		if user, ok := room.JoinUser(cmd.ID, join); ok {
 			room.SendRoom()
 			SendToOne(cmd.ID, "joined", join.RoomNo, true)
 			SendToAll("rooms", rooms.MakeSummary(), true)
 			room.SendChat(Chat{Type: "join", Time: cmd.Time, Name: user.Name})
-			LogInfo("joined user", Log{ID: cmd.ID, Json: user})
 		}
 	case "leave":
-		LogInfo("leaving user", Log{ID: cmd.ID})
 		if user, ok := room.LeaveUser(cmd.ID); ok {
 			room.SendRoom()
 			SendToAll("rooms", rooms.MakeSummary(), true)
 			room.SendChat(Chat{Type: "leave", Time: cmd.Time, Name: user.Name})
-			LogInfo("left user", Log{ID: cmd.ID, Json: user})
 		}
 	case "user":
 		user := new(User)
