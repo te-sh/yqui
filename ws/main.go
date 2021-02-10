@@ -34,8 +34,8 @@ func JoinUser(conn *Conn, cmd Cmd) {
 	mapper.RegisterRoom(conn.ID, room)
 	room.JoinUser(conn, join, NowMilliSec())
 	room.SendRoom()
-	SendToOne(conn.ID, "joined", join.RoomNo)
-	SendToAll("rooms", rooms.MakeSummary())
+	SendToOne(conn.ID, "joined", join.RoomNo, true)
+	SendToAll("rooms", rooms.MakeSummary(), true)
 }
 
 func LeaveUser(conn *Conn) {
@@ -44,7 +44,7 @@ func LeaveUser(conn *Conn) {
 		mapper.UnregisterRoom(conn.ID)
 		room.LeaveUser(conn, NowMilliSec())
 		room.SendRoom()
-		SendToAll("rooms", rooms.MakeSummary())
+		SendToAll("rooms", rooms.MakeSummary(), true)
 	}
 }
 
@@ -77,8 +77,8 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 
-	SendToOne(id, "selfID", id)
-	SendToOne(id, "rooms", rooms.MakeSummary())
+	SendToOne(id, "selfID", id, true)
+	SendToOne(id, "rooms", rooms.MakeSummary(), true)
 
 	for {
 		select {

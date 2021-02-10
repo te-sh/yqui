@@ -78,17 +78,21 @@ func (conn *Conn) ActivateWriter(ctx context.Context) error {
 	}
 }
 
-func SendToOne(id int64, typ string, content interface{}) {
+func SendToOne(id int64, typ string, content interface{}, log bool) {
 	message := Message{Type: typ, Content: content}
 	if conn, ok := mapper.GetConn(id); ok {
-		LogInfo("write", Log{Conn: conn, Message: typ, Json: content})
+		if log {
+			LogInfo("write", Log{Conn: conn, Message: typ, Json: content})
+		}
 		conn.Message <- message
 	}
 }
 
-func SendToOnes(ids []int64, typ string, content interface{}) {
+func SendToOnes(ids []int64, typ string, content interface{}, log bool) {
 	message := Message{Type: typ, Content: content}
-	LogInfo("write", Log{Message: typ, Json: content})
+	if log {
+		LogInfo("write", Log{Message: typ, Json: content})
+	}
 	for _, id := range ids {
 		if conn, ok := mapper.GetConn(id); ok {
 			conn.Message <- message
@@ -96,9 +100,11 @@ func SendToOnes(ids []int64, typ string, content interface{}) {
 	}
 }
 
-func SendToAll(typ string, content interface{}) {
+func SendToAll(typ string, content interface{}, log bool) {
 	message := Message{Type: typ, Content: content}
-	LogInfo("write", Log{Message: typ, Json: content})
+	if log {
+		LogInfo("write", Log{Message: typ, Json: content})
+	}
 	for _, conn := range mapper.GetConns() {
 		conn.Message <- message
 	}
