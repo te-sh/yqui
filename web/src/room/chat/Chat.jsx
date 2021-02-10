@@ -23,11 +23,12 @@ const Chat = ({ className, isPlayer }) => {
   return (
     <Paper className={className}>
       <form onSubmit={chat} className="chat-input">
-        <TextField id="message" variant="outlined" fullWidth
+        <TextField id="message" className="chat-text"
+                   variant="outlined" fullWidth
                    autoComplete="off"
                    value={message}
                    onChange={evt => setMessage(evt.target.value)} />
-        <IconButton type="submit">
+        <IconButton type="submit" className="send-chat-button">
           <Edit />
         </IconButton>
       </form>
