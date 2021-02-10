@@ -6,6 +6,7 @@ export const TOGGLE_SHOW_LEFT = 'TOGGLE_SHOW_LEFT'
 export const RECV_JOINED = 'RECV_JOINED'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
+export const RECV_RULE = 'RECV_RULE'
 export const RECV_BG = 'RECV_BG'
 export const RECV_BOARD = 'RECV_BOARD'
 export const RECV_SG = 'RECV_SG'
@@ -52,6 +53,10 @@ export const recvJoined = roomNo => {
 
 export const recvRoom = room => {
   return { type: RECV_ROOM, room }
+}
+
+export const recvRule = rule => {
+  return { type: RECV_RULE, rule }
 }
 
 export const recvBg = bg => {

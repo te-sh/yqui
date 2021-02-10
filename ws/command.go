@@ -110,7 +110,8 @@ func (room *Room) RunCommand(cmd Cmd) {
 		rule := NewRule()
 		json.Unmarshal(cmd.A, rule)
 		room.SetRule(rule)
-		room.SendRoom()
+		room.SendRule()
+		room.SendSG()
 	case "toggle-timer":
 		room.ToggleTimer()
 	case "chat":

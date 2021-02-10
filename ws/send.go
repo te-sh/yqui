@@ -3,10 +3,16 @@ package main
 func (room *Room) SendRoom() {
 	LogInfo("write", Log{Message: "room", Json: room})
 	room.Broadcast("room", room)
+	room.SendRule()
 	if room.Rule.Board.Active {
 		room.SendBG()
 	}
 	room.SendSG()
+}
+
+func (room *Room) SendRule() {
+	LogInfo("write", Log{Message: "rule", Json: room})
+	room.Broadcast("rule", room.Rule)
 }
 
 func (room *Room) SendBG() {

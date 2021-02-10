@@ -9,7 +9,7 @@ type Room struct {
 	BG      *BoardGroup `json:"-"`
 	SG      *ScoreGroup `json:"-"`
 	Buttons *Buttons    `json:"buttons"`
-	Rule    *Rule       `json:"rule"`
+	Rule    *Rule       `json:"-"`
 	History *History    `json:"-"`
 	Timer   *Timer      `json:"-"`
 }

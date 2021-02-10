@@ -2,7 +2,7 @@ import update from 'immutability-helper'
 import {
   SET_MOBILE, RESET, SET_WEB_SOCKET, RECV_SELF_ID,
   RECV_ROOMS, RECV_JOINED, TOGGLE_SHOW_LEFT,
-  RECV_ROOM, RECV_BG, RECV_BOARD, RECV_SG,
+  RECV_ROOM, RECV_RULE, RECV_BG, RECV_BOARD, RECV_SG,
   RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS,
   SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
   SET_OPEN_RULE, SET_OPEN_SETTING, SET_OPEN_HELP, SET_OPEN_LEAVE
@@ -61,8 +61,7 @@ const recvRoom = (action, state) => {
     numPlayers: { $set: players.length },
     teams: { $set: teams },
     ...recvTeamsUpdator(state, users, teams),
-    buttons: { $set: buttonsFromJson(action.room.buttons) },
-    rule: { $set: action.room.rule }
+    buttons: { $set: buttonsFromJson(action.room.buttons) }
   })
 }
 
@@ -89,6 +88,8 @@ const yquiApp = (state = initialState, action) => {
     return update(state, { showLeft: { $set: !state.showLeft } })
   case RECV_ROOM:
     return recvRoom(action, state)
+  case RECV_RULE:
+    return update(state, { rule: { $set: action.rule } })
   case RECV_BG:
     return update(state, { bg: { $set: mergeBgWithJson(state, action.bg) } })
   case RECV_BOARD:

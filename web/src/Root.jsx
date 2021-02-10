@@ -6,7 +6,7 @@ import URI from 'urijs'
 import playSound from './lib/sound'
 import {
   setMobile, reset, setWebSocket, recvSelfID, recvRooms, recvJoined,
-  recvRoom, recvBg, recvBoard, recvSg, recvButtons, recvTimer, recvChat
+  recvRoom, recvRule, recvBg, recvBoard, recvSg, recvButtons, recvTimer, recvChat
 } from './redux/actions'
 import Rooms from './rooms/Rooms'
 import Room from './room/Room'
@@ -67,6 +67,7 @@ export default connect(
       rooms: rooms => dispatch(recvRooms(rooms)),
       joined: roomNo => dispatch(recvJoined(roomNo)),
       room: room => dispatch(recvRoom(room)),
+      rule: rule => dispatch(recvRule(rule)),
       bg: bg => dispatch(recvBg(bg)),
       board: board => dispatch(recvBoard(board)),
       sg: sg => dispatch(recvSg(sg)),
