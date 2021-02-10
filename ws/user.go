@@ -50,16 +50,13 @@ func (users Users) IDs() []int64 {
 	return ids
 }
 
-func (users Users) MasterID() (id int64, ok bool) {
+func (users Users) MasterID() (int64, bool) {
 	for _, user := range users {
 		if user.IsMaster {
-			id = user.ID
-			ok = true
-			return
+			return user.ID, true
 		}
 	}
-	ok = false
-	return
+	return 0, false
 }
 
 func (teams Teams) First() *Team {

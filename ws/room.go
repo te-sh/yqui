@@ -1,6 +1,7 @@
 package main
 
 const numRooms = 16
+
 var rooms = NewRooms()
 
 type Room struct {
@@ -53,14 +54,12 @@ func NewRoom() *Room {
 	return room
 }
 
-func (rooms Rooms) GetRoom(roomNo int) (room *Room, ok bool) {
+func (rooms Rooms) GetRoom(roomNo int) (*Room, bool) {
 	if 0 <= roomNo && roomNo < len(rooms) {
-		room = rooms[roomNo]
-		ok = true
+		return rooms[roomNo], true
 	} else {
-		ok = false
+		return nil, false
 	}
-	return
 }
 
 func (rooms Rooms) MakeSummary() RoomsSummary {

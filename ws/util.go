@@ -14,7 +14,7 @@ func NowMilliSec() int64 {
 }
 
 func NewID() int64 {
-	return rand.Int63n(int64(1) << 53)
+	return rand.Int63n((int64(1)<<53)-1) + 1
 }
 
 func IntMax(a int, b int) int {

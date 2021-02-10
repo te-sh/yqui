@@ -20,13 +20,13 @@ func (mapper *Mapper) UnregisterConn(id int64) {
 	mapper.ID2Conn.Delete(id)
 }
 
-func (mapper *Mapper) GetConn(id int64) (conn *Conn, ok bool) {
-	_conn, _ok := mapper.ID2Conn.Load(id)
-	ok = _ok
+func (mapper *Mapper) GetConn(id int64) (*Conn, bool) {
+	conn, ok := mapper.ID2Conn.Load(id)
 	if ok {
-		conn = _conn.(*Conn)
+		return conn.(*Conn), true
+	} else {
+		return nil, false
 	}
-	return
 }
 
 func (mapper *Mapper) GetConns() []*Conn {
@@ -46,11 +46,11 @@ func (mapper *Mapper) UnregisterRoom(id int64) {
 	mapper.ID2Room.Delete(id)
 }
 
-func (mapper *Mapper) GetRoom(id int64) (room *Room, ok bool) {
-	_room, _ok := mapper.ID2Room.Load(id)
-	ok = _ok
+func (mapper *Mapper) GetRoom(id int64) (*Room, bool) {
+	room, ok := mapper.ID2Room.Load(id)
 	if ok {
-		room = _room.(*Room)
+		return room.(*Room), true
+	} else {
+		return nil, false
 	}
-	return
 }
