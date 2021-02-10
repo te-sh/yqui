@@ -16,29 +16,6 @@ func MakeJoin(cmd Cmd) *Join {
 	return join
 }
 
-func JoinUser(conn *Conn, cmd Cmd) {
-	LogInfo("joining user", Log{Conn: conn})
-
-	join := MakeJoin(cmd)
-	if join.RoomNo < 0 || join.RoomNo >= len(rooms) {
-		LogError("join user", Log{Conn: conn, Message: "roon No is invalid"})
-		return
-	}
-
-	room := rooms[join.RoomNo]
-	if room == nil {
-		LogError("join user", Log{Conn: conn, Message: "room does not exist"})
-		return
-	}
-
-	mapper.RegisterRoom(conn.ID, room)
-	room.JoinUser(conn.ID, join, NowMilliSec())
-	room.SendRoom()
-	SendToOne(conn.ID, "joined", join.RoomNo, true)
-	SendToAll("rooms", rooms.MakeSummary(), true)
-	LogInfo("joined user", Log{Conn: conn})
-}
-
 func (room *Room) JoinUser(id int64, join *Join, time int64) {
 	if _, ok := room.Users[id]; ok {
 		LogError("join user", Log{Message: "duplicated id", Json: join})
@@ -57,6 +34,8 @@ func (room *Room) JoinUser(id int64, join *Join, time int64) {
 	room.SG.Player.Scores[id].Init(room.Rule.Player)
 
 	room.History.Join(id)
+
+	mapper.RegisterRoom(id, room)
 
 	chat := Chat{Type: "join", Time: time, Name: join.Name}
 	room.SendChat(chat)

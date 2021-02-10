@@ -32,8 +32,9 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	mapper.RegisterConn(id, conn)
 	defer mapper.UnregisterConn(id)
 
-	ctx := context.Background()
 	go conn.ActivateReader()
+
+	ctx := context.Background()
 	cctx, cancelConn := context.WithCancel(ctx)
 	go conn.ActivateWriter(cctx)
 	defer cancelConn()
@@ -50,13 +51,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	for cmd := range conn.Receive {
 		cmd.ID = id
 		cmd.Time = NowMilliSec()
-
-		switch cmd.C {
-		case "join":
-			JoinUser(conn, cmd)
-		default:
-			Command <- cmd
-		}
+		Command <- cmd
 	}
 
 	Command <- Cmd{C: "leave", ID: id, Time: NowMilliSec()}

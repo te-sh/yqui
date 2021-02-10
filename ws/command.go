@@ -16,7 +16,14 @@ func HandleCommand() {
 
 	for {
 		cmd := <-Command
-		if room, ok := mapper.GetRoom(cmd.ID); ok {
+		if cmd.C == "join" {
+			join := MakeJoin(cmd)
+			if room, ok := rooms.GetRoom(join.RoomNo); ok {
+				room.RunCommand(cmd)
+			} else {
+				LogError("join user", Log{Message: "failed to get room", Json: join})
+			}
+		} else if room, ok := mapper.GetRoom(cmd.ID); ok {
 			room.RunCommand(cmd)
 		}
 	}
@@ -25,6 +32,12 @@ func HandleCommand() {
 func (room *Room) RunCommand(cmd Cmd) {
 	sound := NewSound()
 	switch cmd.C {
+	case "join":
+		join := MakeJoin(cmd)
+		room.JoinUser(cmd.ID, join, NowMilliSec())
+		room.SendRoom()
+		SendToOne(cmd.ID, "joined", join.RoomNo, true)
+		SendToAll("rooms", rooms.MakeSummary(), true)
 	case "leave":
 		room.LeaveUser(cmd.ID, NowMilliSec())
 		room.SendRoom()

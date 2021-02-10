@@ -53,6 +53,16 @@ func NewRoom() *Room {
 	return room
 }
 
+func (rooms Rooms) GetRoom(roomNo int) (room *Room, ok bool) {
+	if 0 <= roomNo && roomNo < len(rooms) {
+		room = rooms[roomNo]
+		ok = true
+	} else {
+		ok = false
+	}
+	return
+}
+
 func (rooms Rooms) MakeSummary() RoomsSummary {
 	var roomsSummary RoomsSummary
 	for _, room := range rooms {
