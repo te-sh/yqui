@@ -1,10 +1,5 @@
 package main
 
-type ScoreGroup struct {
-	Player *ScoreSet `json:"player"`
-	Team   *ScoreSet `json:"team"`
-}
-
 type ScoreSet struct {
 	Scores  Scores   `json:"scores"`
 	WinLose *WinLose `json:"-"`
@@ -23,13 +18,6 @@ type Score struct {
 	Lose        int  `json:"lose"`
 }
 
-func NewScoreGroup() *ScoreGroup {
-	sg := new(ScoreGroup)
-	sg.Player = NewScoreSet()
-	sg.Team = NewScoreSet()
-	return sg
-}
-
 func NewScoreSet() *ScoreSet {
 	ss := new(ScoreSet)
 	ss.Scores = make(Scores)
@@ -41,13 +29,6 @@ func NewScore() *Score {
 	score := new(Score)
 	score.Reset()
 	return score
-}
-
-func (sg *ScoreGroup) Clone() *ScoreGroup {
-	newSG := NewScoreGroup()
-	newSG.Player = sg.Player.Clone()
-	newSG.Team = sg.Team.Clone()
-	return newSG
 }
 
 func (ss *ScoreSet) Clone() *ScoreSet {
@@ -68,11 +49,6 @@ func (scores Scores) Clone() Scores {
 func (score *Score) Clone() *Score {
 	newScore := *score
 	return &newScore
-}
-
-func (sg *ScoreGroup) Reset() {
-	sg.Player.Reset()
-	sg.Team.Reset()
 }
 
 func (ss *ScoreSet) Reset() {
@@ -105,10 +81,6 @@ func (ss *ScoreSet) Remove(id int64) {
 	delete(ss.Scores, id)
 }
 
-func (sg *ScoreGroup) Init(rule *Rule) {
-	sg.Player.Init(rule.Player)
-}
-
 func (ss *ScoreSet) Init(rule *NormalRule) {
 	for _, score := range ss.Scores {
 		score.Init(rule)
@@ -139,11 +111,6 @@ func (score *Score) CalcCompPoint(rule *NormalRule) {
 	}
 }
 
-func (sg *ScoreGroup) SetZero() {
-	sg.Player.SetZero()
-	sg.Team.SetZero()
-}
-
 func (ss *ScoreSet) SetZero() {
 	for _, score := range ss.Scores {
 		score.SetZero()
@@ -153,11 +120,6 @@ func (ss *ScoreSet) SetZero() {
 func (score *Score) SetZero() {
 	score.Point = 0
 	score.Batsu = 0
-}
-
-func (sg *ScoreGroup) Merge(newSG *ScoreGroup) {
-	sg.Player.Merge(newSG.Player)
-	sg.Team.Merge(newSG.Team)
 }
 
 func (ss *ScoreSet) Merge(newSS *ScoreSet) {
