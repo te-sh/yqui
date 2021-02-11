@@ -6,7 +6,7 @@ import './Actions.scss'
 const TeamEdit = ({ className }) => {
   return (
     <Paper className={className}>
-      <Box className="actions-content">
+      <Box className="actions-content team-edit-actions">
         <Button variant="outlined" color="primary" size="large"
                 onClick={endEditTeams}>
           設定

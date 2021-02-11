@@ -48,7 +48,7 @@ const Player = ({ className, selfID, isPlayer, rule, bg }) => {
   )
 
   const playerComponent = (
-    <Box className={classNames('actions-content', { 'hidden': !isPlayer })}>
+    <Box className={classNames('actions-content player-actions', { 'hidden': !isPlayer })}>
       <Button variant="outlined" color="primary" size="large"
               onClick={() => sendWs(SEND_PUSH)}>
         早押し
@@ -58,7 +58,7 @@ const Player = ({ className, selfID, isPlayer, rule, bg }) => {
   )
 
   const observerComponent = (
-    <Box className={classNames('actions-content', { 'hidden': isPlayer })}>
+    <Box className={classNames('actions-content observer-actions', { 'hidden': isPlayer })}>
       <Typography variant="h6">
         あなたは観戦者です
       </Typography>

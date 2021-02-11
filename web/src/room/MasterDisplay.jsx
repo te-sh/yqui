@@ -4,11 +4,14 @@ import { Paper, Typography } from '@material-ui/core'
 import './MasterDisplay.scss'
 
 const MasterDisplay = ({ className, master }) => {
-  const masterName = master ? <span className="master-name">{master.name}</span> : '-'
+  const masterName = master ? master.name : '-'
 
   return (
     <Paper className={className}>
-      <Typography>司会 {masterName}</Typography>
+      <Typography>
+        <span>司会 </span>
+        <span className="master-name">{masterName}</span>
+      </Typography>
     </Paper>
   )
 }
