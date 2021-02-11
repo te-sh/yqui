@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "test": "jest --config config.json --runInBand"
+    "test": "jest --config config.json --runInBand --silent"
   },
   "devDependencies": {
     "jest": "^26.6.3",
-    "puppeteer": "^7.0.1"
+    "puppeteer": "^7.0.4"
   }
 }

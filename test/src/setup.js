@@ -8,9 +8,10 @@ if (process.env.LOCAL_SERVER) {
   global.TIMEOUT = 150;
 } else {
   global.YQUI_URL = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/';
-  global.TIMEOUT = 100;
+  global.TIMEOUT = 75;
 }
-console.log(`Accessing to ${YQUI_URL}`)
+
+console.log('Accessing to', YQUI_URL)
 
 global.PLAYERS = 5;
 
@@ -21,7 +22,7 @@ jest.setTimeout(30000);
 beforeAll(async () => {
   let browser = await puppeteer.launch();
   global.browser = browser;
-  console.log(await browser.version());
+  console.info(await browser.version());
 
   let pages = [];
   for (let i = 0; i < PLAYERS; ++i) {
