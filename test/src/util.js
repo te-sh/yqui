@@ -6,7 +6,7 @@ module.exports = {
   },
   closePage: async page => {
     await page.close();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(150);
   },
   gotoYqui: async (...pages) => {
     for (page of pages) {
