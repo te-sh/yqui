@@ -51,7 +51,7 @@ const Master = ({ className, rule, timer, clearEditBoards }) => {
 
   return (
     <Paper className={className}>
-      <Box className="subactions-content">
+      <Box className="subactions-content master-subactions">
         <Button variant="outlined" color="default"
                 onClick={onAllClear}>
           オールクリア

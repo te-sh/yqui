@@ -15,8 +15,8 @@ const Alert = ({ className, alert, mobile, rule, numPlayers }) => {
   })()
 
   return (
-    <Paper className={classNames(className, 'subactions-alert')}>
-      <Box className="subactions-content">
+    <Paper className={classNames(className, 'alert-subactions-container')}>
+      <Box className="subactions-content alert-subactions">
         <Typography variant="h5">
           {alertText}
         </Typography>

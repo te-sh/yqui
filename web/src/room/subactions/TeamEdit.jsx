@@ -21,7 +21,7 @@ const Master = ({ className, numPlayers, dispTeams }) => {
 
   return (
     <Paper className={className}>
-      <Box className="subactions-content subactions-team-edit">
+      <Box className="subactions-content team-edit-subactions">
         <FormLabel>チーム数</FormLabel>
         <TextField id="numTeams" type="number" className="num-teams"
                    inputProps={{ style: { textAlign: 'center' } }}

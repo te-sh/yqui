@@ -6,8 +6,10 @@ describe('rooms', () => {
   });
 
   test('rooms page', async () => {
+    const s = 'header .app-name'
+
     for (page of pages) {
-      expect(await page.$eval('header .app-name', el => el.textContent)).toBe('Yqui');
+      expect(await page.$eval(s, el => el.textContent)).toBe('Yqui');
     }
   });
 });

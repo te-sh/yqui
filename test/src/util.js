@@ -1,6 +1,8 @@
 module.exports = {
   newPage: async index => {
-    await page.close(pages[index]);
+    if (!pages[index].isClosed()) {
+      await pages[index].close();
+    }
     let page = await browser.newPage();
     pages[index] = page;
     return page;

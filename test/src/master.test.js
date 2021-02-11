@@ -45,6 +45,17 @@ describe('master', () => {
       expect(await p1.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null);
     });
 
+    test('subactions area', async () => {
+      const s = '.room .subactions';
+
+      expect(await p0.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+      expect(await p1.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+
+      await util.clickToggleMasterButton(pages[0]);
+      expect(await p0.$(`${s} .master-subactions`)).not.toBe(null);
+      expect(await p1.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+    });
+
     test('topbar buttons', async () => {
       const sm = 'header .toggle-master-button';
       const sr = 'header .open-rule-button';

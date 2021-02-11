@@ -19,7 +19,7 @@ const Player = ({ className, rule, timer }) => {
 
   return (
     <Paper className={className}>
-      <Box className="subactions-content">
+      <Box className="subactions-content player-subactions">
         {rule.other.timer.active && timerComponent}
       </Box>
     </Paper>

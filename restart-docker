@@ -24,6 +24,7 @@ if [ -z $SKIP_YQUI ]; then
 fi
 
 if [ -z $SKIP_TEST ]; then
+    rm -f ws/log/test.log
     export COMPOSE_PROJECT_NAME=test
     docker-compose down
     PORT=8800 docker-compose --file docker-compose.prod.yml up -d
