@@ -6,6 +6,8 @@ services:
       context: './web'
       dockerfile: './Dockerfile.prod'
     image: tesh/yqui-web
+    volumes:
+      - './web/server.conf:/etc/nginx/conf.d/server.conf:ro'
   ws:
     build:
       context: './ws'

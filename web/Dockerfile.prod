@@ -6,22 +6,10 @@ ADD . ./
 RUN yarn install \
  && yarn build
 
-FROM node:14.15.4-alpine3.12
+FROM nginx:1.19.6-alpine
 
 RUN apk update \
  && apk upgrade \
  && rm -rf /var/cache/apk/*
 
-USER node
-ENV HOME /home/node
-
-ENV APPDIR $HOME/app
-RUN mkdir -p $APPDIR
-WORKDIR $APPDIR
-
-RUN yarn add serve \
- && yarn cache clean
-
-COPY --from=builder --chown=node:node /app/build ./build
-
-CMD ["yarn", "run", "serve", "-s", "build"]
+COPY --from=builder /app/build /app/build
