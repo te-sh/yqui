@@ -1,4 +1,7 @@
 {
+  "name": "yqui-e2e-test",
+  "version": "0.1.0",
+  "license": "AFL-2.0",
   "scripts": {
     "test": "jest --config config.json --runInBand --silent"
   },

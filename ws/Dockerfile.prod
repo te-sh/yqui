@@ -26,8 +26,8 @@ USER yqui
 ENV HOME /home/yqui
 ENV APPDIR $HOME/app
 RUN mkdir -p $APPDIR
-WORKDIR $APPDIR
 
+WORKDIR $APPDIR
 COPY --from=builder --chown=yqui:yqui /app/app .
 
 ENV YQUI_ENV prod

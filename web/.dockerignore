@@ -2,5 +2,5 @@
 Dockerfile
 Dockerfile.prod
 log/
+nginx/
 node_modules/
-server.conf
