@@ -1,4 +1,9 @@
 module.exports = {
+  newPage: async index => {
+    let page = await browser.newPage();
+    pages[index] = page;
+    return page;
+  },
   closePage: async page => {
     await page.close();
     await page.waitForTimeout(100);
@@ -8,8 +13,8 @@ module.exports = {
       await page.goto(YQUI_URL);
     }
   },
-  enterRoom: async (page, room, name) => {
-    await page.click(`.rooms-table tbody tr:nth-child(${room}) .enter-room-button button`);
+  enterRoom: async (page, roomNo, name) => {
+    await page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`);
     await page.type('.enter-room .name input', name);
     await page.click('.enter-room-dialog .submit');
     await page.waitForTimeout(100);

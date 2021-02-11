@@ -10,7 +10,7 @@ if (process.env.LOCAL_SERVER) {
 }
 console.log(`Accessing to ${YQUI_URL}`)
 
-global.PLAYERS = 2;
+global.PLAYERS = 5;
 
 // jest settings
 jest.setTimeout(10000);
@@ -21,15 +21,16 @@ beforeAll(async () => {
   global.browser = browser;
   console.log(await browser.version());
 
-  let mpage = await browser.newPage();
-  global.mpage = mpage;
-
-  let ppages = [];
+  let pages = [];
   for (let i = 0; i < PLAYERS; ++i) {
-    const ppage = await browser.newPage();
-    ppages.push(ppage);
+    const page = await browser.newPage();
+    pages.push(page);
   }
-  global.ppages = ppages;
+  global.pages = pages;
+
+  global.p0 = pages[0];
+  global.p1 = pages[1];
+  global.p2 = pages[2];
 });
 
 afterAll(async done => {
