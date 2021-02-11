@@ -1,17 +1,13 @@
-const util = require('./util');
+const util = require('../util');
 
-describe('master', () => {
-  beforeEach(async () => {
-    await util.gotoYqui(...pages);
-    await util.enterRoom(p0, 1, 'ゆーた0');
-    await util.enterRoom(p1, 1, 'ゆーた1');
-  });
+describe('master/observer', () => {
+  describe('move from player to master', () => {
+    beforeEach(async () => {
+      await util.gotoYqui(...pages);
+      await util.enterRoom(p0, 1, 'ゆーた0');
+      await util.enterRoom(p1, 1, 'ゆーた1');
+    });
 
-  afterEach(async () => {
-    //p0 = await util.newPage(0);
-  });
-
-  describe('move to master', () => {
     test('player box', async () => {
       const s = '.room .team .player-container';
       let list;
