@@ -5,7 +5,7 @@ global.ROOT_DIR = '/home/node/test';
 
 if (process.env.LOCAL_SERVER) {
   global.YQUI_URL = 'http://docker-host:8085/';
-  global.TIMEOUT = 100;
+  global.TIMEOUT = 150;
 } else {
   global.YQUI_URL = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/';
   global.TIMEOUT = 75;
@@ -16,7 +16,7 @@ console.log('Accessing to', YQUI_URL)
 global.PLAYERS = 5;
 
 // jest settings
-jest.setTimeout(30000);
+jest.setTimeout(60000);
 
 // setup/teadown for test
 beforeAll(async () => {

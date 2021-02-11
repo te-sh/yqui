@@ -66,7 +66,7 @@ describe('master/observer', () => {
 
       await util.clickToggleObserveButton(p0);
       expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit[disabled]`)).not.toBe(null);
       expect(await p0.$(`${so}.MuiIconButton-colorSecondary:not([disabled])`)).not.toBe(null);
       expect(await p1.$(`${sr}[disabled]`)).not.toBe(null);
       expect(await p1.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
