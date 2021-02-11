@@ -10,6 +10,16 @@ FROM nginx:1.19.6-alpine
 
 RUN apk update \
  && apk upgrade \
- && rm -rf /var/cache/apk/*
+ && rm -rf /var/cache/apk/* \
+ && addgroup -g 1000 -S yqui \
+ && adduser -u 1000 -S yqui -G yqui \
+ && touch /var/run/nginx.pid \
+ && chown -R yqui:yqui /var/run/nginx.pid \
+ && chown -R yqui:yqui /var/cache/nginx
 
-COPY --from=builder /app/build /app/build
+ENV HOME /home/yqui
+ENV APPDIR $HOME/app
+RUN mkdir -p $APPDIR
+WORKDIR $APPDIR
+
+COPY --from=builder --chown=yqui:yqui /app/build ./build

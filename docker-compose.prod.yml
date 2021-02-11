@@ -7,6 +7,7 @@ services:
       dockerfile: './Dockerfile.prod'
     image: tesh/yqui-web
     volumes:
+      - './web/log:/home/yqui/app/log'
       - './web/server.conf:/etc/nginx/conf.d/server.conf:ro'
   ws:
     build:

@@ -24,7 +24,6 @@ RUN apk update \
 
 USER yqui
 ENV HOME /home/yqui
-
 ENV APPDIR $HOME/app
 RUN mkdir -p $APPDIR
 WORKDIR $APPDIR

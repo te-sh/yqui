@@ -1,2 +1,6 @@
 .git/
+Dockerfile
+Dockerfile.prod
+log/
 node_modules/
+server.conf
