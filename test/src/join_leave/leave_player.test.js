@@ -1,7 +1,7 @@
 const util = require('../util');
 
 describe('join/leave', () => {
-  describe('leave from player', () => {
+  describe('leave player', () => {
     beforeEach(async () => {
       await util.gotoYqui(...pages);
       await util.enterRoom(p1, 1, 'ゆーた1');
@@ -10,6 +10,18 @@ describe('join/leave', () => {
 
     afterEach(async () => {
       p2 = await util.newPage(2);
+    });
+
+    test('room users', async () => {
+      const s = '.rooms-table tbody tr:first-child .num-users';
+
+      expect(await p0.$eval(s, el => el.textContent)).toBe('2');
+
+      await util.leaveRoom(p1);
+      expect(await p0.$eval(s, el => el.textContent)).toBe('1');
+
+      await util.closePage(p2);
+      expect(await p0.$eval(s, el => el.textContent)).toBe('0');
     });
 
     test('player box', async () => {
@@ -35,16 +47,25 @@ describe('join/leave', () => {
       expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0');
     });
 
-    test('room users', async () => {
-      const s = '.rooms-table tbody tr:first-child .num-users';
+    test('topbar buttons', async () => {
+      const sr = 'header .open-rule-button';
+      const sm = 'header .toggle-master-button';
+      const so = 'header .toggle-observe-button';
 
-      expect(await p0.$eval(s, el => el.textContent)).toBe('2');
+      await util.enterRoom(p0, 1, 'ゆーた0');
+      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
 
       await util.leaveRoom(p1);
-      expect(await p0.$eval(s, el => el.textContent)).toBe('1');
+      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
 
       await util.closePage(p2);
-      expect(await p0.$eval(s, el => el.textContent)).toBe('0');
+      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
     });
 
     test('chat message', async () => {

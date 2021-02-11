@@ -33,5 +33,9 @@ module.exports = {
   clickToggleMasterButton: async page => {
     await page.click('header .toggle-master-button');
     await page.waitForTimeout(TIMEOUT);
+  },
+  clickToggleObserveButton: async page => {
+    await page.click('header .toggle-observe-button');
+    await page.waitForTimeout(TIMEOUT);
   }
 };
