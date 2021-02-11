@@ -2,7 +2,8 @@ package main
 
 import "encoding/json"
 
-var Command = make(chan Cmd)
+const CommandChannelCapacity = 64
+var Command = make(chan Cmd, CommandChannelCapacity)
 
 type Cmd struct {
 	C    string          `json:"c"`
