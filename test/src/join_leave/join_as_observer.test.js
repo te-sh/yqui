@@ -51,11 +51,11 @@ describe('join/leave', () => {
       const s = '.room .subactions';
 
       await util.enterRoom(p0, 1, 'ゆーた0');
-      expect(await p0.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+      expect(await p0.$(`${s} .player-subactions`)).not.toBe(null);
 
       await util.enterRoom(p1, 1, 'ゆーた1');
-      expect(await p0.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
-      expect(await p1.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+      expect(await p0.$(`${s} .player-subactions`)).not.toBe(null);
+      expect(await p1.$(`${s} .player-subactions`)).not.toBe(null);
     });
 
     test('topbar buttons', async () => {

@@ -44,12 +44,12 @@ describe('master/observer', () => {
     test('subactions area', async () => {
       const s = '.room .subactions';
 
-      expect(await p0.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
-      expect(await p1.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+      expect(await p0.$(`${s} .player-subactions`)).not.toBe(null);
+      expect(await p1.$(`${s} .player-subactions`)).not.toBe(null);
 
       await util.clickToggleMasterButton(p0);
       expect(await p0.$(`${s} .master-subactions`)).not.toBe(null);
-      expect(await p1.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+      expect(await p1.$(`${s} .player-subactions`)).not.toBe(null);
     });
 
     test('topbar buttons', async () => {
