@@ -1,5 +1,7 @@
 package main
 
+import "encoding/json"
+
 type JudgeArg struct {
 	NextQuiz bool `json:"nextQuiz"`
 }
@@ -9,6 +11,16 @@ type Chat struct {
 	Time int64  `json:"time"`
 	Name string `json:"name"`
 	Text string `json:"text,omitempty"`
+}
+
+func NewSystemChat(typ string, cmd Cmd, user *User) Chat {
+	return Chat{Type: typ, Time: cmd.Time, Name: user.Name, Text: user.Place()}
+}
+
+func NewNormalChat(cmd Cmd, user *User) Chat {
+	chat := Chat{Type: "message", Time: cmd.Time, Name: user.Name}
+	json.Unmarshal(cmd.A, &chat.Text)
+	return chat
 }
 
 type Sound struct {

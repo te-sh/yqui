@@ -46,6 +46,7 @@ func (room *Room) LeaveUser(id int64) (*User, bool) {
 		return nil, false
 	}
 	user := room.Users[id]
+	retUser := user.Clone()
 
 	room.SG.Player.Remove(id)
 	room.BG.Boards.Remove(id)
@@ -67,5 +68,5 @@ func (room *Room) LeaveUser(id int64) (*User, bool) {
 
 	mapper.UnregisterRoom(id)
 
-	return user, true
+	return retUser, true
 }

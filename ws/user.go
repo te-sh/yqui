@@ -35,6 +35,11 @@ func NewTeam() *Team {
 	return team
 }
 
+func (user *User) Clone() *User {
+	newUser := *user
+	return &newUser
+}
+
 func (user *User) Place() string {
 	if (user.IsMaster) {
 		return "master"
