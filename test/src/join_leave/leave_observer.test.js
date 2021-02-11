@@ -98,11 +98,11 @@ describe('join/leave', () => {
 
       await util.clickToggleObserveButton(p1);
       await util.leaveRoom(p1);
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1さんが退室しました');
+      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1さん (観戦) が退室しました');
 
       await util.clickToggleObserveButton(p2);
       await util.closePage(p2);
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた2さんが退室しました');
+      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた2さん (観戦) が退室しました');
     });
   });
 });

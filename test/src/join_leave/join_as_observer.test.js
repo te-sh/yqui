@@ -84,8 +84,8 @@ describe('join/leave', () => {
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0さんが入室しました');
 
       await util.enterRoom(p1, 1, 'ゆーた1', { observer: true });
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1さんが入室しました');
-      expect(await p1.$eval(s, el => el.textContent)).toBe('ゆーた1さんが入室しました');
+      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1さん (観戦) が入室しました');
+      expect(await p1.$eval(s, el => el.textContent)).toBe('ゆーた1さん (観戦) が入室しました');
     });
   });
 });

@@ -35,6 +35,16 @@ func NewTeam() *Team {
 	return team
 }
 
+func (user *User) Place() string {
+	if (user.IsMaster) {
+		return "master"
+	} else if (user.Team == nil) {
+		return "observer"
+	} else {
+		return "player"
+	}
+}
+
 func (users Users) Update(user *User) {
 	if target, ok := users[user.ID]; ok {
 		target.ChatAnswer = user.ChatAnswer

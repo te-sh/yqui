@@ -39,13 +39,13 @@ func (room *Room) RunCommand(cmd Cmd) {
 			room.SendRoom()
 			SendToOne(cmd.ID, "joined", join.RoomNo, true)
 			SendToAll("rooms", rooms.MakeSummary(), true)
-			room.SendChat(Chat{Type: "join", Time: cmd.Time, Name: user.Name})
+			room.SendChat(Chat{Type: "join", Time: cmd.Time, Name: user.Name, Text: user.Place()})
 		}
 	case "leave":
 		if user, ok := room.LeaveUser(cmd.ID); ok {
 			room.SendRoom()
 			SendToAll("rooms", rooms.MakeSummary(), true)
-			room.SendChat(Chat{Type: "leave", Time: cmd.Time, Name: user.Name})
+			room.SendChat(Chat{Type: "leave", Time: cmd.Time, Name: user.Name, Text: user.Place()})
 		}
 	case "user":
 		user := new(User)
@@ -127,11 +127,15 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "board-lock":
 		json.Unmarshal(cmd.A, &room.BG.Lock)
 		room.SendBG()
-	case "toggle-observer":
-		room.ToggleObserver(cmd.ID)
-		room.SendRoom()
 	case "toggle-master":
-		room.ToggleMaster(cmd.ID)
+		if user, ok := room.ToggleMaster(cmd.ID); ok {
+			room.SendChat(Chat{Type: "move", Time: cmd.Time, Name: user.Name, Text: user.Place()})
+		}
+		room.SendRoom()
+	case "toggle-observer":
+		if user, ok := room.ToggleObserver(cmd.ID); ok {
+			room.SendChat(Chat{Type: "move", Time: cmd.Time, Name: user.Name, Text: user.Place()})
+		}
 		room.SendRoom()
 	case "rule":
 		rule := NewRule()

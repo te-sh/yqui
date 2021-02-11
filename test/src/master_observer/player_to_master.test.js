@@ -83,5 +83,13 @@ describe('master/observer', () => {
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0');
       expect(await p1.$eval(s, el => el.textContent)).toBe('ゆーた0');
     });
+
+    test('chat message', async () => {
+      const s = '.room .messages .message:last-child';
+
+      await util.clickToggleMasterButton(p0);
+      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0さんが司会席に移動しました');
+      expect(await p1.$eval(s, el => el.textContent)).toBe('ゆーた0さんが司会席に移動しました');
+    });
   });
 });

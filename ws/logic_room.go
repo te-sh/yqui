@@ -17,17 +17,7 @@ func (room *Room) ChangeTeams() {
 	room.SG.Team.SetTeams(room.Teams)
 }
 
-func (room *Room) ToggleObserver(id int64) {
-	if user, ok := room.Users[id]; ok {
-		if user.Team == nil {
-			room.Teams.AddPlayer(user)
-		} else {
-			room.Teams.RemovePlayer(user)
-		}
-	}
-}
-
-func (room *Room) ToggleMaster(id int64) {
+func (room *Room) ToggleMaster(id int64) (*User, bool) {
 	if user, ok := room.Users[id]; ok {
 		if user.IsMaster {
 			user.IsMaster = false
@@ -36,7 +26,21 @@ func (room *Room) ToggleMaster(id int64) {
 			user.IsMaster = true
 			room.Teams.RemovePlayer(user)
 		}
+		return user, true
 	}
+	return nil, false
+}
+
+func (room *Room) ToggleObserver(id int64) (*User, bool) {
+	if user, ok := room.Users[id]; ok {
+		if user.Team == nil {
+			room.Teams.AddPlayer(user)
+		} else {
+			room.Teams.RemovePlayer(user)
+		}
+		return user, true
+	}
+	return nil, false
 }
 
 func (room *Room) Pushed(user *User) bool {

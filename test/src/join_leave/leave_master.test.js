@@ -115,11 +115,11 @@ describe('join/leave', () => {
 
       await util.clickToggleMasterButton(p1);
       await util.leaveRoom(p1);
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1さんが退室しました');
+      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1さん (司会) が退室しました');
 
       await util.clickToggleMasterButton(p2);
       await util.closePage(p2);
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた2さんが退室しました');
+      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた2さん (司会) が退室しました');
     });
   });
 });

@@ -8,7 +8,7 @@ if (process.env.LOCAL_SERVER) {
   global.TIMEOUT = 150;
 } else {
   global.YQUI_URL = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/';
-  global.TIMEOUT = 75;
+  global.TIMEOUT = 100;
 }
 
 console.log('Accessing to', YQUI_URL)

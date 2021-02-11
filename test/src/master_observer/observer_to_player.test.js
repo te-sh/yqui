@@ -73,5 +73,13 @@ describe('master/observer', () => {
       expect(await p1.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
       expect(await p1.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
     });
+
+    test('chat message', async () => {
+      const s = '.room .messages .message:last-child';
+
+      await util.clickToggleObserveButton(p0);
+      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0さんが解答席に移動しました');
+      expect(await p1.$eval(s, el => el.textContent)).toBe('ゆーた0さんが解答席に移動しました');
+    });
   });
 });
