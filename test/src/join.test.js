@@ -17,6 +17,26 @@ describe('rooms', () => {
     expect(await p0.$eval(numUsers, el => el.textContent)).toBe('2');
   });
 
+  test('player box', async () => {
+    const players = '.room .team .player-container';
+    let list;
+
+    await util.enterRoom(p0, 1, 'ゆーた0');
+    list = await p0.$$(players);
+    expect(list.length).toBe(1);
+    expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0');
+
+    await util.enterRoom(p1, 1, 'ゆーた1');
+    list = await p0.$$(players);
+    expect(list.length).toBe(2);
+    expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0');
+    expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた1');
+    list = await p1.$$(players);
+    expect(list.length).toBe(2);
+    expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0');
+    expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた1');
+  });
+
   test('chat message', async () => {
     const message = '.room .messages .message:last-child';
 

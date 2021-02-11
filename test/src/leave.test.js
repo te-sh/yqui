@@ -11,6 +11,29 @@ describe('rooms', () => {
     p2 = await util.newPage(2);
   });
 
+  test('player box', async () => {
+    const players = '.room .team .player-container';
+    let list;
+
+    await util.enterRoom(p0, 1, 'ゆーた0');
+    list = await p0.$$(players);
+    expect(list.length).toBe(3);
+    expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた1');
+    expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた2');
+    expect(await list[2].$eval('.player-name', el => el.textContent)).toBe('ゆーた0');
+
+    await util.leaveRoom(p1);
+    list = await p0.$$(players);
+    expect(list.length).toBe(2);
+    expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた2');
+    expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた0');
+
+    await util.closePage(p2);
+    list = await p0.$$(players);
+    expect(list.length).toBe(1);
+    expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0');
+  });
+
   test('room users', async () => {
     const numUsers = '.rooms-table tbody tr:first-child .num-users';
 
