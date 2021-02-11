@@ -9,6 +9,26 @@ import (
 	"runtime/debug"
 )
 
+func LogInit() {
+	if os.Getenv("YQUI_ENV") == "prod" {
+		project_name := os.Getenv("COMPOSE_PROJECT_NAME")
+		log.SetOutput(&lumberjack.Logger{
+			Filename:   "./log/" + project_name + ".log",
+			MaxSize:    10,
+			MaxBackups: 10,
+			Compress:   true,
+		})
+	}
+}
+
+func LogPanic() {
+	if err := recover(); err != nil {
+		log.Println(err)
+		log.Println(string(debug.Stack()))
+		panic(err)
+	}
+}
+
 type Log struct {
 	Conn    *Conn
 	ID      int64
@@ -54,26 +74,6 @@ func (content *Log) ErrorText() string {
 		return content.Error.Error()
 	} else {
 		return ""
-	}
-}
-
-func LogInit() {
-	if os.Getenv("YQUI_ENV") == "prod" {
-		project_name := os.Getenv("COMPOSE_PROJECT_NAME")
-		log.SetOutput(&lumberjack.Logger{
-			Filename:   "./log/" + project_name + ".log",
-			MaxSize:    10,
-			MaxBackups: 10,
-			Compress:   true,
-		})
-	}
-}
-
-func LogPanic() {
-	if err := recover(); err != nil {
-		log.Println(err)
-		log.Println(string(debug.Stack()))
-		panic(err)
 	}
 }
 

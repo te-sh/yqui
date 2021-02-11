@@ -54,35 +54,3 @@ LOOP:
 		}
 	}
 }
-
-func SendToOne(id int64, typ string, content interface{}, log bool) {
-	send := Send{Type: typ, Content: content}
-	if conn, ok := mapper.GetConn(id); ok {
-		if log {
-			LogInfo("write", Log{Conn: conn, Message: typ, Json: content})
-		}
-		conn.Send <- send
-	}
-}
-
-func SendToOnes(ids []int64, typ string, content interface{}, log bool) {
-	send := Send{Type: typ, Content: content}
-	if log {
-		LogInfo("write", Log{Message: typ, Json: content})
-	}
-	for _, id := range ids {
-		if conn, ok := mapper.GetConn(id); ok {
-			conn.Send <- send
-		}
-	}
-}
-
-func SendToAll(typ string, content interface{}, log bool) {
-	send := Send{Type: typ, Content: content}
-	if log {
-		LogInfo("write", Log{Message: typ, Json: content})
-	}
-	for _, conn := range mapper.GetConns() {
-		conn.Send <- send
-	}
-}
