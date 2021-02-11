@@ -1,7 +1,7 @@
 const util = require('../util');
 
 describe('join/leave', () => {
-  describe('join as a player', () => {
+  describe('join as player', () => {
     beforeEach(async () => {
       await util.gotoYqui(...pages);
     });
@@ -36,6 +36,47 @@ describe('join/leave', () => {
       expect(list.length).toBe(2);
       expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0');
       expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた1');
+    });
+
+    test('actions area', async () => {
+      const s = '.room .actions';
+
+      await util.enterRoom(p0, 1, 'ゆーた0');
+      expect(await p0.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null);
+
+      await util.enterRoom(p1, 1, 'ゆーた1');
+      expect(await p0.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null);
+      expect(await p1.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null);
+    });
+
+    test('subactions area', async () => {
+      const s = '.room .subactions';
+
+      await util.enterRoom(p0, 1, 'ゆーた0');
+      expect(await p0.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+
+      await util.enterRoom(p1, 1, 'ゆーた1');
+      expect(await p0.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+      expect(await p1.$(`${s} .player-subactions:not(.hidden)`)).not.toBe(null);
+    });
+
+    test('topbar buttons', async () => {
+      const sr = 'header .open-rule-button';
+      const sm = 'header .toggle-master-button';
+      const so = 'header .toggle-observe-button';
+
+      await util.enterRoom(p0, 1, 'ゆーた0');
+      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+
+      await util.enterRoom(p1, 1, 'ゆーた1');
+      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p1.$(`${sr}[disabled]`)).not.toBe(null);
+      expect(await p1.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p1.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
     });
 
     test('chat message', async () => {

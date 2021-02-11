@@ -16,9 +16,12 @@ module.exports = {
       await page.goto(YQUI_URL);
     }
   },
-  enterRoom: async (page, roomNo, name) => {
+  enterRoom: async (page, roomNo, name, options = {}) => {
     await page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`);
     await page.type('.enter-room .name input', name);
+    if (options.observer) {
+      await page.click('.enter-room .observe');
+    }
     await page.click('.enter-room-dialog .submit');
     await page.waitForTimeout(TIMEOUT);
   },
