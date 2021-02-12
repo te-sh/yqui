@@ -35,12 +35,12 @@ const Player = ({ className, selfID, isPlayer, rule, bg }) => {
     <Box>
       <form onSubmit={sendAnswer} className="boardactions-content">
         <TextField id="message" variant="outlined" size="small"
-                   autoComplete="off" disabled={bg.lock}
-                   value={answer}
+                   className="board-answer" autoComplete="off"
+                   disabled={bg.lock} value={answer}
                    onChange={evt => setAnswer(evt.target.value)}
                    onKeyDown={evt => evt.stopPropagation()} />
         <Button type="submit" variant="outlined" color="default" size="large"
-                disabled={bg.lock}>
+                className="board-answer-button" disabled={bg.lock}>
           ボード回答
         </Button>
       </form>
@@ -50,6 +50,7 @@ const Player = ({ className, selfID, isPlayer, rule, bg }) => {
   const playerComponent = (
     <Box className={classNames('actions-content player-actions', { 'hidden': !isPlayer })}>
       <Button variant="outlined" color="primary" size="large"
+              className="answer-button"
               onClick={() => sendWs(SEND_PUSH)}>
         早押し
       </Button>

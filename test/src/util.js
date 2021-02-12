@@ -20,7 +20,7 @@ module.exports = {
     await page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`);
     await page.type('.enter-room .name input', name);
     if (options.observer) {
-      await page.click('.enter-room .observe');
+      await page.click('.enter-room .observer-check');
     }
     await page.click('.enter-room-dialog .submit');
     await page.waitForTimeout(TIMEOUT);
@@ -36,6 +36,18 @@ module.exports = {
   },
   clickToggleObserveButton: async page => {
     await page.click('header .toggle-observe-button');
+    await page.waitForTimeout(TIMEOUT);
+  },
+  clickAnswerButton: async page => {
+    await page.click('.room .actions .answer-button');
+    await page.waitForTimeout(TIMEOUT);
+  },
+  clickCorrectButton: async page => {
+    await page.click('.room .actions .correct-button');
+    await page.waitForTimeout(TIMEOUT);
+  },
+  clickWrongButton: async page => {
+    await page.click('.room .actions .wrong-button');
     await page.waitForTimeout(TIMEOUT);
   }
 };

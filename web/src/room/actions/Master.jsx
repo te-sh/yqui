@@ -72,11 +72,13 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
 
   const normalButtons = (
     <>
-      <Button {...buttonAttr} color="primary" onClick={() => onCorrect(true)}
+      <Button {...buttonAttr} color="primary" className="correct-button"
+              onClick={() => onCorrect(true)}
               startIcon={<RadioButtonUnchecked />}>
         正解
       </Button>
-      <Button {...buttonAttr} color="secondary" onClick={() => onWrong(true)}
+      <Button {...buttonAttr} color="secondary" className="wrong-button"
+              onClick={() => onWrong(true)}
               startIcon={<Close />}>
         不正解
       </Button>
@@ -85,10 +87,12 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
 
   const boardButtons = (
     <>
-      <Button {...buttonAttr} color="default" onClick={onBoardLock}>
+      <Button {...buttonAttr} color="default" clasName="board-lock-button"
+              onClick={onBoardLock}>
         { bg.lock ? '回答ロック解除' : '回答ロック' }
       </Button>
-      <Button {...buttonAttr} color="default" onClick={onOpenAll}>
+      <Button {...buttonAttr} color="default" className="open-all-button"
+              onClick={onOpenAll}>
         すべてオープン
       </Button>
     </>
@@ -98,16 +102,20 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
     <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
       <Box className="actions-content master-actions">
         {rule.board.active ? boardButtons : normalButtons}
-        <Button {...buttonAttr} color="default" onClick={onThrough}>
+        <Button {...buttonAttr} color="default" className="through-button"
+                onClick={onThrough}>
           次の問題
         </Button>
-        <Button {...buttonAttr} color="default" onClick={onReset}>
+        <Button {...buttonAttr} color="default" className="reset-button"
+                onClick={onReset}>
           リセット
         </Button>
-        <Button {...buttonAttr} color="default" onClick={onUndo}>
+        <Button {...buttonAttr} color="default" className="undo-button"
+                onClick={onUndo}>
           Undo
         </Button>
-        <Button {...buttonAttr} color="default" onClick={onRedo}>
+        <Button {...buttonAttr} color="default" className="redo-button"
+                onClick={onRedo}>
           Redo
         </Button>
       </Box>

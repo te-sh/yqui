@@ -38,7 +38,7 @@ const Master = ({ className, rule, timer, clearEditBoards }) => {
 
   const timerComponent = (
     <Box className="timer">
-      <Button variant="outlined" color="default"
+      <Button variant="outlined" color="default" className="toggle-timer-button"
               onClick={toggleTimer}>
         タイマー{timer.running ? '停止' : '駆動'}
       </Button>
@@ -52,16 +52,16 @@ const Master = ({ className, rule, timer, clearEditBoards }) => {
   return (
     <Paper className={className}>
       <Box className="subactions-content master-subactions">
-        <Button variant="outlined" color="default"
+        <Button variant="outlined" color="default" className="all-clear-button"
                 onClick={onAllClear}>
           オールクリア
         </Button>
-        <Button variant="outlined" color="default"
+        <Button variant="outlined" color="default" className="win-top-button"
                 className="win-top"
                 onClick={winTop}>
           最上位勝ち抜け
         </Button>
-        <Button variant="outlined" color="default"
+        <Button variant="outlined" color="default" className="lose-bottom-button"
                 className="lose-bottom"
                 onClick={loseBottom}>
           最下位失格
@@ -70,7 +70,7 @@ const Master = ({ className, rule, timer, clearEditBoards }) => {
         <Box className="show-point">
           <FormControlLabel
             control={
-              <Checkbox color="default"
+              <Checkbox color="default" className="show-point-check"
                         checked={rule.showPoint}
                         onChange={toggleShowPoint} />
             }
