@@ -13,6 +13,7 @@ type Room struct {
 	Rule    *Rule       `json:"-"`
 	History *History    `json:"-"`
 	Timer   *Timer      `json:"-"`
+	AESKey  []byte      `json:"-"`
 }
 
 type Rooms []*Room
@@ -50,8 +51,14 @@ func NewRoom() *Room {
 	room.Rule = NewRule()
 	room.History = NewHistory()
 	room.Timer = nil
+	room.AESKey = make([]byte, 32)
+	room.RenewAESKey()
 
 	return room
+}
+
+func (room *Room) RenewAESKey() {
+	RandomBytes(room.AESKey)
 }
 
 func (rooms Rooms) GetRoom(roomNo int) (*Room, bool) {

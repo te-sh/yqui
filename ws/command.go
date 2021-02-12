@@ -87,6 +87,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendButtons()
 	case "all-clear":
 		room.AllClear()
+		room.RenewAESKey()
 		room.SendBG()
 		room.SendSG()
 		room.SendButtons()

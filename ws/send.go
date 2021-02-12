@@ -56,6 +56,14 @@ func (room *Room) SendSG() {
 		newSG.SetZero()
 		room.SendToExceptMaster("sg", newSG, false)
 	}
+
+	for id, user := range room.Users {
+		if score, ok := room.SG.Player.Scores[id]; ok {
+			if encoded, err := room.MakeScoreBackup(user, score); err == nil {
+				SendToOne(id, "scoreBackup", encoded, false)
+			}
+		}
+	}
 }
 
 func (room *Room) SendTimer() {

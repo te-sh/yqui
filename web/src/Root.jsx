@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useMediaQuery } from '@material-ui/core'
 import URI from 'urijs'
+import { storeScoreBackup } from './lib/local_storage'
 import playSound from './lib/sound'
 import {
   setMobile, reset, setWebSocket, recvSelfID, recvRooms, recvJoined,
@@ -34,7 +35,9 @@ const Root = ({ setMobile, reset, setWebSocket, recv }) => {
     ws.onmessage = evt => {
       console.log('ws received: ' + evt.data)
       const data = JSON.parse(evt.data)
-      if (data.type === 'sound') {
+      if (data.type === 'scoreBackup') {
+        storeScoreBackup(data.content)
+      } else if (data.type === 'sound') {
         playSound(data.content)
       } else if (recv[data.type]) {
         recv[data.type](data.content)

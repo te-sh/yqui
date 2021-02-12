@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core'
 import { GithubPicker } from 'react-color'
 import update from 'immutability-helper'
+import { getVolume, storeVolume } from '../../lib/local_storage'
 import { COLORS, initUser } from '../../lib/user'
 import { sendWs, SEND_USER } from '../../lib/send'
 import { setOpenSetting } from '../../redux/actions'
@@ -19,7 +20,7 @@ const Setting = ({ user, open, setOpen }) => {
   const onEnter = () => {
     setChatAnswer(user.chatAnswer)
     setBorderColor(user.borderColor === '#ff000000' ? '#ffffff' : user.borderColor)
-    setVolume(parseInt(localStorage.getItem('volume') || '100'))
+    setVolume(getVolume())
   }
 
   const submit = evt => {
@@ -27,7 +28,7 @@ const Setting = ({ user, open, setOpen }) => {
       chatAnswer: { $set: chatAnswer },
       borderColor: { $set: borderColor === '#ffffff' ? '#ff000000' : borderColor }
     }))
-    localStorage.setItem('volume', volume)
+    storeVolume(volume)
     setOpen(false)
     evt.preventDefault()
   }

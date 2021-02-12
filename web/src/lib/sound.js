@@ -1,3 +1,5 @@
+import { getVolume } from './local_storage'
+
 let context
 let buffer = {}
 
@@ -35,7 +37,7 @@ const playSound = sounds => {
     const gainNode = context.createGain()
     source.connect(gainNode)
     gainNode.connect(context.destination)
-    gainNode.gain.value = parseInt(localStorage.getItem('volume') || '100') / 100.0
+    gainNode.gain.value = getVolume() / 100.0
 
     source.start(context.currentTime + t)
     t += source.buffer.duration

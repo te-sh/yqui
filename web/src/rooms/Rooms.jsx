@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Table, TableContainer } from '@material-ui/core'
+import { getScoreBackup } from '../lib/local_storage'
 import { sendWs, SEND_JOIN } from '../lib/send'
 import Topbar from './Topbar'
 import RoomsHead from './RoomsHead'
@@ -25,6 +26,7 @@ const Rooms = ({ history, rooms, roomNo }) => {
   const enterRoom = join => {
     closeEnterRoom()
     join.roomNo = enterRoomNo
+    join.scoreBackup = getScoreBackup()
     sendWs(SEND_JOIN, join)
   }
 

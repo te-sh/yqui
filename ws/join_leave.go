@@ -8,6 +8,7 @@ type Join struct {
 	Observer    bool   `json:"observer"`
 	ChatAnswer  bool   `json:"chatAnswer"`
 	BorderColor string `json:"borderColor"`
+	ScoreBackup string `json:"scoreBackup"`
 }
 
 func MakeJoin(cmd Cmd) *Join {
@@ -32,6 +33,11 @@ func (room *Room) JoinUser(id int64, join *Join) (*User, bool) {
 	room.BG.Boards.Add(id)
 	room.SG.Player.Add(id)
 	room.SG.Player.Scores[id].Init(room.Rule.Player)
+	if len(join.ScoreBackup) > 0 {
+		if score, err := room.RestoreScoreBackup(user, join.ScoreBackup); err == nil {
+			room.SG.Player.Scores[id] = score
+		}
+	}
 
 	room.History.Join(id)
 
