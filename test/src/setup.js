@@ -1,3 +1,5 @@
+require('expect-more-jest');
+
 // set global variables
 global.puppeteer = require('puppeteer');
 

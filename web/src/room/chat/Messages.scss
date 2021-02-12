@@ -15,16 +15,31 @@
       margin-bottom: 8px;
     }
 
-    .message-normal {
-      color: #212121;
-    }
+    .message-content {
+      word-break: break-all;
 
-    .message-system {
-      color: #2979ff;
-    }
+      .message-normal {
+        color: #212121;
+      }
 
-    .user-name {
-      color: #33691e;
+      .message-system {
+        color: #2979ff;
+      }
+
+      .user-name {
+        font-weight: bold;
+        color: #33691e;
+      }
+
+      .carret {
+        color: #9e9e9e;
+      }
+
+      .chat-time {
+        font-size: small;
+        color: #9e9e9e;
+        margin-left: 3px;
+      }
     }
   }
 }

@@ -1319,7 +1319,21 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-expect@^26.6.2:
+expect-more-jest@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/expect-more-jest/-/expect-more-jest-5.2.2.tgz#d8f9f3908fad4a79eb924268161e200da31a6b1e"
+  integrity sha512-TIS0JlN1X2NpE0wxreJdZJzSE9Q7z/7PYO/xf5+cp4uPuZZnnKuxId8twOJKO4kSzBXaSoB0DGR0wx5ONlkonw==
+  dependencies:
+    expect "26.6.2"
+    expect-more "1.0.1"
+    jest-matcher-utils "26.6.2"
+
+expect-more@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/expect-more/-/expect-more-1.0.1.tgz#8fdff1343d3609fb57e3a05bdc24bf4fb57b30fd"
+  integrity sha512-I2kWV8XNTm5olhcTHRpKKPVbsmIy8ufX/zYrpp0UELyzqTExnLO02uNe3OCu7mxqQ8I6lOLAa3p0DceK8ocSTg==
+
+expect@26.6.2, expect@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/expect/-/expect-26.6.2.tgz#c6b996bf26bf3fe18b67b2d0f51fc981ba934417"
   integrity sha512-9/hlOBkQl2l/PLHJx6JjoDF6xPKcJEsUlWKb23rKE7KzeDqUZKXKNMW27KIue5JMdBV9HgmoJPcc8HtO85t9IA==
@@ -2076,7 +2090,7 @@ jest-leak-detector@^26.6.2:
     jest-get-type "^26.3.0"
     pretty-format "^26.6.2"
 
-jest-matcher-utils@^26.6.2:
+jest-matcher-utils@26.6.2, jest-matcher-utils@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-26.6.2.tgz#8e6fd6e863c8b2d31ac6472eeb237bc595e53e7a"
   integrity sha512-llnc8vQgYcNqDrqRDXWwMr9i7rS5XFiCwvh6DTP7Jqa2mqpcCBBlpCbn+trkG0KNhPu/h8rzyBkriOtBstvWhw==

@@ -80,7 +80,7 @@ describe('join/leave', () => {
     });
 
     test('chat message', async () => {
-      const s = '.room .messages .message:last-child';
+      const s = '.room .messages .message:last-child .message-body';
 
       await util.enterRoom(p0, 1, 'ゆーた0');
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0さんが入室しました');

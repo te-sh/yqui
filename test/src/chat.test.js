@@ -8,7 +8,7 @@ describe('chat', () => {
   });
 
   test('chat', async () => {
-    const s = '.room .messages .message:last-child';
+    const s = '.room .messages .message:last-child .message-body';
 
     await p1.type('.room .chat .chat-text input', 'おはようございます');
     await p1.click('.room .chat .send-chat-button')

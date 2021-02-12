@@ -109,7 +109,7 @@ describe('join/leave', () => {
     });
 
     test('chat message', async () => {
-      const s = '.room .messages .message:last-child';
+      const s = '.room .messages .message:last-child .message-body';
 
       await util.enterRoom(p0, 1, 'ゆーた0');
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
+import { format, fromUnixTime } from 'date-fns'
 import './Messages.scss'
 
 const Messages = ({ className, chats }) => {
@@ -17,31 +18,41 @@ const Messages = ({ className, chats }) => {
   const placeJoinLeave = { player: '', master: ' (司会) ', observer: ' (観戦) ' }
   const placeMove = { player: '解答席', master: '司会席', observer: '観戦席' }
 
-  const rowContent = chat => {
+  const userName = chat => (
+    <span className="user-name">{chat.name}</span>
+  )
+
+  const time = chat => (
+    <span className="chat-time">
+      ({format(fromUnixTime(chat.time / 1000), 'HH:mm:ss')})
+    </span>
+  )
+
+  const content = chat => {
     switch (chat.type) {
       case "message":
         return (
-          <Typography className="message-normal">
-            <span className="user-name">{chat.name}</span> &gt; {chat.text}
-          </Typography>
+          <span className="message-body message-normal">
+            {userName(chat)} <span className="carret">&gt;</span> {chat.text}
+          </span>
         )
       case "join":
         return (
-          <Typography className="message-system">
-            <span className="user-name">{chat.name}</span>さん{placeJoinLeave[chat.text]}が入室しました
-          </Typography>
+          <span className="message-body message-system">
+            {userName(chat)}さん{placeJoinLeave[chat.text]}が入室しました
+          </span>
         )
       case "leave":
         return (
-          <Typography className="message-system">
-            <span className="user-name">{chat.name}</span>さん{placeJoinLeave[chat.text]}が退室しました
-          </Typography>
+          <span className="message-body message-system">
+            {userName(chat)}さん{placeJoinLeave[chat.text]}が退室しました
+          </span>
         )
       case "move":
         return (
-          <Typography className="message-system">
-            <span className="user-name">{chat.name}</span>さんが{placeMove[chat.text]}に移動しました
-          </Typography>
+          <span className="message-body message-system">
+            {userName(chat)}さんが{placeMove[chat.text]}に移動しました
+          </span>
         )
       default:
         return null
@@ -51,7 +62,10 @@ const Messages = ({ className, chats }) => {
   const row = chat => {
     return (
       <Box key={chat.time} className="message">
-        {rowContent(chat)}
+        <Typography className="message-content">
+          {content(chat)}
+          {time(chat)}
+        </Typography>
       </Box>
     )
   }

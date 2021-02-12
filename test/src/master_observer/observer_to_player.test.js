@@ -75,7 +75,7 @@ describe('master/observer', () => {
     });
 
     test('chat message', async () => {
-      const s = '.room .messages .message:last-child';
+      const s = '.room .messages .message:last-child .message-body';
 
       await util.clickToggleObserveButton(p0);
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0さんが解答席に移動しました');
