@@ -14,20 +14,18 @@ done
 
 if [ -z $SKIP_PULL ]; then
     git pull
-    docker-compose --file docker-compose.prod.yml pull
+    COMPOSE_PROJECT_NAME=yqui PORT=8085 docker-compose --file docker-compose.prod.yml pull
 fi
 
 if [ -z $SKIP_YQUI ]; then
-    export COMPOSE_PROJECT_NAME=yqui
-    docker-compose down
-    PORT=8085 docker-compose --file docker-compose.prod.yml up -d
+    COMPOSE_PROJECT_NAME=yqui PORT=8085 docker-compose --file docker-compose.prod.yml down
+    COMPOSE_PROJECT_NAME=yqui PORT=8085 docker-compose --file docker-compose.prod.yml up -d
 fi
 
 if [ -z $SKIP_TEST ]; then
     rm -f ws/log/test.log
-    export COMPOSE_PROJECT_NAME=test
-    docker-compose down
-    PORT=8800 docker-compose --file docker-compose.prod.yml up -d
+    COMPOSE_PROJECT_NAME=test PORT=8800 docker-compose --file docker-compose.prod.yml down
+    COMPOSE_PROJECT_NAME=test PORT=8800 docker-compose --file docker-compose.prod.yml up -d
 fi
 
 docker system prune --volumes --force
