@@ -1,4 +1,4 @@
-import { getVolume } from './local_storage'
+import { retrieveVolume } from './dexie'
 
 let context
 let buffer = {}
@@ -28,7 +28,7 @@ const loadSound = (name, url) => {
   request.send()
 }
 
-const playSound = sounds => {
+const playSound = async sounds => {
   let t = 0
   for (let name of sounds) {
     const source = context.createBufferSource()
@@ -37,7 +37,7 @@ const playSound = sounds => {
     const gainNode = context.createGain()
     source.connect(gainNode)
     gainNode.connect(context.destination)
-    gainNode.gain.value = getVolume() / 100.0
+    gainNode.gain.value = (await retrieveVolume()) / 100.0
 
     source.start(context.currentTime + t)
     t += source.buffer.duration

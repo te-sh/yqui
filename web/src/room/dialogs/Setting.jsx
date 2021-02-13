@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core'
 import { GithubPicker } from 'react-color'
 import update from 'immutability-helper'
-import { getVolume, storeVolume } from '../../lib/local_storage'
+import { storeVolume, retrieveVolume } from '../../lib/dexie'
 import { COLORS, initUser } from '../../lib/user'
 import { sendWs, SEND_USER } from '../../lib/send'
 import { setOpenSetting } from '../../redux/actions'
@@ -17,10 +17,10 @@ const Setting = ({ user, open, setOpen }) => {
   const [borderColor, setBorderColor] = React.useState(initUser.borderColor)
   const [volume, setVolume] = React.useState(0)
 
-  const onEnter = () => {
+  const onEnter = async () => {
     setChatAnswer(user.chatAnswer)
     setBorderColor(user.borderColor === '#ff000000' ? '#ffffff' : user.borderColor)
-    setVolume(getVolume())
+    setVolume(await retrieveVolume())
   }
 
   const submit = evt => {

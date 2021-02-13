@@ -24,11 +24,3 @@ export const getScoreBackup = name => {
   }
   return data.encoded
 }
-
-export const storeVolume = volume => {
-  localStorage.setItem(VOLUME_KEY, volume)
-}
-
-export const getVolume = () => {
-  return parseInt(localStorage.getItem(VOLUME_KEY) || '100')
-}
