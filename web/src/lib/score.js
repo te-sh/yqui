@@ -1,4 +1,6 @@
 import { toIntMap } from './util'
+import { storeScoreBackup, getScoreBackup } from './local_storage'
+import store from '../redux/store'
 
 export const initSg = {
   player: {
@@ -24,4 +26,13 @@ export const mergeSgWithJson = ({ sg }, json) => {
     player: { scores: json.player ? toIntMap(json.player.scores) : sg.player },
     team: { scores: json.team ? toIntMap(json.team.scores) : sg.team }
   }
+}
+
+export const saveScoreBackup = encoded => {
+  const { selfID, users } = store.getState()
+  storeScoreBackup(users.get(selfID).name, encoded)
+}
+
+export const restoreScoreBackup = name => {
+  return getScoreBackup(name)
 }
