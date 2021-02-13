@@ -70,6 +70,7 @@ func (room *Room) LeaveUser(id int64) (*User, bool) {
 		room.TruncateTeams()
 		room.Rule = NewRule()
 		room.SG.Reset()
+		room.RenewAESKey()
 	}
 
 	mapper.UnregisterRoom(id)

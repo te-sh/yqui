@@ -14,6 +14,7 @@ module.exports = {
   gotoYqui: async (...pages) => {
     for (page of pages) {
       await page.goto(YQUI_URL);
+      await page.waitForTimeout(TIMEOUT);
     }
   },
   enterRoom: async (page, roomNo, name, options = {}) => {
