@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+const scoreBackupExpire = 600
+
 func RandomBytes(bytes []byte) {
 	if _, err := io.ReadFull(rand.Reader, bytes); err != nil {
 		panic(err);
@@ -126,7 +128,13 @@ func (room *Room) RestoreScoreBackup(user *User, encoded string) (*Score, error)
 	}
 
 	if scoreBk.Name != user.Name {
+		LogInfo("restore score backup", Log{ID: scoreBk.ID, Message: "mismatch user name", Json: scoreBk})
 		return nil, errors.New("Mismatch user name")
+	}
+
+	if time.Now().Unix() - scoreBk.Time > scoreBackupExpire {
+		LogInfo("restore score backup", Log{ID: scoreBk.ID, Message: "time is expired", Json: scoreBk})
+		return nil, errors.New("Time is expired")
 	}
 
 	score := NewScore()

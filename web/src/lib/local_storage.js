@@ -1,7 +1,7 @@
 const SCORE_BACKUP_KEY = 'scoreBackup'
 const VOLUME_KEY = 'volume'
 
-const SCORE_BACKUP_TIME_LIMIT = 5 * 60 * 1000
+const SCORE_BACKUP_TIME_EXPIRE = 5 * 60 * 1000
 
 export const clearOutdatedScoreBackup = () => {
   if (localStorage.getItem(`${SCORE_BACKUP_KEY}.time`)) {
@@ -19,7 +19,7 @@ export const storeScoreBackup = (name, encoded) => {
 export const getScoreBackup = name => {
   const stored = JSON.parse(localStorage.getItem(SCORE_BACKUP_KEY) || '{}')
   const data = stored[name] || {}
-  if (new Date().getTime() - (data.time || 0) > SCORE_BACKUP_TIME_LIMIT) {
+  if (new Date().getTime() - (data.time || 0) > SCORE_BACKUP_TIME_EXPIRE) {
     return null
   }
   return data.encoded

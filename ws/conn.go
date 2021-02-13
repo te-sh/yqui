@@ -42,12 +42,12 @@ LOOP:
 		case message := <-conn.Send:
 			err := conn.Ws.WriteJSON(message)
 			if err != nil {
-				LogInfo("write", Log{Conn: conn, Error: err})
+				LogInfo("send to websocket", Log{Conn: conn, Error: err})
 			}
 		case <-ticker.C:
 			err := conn.Ws.WriteMessage(websocket.PingMessage, []byte{})
 			if err != nil {
-				LogInfo("ping", Log{Conn: conn, Error: err})
+				LogInfo("ping to websocket", Log{Conn: conn, Error: err})
 			}
 		case <-ctx.Done():
 			break LOOP

@@ -20,14 +20,14 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		LogError("upgrade", Log{Error: err})
+		LogError("upgrade to websocket", Log{Error: err})
 		return
 	}
 	defer c.Close()
 
 	id := NewID()
 	conn := NewConn(id, r.Header.Get("X-Real-IP"), c)
-	LogInfo("connect", Log{Conn: conn})
+	LogInfo("connect websocket", Log{Conn: conn})
 
 	mapper.RegisterConn(id, conn)
 	defer mapper.UnregisterConn(id)
@@ -38,7 +38,7 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	defer cancelConn()
 
 	c.SetCloseHandler(func(code int, text string) error {
-		LogInfo("close handler", Log{Conn: conn, Message: text})
+		LogInfo("websocket close handler", Log{Conn: conn, Message: text})
 		return nil
 	})
 
@@ -50,12 +50,12 @@ LOOP:
 		var cmd Cmd
 		err := conn.Ws.ReadJSON(&cmd)
 		if err != nil {
-			LogInfo("read error", Log{Conn: conn, Error: err})
+			LogInfo("receive from websocket", Log{Conn: conn, Error: err})
 			break LOOP
 		}
 		cmd.ID = id
 		cmd.Time = NowMilliSec()
-		LogInfo("receive", Log{Conn: conn, Json: cmd})
+		LogInfo("receive from websocket", Log{Conn: conn, Json: cmd})
 		Command <- cmd
 	}
 

@@ -50,5 +50,9 @@ module.exports = {
   clickWrongButton: async page => {
     await page.click('.room .actions .wrong-button');
     await page.waitForTimeout(TIMEOUT);
+  },
+  clickAllClearButton: async page => {
+    await page.click('.room .subactions .all-clear-button');
+    await page.waitForTimeout(TIMEOUT);
   }
 };
