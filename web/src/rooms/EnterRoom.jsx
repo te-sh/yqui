@@ -4,17 +4,27 @@ import {
   FormControl, FormControlLabel, FormGroup, FormLabel, TextField
 } from '@material-ui/core'
 import { GithubPicker } from 'react-color'
+import {
+  storeName, retrieveName, storeChatAnswer, retrieveChatAnswer
+} from '../lib/dexie'
 import { COLORS, initUser } from '../lib/user'
 import './EnterRoom.scss'
 
 const EnterRoom = ({ open, close, submit }) => {
-  const [name, setName] = React.useState('')
+  const [name, setName] = React.useState(initUser.name)
   const [observer, setObserver] = React.useState(false)
   const [chatAnswer, setChatAnswer] = React.useState(initUser.chatAnswer)
   const [borderColor, setBorderColor] = React.useState(initUser.borderColor)
 
+  React.useEffect(async () => {
+    setName(await retrieveName())
+    setChatAnswer(await retrieveChatAnswer())
+  }, [])
+
   const onSubmit = evt => {
     evt.preventDefault()
+    storeName(name)
+    storeChatAnswer(chatAnswer)
     submit({
       name, observer, chatAnswer,
       borderColor: borderColor === '#ffffff' ? '#ff000000' : borderColor
