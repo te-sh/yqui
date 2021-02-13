@@ -1,5 +1,3 @@
-import numbro from 'numbro'
-
 export const toIntMap = obj => {
   return new Map(Object.entries(obj).map(([key, value]) => [parseInt(key), value]))
 }
@@ -34,15 +32,19 @@ export const minSecTime = s => {
   return `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`
 }
 
+const fd2 = new Intl.NumberFormat('ja-JP', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+const fd1 = new Intl.NumberFormat('ja-JP', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+const fd0 = new Intl.NumberFormat('ja-JP', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+
 export const readableTime = ms => {
   if (ms < 1000) {
     return `${ms}ms`
   } else if (ms < 10000) {
-    return `${numbro(ms / 1000).format({ mantissa: 2 })}s`
+    return `${fd2.format(ms / 1000)}s`
   } else if (ms < 100000) {
-    return `${numbro(ms / 1000).format({ mantissa: 1 })}s`
+    return `${fd1.format(ms / 1000)}s`
   } else {
-    return `${numbro(ms / 1000).format({ mantissa: 0 })}s`
+    return `${fd0.format(ms / 1000)}s`
   }
 }
 
