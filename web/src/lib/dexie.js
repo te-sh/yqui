@@ -1,13 +1,13 @@
 import Dexie from 'dexie'
 
-// const SCORE_BACKUP_EXPIRE_INVERVAL = 5 * 60 * 1000
+const SCORE_BACKUP_EXPIRE_INVERVAL = 5 * 60 * 1000
 
 const db = new Dexie('YquiDB')
 
-db.version(2)
+db.version(3)
   .stores({
     settings: 'key',
-    scoreBackup: 'name'
+    scoreBackup: 'name,time'
   })
 
 const storeSettings = async (key, value) => {
@@ -50,6 +50,9 @@ export const storeScoreBackup = async (name, encoded) => {
 }
 
 export const retrieveScoreBackup = async name => {
+  await db.scoreBackup
+          .where('time').below(new Date().getTime() - SCORE_BACKUP_EXPIRE_INVERVAL)
+          .delete()
   const record = await db.scoreBackup.get(name)
   return record !== undefined ? record.encoded : null
 }
