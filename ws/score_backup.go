@@ -15,7 +15,7 @@ const scoreBackupExpire = 600
 
 func RandomBytes(bytes []byte) {
 	if _, err := io.ReadFull(rand.Reader, bytes); err != nil {
-		panic(err);
+		panic(err)
 	}
 }
 
@@ -74,7 +74,7 @@ func Encrypt(scoreBk *ScoreBackup, key []byte) (string, error) {
 		return "", err
 	}
 
-	for len(plainText) % aes.BlockSize != 0 {
+	for len(plainText)%aes.BlockSize != 0 {
 		plainText = append(plainText, 0)
 	}
 
@@ -132,7 +132,7 @@ func (room *Room) RestoreScoreBackup(user *User, encoded string) (*Score, error)
 		return nil, errors.New("Mismatch user name")
 	}
 
-	if time.Now().Unix() - scoreBk.Time > scoreBackupExpire {
+	if time.Now().Unix()-scoreBk.Time > scoreBackupExpire {
 		LogInfo("restore score backup", Log{ID: scoreBk.ID, Message: "time is expired", Json: scoreBk})
 		return nil, errors.New("Time is expired")
 	}

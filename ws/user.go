@@ -41,9 +41,9 @@ func (user *User) Clone() *User {
 }
 
 func (user *User) Place() string {
-	if (user.IsMaster) {
+	if user.IsMaster {
 		return "master"
-	} else if (user.Team == nil) {
+	} else if user.Team == nil {
 		return "observer"
 	} else {
 		return "player"

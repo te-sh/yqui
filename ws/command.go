@@ -3,6 +3,7 @@ package main
 import "encoding/json"
 
 const CommandChannelCapacity = 64
+
 var Command = make(chan Cmd, CommandChannelCapacity)
 
 type Cmd struct {
