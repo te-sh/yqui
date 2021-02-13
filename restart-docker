@@ -14,7 +14,7 @@ done
 
 if [ -z $SKIP_PULL ]; then
     git pull
-    COMPOSE_PROJECT_NAME=yqui PORT=8085 docker-compose --file docker-compose.prod.yml pull
+    docker-compose --file docker-compose.prod.yml pull
 fi
 
 if [ -z $SKIP_YQUI ]; then
