@@ -1,5 +1,5 @@
 import { toIntMap } from './util'
-import { storeScoreBackup, getScoreBackup } from './local_storage'
+import { storeScoreBackup, retrieveScoreBackup } from './dexie'
 import store from '../redux/store'
 
 export const initSg = {
@@ -28,11 +28,11 @@ export const mergeSgWithJson = ({ sg }, json) => {
   }
 }
 
-export const saveScoreBackup = encoded => {
+export const saveScoreBackup = async encoded => {
   const { selfID, users } = store.getState()
   storeScoreBackup(users.get(selfID).name, encoded)
 }
 
-export const restoreScoreBackup = name => {
-  return getScoreBackup(name)
+export const restoreScoreBackup = async name => {
+  return retrieveScoreBackup(name)
 }

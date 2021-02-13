@@ -23,10 +23,10 @@ const Rooms = ({ history, rooms, roomNo }) => {
     setEnterRoomOpen(false)
   }
 
-  const enterRoom = join => {
+  const enterRoom = async join => {
     closeEnterRoom()
     join.roomNo = enterRoomNo
-    join.scoreBackup = restoreScoreBackup(join.name)
+    join.scoreBackup = await restoreScoreBackup(join.name)
     sendWs(SEND_JOIN, join)
   }
 
