@@ -29,7 +29,7 @@ describe('join/leave', () => {
       expect(await list[0].$eval('.point', el => el.textContent)).toBe('2')
       expect(await list[0].$eval('.batsu', el => el.textContent)).toBe('1')
 
-      await util.closePage(p1)
+      await p1.yq.close()
       p1 = await browser.yq.reopen(p1)
       await util.enterRoom(p1, 1, 'ゆーた1')
 
@@ -52,7 +52,7 @@ describe('join/leave', () => {
       expect(await list[0].$eval('.point', el => el.textContent)).toBe('2')
       expect(await list[0].$eval('.batsu', el => el.textContent)).toBe('1')
 
-      await util.closePage(p1)
+      await p1.yq.close()
       p1 = await browser.yq.reopen(p1)
       await util.clickAllClearButton(p0)
       await util.enterRoom(p1, 1, 'ゆーた1')
@@ -76,7 +76,7 @@ describe('join/leave', () => {
       expect(await list[0].$eval('.point', el => el.textContent)).toBe('2')
       expect(await list[0].$eval('.batsu', el => el.textContent)).toBe('1')
 
-      await util.closePage(p1)
+      await p1.yq.close()
       p1 = await browser.yq.reopen(p1)
       await util.enterRoom(p1, 1, 'ゆーた2')
 

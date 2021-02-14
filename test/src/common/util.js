@@ -4,10 +4,6 @@ module.exports = {
   screenshot: async (page, filename) => {
     await page.screenshot({ path: `${ROOT_DIR}/screenshots/${filename}` })
   },
-  closePage: async page => {
-    await page.close()
-    await page.waitForTimeout(TIMEOUT)
-  },
   enterRoom: async (page, roomNo, name, options = {}) => {
     await page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`)
     const nameInput = await page.$('.enter-room .name input')

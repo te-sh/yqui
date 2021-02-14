@@ -47,6 +47,11 @@ class YquiPage {
     this.yquiUrl = yquiUrl
   }
 
+  async close () {
+    await this.page.close()
+    await this.page.waitForTimeout(this.timeout)
+  }
+
   async gotoTop () {
     if (this.page.url() !== this.yquiUrl) {
       await this.page.goto(this.yquiUrl)

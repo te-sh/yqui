@@ -5,7 +5,7 @@ describe('join/leave', () => {
     test('save name', async () => {
       await util.enterRoom(p0, 1, 'ゆーた0')
 
-      await util.closePage(p0)
+      await p0.yq.close()
       p0 = await browser.yq.reopen(p0)
       await p0.click('.rooms-table tbody tr:nth-child(1) .enter-room-button button')
 
@@ -16,7 +16,7 @@ describe('join/leave', () => {
     test('save chat answer', async () => {
       await util.enterRoom(p0, 1, 'ゆーた1', { chatAnswer: true })
 
-      await util.closePage(p0)
+      await p0.yq.close()
       p0 = await browser.yq.reopen(p0)
       await p0.click('.rooms-table tbody tr:nth-child(1) .enter-room-button button')
 
