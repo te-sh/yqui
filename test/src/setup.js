@@ -36,6 +36,8 @@ beforeAll(async () => {
   global.p0 = pages[0];
   global.p1 = pages[1];
   global.p2 = pages[2];
+  global.p3 = pages[3];
+  global.p4 = pages[4];
 });
 
 afterAll(async done => {

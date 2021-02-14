@@ -13,11 +13,11 @@ const ButtonRule = ({ simple, rule, numPlayers }) => {
   )
 
   return (
-    <Box>
-      <Box>
+    <Box className="button-rule">
+      <Box className="title">
         <Typography variant="caption">ボタン</Typography>
       </Box>
-      <Box>
+      <Box className="content">
         <Typography variant="body2">{chanceText(simple, rule, numPlayers)}</Typography>
       </Box>
       {rule.team.active && rule.team.shareButton && shareButtonComponent}

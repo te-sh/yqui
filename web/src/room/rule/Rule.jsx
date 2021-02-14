@@ -70,7 +70,7 @@ const Rule = ({ rule, open, setOpen }) => {
           </Tabs>
           <TabPanel value={tab} index={0} className="normal-rule">
             <FormGroup component="fieldset" className="rule-group" row={true}>
-              <TextField label="解答権数" type="number"
+              <TextField label="解答権数" type="number" className="right-num"
                          InputProps={{ required: true, inputProps: { min: 1 } }}
                          value={rightNum}
                          onChange={evt => setRightNum(evt.target.value)} />
