@@ -16,21 +16,27 @@ class YquiBrowser {
     }
   }
 
-  async reopen (page) {
-    if (!page.isClosed()) {
-      page.close()
-    }
-    const index = this.pages.indexOf(page)
-    const newPage = this.newPage()
-    this.pages[index] = newPage
-    return page
-  }
-
   async newPage () {
     const page = await this.browser.newPage()
     page.yq = new YquiPage(page, this.timeout, this.yquiUrl)
     await page.yq.gotoTop()
     return page
+  }
+
+  async gotoTop () {
+    for (const page of this.pages) {
+      await page.yq.gotoTop()
+    }
+  }
+
+  async reopen (page) {
+    if (!page.isClosed()) {
+      page.close()
+    }
+    const index = this.pages.indexOf(page)
+    const newPage = await this.newPage()
+    this.pages[index] = newPage
+    return newPage
   }
 }
 
@@ -42,8 +48,10 @@ class YquiPage {
   }
 
   async gotoTop () {
-    await this.page.goto(this.yquiUrl)
-    await this.page.waitForTimeout(this.timeout)
+    if (this.page.url() !== this.yquiUrl) {
+      await this.page.goto(this.yquiUrl)
+      await this.page.waitForTimeout(this.timeout)
+    }
   }
 }
 

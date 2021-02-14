@@ -9,11 +9,6 @@ describe('master/observer', () => {
       await util.clickToggleObserveButton(p0)
     })
 
-    afterEach(async () => {
-      await p0.yq.gotoTop()
-      await p1.yq.gotoTop()
-    })
-
     test('player box', async () => {
       const s = '.room .team .player-container'
       let list

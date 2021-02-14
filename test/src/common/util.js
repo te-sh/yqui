@@ -4,23 +4,9 @@ module.exports = {
   screenshot: async (page, filename) => {
     await page.screenshot({ path: `${ROOT_DIR}/screenshots/${filename}` })
   },
-  newPage: async index => {
-    if (!pages[index].isClosed()) {
-      await pages[index].close()
-    }
-    const page = await browser.newPage()
-    pages[index] = page
-    return page
-  },
   closePage: async page => {
     await page.close()
     await page.waitForTimeout(TIMEOUT)
-  },
-  gotoYqui: async (...pages) => {
-    for (const page of pages) {
-      await page.goto(YQUI_URL)
-      await page.waitForTimeout(TIMEOUT)
-    }
   },
   enterRoom: async (page, roomNo, name, options = {}) => {
     await page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`)

@@ -42,3 +42,7 @@ afterAll(async done => {
   await browser.close()
   done()
 })
+
+beforeEach(async () => {
+  await browser.yq.gotoTop()
+})

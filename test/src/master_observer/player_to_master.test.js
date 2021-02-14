@@ -8,11 +8,6 @@ describe('master/observer', () => {
       await util.enterRoom(p1, 1, 'ゆーた1')
     })
 
-    afterEach(async () => {
-      await p0.yq.gotoTop()
-      await p1.yq.gotoTop()
-    })
-
     test('player box', async () => {
       const s = '.room .team .player-container'
       let list

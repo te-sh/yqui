@@ -4,13 +4,12 @@ const css = require('../common/css')
 describe('join/leave', () => {
   describe('leave player', () => {
     beforeEach(async () => {
-      await util.gotoYqui(...pages)
       await util.enterRoom(p1, 1, 'ゆーた1')
       await util.enterRoom(p2, 1, 'ゆーた2')
     })
 
     afterEach(async () => {
-      p2 = await util.newPage(2)
+      p2 = await browser.yq.reopen(p2)
     })
 
     test('room users', async () => {

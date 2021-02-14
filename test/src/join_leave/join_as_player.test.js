@@ -3,10 +3,6 @@ const css = require('../common/css')
 
 describe('join/leave', () => {
   describe('join as player', () => {
-    beforeEach(async () => {
-      await util.gotoYqui(...pages)
-    })
-
     test('room users', async () => {
       const s = '.rooms-table tbody tr:first-child .num-users'
 
