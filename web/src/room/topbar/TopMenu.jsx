@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Drawer, IconButton, List } from '@material-ui/core'
 import { MoreHoriz } from '@material-ui/icons'
-import TeamButton from './TeamButton'
+import AssignButton from './AssignButton'
 import RuleButton from './RuleButton'
 import MasterButton from './MasterButton'
 import ObserverButton from './ObserverButton'
@@ -16,7 +16,7 @@ const TopMenu = ({ mobile }) => {
   if (!mobile) {
     return (
       <>
-        <TeamButton />
+        <AssignButton />
         <RuleButton />
         <MasterButton />
         <ObserverButton />
@@ -35,7 +35,7 @@ const TopMenu = ({ mobile }) => {
         <Drawer anchor="right" open={open}
                 onClose={() => setOpen(false)}>
           <List onClick={() => setOpen(false)}>
-            <TeamButton />
+            <AssignButton />
             <RuleButton />
             <MasterButton />
             <ObserverButton />

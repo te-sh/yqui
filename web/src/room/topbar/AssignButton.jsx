@@ -6,15 +6,15 @@ import {
 import { SupervisorAccount } from '@material-ui/icons'
 import { beginEditTeams } from '../../lib/edit_team'
 
-const TeamButton = ({ mobile, user, rule, editTeams }) => {
+const AssignButton = ({ mobile, user, rule, editTeams }) => {
   const disabled = !user.isMaster || !rule.team.active || !!editTeams
 
   if (!mobile) {
     return (
       <Box>
-        <Tooltip title="チーム">
+        <Tooltip title="配置">
           <span>
-            <IconButton className="toggle-team-button"
+            <IconButton className="assign-button"
                         color="inherit"
                         disabled={disabled} onClick={beginEditTeams}>
               <SupervisorAccount />
@@ -41,4 +41,4 @@ export default connect(
     rule: state.rule,
     editTeams: state.editTeams
   })
-)(TeamButton)
+)(AssignButton)
