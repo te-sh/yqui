@@ -4,7 +4,7 @@ import {
   Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
 } from '@material-ui/core'
 import { SupervisorAccount } from '@material-ui/icons'
-import { beginEditTeams } from '../../lib/edit_team'
+import { beginEditTeams } from '../../lib/assign'
 
 const AssignButton = ({ mobile, user, rule, editTeams }) => {
   const disabled = !user.isMaster || !rule.team.active || !!editTeams

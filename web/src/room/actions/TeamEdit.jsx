@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Button, Paper } from '@material-ui/core'
-import { endEditTeams, cancelEditTeams } from '../../lib/edit_team'
+import { endEditTeams, cancelEditTeams } from '../../lib/assign'
 import './Actions.scss'
 
 const TeamEdit = ({ className }) => {

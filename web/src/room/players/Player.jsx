@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import ItemTypes from '../../lib/item_types'
 import {
   movingPlayerOrder, movedPlayerOrder, cancelMovePlayerOrder
-} from '../../lib/edit_team'
+} from '../../lib/assign'
 import PlayerContainer from './PlayerContainer'
 
 const Player = ({ player, playerIndex, teamIndex }) => {
