@@ -23,8 +23,6 @@ describe('join/leave', () => {
       const s = '.room .team .player-container';
       let list;
 
-      console.log(await p1.evaluate(() => localStorage.getItem('scoreBackup')));
-
       list = await p0.$$(s);
       expect(await list[0].$eval('.point', el => el.textContent)).toBe('2');
       expect(await list[0].$eval('.batsu', el => el.textContent)).toBe('1');

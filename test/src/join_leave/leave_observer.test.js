@@ -68,27 +68,27 @@ describe('join/leave', () => {
       await util.enterRoom(p0, 1, 'ゆーた0');
       expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
       expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
 
       await util.clickToggleObserveButton(p1);
       expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
       expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
 
       await util.leaveRoom(p1);
       expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
       expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
 
       await util.clickToggleObserveButton(p2);
       expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
       expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
 
       await util.closePage(p2);
       expect(await p0.$(`${sr}[disabled]`)).not.toBe(null);
       expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
+      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null);
     });
 
     test('chat message', async () => {

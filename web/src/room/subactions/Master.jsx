@@ -57,12 +57,10 @@ const Master = ({ className, rule, timer, clearEditBoards }) => {
           オールクリア
         </Button>
         <Button variant="outlined" color="default" className="win-top-button"
-                className="win-top"
                 onClick={winTop}>
           最上位勝ち抜け
         </Button>
         <Button variant="outlined" color="default" className="lose-bottom-button"
-                className="lose-bottom"
                 onClick={loseBottom}>
           最下位失格
         </Button>

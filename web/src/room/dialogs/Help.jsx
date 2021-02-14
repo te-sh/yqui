@@ -52,7 +52,7 @@ const Help = ({ open, setOpen }) => {
             </li>
             <li>
               <Typography>
-                画面左下部のチャット入力欄に '!' (半角/全角どちらも可) を入力して, Enter キーを押す
+                画面左下部のチャット入力欄に &quot;!&quot; (半角/全角どちらも可) を入力して, Enter キーを押す
               </Typography>
             </li>
           </ul>
@@ -68,21 +68,21 @@ const Help = ({ open, setOpen }) => {
         </TabPanel>
         <TabPanel value={tab} index={1}>
           <Typography variant="h6">
-            "次の問題" と "リセット"
+            &quot;次の問題&quot; と &quot;リセット&quot;
           </Typography>
           <Typography>
-            "次の問題" は休み中のプレイヤーの休みを減らします. "リセット" は減らしません.
+            &quot;次の問題&quot; は休み中のプレイヤーの休みを減らします. &quot;リセット&quot; は減らしません.
             休みルールがない場合は違いはありません.
           </Typography>
           <Typography variant="h6">
-            "最上位勝ち抜け" と "最下位失格"
+            &quot;最上位勝ち抜け&quot; と &quot;最下位失格&quot;
           </Typography>
           <Typography>
-            "最上位勝ち抜け" はクリック時のポイントが最も大きいプレイヤーを勝ち抜けにします.
+            &quot;最上位勝ち抜け&quot; はクリック時のポイントが最も大きいプレイヤーを勝ち抜けにします.
             そのようなプレイヤーが複数いる場合はそのプレイヤー全員を勝ち抜けにします.
           </Typography>
           <Typography>
-            "最下位失格" はクリック時のポイントが最も小さいプレイヤーを失格にします.
+            &quot;最下位失格&quot; はクリック時のポイントが最も小さいプレイヤーを失格にします.
             そのようなプレイヤーが複数いる場合はそのプレイヤー全員を失格にします.
           </Typography>
           <Typography>
