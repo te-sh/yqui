@@ -22,4 +22,5 @@ WORKDIR $TESTDIR
 ADD package.json ./
 
 RUN yarn install \
+ && yarn cache clean \
  && mkdir -p $HOME/Downloads

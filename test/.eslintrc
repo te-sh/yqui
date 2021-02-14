@@ -4,6 +4,7 @@
     "jest/globals": true
   },
   "extends": [
+    "standard",
     "eslint:recommended",
     "plugin:jest/recommended"
   ],

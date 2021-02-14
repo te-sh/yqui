@@ -4,6 +4,7 @@
     "es2017": true
   },
   "extends": [
+    "standard",
     "eslint:recommended",
     "plugin:react/recommended"
   ],

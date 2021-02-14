@@ -1,6 +1,8 @@
+.eslintrc
 .git/
-Dockerfile
-Dockerfile.prod
 log/
 nginx/
 node_modules/
+
+Dockerfile
+Dockerfile.prod
