@@ -1,3 +1,5 @@
+const css = require('./css')
+
 // add functions to Browser
 
 class YquiBrowser {
@@ -86,6 +88,12 @@ class YquiPage {
       }
     }
     await this.page.click('.enter-room-dialog .submit')
+    await this.page.waitForTimeout(TIMEOUT)
+  }
+
+  async leaveRoom () {
+    await this.page.click(css.selector.topbar.leaveBtn)
+    await this.page.click('.leave-room-dialog .submit')
     await this.page.waitForTimeout(TIMEOUT)
   }
 }

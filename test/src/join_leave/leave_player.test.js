@@ -17,7 +17,7 @@ describe('join/leave', () => {
 
       expect(await p0.$eval(s, el => el.textContent)).toBe('2')
 
-      await util.leaveRoom(p1)
+      await p1.yq.leaveRoom()
       expect(await p0.$eval(s, el => el.textContent)).toBe('1')
 
       await p2.yq.close()
@@ -35,7 +35,7 @@ describe('join/leave', () => {
       expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた2')
       expect(await list[2].$eval('.player-name', el => el.textContent)).toBe('ゆーた0')
 
-      await util.leaveRoom(p1)
+      await p1.yq.leaveRoom()
       list = await p0.$$(s)
       expect(list.length).toBe(2)
       expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた2')
@@ -55,7 +55,7 @@ describe('join/leave', () => {
       expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
       expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
 
-      await util.leaveRoom(p1)
+      await p1.yq.leaveRoom()
       expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
       expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
       expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
@@ -71,7 +71,7 @@ describe('join/leave', () => {
 
       await p0.yq.enterRoom()
 
-      await util.leaveRoom(p1)
+      await p1.yq.leaveRoom()
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1さんが退室しました')
 
       await p2.yq.close()
