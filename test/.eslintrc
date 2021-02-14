@@ -9,6 +9,11 @@
     "plugin:jest/recommended"
   ],
   "globals": {
+    "PLAYERS": true,
+    "ROOT_DIR": true,
+    "TIMEOUT": true,
+    "YQUI_URL": true,
+    "browser": true,
     "console": true,
     "p0": true,
     "p1": true,
@@ -17,6 +22,7 @@
     "p4": true,
     "pages": true,
     "process": true,
+    "puppeteer": true,
     "require": true
   },
   "plugins": [
