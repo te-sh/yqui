@@ -1,17 +1,11 @@
-const util = require('../common/util')
-
 describe('join/leave', () => {
   describe('score backup', () => {
     beforeEach(async () => {
       await p0.yq.enterRoom()
       await p0.yq.clickToggleMasterButton()
       await p1.yq.enterRoom()
-      await util.clickAnswerButton(p1)
-      await util.clickCorrectButton(p0)
-      await util.clickAnswerButton(p1)
-      await util.clickCorrectButton(p0)
-      await util.clickAnswerButton(p1)
-      await util.clickWrongButton(p0)
+      await p1.yq.answerCorrect(p0, { repeat: 2 })
+      await p1.yq.answerWrong(p0, { repeat: 1 })
     })
 
     afterEach(async () => {
@@ -54,7 +48,7 @@ describe('join/leave', () => {
 
       await p1.yq.close()
       p1 = await browser.yq.reopen(p1)
-      await util.clickAllClearButton(p0)
+      await p0.yq.clickAllClearButton()
       await p1.yq.enterRoom()
 
       list = await p0.$$(s)

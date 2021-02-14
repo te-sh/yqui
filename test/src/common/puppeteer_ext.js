@@ -88,23 +88,59 @@ class YquiPage {
       }
     }
     await this.page.click('.enter-room-dialog .submit')
-    await this.page.waitForTimeout(TIMEOUT)
+    await this.page.waitForTimeout(this.timeout)
   }
 
   async leaveRoom () {
     await this.page.click(css.selector.topbar.leaveBtn)
     await this.page.click('.leave-room-dialog .submit')
-    await this.page.waitForTimeout(TIMEOUT)
+    await this.page.waitForTimeout(this.timeout)
   }
 
   async clickToggleMasterButton () {
     await this.page.click(css.selector.topbar.masterBtn)
-    await this.page.waitForTimeout(TIMEOUT)
+    await this.page.waitForTimeout(this.timeout)
   }
 
   async clickToggleObserverButton () {
     await this.page.click(css.selector.topbar.observerBtn)
-    await this.page.waitForTimeout(TIMEOUT)
+    await this.page.waitForTimeout(this.timeout)
+  }
+
+  async answerCorrect (masterPage, options = {}) {
+    const repeat = options.repeat !== undefined ? options.repeat : 1
+    for (let i = 0; i < repeat; ++i) {
+      await this.clickAnswerButton()
+      await masterPage.yq.clickCorrectButton()
+    }
+  }
+
+  async answerWrong (masterPage, options = {}) {
+    const repeat = options.repeat !== undefined ? options.repeat : 1
+    for (let i = 0; i < repeat; ++i) {
+      await this.clickAnswerButton()
+      await masterPage.yq.clickWrongButton()
+    }
+  }
+
+  async clickAnswerButton () {
+    await this.page.click('.room .actions .answer-button')
+    await this.page.waitForTimeout(this.timeout)
+  }
+
+  async clickCorrectButton () {
+    await this.page.click('.room .actions .correct-button')
+    await this.page.waitForTimeout(this.timeout)
+  }
+
+  async clickWrongButton () {
+    await this.page.click('.room .actions .wrong-button')
+    await this.page.waitForTimeout(this.timeout)
+  }
+
+  async clickAllClearButton () {
+    await this.page.click('.room .subactions .all-clear-button')
+    await this.page.waitForTimeout(this.timeout)
   }
 }
 
