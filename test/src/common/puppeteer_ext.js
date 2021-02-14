@@ -54,6 +54,12 @@ class YquiPage {
     return await !!(this.page.$(selector))
   }
 
+  async $ (selector) {
+    const el = await this.page.$(selector)
+    el.yq = new YquiElementHandle(el, this.timeout)
+    return el
+  }
+
   async $$ (selector) {
     const list = await this.page.$$(selector)
     for (const el of list) {
@@ -62,12 +68,12 @@ class YquiPage {
     return list
   }
 
-  async waitForTimeout () {
-    await this.page.waitForTimeout(this.timeout)
-  }
-
   async textContent (selector) {
     return await this.page.$eval(selector, el => el.textContent)
+  }
+
+  async waitForTimeout () {
+    await this.page.waitForTimeout(this.timeout)
   }
 
   async screenshot (filename) {
@@ -100,14 +106,14 @@ class YquiPage {
     await this.page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`)
     await this.page.yq.fillText('.enter-room .name input', name)
     if (options.observer !== undefined) {
-      const observerCheck = await this.page.$('.enter-room .observer-check input')
-      if (options.observer !== !!(await observerCheck.$('[checked]'))) {
+      const observerCheck = await this.page.yq.$('.enter-room .observer-check input')
+      if (options.observer !== (await observerCheck.yq.$t('[checked]'))) {
         await observerCheck.click()
       }
     }
     if (options.chatAnswer) {
-      const chatAnswerCheck = await this.page.$('.enter-room .chat-answer-check input')
-      if (options.chatAnswer !== !!(await chatAnswerCheck.$('[checked]'))) {
+      const chatAnswerCheck = await this.page.yq.$('.enter-room .chat-answer-check input')
+      if (options.chatAnswer !== (await chatAnswerCheck.yq.$t('[checked]'))) {
         await chatAnswerCheck.click()
       }
     }
@@ -172,6 +178,10 @@ class YquiElementHandle {
   constructor (el, timeout) {
     this.el = el
     this.timeout = timeout
+  }
+
+  async $t (selector) {
+    return !!(await this.el.$(selector))
   }
 
   async textContent (selector) {
