@@ -14,7 +14,7 @@ export const initBoard = {
 
 export const mergeBgWithJson = ({ bg, editBoards }, json) => {
   if (json === undefined) {
-    return bg;
+    return bg
   }
 
   const newBoards = toIntMap(json.boards)

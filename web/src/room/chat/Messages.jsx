@@ -9,7 +9,7 @@ const Messages = ({ className, chats }) => {
 
   React.useEffect(
     () => {
-      let el = ref.current
+      const el = ref.current
       el.scrollTop = el.scrollHeight
     },
     [chats, ref]
@@ -30,25 +30,25 @@ const Messages = ({ className, chats }) => {
 
   const content = chat => {
     switch (chat.type) {
-      case "message":
+      case 'message':
         return (
           <span className="message-body message-normal">
             {userName(chat)} <span className="carret">&gt;</span> {chat.text}
           </span>
         )
-      case "join":
+      case 'join':
         return (
           <span className="message-body message-system">
             {userName(chat)}さん{placeJoinLeave[chat.text]}が入室しました
           </span>
         )
-      case "leave":
+      case 'leave':
         return (
           <span className="message-body message-system">
             {userName(chat)}さん{placeJoinLeave[chat.text]}が退室しました
           </span>
         )
-      case "move":
+      case 'move':
         return (
           <span className="message-body message-system">
             {userName(chat)}さんが{placeMove[chat.text]}に移動しました

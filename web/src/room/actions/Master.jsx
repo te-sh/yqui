@@ -28,7 +28,7 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
 
   const onBoardLock = () => { sendWs(SEND_BOARD_LOCK, !bg.lock) }
   const onOpenAll = () => {
-    let boards = Object.fromEntries([...bg.boards.keys()].map(id => (
+    const boards = Object.fromEntries([...bg.boards.keys()].map(id => (
       [id, update(bg.boards.get(id), { open: { $set: true } })]
     )))
     clearEditBoards()

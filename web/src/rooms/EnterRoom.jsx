@@ -41,7 +41,7 @@ const EnterRoom = ({ open, close, submit }) => {
             <FormControl>
               <TextField id="name" label="ハンドル"
                          className="name"
-                         inputProps={{maxLength: 9}}
+                         inputProps={{ maxLength: 9 }}
                          value={name}
                          onChange={evt => setName(evt.target.value)} />
             </FormControl>

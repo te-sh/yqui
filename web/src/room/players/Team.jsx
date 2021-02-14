@@ -59,7 +59,7 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
   const titleComponent = (
     <Box className="team-title">
       <Typography align="center">
-        {!team.observers ? `チーム${teamIndex + 1}` : `観戦者`}
+        {!team.observers ? `チーム${teamIndex + 1}` : '観戦者'}
       </Typography>
     </Box>
   )

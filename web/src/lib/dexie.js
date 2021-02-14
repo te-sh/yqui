@@ -51,8 +51,8 @@ export const storeScoreBackup = async (name, encoded) => {
 
 export const retrieveScoreBackup = async name => {
   await db.scoreBackup
-          .where('time').below(new Date().getTime() - SCORE_BACKUP_EXPIRE_INVERVAL)
-          .delete()
+    .where('time').below(new Date().getTime() - SCORE_BACKUP_EXPIRE_INVERVAL)
+    .delete()
   const record = await db.scoreBackup.get(name)
   return record !== undefined ? record.encoded : null
 }

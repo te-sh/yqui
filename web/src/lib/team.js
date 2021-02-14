@@ -26,13 +26,13 @@ export const recvTeamsUpdator = ({ editTeams, dispTeams }, users, teams) => {
 }
 
 const adjustTeamPlayers = (teams, users) => {
-  let newTeams = teams.map(team => ({
+  const newTeams = teams.map(team => ({
     id: team.id,
     players: team.players.filter(id => users.has(id)),
     observers: team.observers
   }))
 
-  let added = [...users.keys()].filter(id => (
+  const added = [...users.keys()].filter(id => (
     !users.get(id).isMaster &&
     !playersOfTeams(newTeams).includes(id)
   ))
@@ -42,7 +42,7 @@ const adjustTeamPlayers = (teams, users) => {
 }
 
 export const setTeamsUpdator = ({ editTeams, dispTeams }) => {
-  let updator = {}
+  const updator = {}
   if (editTeams !== undefined) {
     updator.editTeams = { $set: editTeams }
   }

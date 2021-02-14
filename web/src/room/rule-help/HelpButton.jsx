@@ -3,7 +3,7 @@ import { Help } from '@material-ui/icons'
 
 const HelpButton = ({ size, disabled }) => {
   const helpStyle = size => {
-    let style = { verticalAlign: 'middle' }
+    const style = { verticalAlign: 'middle' }
     if (size === 'small') {
       style.fontSize = '1rem'
     }
