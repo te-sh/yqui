@@ -1,10 +1,9 @@
-const util = require('./common/util')
 const css = require('./common/css')
 
 describe('chat', () => {
   beforeEach(async () => {
-    await util.enterRoom(p0, 1, 'ゆーた0')
-    await util.enterRoom(p1, 1, 'ゆーた1')
+    await p0.yq.enterRoom()
+    await p1.yq.enterRoom()
   })
 
   test('chat', async () => {

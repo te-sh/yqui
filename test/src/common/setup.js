@@ -38,9 +38,8 @@ beforeAll(async () => {
   global.p4 = pages[4]
 })
 
-afterAll(async done => {
+afterAll(async () => {
   await browser.close()
-  done()
 })
 
 beforeEach(async () => {

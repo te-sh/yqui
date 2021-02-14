@@ -1,9 +1,7 @@
-const util = require('../common/util')
-
 describe('join/leave', () => {
   describe('enter room params', () => {
     test('save name', async () => {
-      await util.enterRoom(p0, 1, 'ゆーた0')
+      await p0.yq.enterRoom()
 
       await p0.yq.close()
       p0 = await browser.yq.reopen(p0)
@@ -14,7 +12,7 @@ describe('join/leave', () => {
     })
 
     test('save chat answer', async () => {
-      await util.enterRoom(p0, 1, 'ゆーた1', { chatAnswer: true })
+      await p0.yq.enterRoom({ name: 'ゆーた1', chatAnswer: true })
 
       await p0.yq.close()
       p0 = await browser.yq.reopen(p0)

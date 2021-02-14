@@ -4,8 +4,8 @@ const css = require('../common/css')
 describe('master/observer', () => {
   describe('move from master to player', () => {
     beforeEach(async () => {
-      await util.enterRoom(p0, 1, 'ゆーた0')
-      await util.enterRoom(p1, 1, 'ゆーた1')
+      await p0.yq.enterRoom()
+      await p1.yq.enterRoom()
       await util.clickToggleMasterButton(p0)
     })
 

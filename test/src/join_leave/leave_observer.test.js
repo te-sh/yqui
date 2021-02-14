@@ -4,8 +4,8 @@ const css = require('../common/css')
 describe('join/leave', () => {
   describe('leave observer', () => {
     beforeEach(async () => {
-      await util.enterRoom(p1, 1, 'ゆーた1')
-      await util.enterRoom(p2, 1, 'ゆーた2')
+      await p1.yq.enterRoom()
+      await p2.yq.enterRoom()
     })
 
     afterEach(async () => {
@@ -30,7 +30,7 @@ describe('join/leave', () => {
       const s = '.room .team .player-container'
       let list
 
-      await util.enterRoom(p0, 1, 'ゆーた0')
+      await p0.yq.enterRoom()
       list = await p0.$$(s)
       expect(list.length).toBe(3)
       expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた1')
@@ -63,7 +63,7 @@ describe('join/leave', () => {
     test('topbar buttons', async () => {
       const [s, c] = [css.selector.topbar, css.color.iconBtn]
 
-      await util.enterRoom(p0, 1, 'ゆーた0')
+      await p0.yq.enterRoom()
       expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
       expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
       expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
@@ -92,7 +92,7 @@ describe('join/leave', () => {
     test('chat message', async () => {
       const s = css.selector.chat.lastMessage
 
-      await util.enterRoom(p0, 1, 'ゆーた0')
+      await p0.yq.enterRoom()
 
       await util.clickToggleObserveButton(p1)
       await util.leaveRoom(p1)
