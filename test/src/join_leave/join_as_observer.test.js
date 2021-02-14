@@ -19,17 +19,17 @@ describe('join/leave', () => {
       let list
 
       await p0.yq.enterRoom()
-      list = await p0.$$(s)
+      list = await p0.yq.$$(s)
       expect(list.length).toBe(1)
-      expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0')
+      expect(await list[0].yq.textContent('.player-name')).toBe('ゆーた0')
 
       await p1.yq.enterRoom({ observer: true })
-      list = await p0.$$(s)
+      list = await p0.yq.$$(s)
       expect(list.length).toBe(1)
-      expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0')
-      list = await p1.$$(s)
+      expect(await list[0].yq.textContent('.player-name')).toBe('ゆーた0')
+      list = await p1.yq.$$(s)
       expect(list.length).toBe(1)
-      expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0')
+      expect(await list[0].yq.textContent('.player-name')).toBe('ゆーた0')
     })
 
     test('actions, subactions, chat message', async () => {

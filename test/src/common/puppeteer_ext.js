@@ -50,6 +50,14 @@ class YquiPage {
     this.index = index
   }
 
+  async $$ (selector) {
+    const list = await this.page.$$(selector)
+    for (const el of list) {
+      el.yq = new YquiElementHandle(el, this.timeout)
+    }
+    return list
+  }
+
   async waitForTimeout () {
     await this.page.waitForTimeout(this.timeout)
   }
@@ -153,6 +161,17 @@ class YquiPage {
   async clickAllClearButton () {
     await this.page.click('.room .subactions .all-clear-button')
     await this.waitForTimeout()
+  }
+}
+
+class YquiElementHandle {
+  constructor (el, timeout) {
+    this.el = el
+    this.timeout = timeout
+  }
+
+  async textContent (selector) {
+    return await this.el.$eval(selector, el => el.textContent)
   }
 }
 
