@@ -6,17 +6,18 @@ global.puppeteer = require('puppeteer')
 
 global.ROOT_DIR = '/home/node/test'
 
+let YQUI_URL, TIMEOUT
 if (process.env.LOCAL_SERVER) {
-  global.YQUI_URL = 'http://docker-host:8085/'
-  global.TIMEOUT = 200
+  YQUI_URL = 'http://docker-host:8085/'
+  TIMEOUT = 200
 } else {
-  global.YQUI_URL = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/'
-  global.TIMEOUT = 300
+  YQUI_URL = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/'
+  TIMEOUT = 300
 }
 
 console.log('Accessing to', YQUI_URL)
 
-global.PLAYERS = 5
+const PLAYERS = 5
 
 // jest settings
 jest.setTimeout(60000)
@@ -29,13 +30,11 @@ beforeAll(async () => {
   await browser.yq.initPages(PLAYERS)
   console.info(await browser.version())
 
-  global.pages = browser.yq.pages
-
-  global.p0 = pages[0]
-  global.p1 = pages[1]
-  global.p2 = pages[2]
-  global.p3 = pages[3]
-  global.p4 = pages[4]
+  global.p0 = browser.yq.pages[0]
+  global.p1 = browser.yq.pages[1]
+  global.p2 = browser.yq.pages[2]
+  global.p3 = browser.yq.pages[3]
+  global.p4 = browser.yq.pages[4]
 })
 
 afterAll(async () => {

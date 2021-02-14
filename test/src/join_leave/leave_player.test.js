@@ -1,4 +1,3 @@
-const util = require('../common/util')
 const css = require('../common/css')
 
 describe('join/leave', () => {

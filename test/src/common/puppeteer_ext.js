@@ -50,15 +50,19 @@ class YquiPage {
     this.index = index
   }
 
+  async waitForTimeout () {
+    await this.page.waitForTimeout(this.timeout)
+  }
+
   async close () {
     await this.page.close()
-    await this.page.waitForTimeout(this.timeout)
+    await this.waitForTimeout()
   }
 
   async gotoTop () {
     if (this.page.url() !== this.yquiUrl) {
       await this.page.goto(this.yquiUrl)
-      await this.page.waitForTimeout(this.timeout)
+      await this.waitForTimeout()
     }
   }
 
@@ -88,23 +92,23 @@ class YquiPage {
       }
     }
     await this.page.click('.enter-room-dialog .submit')
-    await this.page.waitForTimeout(this.timeout)
+    await this.waitForTimeout()
   }
 
   async leaveRoom () {
     await this.page.click(css.selector.topbar.leaveBtn)
     await this.page.click('.leave-room-dialog .submit')
-    await this.page.waitForTimeout(this.timeout)
+    await this.waitForTimeout()
   }
 
   async clickToggleMasterButton () {
     await this.page.click(css.selector.topbar.masterBtn)
-    await this.page.waitForTimeout(this.timeout)
+    await this.waitForTimeout()
   }
 
   async clickToggleObserverButton () {
     await this.page.click(css.selector.topbar.observerBtn)
-    await this.page.waitForTimeout(this.timeout)
+    await this.waitForTimeout()
   }
 
   async answerCorrect (masterPage, options = {}) {
@@ -125,22 +129,22 @@ class YquiPage {
 
   async clickAnswerButton () {
     await this.page.click('.room .actions .answer-button')
-    await this.page.waitForTimeout(this.timeout)
+    await this.waitForTimeout()
   }
 
   async clickCorrectButton () {
     await this.page.click('.room .actions .correct-button')
-    await this.page.waitForTimeout(this.timeout)
+    await this.waitForTimeout()
   }
 
   async clickWrongButton () {
     await this.page.click('.room .actions .wrong-button')
-    await this.page.waitForTimeout(this.timeout)
+    await this.waitForTimeout()
   }
 
   async clickAllClearButton () {
     await this.page.click('.room .subactions .all-clear-button')
-    await this.page.waitForTimeout(this.timeout)
+    await this.waitForTimeout()
   }
 }
 
