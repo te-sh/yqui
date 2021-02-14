@@ -28,16 +28,22 @@ class YquiBrowser {
 
   async newPage () {
     const page = await this.browser.newPage()
-    page.yq = new YquiPage(page)
-    await page.goto(this.yquiUrl)
-    await page.waitForTimeout(this.timeout)
+    page.yq = new YquiPage(page, this.timeout, this.yquiUrl)
+    await page.yq.gotoTop()
     return page
   }
 }
 
 class YquiPage {
-  constructor (page) {
+  constructor (page, timeout, yquiUrl) {
     this.page = page
+    this.timeout = timeout
+    this.yquiUrl = yquiUrl
+  }
+
+  async gotoTop () {
+    await this.page.goto(this.yquiUrl)
+    await this.page.waitForTimeout(this.timeout)
   }
 }
 

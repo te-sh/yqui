@@ -26,14 +26,10 @@ beforeAll(async () => {
   const browser = await puppeteer.launch()
   global.browser = browser
   browser.yq = new YquiBrowser(browser, TIMEOUT, YQUI_URL)
+  await browser.yq.initPages(PLAYERS)
   console.info(await browser.version())
 
-  const pages = []
-  for (let i = 0; i < PLAYERS; ++i) {
-    const page = await browser.yq.newPage()
-    pages.push(page)
-  }
-  global.pages = pages
+  global.pages = browser.yq.pages
 
   global.p0 = pages[0]
   global.p1 = pages[1]

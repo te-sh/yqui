@@ -4,9 +4,13 @@ const css = require('../common/css')
 describe('master/observer', () => {
   describe('move from player to observer', () => {
     beforeEach(async () => {
-      await util.gotoYqui(...pages)
       await util.enterRoom(p0, 1, 'ゆーた0')
       await util.enterRoom(p1, 1, 'ゆーた1')
+    })
+
+    afterEach(async () => {
+      await p0.yq.gotoTop()
+      await p1.yq.gotoTop()
     })
 
     test('player box', async () => {
