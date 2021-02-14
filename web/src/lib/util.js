@@ -1,6 +1,8 @@
-export const toIntMap = obj => {
-  return new Map(Object.entries(obj).map(([key, value]) => [parseInt(key), value]))
-}
+import classNames from 'classnames'
+
+export const toIntMap = obj => (
+  new Map(Object.entries(obj).map(([key, value]) => [parseInt(key), value]))
+)
 
 export const normalizeArray = v => v || []
 
@@ -12,6 +14,12 @@ export const parseNumber = text => {
     return ''
   }
 }
+
+const CAMEL_CASE_LETTER = /([a-z0-9]|(?=[A-Z]))([A-Z])/g
+
+export const classNamesK = (...args) => (
+  classNames(...args).replace(CAMEL_CASE_LETTER, '$1-$2').toLowerCase()
+)
 
 export const ordial = x => {
   const t = x % 1000
@@ -55,5 +63,3 @@ export const shuffle = ([...array]) => {
   }
   return array
 }
-
-export const displayAttr = cond => ({ display: cond ? 'block' : 'none' })

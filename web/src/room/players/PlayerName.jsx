@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Typography } from '@material-ui/core'
-import classNames from 'classnames'
+import { classNamesK } from '../../lib/util'
 import './PlayerName.scss'
 
 const PlayerName = ({ player, myTurn, selfID, users }) => {
   const user = users.get(player)
 
-  const nameClass = classNames('player-name-content', { 'my-turn': myTurn })
-  const nameMainClass = classNames('player-name-content-main', { 'self': selfID === player })
+  const nameClass = classNamesK('player-name-content', { myTurn: myTurn })
+  const nameMainClass = classNamesK('player-name-content-main', { self: selfID === player })
 
   return (
     <Box className="player-name">

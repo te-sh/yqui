@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDrop } from 'react-dnd'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
 import { Box, Paper, Typography } from '@material-ui/core'
 import ItemTypes from '../../lib/item_types'
+import { classNamesK } from '../../lib/util'
 import { initScore } from '../../lib/score'
 import { movePlayerTeam } from '../../lib/edit_team'
 import Players from './Players'
@@ -16,7 +16,7 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
 
   const [, dropRef] = useDrop({
     accept: ItemTypes.PLAYER,
-    collect(monitor, _props) {
+    collect: (monitor, _props) => {
       const item = monitor.getItem()
       if (!item) {
         return
@@ -27,7 +27,7 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
       }
       setHover(monitor.isOver())
     },
-    drop(item, _monitor) {
+    drop: (item, _monitor) => {
       const dragTeamIndex = item.teamIndex
       const dragPlayerIndex = item.playerIndex
       if (dragTeamIndex === teamIndex || !editTeams) {
@@ -38,10 +38,10 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
   })
 
   const teamScore = sg.team.scores.get(team.id) || initScore
-  const teamClass = classNames('team', {
+  const teamClass = classNamesK('team', {
     hover,
-    'edit': !!editTeams,
-    'multi-team': rule.team.active
+    edit: !!editTeams,
+    multiTeam: rule.team.active
   })
 
   const pointComponent = (

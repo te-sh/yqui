@@ -2,17 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import { TrendingUp } from '@material-ui/icons'
-import classNames from 'classnames'
-import { readableTime } from '../../lib/util'
+import { classNamesK, readableTime } from '../../lib/util'
 import './PlayerAbove.scss'
 
 const PlayerAbove = ({ order, delay, score, rule }) => {
-  const pushOrderClass = classNames('push-order', {
-    'pushed': order >= 0
+  const pushOrderClass = classNamesK('push-order', {
+    pushed: order >= 0
   })
 
-  const pushOrderContentClass = classNames('push-order-content', {
-    'has-right': order < rule.rightNum
+  const pushOrderContentClass = classNamesK('push-order-content', {
+    hasRight: order < rule.rightNum
   })
 
   const showConsCorrect = rule.player.specialCorrect.consBonus && score.consCorrect > 0

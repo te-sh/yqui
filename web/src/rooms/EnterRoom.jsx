@@ -26,7 +26,9 @@ const EnterRoom = ({ open, close, submit }) => {
     storeName(name)
     storeChatAnswer(chatAnswer)
     submit({
-      name, observer, chatAnswer,
+      name,
+      observer,
+      chatAnswer,
       borderColor: borderColor === '#ffffff' ? '#ff000000' : borderColor
     })
   }
