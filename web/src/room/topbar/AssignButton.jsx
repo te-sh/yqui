@@ -14,8 +14,7 @@ const AssignButton = ({ mobile, user, rule, editTeams }) => {
       <Box>
         <Tooltip title="配置">
           <span>
-            <IconButton className="assign-button"
-                        color="inherit"
+            <IconButton className="begin-assign-button" color="inherit"
                         disabled={disabled} onClick={beginAssign}>
               <SupervisorAccount />
             </IconButton>
@@ -25,8 +24,7 @@ const AssignButton = ({ mobile, user, rule, editTeams }) => {
     )
   } else {
     return (
-      <ListItem button
-                disabled={disabled} onClick={beginAssign}>
+      <ListItem button disabled={disabled} onClick={beginAssign}>
         <ListItemIcon><SupervisorAccount /></ListItemIcon>
         <ListItemText>チーム</ListItemText>
       </ListItem>

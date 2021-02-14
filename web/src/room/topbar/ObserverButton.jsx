@@ -26,8 +26,7 @@ const ObserverButton = ({ mobile, user, isPlayer }) => {
     )
   } else {
     return (
-      <ListItem button
-                disabled={user.isMaster} onClick={toggleObserver}>
+      <ListItem button disabled={user.isMaster} onClick={toggleObserver}>
         <ListItemIcon><Visibility /></ListItemIcon>
         <ListItemText>観戦</ListItemText>
       </ListItem>

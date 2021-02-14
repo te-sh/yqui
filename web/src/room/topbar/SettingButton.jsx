@@ -17,8 +17,8 @@ const SettingButton = ({ mobile, setOpen }) => {
       <Box>
         <Tooltip title="設定">
           <span>
-            <IconButton className="open-setting-button"
-                        color="inherit" onClick={open}>
+            <IconButton className="open-setting-button" color="inherit"
+                        onClick={open}>
               <Settings />
             </IconButton>
           </span>

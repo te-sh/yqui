@@ -29,8 +29,7 @@ const MasterButton = ({ mobile, user, master, isPlayer, editTeams }) => {
     )
   } else {
     return (
-      <ListItem button
-                disabled={disabled} onClick={onToggleMaster}>
+      <ListItem button disabled={disabled} onClick={onToggleMaster}>
         <ListItemIcon><Portrait /></ListItemIcon>
         <ListItemText>司会</ListItemText>
       </ListItem>

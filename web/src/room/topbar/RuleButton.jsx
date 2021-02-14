@@ -18,8 +18,7 @@ const RuleButton = ({ mobile, user, editTeams, setOpen }) => {
       <Box>
         <Tooltip title="ルール">
           <span>
-            <IconButton className="open-rule-button"
-                        color="inherit"
+            <IconButton className="open-rule-button" color="inherit"
                         disabled={disabled} onClick={open}>
               <PlaylistAddCheck />
             </IconButton>
@@ -29,8 +28,7 @@ const RuleButton = ({ mobile, user, editTeams, setOpen }) => {
     )
   } else {
     return (
-      <ListItem button
-                disabled={disabled} onClick={open}>
+      <ListItem button disabled={disabled} onClick={open}>
         <ListItemIcon><PlaylistAddCheck /></ListItemIcon>
         <ListItemText>ルール</ListItemText>
       </ListItem>

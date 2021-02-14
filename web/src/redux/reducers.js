@@ -29,8 +29,6 @@ const initialState = {
   isPlayer: false,
   numPlayers: 0,
   teams: [],
-  editTeams: null,
-  dispTeams: [],
   bg: initBg,
   sg: initSg,
   buttons: initButtons,
@@ -41,6 +39,8 @@ const initialState = {
   },
   editBoards: new Set(),
   chats: [],
+  editTeams: null,
+  dispTeams: [],
   open: {
     rule: false,
     setting: false,
@@ -60,8 +60,8 @@ const recvRoom = (action, state) => {
     isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
     teams: { $set: teams },
-    ...recvTeamsUpdator(state, users, teams),
-    buttons: { $set: buttonsFromJson(action.room.buttons) }
+    buttons: { $set: buttonsFromJson(action.room.buttons) },
+    ...recvTeamsUpdator(state, users, teams)
   })
 }
 
