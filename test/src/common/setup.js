@@ -1,4 +1,5 @@
 require('expect-more-jest')
+const YquiBrowser = require('./puppeteer_ext')
 
 // set global variables
 global.puppeteer = require('puppeteer')
@@ -24,11 +25,12 @@ jest.setTimeout(60000)
 beforeAll(async () => {
   const browser = await puppeteer.launch()
   global.browser = browser
+  browser.yq = new YquiBrowser(browser, TIMEOUT, YQUI_URL)
   console.info(await browser.version())
 
   const pages = []
   for (let i = 0; i < PLAYERS; ++i) {
-    const page = await browser.newPage()
+    const page = await browser.yq.newPage()
     pages.push(page)
   }
   global.pages = pages
