@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Button, Paper } from '@material-ui/core'
-import { endEditTeams, cancelEditTeams } from '../../lib/assign'
+import { endAssign, cancelAssign } from '../../lib/assign'
 import './Actions.scss'
 
 const Assign = ({ className }) => {
@@ -8,11 +8,11 @@ const Assign = ({ className }) => {
     <Paper className={className}>
       <Box className="actions-content assign-actions">
         <Button variant="outlined" color="primary" size="large"
-                onClick={endEditTeams}>
+                onClick={endAssign}>
           設定
         </Button>
         <Button variant="outlined" color="secondary" size="large"
-                onClick={cancelEditTeams}>
+                onClick={cancelAssign}>
           閉じる
         </Button>
       </Box>

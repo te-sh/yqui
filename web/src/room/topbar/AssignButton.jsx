@@ -4,7 +4,7 @@ import {
   Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
 } from '@material-ui/core'
 import { SupervisorAccount } from '@material-ui/icons'
-import { beginEditTeams } from '../../lib/assign'
+import { beginAssign } from '../../lib/assign'
 
 const AssignButton = ({ mobile, user, rule, editTeams }) => {
   const disabled = !user.isMaster || !rule.team.active || !!editTeams
@@ -16,7 +16,7 @@ const AssignButton = ({ mobile, user, rule, editTeams }) => {
           <span>
             <IconButton className="assign-button"
                         color="inherit"
-                        disabled={disabled} onClick={beginEditTeams}>
+                        disabled={disabled} onClick={beginAssign}>
               <SupervisorAccount />
             </IconButton>
           </span>
@@ -26,7 +26,7 @@ const AssignButton = ({ mobile, user, rule, editTeams }) => {
   } else {
     return (
       <ListItem button
-                disabled={disabled} onClick={beginEditTeams}>
+                disabled={disabled} onClick={beginAssign}>
         <ListItemIcon><SupervisorAccount /></ListItemIcon>
         <ListItemText>チーム</ListItemText>
       </ListItem>

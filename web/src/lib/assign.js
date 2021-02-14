@@ -5,7 +5,7 @@ import { sendWs, SEND_TEAMS } from './send'
 import { setTeams } from '../redux/actions'
 import store from '../redux/store'
 
-export const beginEditTeams = () => {
+export const beginAssign = () => {
   const { users, teams } = store.getState()
   const observers = [...users.keys()].filter(id => (
     !users.get(id).isMaster &&
@@ -22,7 +22,7 @@ export const beginEditTeams = () => {
   }))
 }
 
-export const endEditTeams = () => {
+export const endAssign = () => {
   const teams = splitEditTeams()[0]
   store.dispatch(setTeams({
     editTeams: null
@@ -30,7 +30,7 @@ export const endEditTeams = () => {
   sendWs(SEND_TEAMS, teams)
 }
 
-export const cancelEditTeams = () => {
+export const cancelAssign = () => {
   const { teams } = store.getState()
   store.dispatch(setTeams({
     editTeams: null,
