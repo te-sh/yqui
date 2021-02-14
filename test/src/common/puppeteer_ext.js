@@ -54,6 +54,10 @@ class YquiPage {
     await this.page.waitForTimeout(this.timeout)
   }
 
+  async screenshot (filename) {
+    await this.page.screenshot({ path: `${ROOT_DIR}/screenshots/${filename}` })
+  }
+
   async close () {
     await this.page.close()
     await this.waitForTimeout()
