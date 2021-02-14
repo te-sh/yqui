@@ -4,7 +4,7 @@ import { isContinueingMultiChance } from '../../lib/buttons'
 import Alert from './Alert'
 import Master from './Master'
 import Player from './Player'
-import TeamEdit from './TeamEdit'
+import Assign from './Assign'
 import './Subactions.scss'
 
 const Subactions = ({ className, user, buttons, editTeams }) => {
@@ -13,7 +13,7 @@ const Subactions = ({ className, user, buttons, editTeams }) => {
   if (alert) {
     return <Alert className={className} alert={alert} />
   } else if (editTeams) {
-    return <TeamEdit className={className} />
+    return <Assign className={className} />
   } else if (user.isMaster) {
     return <Master className={className} />
   } else {

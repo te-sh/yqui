@@ -2,11 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Master from './Master'
 import Player from './Player'
-import TeamEdit from './TeamEdit'
+import Assign from './Assign'
 
 const Actions = ({ className, user, editTeams }) => {
   if (editTeams) {
-    return <TeamEdit className={className} />
+    return <Assign className={className} />
   } else if (user.isMaster) {
     return <Master className={className} />
   } else {

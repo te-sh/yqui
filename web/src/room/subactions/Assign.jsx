@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button, FormLabel, Paper, TextField } from '@material-ui/core'
 import { changeNumTeams, randomAssignTeams } from '../../lib/assign'
-import './TeamEdit.scss'
+import './Assign.scss'
 
-const Master = ({ className, numPlayers, dispTeams }) => {
+const Assign = ({ className, numPlayers, dispTeams }) => {
   const [numTeams, setNumTeams] = React.useState('1')
 
   React.useEffect(
@@ -21,7 +21,7 @@ const Master = ({ className, numPlayers, dispTeams }) => {
 
   return (
     <Paper className={className}>
-      <Box className="subactions-content team-edit-subactions">
+      <Box className="subactions-content assign-subactions">
         <FormLabel>チーム数</FormLabel>
         <TextField id="numTeams" type="number" className="num-teams"
                    inputProps={{ style: { textAlign: 'center' } }}
@@ -47,4 +47,4 @@ export default connect(
     numPlayers: state.numPlayers,
     dispTeams: state.teams
   })
-)(Master)
+)(Assign)

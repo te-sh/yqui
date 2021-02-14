@@ -3,10 +3,10 @@ import { Box, Button, Paper } from '@material-ui/core'
 import { endEditTeams, cancelEditTeams } from '../../lib/assign'
 import './Actions.scss'
 
-const TeamEdit = ({ className }) => {
+const Assign = ({ className }) => {
   return (
     <Paper className={className}>
-      <Box className="actions-content team-edit-actions">
+      <Box className="actions-content assign-actions">
         <Button variant="outlined" color="primary" size="large"
                 onClick={endEditTeams}>
           設定
@@ -20,4 +20,4 @@ const TeamEdit = ({ className }) => {
   )
 }
 
-export default TeamEdit
+export default Assign
