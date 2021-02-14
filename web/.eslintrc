@@ -1,17 +1,16 @@
 {
   "env": {
     "browser": true,
-    "es6": true
+    "es2017": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "globals": {
     "console": true,
-    "document": true,
-    "localStorage": true,
-    "navigator": true,
     "process": true,
     "WebSocket": true,
-    "window": true,
     "XMLHttpRequest": true
   },
   "plugins": [
@@ -30,6 +29,7 @@
       2,
       { "argsIgnorePattern": "^_" }
     ],
+    "react/prop-types": [0],
     "react/jsx-uses-react": [1],
     "react/jsx-uses-vars": 1
   }

@@ -1,0 +1,24 @@
+{
+  "env": {
+    "es2017": true,
+    "jest/globals": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:jest/recommended"
+  ],
+  "globals": {
+    "console": true,
+    "p0": true,
+    "p1": true,
+    "p2": true,
+    "p3": true,
+    "p4": true,
+    "pages": true,
+    "process": true,
+    "require": true
+  },
+  "plugins": [
+    "jest"
+  ]
+}
