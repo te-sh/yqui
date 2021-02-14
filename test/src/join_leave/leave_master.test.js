@@ -63,29 +63,29 @@ describe('join/leave', () => {
       const [s, c] = [css.selector.topbar, css.color.iconBtn]
 
       await p0.yq.enterRoom()
-      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
-      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.masterBtn}${c.inherit}:not([disabled])`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.observerBtn}${c.inherit}:not([disabled])`)).toBeTrue()
 
       await p1.yq.clickToggleMasterButton()
-      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${s.masterBtn}${c.inherit}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.masterBtn}${c.inherit}[disabled]`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.observerBtn}${c.inherit}:not([disabled])`)).toBeTrue()
 
       await p1.yq.leaveRoom()
-      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
-      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.masterBtn}${c.inherit}:not([disabled])`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.observerBtn}${c.inherit}:not([disabled])`)).toBeTrue()
 
       await p2.yq.clickToggleMasterButton()
-      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${s.masterBtn}${c.inherit}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.masterBtn}${c.inherit}[disabled]`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.observerBtn}${c.inherit}:not([disabled])`)).toBeTrue()
 
       await p2.yq.close()
-      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
-      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.masterBtn}${c.inherit}:not([disabled])`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.observerBtn}${c.inherit}:not([disabled])`)).toBeTrue()
     })
 
     test('master display, chat message', async () => {

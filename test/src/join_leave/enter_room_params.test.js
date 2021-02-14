@@ -8,7 +8,7 @@ describe('join/leave', () => {
       await p0.click('.rooms-table tbody tr:nth-child(1) .enter-room-button button')
 
       expect(await p0.$eval('.enter-room .name input', el => el.value)).toBe('ゆーた0')
-      expect(await p0.$('.enter-room .chat-answer-check input:not([checked])')).not.toBe(null)
+      expect(await p0.yq.$t('.enter-room .chat-answer-check input:not([checked])')).toBeTrue()
     })
 
     test('save chat answer', async () => {
@@ -19,7 +19,7 @@ describe('join/leave', () => {
       await p0.click('.rooms-table tbody tr:nth-child(1) .enter-room-button button')
 
       expect(await p0.$eval('.enter-room .name input', el => el.value)).toBe('ゆーた1')
-      expect(await p0.$('.enter-room .chat-answer-check input[checked]')).not.toBe(null)
+      expect(await p0.yq.$t('.enter-room .chat-answer-check input[checked]')).toBeTrue()
     })
   })
 })

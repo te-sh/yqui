@@ -50,6 +50,10 @@ class YquiPage {
     this.index = index
   }
 
+  async $t (selector) {
+    return await !!(this.page.$(selector))
+  }
+
   async $$ (selector) {
     const list = await this.page.$$(selector)
     for (const el of list) {
