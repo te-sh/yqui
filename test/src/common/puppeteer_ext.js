@@ -96,6 +96,16 @@ class YquiPage {
     await this.page.click('.leave-room-dialog .submit')
     await this.page.waitForTimeout(TIMEOUT)
   }
+
+  async clickToggleMasterButton () {
+    await this.page.click(css.selector.topbar.masterBtn)
+    await this.page.waitForTimeout(TIMEOUT)
+  }
+
+  async clickToggleObserverButton () {
+    await this.page.click(css.selector.topbar.observerBtn)
+    await this.page.waitForTimeout(TIMEOUT)
+  }
 }
 
 module.exports = YquiBrowser

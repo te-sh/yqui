@@ -1,4 +1,3 @@
-const util = require('../common/util')
 const css = require('../common/css')
 
 describe('master/observer', () => {
@@ -6,7 +5,7 @@ describe('master/observer', () => {
     beforeEach(async () => {
       await p0.yq.enterRoom()
       await p1.yq.enterRoom()
-      await util.clickToggleObserveButton(p0)
+      await p0.yq.clickToggleObserverButton()
     })
 
     test('player box', async () => {
@@ -20,7 +19,7 @@ describe('master/observer', () => {
       expect(list.length).toBe(1)
       expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた1')
 
-      await util.clickToggleObserveButton(p0)
+      await p0.yq.clickToggleObserverButton()
       list = await p0.$$(s)
       expect(list.length).toBe(2)
       expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた1')
@@ -37,7 +36,7 @@ describe('master/observer', () => {
       expect(await p0.$(`${s} .observer-actions:not(.hidden)`)).not.toBe(null)
       expect(await p1.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null)
 
-      await util.clickToggleObserveButton(p0)
+      await p0.yq.clickToggleObserverButton()
       expect(await p0.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null)
       expect(await p1.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null)
     })
@@ -48,7 +47,7 @@ describe('master/observer', () => {
       expect(await p0.$(`${s} .player-subactions`)).not.toBe(null)
       expect(await p1.$(`${s} .player-subactions`)).not.toBe(null)
 
-      await util.clickToggleObserveButton(p0)
+      await p0.yq.clickToggleObserverButton()
       expect(await p0.$(`${s} .player-subactions`)).not.toBe(null)
       expect(await p1.$(`${s} .player-subactions`)).not.toBe(null)
     })
@@ -63,7 +62,7 @@ describe('master/observer', () => {
       expect(await p1.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
       expect(await p1.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
 
-      await util.clickToggleObserveButton(p0)
+      await p0.yq.clickToggleObserverButton()
       expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
       expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
       expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
@@ -75,7 +74,7 @@ describe('master/observer', () => {
     test('chat message', async () => {
       const s = css.selector.chat.lastMessage
 
-      await util.clickToggleObserveButton(p0)
+      await p0.yq.clickToggleObserverButton()
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0さんが解答席に移動しました')
       expect(await p1.$eval(s, el => el.textContent)).toBe('ゆーた0さんが解答席に移動しました')
     })

@@ -1,4 +1,3 @@
-const util = require('../common/util')
 const css = require('../common/css')
 
 describe('join/leave', () => {
@@ -17,11 +16,11 @@ describe('join/leave', () => {
 
       expect(await p0.$eval(s, el => el.textContent)).toBe('2')
 
-      await util.clickToggleMasterButton(p1)
+      await p1.yq.clickToggleMasterButton()
       await p1.yq.leaveRoom()
       expect(await p0.$eval(s, el => el.textContent)).toBe('1')
 
-      await util.clickToggleMasterButton(p2)
+      await p2.yq.clickToggleMasterButton()
       await p2.yq.close()
       expect(await p0.$eval(s, el => el.textContent)).toBe('0')
     })
@@ -37,7 +36,7 @@ describe('join/leave', () => {
       expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた2')
       expect(await list[2].$eval('.player-name', el => el.textContent)).toBe('ゆーた0')
 
-      await util.clickToggleMasterButton(p1)
+      await p1.yq.clickToggleMasterButton()
       list = await p0.$$(s)
       expect(list.length).toBe(2)
       expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた2')
@@ -49,7 +48,7 @@ describe('join/leave', () => {
       expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた2')
       expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた0')
 
-      await util.clickToggleMasterButton(p2)
+      await p2.yq.clickToggleMasterButton()
       list = await p0.$$(s)
       expect(list.length).toBe(1)
       expect(await list[0].$eval('.player-name', el => el.textContent)).toBe('ゆーた0')
@@ -68,7 +67,7 @@ describe('join/leave', () => {
       expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
       expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
 
-      await util.clickToggleMasterButton(p1)
+      await p1.yq.clickToggleMasterButton()
       expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
       expect(await p0.$(`${s.masterBtn}${c.inherit}[disabled]`)).not.toBe(null)
       expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
@@ -78,7 +77,7 @@ describe('join/leave', () => {
       expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
       expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
 
-      await util.clickToggleMasterButton(p2)
+      await p2.yq.clickToggleMasterButton()
       expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
       expect(await p0.$(`${s.masterBtn}${c.inherit}[disabled]`)).not.toBe(null)
       expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
@@ -95,12 +94,12 @@ describe('join/leave', () => {
       await p0.yq.enterRoom()
       expect(await p0.$eval(s, el => el.textContent)).toBe('-')
 
-      await util.clickToggleMasterButton(p1)
+      await p1.yq.clickToggleMasterButton()
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1')
       await p1.yq.leaveRoom()
       expect(await p0.$eval(s, el => el.textContent)).toBe('-')
 
-      await util.clickToggleMasterButton(p2)
+      await p2.yq.clickToggleMasterButton()
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた2')
       await p2.yq.close()
       expect(await p0.$eval(s, el => el.textContent)).toBe('-')
@@ -111,11 +110,11 @@ describe('join/leave', () => {
 
       await p0.yq.enterRoom()
 
-      await util.clickToggleMasterButton(p1)
+      await p1.yq.clickToggleMasterButton()
       await p1.yq.leaveRoom()
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1さん (司会) が退室しました')
 
-      await util.clickToggleMasterButton(p2)
+      await p2.yq.clickToggleMasterButton()
       await p2.yq.close()
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた2さん (司会) が退室しました')
     })

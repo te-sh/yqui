@@ -4,7 +4,7 @@ describe('join/leave', () => {
   describe('score backup', () => {
     beforeEach(async () => {
       await p0.yq.enterRoom()
-      await util.clickToggleMasterButton(p0)
+      await p0.yq.clickToggleMasterButton()
       await p1.yq.enterRoom()
       await util.clickAnswerButton(p1)
       await util.clickCorrectButton(p0)
