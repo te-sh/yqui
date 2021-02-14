@@ -1,4 +1,5 @@
 const util = require('../util')
+const css = require('../css')
 
 describe('join/leave', () => {
   describe('join as player', () => {
@@ -61,22 +62,20 @@ describe('join/leave', () => {
     })
 
     test('topbar buttons', async () => {
-      const sr = 'header .open-rule-button'
-      const sm = 'header .toggle-master-button'
-      const so = 'header .toggle-observe-button'
+      const [s, c] = [css.selector.topbar, css.color.iconBtn]
 
       await util.enterRoom(p0, 1, 'ゆーた0')
-      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
-      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
+      expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
 
       await util.enterRoom(p1, 1, 'ゆーた1')
-      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
-      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
-      expect(await p1.$(`${sr}[disabled]`)).not.toBe(null)
-      expect(await p1.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
-      expect(await p1.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
+      expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p1.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
+      expect(await p1.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p1.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
     })
 
     test('chat message', async () => {

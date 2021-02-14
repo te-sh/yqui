@@ -1,4 +1,5 @@
 const util = require('../util')
+const css = require('../css')
 
 describe('join/leave', () => {
   describe('leave master', () => {
@@ -61,34 +62,32 @@ describe('join/leave', () => {
     })
 
     test('topbar buttons', async () => {
-      const sr = 'header .open-rule-button'
-      const sm = 'header .toggle-master-button'
-      const so = 'header .toggle-observe-button'
+      const [s, c] = [css.selector.topbar, css.color.iconBtn]
 
       await util.enterRoom(p0, 1, 'ゆーた0')
-      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
-      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
+      expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
 
       await util.clickToggleMasterButton(p1)
-      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
+      expect(await p0.$(`${s.masterBtn}${c.inherit}[disabled]`)).not.toBe(null)
+      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
 
       await util.leaveRoom(p1)
-      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
-      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
+      expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
 
       await util.clickToggleMasterButton(p2)
-      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
+      expect(await p0.$(`${s.masterBtn}${c.inherit}[disabled]`)).not.toBe(null)
+      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
 
       await util.closePage(p2)
-      expect(await p0.$(`${sr}[disabled]`)).not.toBe(null)
-      expect(await p0.$(`${sm}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
-      expect(await p0.$(`${so}.MuiIconButton-colorInherit:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
+      expect(await p0.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
+      expect(await p0.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
     })
 
     test('master display', async () => {
