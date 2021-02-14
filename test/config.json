@@ -1,3 +1,3 @@
 {
-  "setupFilesAfterEnv": ["./src/setup.js"]
+  "setupFilesAfterEnv": ["./src/common/setup.js"]
 }

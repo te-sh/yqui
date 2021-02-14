@@ -1,5 +1,5 @@
-const util = require('../util')
-const css = require('../css')
+const util = require('../common/util')
+const css = require('../common/css')
 
 describe('join/leave', () => {
   describe('join as player', () => {

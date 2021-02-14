@@ -1,4 +1,4 @@
-const util = require('./util')
+const util = require('./common/util')
 
 describe('rooms', () => {
   beforeEach(async () => {
