@@ -6,10 +6,7 @@ module.exports = {
   },
   enterRoom: async (page, roomNo, name, options = {}) => {
     await page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`)
-    const nameInput = await page.$('.enter-room .name input')
-    await nameInput.click({ clickCount: 3 })
-    await nameInput.press('Backspace')
-    await nameInput.type(name)
+    await page.yq.fillText('.enter-room .name input', name)
     if (options.observer !== undefined) {
       const observerCheck = await page.$('.enter-room .observer-check input')
       if (options.observer !== !!(await observerCheck.$('[checked]'))) {

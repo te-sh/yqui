@@ -58,6 +58,13 @@ class YquiPage {
       await this.page.waitForTimeout(this.timeout)
     }
   }
+
+  async fillText (selector, text) {
+    const el = await this.page.$(selector)
+    await el.click({ clickCount: 3 })
+    await el.press('Backspace')
+    await el.type(text)
+  }
 }
 
 module.exports = YquiBrowser
