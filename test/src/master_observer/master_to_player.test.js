@@ -30,26 +30,29 @@ describe('master/observer', () => {
       expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた0')
     })
 
-    test('actions area', async () => {
-      const s = '.room .actions'
+    test('actions, subactions, master display, chat message', async () => {
+      const sa = '.room .actions'
+      const ss = '.room .subactions'
+      const sm = '.room .master-display .master-name'
+      const sc = css.selector.chat.lastMessage
 
-      expect(await p0.$(`${s} .master-actions`)).not.toBe(null)
-      expect(await p1.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null)
-
-      await p0.yq.clickToggleMasterButton()
-      expect(await p0.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null)
-      expect(await p1.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null)
-    })
-
-    test('subactions area', async () => {
-      const s = '.room .subactions'
-
-      expect(await p0.$(`${s} .master-subactions`)).not.toBe(null)
-      expect(await p1.$(`${s} .player-subactions`)).not.toBe(null)
+      expect(await p0.$(`${sa} .master-actions`)).not.toBe(null)
+      expect(await p1.$(`${sa} .player-actions:not(.hidden)`)).not.toBe(null)
+      expect(await p0.$(`${ss} .master-subactions`)).not.toBe(null)
+      expect(await p1.$(`${ss} .player-subactions`)).not.toBe(null)
+      expect(await p0.yq.textContent(sm)).toBe('ゆーた0')
+      expect(await p1.yq.textContent(sm)).toBe('ゆーた0')
 
       await p0.yq.clickToggleMasterButton()
-      expect(await p0.$(`${s} .player-subactions`)).not.toBe(null)
-      expect(await p1.$(`${s} .player-subactions`)).not.toBe(null)
+      expect(await p0.$(`${sa} .player-actions:not(.hidden)`)).not.toBe(null)
+      expect(await p1.$(`${sa} .player-actions:not(.hidden)`)).not.toBe(null)
+      expect(await p0.$(`${ss} .player-subactions`)).not.toBe(null)
+      expect(await p1.$(`${ss} .player-subactions`)).not.toBe(null)
+      expect(await p0.yq.textContent(sm)).toBe('-')
+      expect(await p1.yq.textContent(sm)).toBe('-')
+
+      expect(await p0.yq.textContent(sc)).toBe('ゆーた0さんが解答席に移動しました')
+      expect(await p1.yq.textContent(sc)).toBe('ゆーた0さんが解答席に移動しました')
     })
 
     test('topbar buttons', async () => {
@@ -69,25 +72,6 @@ describe('master/observer', () => {
       expect(await p1.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
       expect(await p1.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
       expect(await p1.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
-    })
-
-    test('master display', async () => {
-      const s = '.room .master-display .master-name'
-
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0')
-      expect(await p1.$eval(s, el => el.textContent)).toBe('ゆーた0')
-
-      await p0.yq.clickToggleMasterButton()
-      expect(await p0.$eval(s, el => el.textContent)).toBe('-')
-      expect(await p1.$eval(s, el => el.textContent)).toBe('-')
-    })
-
-    test('chat message', async () => {
-      const s = css.selector.chat.lastMessage
-
-      await p0.yq.clickToggleMasterButton()
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0さんが解答席に移動しました')
-      expect(await p1.$eval(s, el => el.textContent)).toBe('ゆーた0さんが解答席に移動しました')
     })
   })
 })

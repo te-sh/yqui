@@ -54,6 +54,10 @@ class YquiPage {
     await this.page.waitForTimeout(this.timeout)
   }
 
+  async textContent (selector) {
+    return await this.page.$eval(selector, el => el.textContent)
+  }
+
   async screenshot (filename) {
     await this.page.screenshot({ path: `${ROOT_DIR}/screenshots/${filename}` })
   }

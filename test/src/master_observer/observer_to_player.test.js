@@ -30,26 +30,24 @@ describe('master/observer', () => {
       expect(await list[1].$eval('.player-name', el => el.textContent)).toBe('ゆーた0')
     })
 
-    test('actions area', async () => {
-      const s = '.room .actions'
+    test('actions, subactions, chat message', async () => {
+      const sa = '.room .actions'
+      const sm = '.room .subactions'
+      const sc = css.selector.chat.lastMessage
 
-      expect(await p0.$(`${s} .observer-actions:not(.hidden)`)).not.toBe(null)
-      expect(await p1.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null)
-
-      await p0.yq.clickToggleObserverButton()
-      expect(await p0.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null)
-      expect(await p1.$(`${s} .player-actions:not(.hidden)`)).not.toBe(null)
-    })
-
-    test('subactions area', async () => {
-      const s = '.room .subactions'
-
-      expect(await p0.$(`${s} .player-subactions`)).not.toBe(null)
-      expect(await p1.$(`${s} .player-subactions`)).not.toBe(null)
+      expect(await p0.$(`${sa} .observer-actions:not(.hidden)`)).not.toBe(null)
+      expect(await p1.$(`${sa} .player-actions:not(.hidden)`)).not.toBe(null)
+      expect(await p0.$(`${sm} .player-subactions`)).not.toBe(null)
+      expect(await p1.$(`${sm} .player-subactions`)).not.toBe(null)
 
       await p0.yq.clickToggleObserverButton()
-      expect(await p0.$(`${s} .player-subactions`)).not.toBe(null)
-      expect(await p1.$(`${s} .player-subactions`)).not.toBe(null)
+      expect(await p0.$(`${sa} .player-actions:not(.hidden)`)).not.toBe(null)
+      expect(await p1.$(`${sa} .player-actions:not(.hidden)`)).not.toBe(null)
+      expect(await p0.$(`${sm} .player-subactions`)).not.toBe(null)
+      expect(await p1.$(`${sm} .player-subactions`)).not.toBe(null)
+
+      expect(await p0.yq.textContent(sc)).toBe('ゆーた0さんが解答席に移動しました')
+      expect(await p1.yq.textContent(sc)).toBe('ゆーた0さんが解答席に移動しました')
     })
 
     test('topbar buttons', async () => {
@@ -69,14 +67,6 @@ describe('master/observer', () => {
       expect(await p1.$(`${s.ruleBtn}[disabled]`)).not.toBe(null)
       expect(await p1.$(`${s.masterBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
       expect(await p1.$(`${s.observerBtn}${c.inherit}:not([disabled])`)).not.toBe(null)
-    })
-
-    test('chat message', async () => {
-      const s = css.selector.chat.lastMessage
-
-      await p0.yq.clickToggleObserverButton()
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0さんが解答席に移動しました')
-      expect(await p1.$eval(s, el => el.textContent)).toBe('ゆーた0さんが解答席に移動しました')
     })
   })
 })

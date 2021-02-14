@@ -14,13 +14,13 @@ describe('join/leave', () => {
     test('room users', async () => {
       const s = '.rooms-table tbody tr:first-child .num-users'
 
-      expect(await p0.$eval(s, el => el.textContent)).toBe('2')
+      expect(await p0.yq.textContent(s)).toBe('2')
 
       await p1.yq.leaveRoom()
-      expect(await p0.$eval(s, el => el.textContent)).toBe('1')
+      expect(await p0.yq.textContent(s)).toBe('1')
 
       await p2.yq.close()
-      expect(await p0.$eval(s, el => el.textContent)).toBe('0')
+      expect(await p0.yq.textContent(s)).toBe('0')
     })
 
     test('player box', async () => {
@@ -66,15 +66,15 @@ describe('join/leave', () => {
     })
 
     test('chat message', async () => {
-      const s = css.selector.chat.lastMessage
+      const sc = css.selector.chat.lastMessage
 
       await p0.yq.enterRoom()
 
       await p1.yq.leaveRoom()
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた1さんが退室しました')
+      expect(await p0.yq.textContent(sc)).toBe('ゆーた1さんが退室しました')
 
       await p2.yq.close()
-      expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた2さんが退室しました')
+      expect(await p0.yq.textContent(sc)).toBe('ゆーた2さんが退室しました')
     })
   })
 })
