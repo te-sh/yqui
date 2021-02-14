@@ -41,10 +41,10 @@ const Board = ({ className, user, board, setBoard, addEditBoard, removeEditBoard
 
   const boxClass = classNames(
     'board-text', {
-      'correct': board.correct === 'correct',
-      'wrong': board.correct === 'wrong',
-      'open': board.open,
-      'master': user.isMaster
+      correct: board.correct === 'correct',
+      wrong: board.correct === 'wrong',
+      open: board.open,
+      master: user.isMaster
     }
   )
 

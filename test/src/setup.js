@@ -41,6 +41,6 @@ beforeAll(async () => {
 })
 
 afterAll(async done => {
-  browser.close()
+  await browser.close()
   done()
 })

@@ -8,12 +8,6 @@
     "eslint:recommended",
     "plugin:react/recommended"
   ],
-  "globals": {
-    "console": true,
-    "process": true,
-    "WebSocket": true,
-    "XMLHttpRequest": true
-  },
   "plugins": [
     "react"
   ],

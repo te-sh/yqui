@@ -14,16 +14,13 @@
     "TIMEOUT": true,
     "YQUI_URL": true,
     "browser": true,
-    "console": true,
     "p0": true,
     "p1": true,
     "p2": true,
     "p3": true,
     "p4": true,
     "pages": true,
-    "process": true,
-    "puppeteer": true,
-    "require": true
+    "puppeteer": true
   },
   "plugins": [
     "jest"

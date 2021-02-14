@@ -6,9 +6,9 @@ import './PlayerStatus.scss'
 
 const PlayerStatus = ({ className, score }) => {
   const statusClass = {
-    'win': score.win > 0,
-    'lose': score.lose > 0,
-    'lock': score.lock > 0
+    win: score.win > 0,
+    lose: score.lose > 0,
+    lock: score.lock > 0
   }
 
   const statusText = (() => {
