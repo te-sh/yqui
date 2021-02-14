@@ -1,3 +1,5 @@
+const css = require('./css')
+
 module.exports = {
   screenshot: async (page, filename) => {
     await page.screenshot({ path: `${ROOT_DIR}/screenshots/${filename}` })
@@ -42,16 +44,16 @@ module.exports = {
     await page.waitForTimeout(TIMEOUT)
   },
   leaveRoom: async page => {
-    await page.click('header .leave-room-button')
+    await page.click(css.selector.topbar.leaveBtn)
     await page.click('.leave-room-dialog .submit')
     await page.waitForTimeout(TIMEOUT)
   },
   clickToggleMasterButton: async page => {
-    await page.click('header .toggle-master-button')
+    await page.click(css.selector.topbar.masterBtn)
     await page.waitForTimeout(TIMEOUT)
   },
   clickToggleObserveButton: async page => {
-    await page.click('header .toggle-observe-button')
+    await page.click(css.selector.topbar.observerBtn)
     await page.waitForTimeout(TIMEOUT)
   },
   clickAnswerButton: async page => {

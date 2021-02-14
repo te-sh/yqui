@@ -91,7 +91,7 @@ describe('join/leave', () => {
     })
 
     test('chat message', async () => {
-      const s = '.room .messages .message:last-child .message-body'
+      const s = css.selector.chat.lastMessage
 
       await util.enterRoom(p0, 1, 'ゆーた0')
 

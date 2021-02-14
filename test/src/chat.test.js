@@ -1,4 +1,5 @@
 const util = require('./util')
+const css = require('./css')
 
 describe('chat', () => {
   beforeEach(async () => {
@@ -8,7 +9,7 @@ describe('chat', () => {
   })
 
   test('chat', async () => {
-    const s = '.room .messages .message:last-child .message-body'
+    const s = css.selector.chat.lastMessage
 
     await p1.type('.room .chat .chat-text input', 'おはようございます')
     await p1.click('.room .chat .send-chat-button')

@@ -84,7 +84,7 @@ describe('master/observer', () => {
     })
 
     test('chat message', async () => {
-      const s = '.room .messages .message:last-child .message-body'
+      const s = css.selector.chat.lastMessage
 
       await util.clickToggleMasterButton(p0)
       expect(await p0.$eval(s, el => el.textContent)).toBe('ゆーた0さんが司会席に移動しました')

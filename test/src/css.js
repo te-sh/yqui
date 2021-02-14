@@ -9,7 +9,11 @@ module.exports = {
     topbar: {
       ruleBtn: 'header .open-rule-button',
       masterBtn: 'header .toggle-master-button',
-      observerBtn: 'header .toggle-observe-button'
+      observerBtn: 'header .toggle-observer-button',
+      leaveBtn: 'header .leave-room-button'
+    },
+    chat: {
+      lastMessage: '.room .messages .message:last-child .message-body'
     }
   }
 }
