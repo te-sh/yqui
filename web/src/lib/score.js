@@ -29,8 +29,8 @@ export const mergeSgWithJson = ({ sg }, json) => {
 }
 
 export const saveScoreBackup = async encoded => {
-  const { selfID, users } = store.getState()
-  storeScoreBackup(users.get(selfID).name, encoded)
+  const { user } = store.getState()
+  storeScoreBackup(user.name, encoded)
 }
 
 export const restoreScoreBackup = async name => {
