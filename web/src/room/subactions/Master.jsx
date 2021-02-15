@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Box, Button, Checkbox, FormControlLabel, Paper, Typography
+  Box, Button, Checkbox, FormControlLabel, Typography
 } from '@material-ui/core'
 import classNames from 'classnames'
 import update from 'immutability-helper'
@@ -12,7 +12,7 @@ import {
 } from '../../lib/send'
 import { clearEditBoards } from '../../redux/actions'
 
-const Master = ({ className, rule, timer, clearEditBoards }) => {
+const Master = ({ className, hidden, rule, timer, clearEditBoards }) => {
   const onAllClear = () => {
     clearEditBoards()
     sendWs(SEND_ALL_CLEAR)
@@ -50,32 +50,30 @@ const Master = ({ className, rule, timer, clearEditBoards }) => {
   )
 
   return (
-    <Paper className={className}>
-      <Box className="subactions-content master-subactions">
-        <Button variant="outlined" color="default" className="all-clear-button"
-                onClick={onAllClear}>
-          オールクリア
-        </Button>
-        <Button variant="outlined" color="default" className="win-top-button"
-                onClick={winTop}>
-          最上位勝ち抜け
-        </Button>
-        <Button variant="outlined" color="default" className="lose-bottom-button"
-                onClick={loseBottom}>
-          最下位失格
-        </Button>
-        {rule.other.timer.active && timerComponent}
-        <Box className="show-point">
-          <FormControlLabel
-            control={
-              <Checkbox color="default" className="show-point-check"
-                        checked={rule.showPoint}
-                        onChange={toggleShowPoint} />
-            }
-            label="ポイント表示" />
-        </Box>
+    <Box className={classNames(className, 'master-subactions', { hidden })}>
+      <Button variant="outlined" color="default" className="all-clear-button"
+              onClick={onAllClear}>
+        オールクリア
+      </Button>
+      <Button variant="outlined" color="default" className="win-top-button"
+              onClick={winTop}>
+        最上位勝ち抜け
+      </Button>
+      <Button variant="outlined" color="default" className="lose-bottom-button"
+              onClick={loseBottom}>
+        最下位失格
+      </Button>
+      {rule.other.timer.active && timerComponent}
+      <Box className="show-point">
+        <FormControlLabel
+          control={
+            <Checkbox color="default" className="show-point-check"
+                      checked={rule.showPoint}
+                      onChange={toggleShowPoint} />
+          }
+          label="ポイント表示" />
       </Box>
-    </Paper>
+    </Box>
   )
 }
 

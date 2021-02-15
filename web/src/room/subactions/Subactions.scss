@@ -1,20 +1,7 @@
 .subactions {
-  padding: 8px;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
-
-  &.alert-subactions-container {
-    background-color: #ffcdd2;
-  }
-
-  .win-top-button {
-    margin-left: 20px;
-  }
-
-  .lose-bottom-button {
-    margin-left: 5px;
-  }
 
   .subactions-content {
     grid-column: 1/2;
@@ -22,6 +9,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 8px;
+
+    &.hidden {
+      visibility: hidden;
+    }
+
+    &.alert-subactions {
+      background-color: #ffcdd2;
+    }
+
+    .win-top-button {
+      margin-left: 20px;
+    }
+
+    .lose-bottom-button {
+      margin-left: 5px;
+    }
 
     .timer {
       display: flex;

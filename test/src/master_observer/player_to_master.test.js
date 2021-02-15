@@ -37,16 +37,16 @@ describe('master/observer', () => {
 
       expect(await p0.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
       expect(await p1.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
-      expect(await p0.yq.$t(`${ss} .player-subactions`)).toBeTrue()
-      expect(await p1.yq.$t(`${ss} .player-subactions`)).toBeTrue()
+      expect(await p0.yq.$t(`${ss} .player-subactions:not(.hidden)`)).toBeTrue()
+      expect(await p1.yq.$t(`${ss} .player-subactions:not(.hidden)`)).toBeTrue()
       expect(await p0.yq.textContent(sm)).toBe('-')
       expect(await p1.yq.textContent(sm)).toBe('-')
 
       await p0.yq.clickToggleMasterButton()
-      expect(await p0.yq.$t(`${sa} .master-actions`)).toBeTrue()
+      expect(await p0.yq.$t(`${sa} .master-actions:not(.hidden)`)).toBeTrue()
       expect(await p1.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
-      expect(await p0.yq.$t(`${ss} .master-subactions`)).toBeTrue()
-      expect(await p1.yq.$t(`${ss} .player-subactions`)).toBeTrue()
+      expect(await p0.yq.$t(`${ss} .master-subactions:not(.hidden)`)).toBeTrue()
+      expect(await p1.yq.$t(`${ss} .player-subactions:not(.hidden)`)).toBeTrue()
       expect(await p0.yq.textContent(sm)).toBe('ゆーた0')
       expect(await p1.yq.textContent(sm)).toBe('ゆーた0')
 

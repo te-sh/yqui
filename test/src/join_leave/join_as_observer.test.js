@@ -39,14 +39,14 @@ describe('join/leave', () => {
 
       await p0.yq.enterRoom()
       expect(await p0.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
-      expect(await p0.yq.$t(`${ss} .player-subactions`)).toBeTrue()
+      expect(await p0.yq.$t(`${ss} .player-subactions:not(.hidden)`)).toBeTrue()
       expect(await p0.yq.textContent(sc)).toBe('ゆーた0さんが入室しました')
 
       await p1.yq.enterRoom({ observer: true })
       expect(await p0.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
       expect(await p1.yq.$t(`${sa} .observer-actions:not(.hidden)`)).toBeTrue()
-      expect(await p0.yq.$t(`${ss} .player-subactions`)).toBeTrue()
-      expect(await p1.yq.$t(`${ss} .player-subactions`)).toBeTrue()
+      expect(await p0.yq.$t(`${ss} .player-subactions:not(.hidden)`)).toBeTrue()
+      expect(await p1.yq.$t(`${ss} .player-subactions:not(.hidden)`)).toBeTrue()
       expect(await p0.yq.textContent(sc)).toBe('ゆーた1さん (観戦) が入室しました')
       expect(await p1.yq.textContent(sc)).toBe('ゆーた1さん (観戦) が入室しました')
     })

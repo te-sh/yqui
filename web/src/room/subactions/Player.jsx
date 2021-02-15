@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box, Paper, Typography } from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 import { minSecTime } from '../../lib/util'
 
-const Player = ({ className, rule, timer }) => {
+const Player = ({ className, hidden, rule, timer }) => {
   const timerComponent = (
     <Box className="timer">
       <Typography>
@@ -18,11 +18,9 @@ const Player = ({ className, rule, timer }) => {
   )
 
   return (
-    <Paper className={className}>
-      <Box className="subactions-content player-subactions">
-        {rule.other.timer.active && timerComponent}
-      </Box>
-    </Paper>
+    <Box className={classNames(className, 'player-subactions', { hidden })}>
+      {rule.other.timer.active && timerComponent}
+    </Box>
   )
 }
 
