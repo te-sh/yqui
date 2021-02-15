@@ -1,15 +1,6 @@
 .actions {
-  padding: 12px;
   display: grid;
   grid-template: auto/auto;
-
-  &:focus {
-    background-color: #f9fbe7;
-  }
-
-  .hidden {
-    visibility: hidden;
-  }
 
   .actions-content {
     grid-row: 1/2;
@@ -18,6 +9,15 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    padding: 12px;
+
+    &.hidden {
+      visibility: hidden;
+    }
+
+    &:focus {
+      background-color: #f9fbe7;
+    }
 
     .MuiButtonBase-root {
       margin: 10px;

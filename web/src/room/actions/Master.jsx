@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box, Button, Paper } from '@material-ui/core'
+import { Box, Button } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
+import classNames from 'classnames'
 import update from 'immutability-helper'
 import {
   sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH, SEND_RESET,
@@ -10,7 +11,7 @@ import {
 import { clearEditBoards } from '../../redux/actions'
 import './Actions.scss'
 
-const Master = ({ className, rule, bg, clearEditBoards }) => {
+const Master = ({ className, hidden, rule, bg, clearEditBoards }) => {
   const onCorrect = nextQuiz => { sendWs(SEND_CORRECT, { nextQuiz }) }
   const onWrong = nextQuiz => { sendWs(SEND_WRONG, { nextQuiz }) }
 
@@ -99,27 +100,26 @@ const Master = ({ className, rule, bg, clearEditBoards }) => {
   )
 
   return (
-    <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
-      <Box className="actions-content master-actions">
-        {rule.board.active ? boardButtons : normalButtons}
-        <Button {...buttonAttr} color="default" className="through-button"
-                onClick={onThrough}>
-          次の問題
-        </Button>
-        <Button {...buttonAttr} color="default" className="reset-button"
-                onClick={onReset}>
-          リセット
-        </Button>
-        <Button {...buttonAttr} color="default" className="undo-button"
-                onClick={onUndo}>
-          Undo
-        </Button>
-        <Button {...buttonAttr} color="default" className="redo-button"
-                onClick={onRedo}>
-          Redo
-        </Button>
-      </Box>
-    </Paper>
+    <Box className={classNames(className, 'master-actions', { hidden })}
+         tabIndex="0" onKeyDown={onKeyDown}>
+      {rule.board.active ? boardButtons : normalButtons}
+      <Button {...buttonAttr} color="default" className="through-button"
+              onClick={onThrough}>
+        次の問題
+      </Button>
+      <Button {...buttonAttr} color="default" className="reset-button"
+              onClick={onReset}>
+        リセット
+      </Button>
+      <Button {...buttonAttr} color="default" className="undo-button"
+              onClick={onUndo}>
+        Undo
+      </Button>
+      <Button {...buttonAttr} color="default" className="redo-button"
+              onClick={onRedo}>
+        Redo
+      </Button>
+    </Box>
   )
 }
 

@@ -1,18 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box, Button, Paper, TextField, Typography } from '@material-ui/core'
+import { Box, Button, TextField } from '@material-ui/core'
 import update from 'immutability-helper'
 import classNames from 'classnames'
 import { sendWs, SEND_PUSH, SEND_BOARD } from '../../lib/send'
 import './Actions.scss'
 
-const Player = ({ className, selfID, isPlayer, rule, bg }) => {
+const Player = ({ className, hidden, selfID, rule, bg }) => {
   const [answer, setAnswer] = React.useState('')
 
   const onKeyDown = evt => {
-    if (!isPlayer) {
-      return
-    }
     switch (evt.keyCode) {
       case 13:
         sendWs(SEND_PUSH)
@@ -47,8 +44,9 @@ const Player = ({ className, selfID, isPlayer, rule, bg }) => {
     </Box>
   )
 
-  const playerComponent = (
-    <Box className={classNames('actions-content player-actions', { hidden: !isPlayer })}>
+  return (
+    <Box className={classNames(className, 'player-actions', { hidden })}
+         tabIndex="0" onKeyDown={onKeyDown}>
       <Button variant="outlined" color="primary" size="large"
               className="answer-button"
               onClick={() => sendWs(SEND_PUSH)}>
@@ -57,27 +55,11 @@ const Player = ({ className, selfID, isPlayer, rule, bg }) => {
       {rule.board.active && boardComponent}
     </Box>
   )
-
-  const observerComponent = (
-    <Box className={classNames('actions-content observer-actions', { hidden: isPlayer })}>
-      <Typography variant="h6">
-        あなたは観戦者です
-      </Typography>
-    </Box>
-  )
-
-  return (
-    <Paper className={className} tabIndex="0" onKeyDown={onKeyDown}>
-      {playerComponent}
-      {observerComponent}
-    </Paper>
-  )
 }
 
 export default connect(
   state => ({
     selfID: state.selfID,
-    isPlayer: state.isPlayer,
     rule: state.rule,
     bg: state.bg
   })

@@ -1,22 +1,37 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Master from './Master'
-import Player from './Player'
+import { Paper } from '@material-ui/core'
 import Assign from './Assign'
+import Master from './Master'
+import Observer from './Observer'
+import Player from './Player'
 
-const Actions = ({ className, user, editTeams }) => {
+const Actions = ({ className, user, isPlayer, editTeams }) => {
+  let status
   if (editTeams) {
-    return <Assign className={className} />
+    status = 'assign'
   } else if (user.isMaster) {
-    return <Master className={className} />
+    status = 'master'
+  } else if (!isPlayer) {
+    status = 'observer'
   } else {
-    return <Player className={className} />
+    status = 'player'
   }
+
+  return (
+    <Paper className={className}>
+      <Assign className="actions-content" hidden={status !== 'assign'} />
+      <Master className="actions-content" hidden={status !== 'master'} />
+      <Observer className="actions-content" hidden={status !== 'observer'} />
+      <Player className="actions-content" hidden={status !== 'player'} />
+    </Paper>
+  )
 }
 
 export default connect(
   state => ({
     user: state.user,
+    isPlayer: state.isPlayer,
     editTeams: state.editTeams
   })
 )(Actions)
