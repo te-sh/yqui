@@ -60,7 +60,7 @@ describe('join/leave', () => {
     })
 
     test('topbar buttons', async () => {
-      const [s, c] = [css.selector.topbar, css.color.iconBtn]
+      const [s, c] = [css.selector.topbar, css.mui.iconBtn]
 
       await p0.yq.enterRoom()
       expect(await p0.yq.$t(`${s.assignBtn}[disabled]`)).toBeTrue()

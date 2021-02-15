@@ -51,7 +51,7 @@ class YquiPage {
   }
 
   async $t (selector) {
-    return await !!(this.page.$(selector))
+    return !!(await this.page.$(selector))
   }
 
   async $ (selector) {
@@ -72,8 +72,8 @@ class YquiPage {
     return await this.page.$eval(selector, el => el.textContent)
   }
 
-  async waitForTimeout () {
-    await this.page.waitForTimeout(this.timeout)
+  async waitForTimeout (times = 1) {
+    await this.page.waitForTimeout(this.timeout * times)
   }
 
   async screenshot (filename) {
@@ -104,19 +104,20 @@ class YquiPage {
     const name = options.name !== undefined ? options.name : `ゆーた${this.index}`
 
     await this.page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`)
+    await this.waitForTimeout()
+
     await this.page.yq.fillText('.enter-room .name input', name)
-    if (options.observer !== undefined) {
-      const observerCheck = await this.page.yq.$('.enter-room .observer-check input')
-      if (options.observer !== (await observerCheck.yq.$t('[checked]'))) {
-        await observerCheck.click()
-      }
+
+    const observerCheck = await this.$('.enter-room .observer-check')
+    if (options.observer ^ await observerCheck.yq.$t(css.mui.checkbox.checked)) {
+      await observerCheck.click()
     }
-    if (options.chatAnswer) {
-      const chatAnswerCheck = await this.page.yq.$('.enter-room .chat-answer-check input')
-      if (options.chatAnswer !== (await chatAnswerCheck.yq.$t('[checked]'))) {
-        await chatAnswerCheck.click()
-      }
+
+    const chatAnswerCheck = await this.$('.enter-room .chat-answer-check')
+    if (options.chatAnswer ^ await chatAnswerCheck.yq.$t(css.mui.checkbox.checked)) {
+      await chatAnswerCheck.click()
     }
+
     await this.page.click('.enter-room-dialog .submit')
     await this.waitForTimeout()
   }

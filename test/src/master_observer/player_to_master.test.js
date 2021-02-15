@@ -55,7 +55,7 @@ describe('master/observer', () => {
     })
 
     test('topbar buttons', async () => {
-      const [s, c] = [css.selector.topbar, css.color.iconBtn]
+      const [s, c] = [css.selector.topbar, css.mui.iconBtn]
 
       expect(await p0.yq.$t(`${s.assignBtn}[disabled]`)).toBeTrue()
       expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
