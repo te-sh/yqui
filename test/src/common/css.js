@@ -7,6 +7,7 @@ module.exports = {
   },
   selector: {
     topbar: {
+      assignBtn: 'header .begin-assign-button',
       ruleBtn: 'header .open-rule-button',
       masterBtn: 'header .toggle-master-button',
       observerBtn: 'header .toggle-observer-button',

@@ -57,17 +57,21 @@ describe('master/observer', () => {
     test('topbar buttons', async () => {
       const [s, c] = [css.selector.topbar, css.color.iconBtn]
 
+      expect(await p0.yq.$t(`${s.assignBtn}[disabled]`)).toBeTrue()
       expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
       expect(await p0.yq.$t(`${s.masterBtn}${c.inherit}:not([disabled])`)).toBeTrue()
       expect(await p0.yq.$t(`${s.observerBtn}${c.inherit}:not([disabled])`)).toBeTrue()
+      expect(await p1.yq.$t(`${s.assignBtn}[disabled]`)).toBeTrue()
       expect(await p1.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
       expect(await p1.yq.$t(`${s.masterBtn}${c.inherit}:not([disabled])`)).toBeTrue()
       expect(await p1.yq.$t(`${s.observerBtn}${c.inherit}:not([disabled])`)).toBeTrue()
 
       await p0.yq.clickToggleMasterButton()
+      expect(await p0.yq.$t(`${s.assignBtn}:not([disabled])`)).toBeTrue()
       expect(await p0.yq.$t(`${s.ruleBtn}:not([disabled])`)).toBeTrue()
       expect(await p0.yq.$t(`${s.masterBtn}${c.secondary}:not([disabled])`)).toBeTrue()
       expect(await p0.yq.$t(`${s.observerBtn}${c.inherit}[disabled]`)).toBeTrue()
+      expect(await p1.yq.$t(`${s.assignBtn}[disabled]`)).toBeTrue()
       expect(await p1.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
       expect(await p1.yq.$t(`${s.masterBtn}${c.inherit}[disabled]`)).toBeTrue()
       expect(await p1.yq.$t(`${s.observerBtn}${c.inherit}:not([disabled])`)).toBeTrue()

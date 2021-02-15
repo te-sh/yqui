@@ -6,8 +6,8 @@ import {
 import { SupervisorAccount } from '@material-ui/icons'
 import { beginAssign } from '../../lib/assign'
 
-const AssignButton = ({ mobile, user, rule, editTeams }) => {
-  const disabled = !user.isMaster || !rule.team.active || !!editTeams
+const AssignButton = ({ mobile, user, editTeams }) => {
+  const disabled = !user.isMaster || !!editTeams
 
   if (!mobile) {
     return (
@@ -36,7 +36,6 @@ export default connect(
   state => ({
     mobile: state.mobile,
     user: state.user,
-    rule: state.rule,
     editTeams: state.editTeams
   })
 )(AssignButton)
