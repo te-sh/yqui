@@ -30,20 +30,19 @@ describe('master/observer', () => {
     })
 
     test('actions, subactions, chat message', async () => {
-      const sa = '.room .actions'
-      const sm = '.room .subactions'
+      const [sa, ss] = [css.selector.actions, css.selector.subactions]
       const sc = css.selector.chat.lastMessage
 
-      expect(await p0.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
-      expect(await p1.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
-      expect(await p0.yq.$t(`${sm} .player-subactions:not(.hidden)`)).toBeTrue()
-      expect(await p1.yq.$t(`${sm} .player-subactions:not(.hidden)`)).toBeTrue()
+      expect(await p0.yq.$t(sa.player)).toBeTrue()
+      expect(await p1.yq.$t(sa.player)).toBeTrue()
+      expect(await p0.yq.$t(ss.player)).toBeTrue()
+      expect(await p1.yq.$t(ss.player)).toBeTrue()
 
       await p0.yq.clickToggleObserverButton()
-      expect(await p0.yq.$t(`${sa} .observer-actions:not(.hidden)`)).toBeTrue()
-      expect(await p1.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
-      expect(await p0.yq.$t(`${sm} .player-subactions:not(.hidden)`)).toBeTrue()
-      expect(await p1.yq.$t(`${sm} .player-subactions:not(.hidden)`)).toBeTrue()
+      expect(await p0.yq.$t(sa.observer)).toBeTrue()
+      expect(await p1.yq.$t(sa.player)).toBeTrue()
+      expect(await p0.yq.$t(ss.player)).toBeTrue()
+      expect(await p1.yq.$t(ss.player)).toBeTrue()
 
       expect(await p0.yq.textContent(sc)).toBe('ゆーた0さんが観戦席に移動しました')
       expect(await p1.yq.textContent(sc)).toBe('ゆーた0さんが観戦席に移動しました')

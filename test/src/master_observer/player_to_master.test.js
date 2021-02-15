@@ -30,23 +30,22 @@ describe('master/observer', () => {
     })
 
     test('actions, subactions, master display, chat message', async () => {
-      const sa = '.room .actions'
-      const ss = '.room .subactions'
+      const [sa, ss] = [css.selector.actions, css.selector.subactions]
       const sm = '.room .master-display .master-name'
       const sc = css.selector.chat.lastMessage
 
-      expect(await p0.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
-      expect(await p1.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
-      expect(await p0.yq.$t(`${ss} .player-subactions:not(.hidden)`)).toBeTrue()
-      expect(await p1.yq.$t(`${ss} .player-subactions:not(.hidden)`)).toBeTrue()
+      expect(await p0.yq.$t(sa.player)).toBeTrue()
+      expect(await p1.yq.$t(sa.player)).toBeTrue()
+      expect(await p0.yq.$t(ss.player)).toBeTrue()
+      expect(await p1.yq.$t(ss.player)).toBeTrue()
       expect(await p0.yq.textContent(sm)).toBe('-')
       expect(await p1.yq.textContent(sm)).toBe('-')
 
       await p0.yq.clickToggleMasterButton()
-      expect(await p0.yq.$t(`${sa} .master-actions:not(.hidden)`)).toBeTrue()
-      expect(await p1.yq.$t(`${sa} .player-actions:not(.hidden)`)).toBeTrue()
-      expect(await p0.yq.$t(`${ss} .master-subactions:not(.hidden)`)).toBeTrue()
-      expect(await p1.yq.$t(`${ss} .player-subactions:not(.hidden)`)).toBeTrue()
+      expect(await p0.yq.$t(sa.master)).toBeTrue()
+      expect(await p1.yq.$t(sa.player)).toBeTrue()
+      expect(await p0.yq.$t(ss.master)).toBeTrue()
+      expect(await p1.yq.$t(ss.player)).toBeTrue()
       expect(await p0.yq.textContent(sm)).toBe('ゆーた0')
       expect(await p1.yq.textContent(sm)).toBe('ゆーた0')
 

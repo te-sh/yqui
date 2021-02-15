@@ -8,7 +8,7 @@ describe('assign', () => {
       await p2.yq.enterRoom()
     })
 
-    describe('begin assign', async () => {
+    describe('begin assign', () => {
       test('actions, subactions', async () => {
         const sa = '.room .actions'
         const sm = '.room .subactions'
@@ -36,6 +36,18 @@ describe('assign', () => {
         expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
         expect(await p0.yq.$t(`${s.masterBtn}[disabled]`)).toBeTrue()
         expect(await p0.yq.$t(`${s.observerBtn}[disabled]`)).toBeTrue()
+      })
+
+      test('actions, subactions', async () => {
+        const [sa, ss] = [css.selector.actions, css.selector.subactions]
+
+        await p0.yq.clickToggleMasterButton()
+        expect(await p0.yq.$t(sa.master)).toBeTrue()
+        expect(await p0.yq.$t(ss.master)).toBeTrue()
+
+        await p0.yq.clickBeginAssignButton()
+        expect(await p0.yq.$t(sa.assign)).toBeTrue()
+        expect(await p0.yq.$t(ss.assign)).toBeTrue()
       })
     })
   })
