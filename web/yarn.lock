@@ -1726,7 +1726,7 @@
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^7.28.1"
 
-"@testing-library/user-event@^12.7.0":
+"@testing-library/user-event@^12.7.1":
   version "12.7.1"
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-12.7.1.tgz#e1ce931c04a1c65faf28618442d56ba8da887f2c"
   integrity sha512-COfCkYgcxc+P9+pEAIGlmBuIDjO91Chf9GOBHI8AhIiMyaoOrKVPQny1uf0HIAYNoHKL5slhkqOPP2ZyNaVQGw==
@@ -1865,9 +1865,9 @@
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
 "@types/node@*":
-  version "14.14.27"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.27.tgz#c7127f8da0498993e13b1a42faf1303d3110d2f2"
-  integrity sha512-Ecfmo4YDQPwuqTCl1yBxLV5ihKfRlkBmzUEDcfIRvDxOTGQEeikr317Ln7Gcv0tjA8dVgKI3rniqW2G1OyKDng==
+  version "14.14.28"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.28.tgz#cade4b64f8438f588951a6b35843ce536853f25b"
+  integrity sha512-lg55ArB+ZiHHbBBttLpzD07akz0QPrZgUODNakeC09i62dnrywr9mFErHuaPlB6I7z+sEbK+IYmplahvplCj2g==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -8268,9 +8268,9 @@ onetime@^5.1.0:
     mimic-fn "^2.1.0"
 
 open@^7.0.2:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/open/-/open-7.4.0.tgz#ad95b98f871d9acb0ec8fecc557082cc9986626b"
-  integrity sha512-PGoBCX/lclIWlpS/R2PQuIR4NJoXh6X5AwVzE7WXnWRGvHg7+4TBCgsujUgiPpm0K1y4qvQeWnCWVTpTKZBtvA==
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/open/-/open-7.4.1.tgz#4ccedc11ca348d398378ffb39c71357df55fe6f7"
+  integrity sha512-Pxv+fKRsd/Ozflgn2Gjev1HZveJJeKR6hKKmdaImJMuEZ6htAvCTbcMABJo+qevlAelTLCrEK3YTKZ9fVTcSPw==
   dependencies:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
@@ -11696,7 +11696,7 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
-urijs@^1.19.5:
+urijs@^1.19.6:
   version "1.19.6"
   resolved "https://registry.yarnpkg.com/urijs/-/urijs-1.19.6.tgz#51f8cb17ca16faefb20b9a31ac60f84aa2b7c870"
   integrity sha512-eSXsXZ2jLvGWeLYlQA3Gh36BcjF+0amo92+wHPyN1mdR8Nxf75fuEuYTd9c0a+m/vhCjRK0ESlE9YNLW+E1VEw==
