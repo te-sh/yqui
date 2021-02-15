@@ -128,6 +128,11 @@ class YquiPage {
     await this.waitForTimeout()
   }
 
+  async clickBeginAssignButton () {
+    await this.page.click(css.selector.topbar.assignBtn)
+    await this.waitForTimeout()
+  }
+
   async clickToggleMasterButton () {
     await this.page.click(css.selector.topbar.masterBtn)
     await this.waitForTimeout()

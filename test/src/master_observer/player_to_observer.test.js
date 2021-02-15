@@ -64,7 +64,7 @@ describe('master/observer', () => {
       await p0.yq.clickToggleObserverButton()
       expect(await p0.yq.$t(`${s.assignBtn}[disabled]`)).toBeTrue()
       expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
-      expect(await p0.yq.$t(`${s.masterBtn}${c.inherit}[disabled]`)).toBeTrue()
+      expect(await p0.yq.$t(`${s.masterBtn}[disabled]`)).toBeTrue()
       expect(await p0.yq.$t(`${s.observerBtn}${c.secondary}:not([disabled])`)).toBeTrue()
       expect(await p1.yq.$t(`${s.assignBtn}[disabled]`)).toBeTrue()
       expect(await p1.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
