@@ -20,7 +20,7 @@ console.log('Accessing to', YQUI_URL)
 const PLAYERS = 5
 
 // jest settings
-jest.setTimeout(60000)
+jest.setTimeout(10 * 60 * 1000)
 
 // setup/teadown for test
 beforeAll(async () => {
