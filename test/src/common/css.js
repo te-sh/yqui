@@ -1,8 +1,8 @@
 module.exports = {
   mui: {
     iconBtn: {
-      inherit: '.MuiIconButton-colorInherit',
-      secondary: '.MuiIconButton-colorSecondary'
+      inherit: 'MuiIconButton-colorInherit',
+      secondary: 'MuiIconButton-colorSecondary'
     },
     checkbox: {
       checked: 'Mui-checked'

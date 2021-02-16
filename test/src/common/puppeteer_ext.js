@@ -77,11 +77,15 @@ class YquiPage {
   }
 
   async className (selector) {
-    return await this.attribute(selector, 'class')
+    return (await this.attribute(selector, 'class')).split(' ')
   }
 
   async hasClass (selector, className) {
-    return (await this.className(selector)).split(' ').indexOf(className) >= 0
+    return (await this.className(selector)).indexOf(className) >= 0
+  }
+
+  async disabled (selector) {
+    return (await this.attribute(selector, 'disabled')) !== null
   }
 
   async checked (selector) {
@@ -216,11 +220,15 @@ class YquiElementHandle {
   }
 
   async className (selector) {
-    return await this.attribute(selector, 'class')
+    return (await this.attribute(selector, 'class')).split(' ')
   }
 
   async hasClass (selector, className) {
-    return (await this.className(selector)).split(' ').indexOf(className) >= 0
+    return (await this.className(selector)).indexOf(className) >= 0
+  }
+
+  async disabled (selector) {
+    return (await this.attribute(selector, 'disabled')) !== null
   }
 
   async checked (selector) {
@@ -236,11 +244,15 @@ class YquiElementHandle {
   }
 
   async classNameThis () {
-    return await this.attributeThis('class')
+    return (await this.attributeThis('class')).split(' ')
   }
 
   async hasClassThis (className) {
-    return (await this.classNameThis()).split(' ').indexOf(className) >= 0
+    return (await this.classNameThis()).indexOf(className) >= 0
+  }
+
+  async disabledThis () {
+    return (await this.attribute('disabled')) !== null
   }
 
   async checkedThis () {

@@ -26,16 +26,17 @@ describe('assign', () => {
         const [s, c] = [css.selector.topbar, css.mui.iconBtn]
 
         await p0.yq.clickToggleMasterButton()
-        expect(await p0.yq.$t(`${s.assignBtn}:not([disabled])`)).toBeTrue()
-        expect(await p0.yq.$t(`${s.ruleBtn}:not([disabled])`)).toBeTrue()
-        expect(await p0.yq.$t(`${s.masterBtn}${c.secondary}:not([disabled])`)).toBeTrue()
-        expect(await p0.yq.$t(`${s.observerBtn}[disabled]`)).toBeTrue()
+        expect(await p0.yq.disabled(s.assignBtn)).toBeFalse()
+        expect(await p0.yq.disabled(s.ruleBtn)).toBeFalse()
+        expect(await p0.yq.disabled(s.masterBtn)).toBeFalse()
+        expect(await p0.yq.className(s.masterBtn)).toContain(c.secondary)
+        expect(await p0.yq.disabled(s.observerBtn)).toBeTrue()
 
         await p0.yq.clickBeginAssignButton()
-        expect(await p0.yq.$t(`${s.assignBtn}[disabled]`)).toBeTrue()
-        expect(await p0.yq.$t(`${s.ruleBtn}[disabled]`)).toBeTrue()
-        expect(await p0.yq.$t(`${s.masterBtn}[disabled]`)).toBeTrue()
-        expect(await p0.yq.$t(`${s.observerBtn}[disabled]`)).toBeTrue()
+        expect(await p0.yq.disabled(s.assignBtn)).toBeTrue()
+        expect(await p0.yq.disabled(s.ruleBtn)).toBeTrue()
+        expect(await p0.yq.disabled(s.masterBtn)).toBeTrue()
+        expect(await p0.yq.disabled(s.observerBtn)).toBeTrue()
       })
 
       test('actions, subactions', async () => {
