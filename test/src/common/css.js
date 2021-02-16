@@ -36,6 +36,18 @@ module.exports = {
         observer: '.enter-room-dialog .enter-room .observer-check',
         chatAnswer: '.enter-room-dialog .enter-room .chat-answer-check',
         submit: '.enter-room-dialog .submit'
+      },
+      rule: {
+        tab: {
+          normal: '.rule-dialog .normal-rule-tab',
+          team: '.rule-dialog .team-rule-tab',
+          board: '.rule-dialog .board-rule-tab',
+          other: '.rule-dialog .other-rule-tab'
+        },
+        team: {
+          active: '.rule-dialog .team-rule .active-check'
+        },
+        submit: '.rule-dialog .submit'
       }
     }
   }

@@ -154,6 +154,11 @@ class YquiPage {
     await this.waitForTimeout()
   }
 
+  async clickOpenRuleButton () {
+    await this.page.click(css.selector.topbar.ruleBtn)
+    await this.waitForTimeout()
+  }
+
   async clickToggleMasterButton () {
     await this.page.click(css.selector.topbar.masterBtn)
     await this.waitForTimeout()
@@ -209,6 +214,20 @@ class YquiElementHandle {
 
   async $t (selector) {
     return !!(await this.el.$(selector))
+  }
+
+  async $ (selector) {
+    const el = await this.el.$(selector)
+    el.yq = new YquiElementHandle(el, this.timeout)
+    return el
+  }
+
+  async $$ (selector) {
+    const list = await this.el.$$(selector)
+    for (const el of list) {
+      el.yq = new YquiElementHandle(el, this.timeout)
+    }
+    return list
   }
 
   async textContent (selector) {

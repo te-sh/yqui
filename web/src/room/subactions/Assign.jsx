@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { changeNumTeams, randomAssignTeams } from '../../lib/assign'
 import './Assign.scss'
 
-const Assign = ({ className, hidden, numPlayers, dispTeams }) => {
+const Assign = ({ className, hidden, numPlayers, rule, dispTeams }) => {
   const [numTeams, setNumTeams] = React.useState('1')
 
   React.useEffect(
@@ -15,13 +15,13 @@ const Assign = ({ className, hidden, numPlayers, dispTeams }) => {
     [dispTeams]
   )
 
-  const validNumTeams = (() => {
+  const validNumTeams = (numTeams) => {
     const n = parseInt(numTeams)
     return !isNaN(n) && n > 0 && n <= numPlayers
-  })()
+  }
 
-  return (
-    <Box className={classNames(className, 'assign-subactions', { hidden })}>
+  const teamComponent = (
+    <Box className="team-component">
       <FormLabel>チーム数</FormLabel>
       <TextField id="numTeams" type="number" className="num-teams"
                  inputProps={{ style: { textAlign: 'center' } }}
@@ -31,10 +31,16 @@ const Assign = ({ className, hidden, numPlayers, dispTeams }) => {
               onClick={() => changeNumTeams(parseInt(numTeams))}>
         チーム数変更
       </Button>
-      <Button variant="outlined" disabled={!validNumTeams}
+      <Button variant="outlined" disabled={!validNumTeams(numTeams)}
               onClick={randomAssignTeams}>
         ランダム配置
       </Button>
+    </Box>
+  )
+
+  return (
+    <Box className={classNames(className, 'assign-subactions', { hidden })}>
+      {rule.team.active && teamComponent}
     </Box>
   )
 }
@@ -42,6 +48,7 @@ const Assign = ({ className, hidden, numPlayers, dispTeams }) => {
 export default connect(
   state => ({
     numPlayers: state.numPlayers,
+    rule: state.rule,
     dispTeams: state.teams
   })
 )(Assign)

@@ -44,6 +44,16 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
     multiTeam: rule.team.active
   })
 
+  const title = team => {
+    if (team.observers) {
+      return '観戦席'
+    } else if (!rule.team.active) {
+      return '解答席'
+    } else {
+      return `チーム${teamIndex + 1}`
+    }
+  }
+
   const pointComponent = (
     <Box className="team-point" hidden={!rule.team.active}>
       <Typography align="center">
@@ -59,7 +69,7 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
   const titleComponent = (
     <Box className="team-title">
       <Typography align="center">
-        {!team.observers ? `チーム${teamIndex + 1}` : '観戦者'}
+        {title(team)}
       </Typography>
     </Box>
   )

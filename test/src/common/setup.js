@@ -9,7 +9,7 @@ global.ROOT_DIR = '/home/node/test'
 let YQUI_URL, TIMEOUT
 if (process.env.LOCAL_SERVER) {
   YQUI_URL = 'http://docker-host:8085/'
-  TIMEOUT = 250
+  TIMEOUT = 300
 } else {
   YQUI_URL = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/'
   TIMEOUT = 500

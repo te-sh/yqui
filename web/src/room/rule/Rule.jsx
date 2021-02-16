@@ -63,10 +63,10 @@ const Rule = ({ rule, open, setOpen }) => {
         <DialogTitle id="form-dialog-title">ルール</DialogTitle>
         <DialogContent className="rule">
           <Tabs value={tab} onChange={(evt, newTab) => setTab(newTab)}>
-            <Tab label="通常" />
-            <Tab label="チーム" />
-            <Tab label="ボード" />
-            <Tab label="その他" />
+            <Tab className="normal-rule-tab" label="通常" />
+            <Tab className="team-rule-tab" label="チーム" />
+            <Tab className="board-rule-tab" label="ボード" />
+            <Tab className="other-rule-tab" label="その他" />
           </Tabs>
           <TabPanel value={tab} index={0} className="normal-rule">
             <FormGroup component="fieldset" className="rule-group" row={true}>
