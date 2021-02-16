@@ -72,6 +72,22 @@ class YquiPage {
     return await this.page.$eval(selector, el => el.textContent)
   }
 
+  async attribute (selector, name) {
+    return await this.page.$eval(selector, (el, { name }) => el.getAttribute(name), { name })
+  }
+
+  async className (selector) {
+    return await this.attribute(selector, 'class')
+  }
+
+  async hasClass (selector, className) {
+    return (await this.className(selector)).split(' ').indexOf(className) >= 0
+  }
+
+  async checked (selector) {
+    return await this.hasClass(selector, css.mui.checkbox.checked)
+  }
+
   async waitForTimeout (times = 1) {
     await this.page.waitForTimeout(this.timeout * times)
   }
@@ -100,25 +116,26 @@ class YquiPage {
   }
 
   async enterRoom (options = {}) {
+    const sr = css.selector.dialog.enterRoom
     const roomNo = options.roomNo !== undefined ? options.roomNo : 1
     const name = options.name !== undefined ? options.name : `ゆーた${this.index}`
 
     await this.page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`)
     await this.waitForTimeout()
 
-    await this.page.yq.fillText('.enter-room .name input', name)
+    await this.page.yq.fillText(sr.name, name)
 
-    const observerCheck = await this.$('.enter-room .observer-check')
-    if (options.observer ^ await observerCheck.yq.$t(css.mui.checkbox.checked)) {
+    const observerCheck = await this.$(sr.observer)
+    if (options.observer ^ await observerCheck.yq.checkedThis()) {
       await observerCheck.click()
     }
 
-    const chatAnswerCheck = await this.$('.enter-room .chat-answer-check')
-    if (options.chatAnswer ^ await chatAnswerCheck.yq.$t(css.mui.checkbox.checked)) {
+    const chatAnswerCheck = await this.$(sr.chatAnswer)
+    if (options.chatAnswer ^ await chatAnswerCheck.yq.checkedThis()) {
       await chatAnswerCheck.click()
     }
 
-    await this.page.click('.enter-room-dialog .submit')
+    await this.page.click(sr.submit)
     await this.waitForTimeout()
   }
 
@@ -192,6 +209,42 @@ class YquiElementHandle {
 
   async textContent (selector) {
     return await this.el.$eval(selector, el => el.textContent)
+  }
+
+  async attribute (selector, name) {
+    return await this.el.$eval(selector, (el, { name }) => el.getAttribute(name), { name })
+  }
+
+  async className (selector) {
+    return await this.attribute(selector, 'class')
+  }
+
+  async hasClass (selector, className) {
+    return (await this.className(selector)).split(' ').indexOf(className) >= 0
+  }
+
+  async checked (selector) {
+    return await this.hasClass(selector, css.mui.checkbox.checked)
+  }
+
+  async textContentThis () {
+    return await this.el.evaluate(el => el.textContent)
+  }
+
+  async attributeThis (name) {
+    return await this.el.evaluate((el, { name }) => el.getAttribute(name), { name })
+  }
+
+  async classNameThis () {
+    return await this.attributeThis('class')
+  }
+
+  async hasClassThis (className) {
+    return (await this.classNameThis()).split(' ').indexOf(className) >= 0
+  }
+
+  async checkedThis () {
+    return await this.hasClassThis(css.mui.checkbox.checked)
   }
 }
 

@@ -5,7 +5,7 @@ module.exports = {
       secondary: '.MuiIconButton-colorSecondary'
     },
     checkbox: {
-      checked: '.Mui-checked'
+      checked: 'Mui-checked'
     }
   },
   selector: {
@@ -29,6 +29,14 @@ module.exports = {
     },
     chat: {
       lastMessage: '.room .messages .message:last-child .message-body'
+    },
+    dialog: {
+      enterRoom: {
+        name: '.enter-room-dialog .enter-room .name input',
+        observer: '.enter-room-dialog .enter-room .observer-check',
+        chatAnswer: '.enter-room-dialog .enter-room .chat-answer-check',
+        submit: '.enter-room-dialog .submit'
+      }
     }
   }
 }
