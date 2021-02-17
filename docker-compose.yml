@@ -13,10 +13,10 @@ services:
     build:
       context: './ws'
     image: tesh/yqui-ws-dev
-    volumes:
-      - './ws:/app'
     environment:
       - COMPOSE_PROJECT_NAME
+    volumes:
+      - './ws:/app'
   proxy:
     image: nginx:1.19.6-alpine
     ports:

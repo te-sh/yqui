@@ -8,10 +8,10 @@ RUN apk update \
  && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
  && go get gopkg.in/natefinch/lumberjack.v2 \
  && go get github.com/gorilla/websocket \
- && go get github.com/oxequa/realize \
+ && go get github.com/cosmtrek/air \
  && apk del git tzdata \
  && rm -rf /var/cache/apk/*
 
 ENV YQUI_ENV dev
 
-CMD ["realize", "start"]
+CMD ["air", "-c", ".air.toml"]
