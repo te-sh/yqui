@@ -4,6 +4,10 @@ export const playersOfTeams = teams => (
   teams.map(team => team.players).reduce((a, c) => a.concat(c), [])
 )
 
+export const isInTeams = (teams, id) => (
+  playersOfTeams(teams).includes(id)
+)
+
 export const teamsFromJson = teams => {
   return teams.map(team => ({
     id: team.id,
@@ -19,24 +23,24 @@ export const recvTeamsUpdator = ({ editTeams, dispTeams }, users, teams) => {
     }
   } else {
     return {
-      editTeams: { $set: adjustTeamPlayers(editTeams, users) },
-      dispTeams: { $set: adjustTeamPlayers(dispTeams, users) }
+      editTeams: { $set: adjustTeamPlayers(editTeams, users, teams) },
+      dispTeams: { $set: adjustTeamPlayers(dispTeams, users, teams) }
     }
   }
 }
 
-const adjustTeamPlayers = (teams, users) => {
-  const newTeams = teams.map(team => ({
+const adjustTeamPlayers = (editTeams, users, teams) => {
+  const newTeams = editTeams.map(team => ({
     id: team.id,
     players: team.players.filter(id => users.has(id)),
     observers: team.observers
   }))
 
-  const added = [...users.keys()].filter(id => (
-    !users.get(id).isMaster &&
-    !playersOfTeams(newTeams).includes(id)
-  ))
-  newTeams[0].players.push(...added)
+  const added = [...users.keys()].filter(id => !users.get(id).isMaster && !isInTeams(newTeams, id))
+  const addedPlayers = added.filter(id => isInTeams(teams, id))
+  const addedObservers = added.filter(id => !isInTeams(teams, id))
+  newTeams[0].players.push(...addedPlayers)
+  newTeams[newTeams.length - 1].players.push(...addedObservers)
 
   return newTeams
 }

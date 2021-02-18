@@ -16,10 +16,10 @@ const EnterRoom = ({ open, close, submit }) => {
   const [chatAnswer, setChatAnswer] = React.useState(initUser.chatAnswer)
   const [borderColor, setBorderColor] = React.useState(initUser.borderColor)
 
-  React.useEffect(async () => {
+  const onEnter = async () => {
     setName(await retrieveName())
     setChatAnswer(await retrieveChatAnswer())
-  }, [])
+  }
 
   const onSubmit = evt => {
     evt.preventDefault()
@@ -34,7 +34,7 @@ const EnterRoom = ({ open, close, submit }) => {
   }
 
   return (
-    <Dialog className="enter-room-dialog" open={open}
+    <Dialog className="enter-room-dialog" open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
       <form onSubmit={onSubmit}>
         <DialogTitle id="form-dialog-title">入室</DialogTitle>

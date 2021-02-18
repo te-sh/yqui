@@ -1,16 +1,13 @@
 import update from 'immutability-helper'
 import { shuffle } from './util'
-import { playersOfTeams } from './team'
+import { playersOfTeams, isInTeams } from './team'
 import { sendWs, SEND_TEAMS } from './send'
 import { setTeams } from '../redux/actions'
 import store from '../redux/store'
 
 export const beginAssign = () => {
   const { users, teams } = store.getState()
-  const observers = [...users.keys()].filter(id => (
-    !users.get(id).isMaster &&
-    !teams.some(team => team.players.includes(id))
-  ))
+  const observers = [...users.keys()].filter(id => !users.get(id).isMaster && !isInTeams(teams, id))
   const editTeams = [...teams, {
     id: -1,
     players: observers,
@@ -24,18 +21,13 @@ export const beginAssign = () => {
 
 export const endAssign = () => {
   const teams = splitEditTeams()[0]
-  store.dispatch(setTeams({
-    editTeams: null
-  }))
+  store.dispatch(setTeams({ editTeams: null }))
   sendWs(SEND_TEAMS, teams)
 }
 
 export const cancelAssign = () => {
   const { teams } = store.getState()
-  store.dispatch(setTeams({
-    editTeams: null,
-    dispTeams: teams
-  }))
+  store.dispatch(setTeams({ editTeams: null, dispTeams: teams }))
 }
 
 export const changeNumTeams = n => {
