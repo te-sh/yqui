@@ -102,6 +102,38 @@ describe('assign', () => {
         expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた3')
         expect(await players[1].yq.textContent('.player-name')).toBe('ゆーた4')
       })
+
+      test('leave a player', async () => {
+        await p0.yq.clickBeginAssignButton()
+        await p1.yq.leaveRoom()
+
+        const teams = await p0.yq.$$('.room .team')
+
+        let players
+        players = await teams[0].yq.$$('.player-container')
+        expect(players.length).toBe(1)
+        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた2')
+
+        players = await teams[1].yq.$$('.player-container')
+        expect(players.length).toBe(1)
+        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた3')
+      })
+
+      test('leave a observer', async () => {
+        await p0.yq.clickBeginAssignButton()
+        await p3.yq.leaveRoom()
+
+        const teams = await p0.yq.$$('.room .team')
+
+        let players
+        players = await teams[0].yq.$$('.player-container')
+        expect(players.length).toBe(2)
+        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた1')
+        expect(await players[1].yq.textContent('.player-name')).toBe('ゆーた2')
+
+        players = await teams[1].yq.$$('.player-container')
+        expect(players.length).toBe(0)
+      })
     })
   })
 })
