@@ -26,9 +26,30 @@ func HandleCommand() {
 				LogError("join user", Log{Message: "failed to get room", Json: join})
 			}
 		} else if room, ok := mapper.GetRoom(cmd.ID); ok {
-			room.RunCommand(cmd)
+			if room.AvailableCommand(cmd) {
+				room.RunCommand(cmd)
+			}
 		}
 	}
+}
+
+var MasterCommand = []string{
+	"teams", "correct", "wrong", "through", "reset",
+	"all-clear", "undo", "redo", "win-top", "lose-bottom",
+	"board-lock", "rule", "toggle-timer",
+}
+
+func (room *Room) AvailableCommand(cmd Cmd) bool {
+	user, ok := room.Users[cmd.ID]
+	if !ok {
+		return false
+	}
+	for _, c := range MasterCommand {
+		if c == cmd.C {
+			return user.IsMaster
+		}
+	}
+	return true
 }
 
 func (room *Room) RunCommand(cmd Cmd) {
