@@ -13,6 +13,7 @@ describe('enter room params', () => {
     await p0.yq.close()
     p0 = await browser.yq.reopen(p0)
     await p0.click('.rooms-table tbody tr:nth-child(1) .enter-room-button button')
+    await p0.yq.waitForTimeout()
 
     expect(await p0.$eval(sr.name, el => el.value)).toBe('ゆーた0')
     expect(await p0.yq.checked(sr.chatAnswer)).toBeFalse()
@@ -26,6 +27,7 @@ describe('enter room params', () => {
     await p0.yq.close()
     p0 = await browser.yq.reopen(p0)
     await p0.click('.rooms-table tbody tr:nth-child(1) .enter-room-button button')
+    await p0.yq.waitForTimeout()
 
     expect(await p0.$eval(sr.name, el => el.value)).toBe('ゆーた1')
     expect(await p0.yq.checked(sr.chatAnswer)).toBeTrue()
