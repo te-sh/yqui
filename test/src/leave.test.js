@@ -2,8 +2,10 @@ const css = require('./common/css')
 
 describe('leave', () => {
   beforeEach(async () => {
-    await p1.yq.enterRoom()
-    await p2.yq.enterRoom()
+    await Promise.all([
+      p1.yq.enterRoom({ delay: STEP_TIME * 0 }),
+      p2.yq.enterRoom({ delay: STEP_TIME * 1 })
+    ])
   })
 
   afterEach(async () => {

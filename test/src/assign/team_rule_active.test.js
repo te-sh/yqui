@@ -3,10 +3,12 @@ const css = require('../common/css')
 describe('assign', () => {
   describe('team rule is active', () => {
     beforeEach(async () => {
-      await p0.yq.enterRoom()
-      await p1.yq.enterRoom()
-      await p2.yq.enterRoom()
-      await p3.yq.enterRoom({ observer: true })
+      await Promise.all([
+        p0.yq.enterRoom({ delay: STEP_TIME * 0 }),
+        p1.yq.enterRoom({ delay: STEP_TIME * 1 }),
+        p2.yq.enterRoom({ delay: STEP_TIME * 2 }),
+        p3.yq.enterRoom({ delay: STEP_TIME * 3, observer: true })
+      ])
       await p0.yq.clickToggleMasterButton()
 
       const s = css.selector.dialog.rule

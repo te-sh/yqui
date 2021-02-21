@@ -120,6 +120,10 @@ class YquiPage {
     const roomNo = options.roomNo !== undefined ? options.roomNo : 1
     const name = options.name !== undefined ? options.name : `ゆーた${this.index}`
 
+    if (options.delay) {
+      await this.page.waitForTimeout(options.delay)
+    }
+
     await this.page.click(`.rooms-table tbody tr:nth-child(${roomNo}) .enter-room-button button`)
     await this.waitForTimeout()
 

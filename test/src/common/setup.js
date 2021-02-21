@@ -3,8 +3,8 @@ const YquiBrowser = require('./puppeteer_ext')
 
 // set global variables
 global.puppeteer = require('puppeteer')
-
 global.ROOT_DIR = '/home/node/test'
+global.STEP_TIME = 200
 
 let YQUI_URL, TIMEOUT
 if (process.env.LOCAL_SERVER) {

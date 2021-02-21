@@ -1,8 +1,10 @@
 describe('score backup', () => {
   beforeEach(async () => {
-    await p0.yq.enterRoom()
+    await Promise.all([
+      p0.yq.enterRoom({ delay: STEP_TIME * 0 }),
+      p1.yq.enterRoom({ delay: STEP_TIME * 1 })
+    ])
     await p0.yq.clickToggleMasterButton()
-    await p1.yq.enterRoom()
     await p1.yq.answerCorrect(p0, { repeat: 2 })
     await p1.yq.answerWrong(p0, { repeat: 1 })
   })

@@ -2,8 +2,10 @@ const css = require('./common/css')
 
 describe('chat', () => {
   beforeEach(async () => {
-    await p0.yq.enterRoom()
-    await p1.yq.enterRoom()
+    await Promise.all([
+      p0.yq.enterRoom({ delay: STEP_TIME * 0 }),
+      p1.yq.enterRoom({ delay: STEP_TIME * 1 })
+    ])
   })
 
   test('chat', async () => {

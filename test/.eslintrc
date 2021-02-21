@@ -11,6 +11,7 @@
   "globals": {
     "PLAYERS": true,
     "ROOT_DIR": true,
+    "STEP_TIME": true,
     "TIMEOUT": true,
     "YQUI_URL": true,
     "browser": true,
