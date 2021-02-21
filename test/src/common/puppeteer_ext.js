@@ -12,10 +12,8 @@ class YquiBrowser {
 
   async initPages (numPlayers) {
     this.numPlayers = numPlayers
-    for (let i = 0; i < numPlayers; ++i) {
-      const page = await this.newPage(i)
-      this.pages.push(page)
-    }
+    const pages = Array(numPlayers).fill().map((_, index) => this.newPage(index))
+    this.pages = await Promise.all(pages)
   }
 
   async newPage (index) {
@@ -26,9 +24,7 @@ class YquiBrowser {
   }
 
   async gotoTop () {
-    for (const page of this.pages) {
-      await page.yq.gotoTop()
-    }
+    await Promise.all(this.pages.map(page => page.yq.gotoTop()))
   }
 
   async reopen (page) {
