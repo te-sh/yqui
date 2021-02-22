@@ -15,7 +15,7 @@ import Room from './room/Room'
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
 const Root = ({ setMobile, reset, setWebSocket, recv }) => {
-  setMobile(useMediaQuery('(max-width:667px'))
+  setMobile(useMediaQuery('(max-width:667px)'))
 
   const createWebSocket = () => {
     const ws = new WebSocket(uri.toString())

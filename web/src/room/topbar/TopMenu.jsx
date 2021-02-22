@@ -35,9 +35,6 @@ const TopMenu = ({ mobile }) => {
         <Drawer anchor="right" open={open}
                 onClose={() => setOpen(false)}>
           <List onClick={() => setOpen(false)}>
-            <AssignButton />
-            <RuleButton />
-            <MasterButton />
             <ObserverButton />
             <SettingButton />
             <HelpButton />

@@ -8,7 +8,7 @@ import Master from './Master'
 import Player from './Player'
 import './Subactions.scss'
 
-const Subactions = ({ className, user, buttons, editTeams }) => {
+const Subactions = ({ className, mobile, user, buttons, editTeams }) => {
   const alert = isContinueingMultiChance(buttons) ? 'multiChance' : null
 
   let status
@@ -25,8 +25,8 @@ const Subactions = ({ className, user, buttons, editTeams }) => {
   return (
     <Paper className={className}>
       <Alert className="subactions-content" hidden={status !== 'alert'} alert={alert} />
-      <Assign className="subactions-content" hidden={status !== 'assign'} />
-      <Master className="subactions-content" hidden={status !== 'master'} />
+      {!mobile && <Assign className="subactions-content" hidden={status !== 'assign'} />}
+      {!mobile && <Master className="subactions-content" hidden={status !== 'master'} />}
       <Player className="subactions-content" hidden={status !== 'player'} />
     </Paper>
   )
@@ -34,6 +34,7 @@ const Subactions = ({ className, user, buttons, editTeams }) => {
 
 export default connect(
   state => ({
+    mobile: state.mobile,
     user: state.user,
     buttons: state.buttons,
     editTeams: state.editTeams

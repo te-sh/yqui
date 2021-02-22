@@ -26,7 +26,7 @@ const AssignButton = ({ mobile, user, editTeams }) => {
     return (
       <ListItem button disabled={disabled} onClick={beginAssign}>
         <ListItemIcon><SupervisorAccount /></ListItemIcon>
-        <ListItemText>チーム</ListItemText>
+        <ListItemText>配置</ListItemText>
       </ListItem>
     )
   }

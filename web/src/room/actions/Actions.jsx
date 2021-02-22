@@ -6,7 +6,7 @@ import Master from './Master'
 import Observer from './Observer'
 import Player from './Player'
 
-const Actions = ({ className, user, isPlayer, editTeams }) => {
+const Actions = ({ className, mobile, user, isPlayer, editTeams }) => {
   let status
   if (editTeams) {
     status = 'assign'
@@ -20,8 +20,8 @@ const Actions = ({ className, user, isPlayer, editTeams }) => {
 
   return (
     <Paper className={className}>
-      <Assign className="actions-content" hidden={status !== 'assign'} />
-      <Master className="actions-content" hidden={status !== 'master'} />
+      {!mobile && <Assign className="actions-content" hidden={status !== 'assign'} />}
+      {!mobile && <Master className="actions-content" hidden={status !== 'master'} />}
       <Observer className="actions-content" hidden={status !== 'observer'} />
       <Player className="actions-content" hidden={status !== 'player'} />
     </Paper>
@@ -30,6 +30,7 @@ const Actions = ({ className, user, isPlayer, editTeams }) => {
 
 export default connect(
   state => ({
+    mobile: state.mobile,
     user: state.user,
     isPlayer: state.isPlayer,
     editTeams: state.editTeams
