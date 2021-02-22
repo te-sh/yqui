@@ -8,13 +8,13 @@ RUN yarn install
 ADD . ./
 RUN yarn build
 
-FROM nginx:1.19.6-alpine
+FROM nginx:1.19.7-alpine
 
 RUN apk update \
  && apk upgrade \
  && rm -rf /var/cache/apk/* \
  && addgroup -g 1000 -S yqui \
-    && adduser -u 1000 -S yqui -G yqui \
+ && adduser -u 1000 -S yqui -G yqui \
  && sed -i '2cuser  yqui;' /etc/nginx/nginx.conf
 
 ENV HOME /home/yqui

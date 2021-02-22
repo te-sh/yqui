@@ -20,7 +20,7 @@ services:
       - COMPOSE_PROJECT_NAME
     restart: on-failure
   proxy:
-    image: nginx:1.19.6-alpine
+    image: nginx:1.19.7-alpine
     ports:
       - '${PORT:-8080}:8080'
     volumes:
