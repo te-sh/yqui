@@ -28,7 +28,7 @@
     "react-scripts": "4.0.2",
     "redux": "^4.0.5",
     "urijs": "^1.19.6",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
