@@ -1,0 +1,20 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - spec/spec_helper.rb
+  NewCops: enable
+  TargetRubyVersion: 3.0
+
+Bundler/OrderedGems:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
