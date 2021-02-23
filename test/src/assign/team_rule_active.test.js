@@ -28,15 +28,14 @@ describe('assign', () => {
         expect(await teams[0].yq.textContent('.team-title')).toBe('チーム1')
         expect(await teams[1].yq.textContent('.team-title')).toBe('観戦席')
 
-        let players
-        players = await teams[0].yq.$$('.player-container')
-        expect(players.length).toBe(2)
-        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた1')
-        expect(await players[1].yq.textContent('.player-name')).toBe('ゆーた2')
+        const players0 = await teams[0].yq.$$('.player-container')
+        expect(players0.length).toBe(2)
+        expect(await players0[0].yq.textContent('.player-name')).toBe('ゆーた1')
+        expect(await players0[1].yq.textContent('.player-name')).toBe('ゆーた2')
 
-        players = await teams[1].yq.$$('.player-container')
-        expect(players.length).toBe(1)
-        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた3')
+        const players1 = await teams[1].yq.$$('.player-container')
+        expect(players1.length).toBe(1)
+        expect(await players1[0].yq.textContent('.player-name')).toBe('ゆーた3')
       })
 
       test('actions, subactions', async () => {
@@ -75,16 +74,15 @@ describe('assign', () => {
 
         const teams = await p0.yq.$$('.room .team')
 
-        let players
-        players = await teams[0].yq.$$('.player-container')
-        expect(players.length).toBe(3)
-        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた1')
-        expect(await players[1].yq.textContent('.player-name')).toBe('ゆーた2')
-        expect(await players[2].yq.textContent('.player-name')).toBe('ゆーた4')
+        const players0 = await teams[0].yq.$$('.player-container')
+        expect(players0.length).toBe(3)
+        expect(await players0[0].yq.textContent('.player-name')).toBe('ゆーた1')
+        expect(await players0[1].yq.textContent('.player-name')).toBe('ゆーた2')
+        expect(await players0[2].yq.textContent('.player-name')).toBe('ゆーた4')
 
-        players = await teams[1].yq.$$('.player-container')
-        expect(players.length).toBe(1)
-        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた3')
+        const players1 = await teams[1].yq.$$('.player-container')
+        expect(players1.length).toBe(1)
+        expect(await players1[0].yq.textContent('.player-name')).toBe('ゆーた3')
       })
 
       test('join a observer', async () => {
@@ -93,16 +91,15 @@ describe('assign', () => {
 
         const teams = await p0.yq.$$('.room .team')
 
-        let players
-        players = await teams[0].yq.$$('.player-container')
-        expect(players.length).toBe(2)
-        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた1')
-        expect(await players[1].yq.textContent('.player-name')).toBe('ゆーた2')
+        const players0 = await teams[0].yq.$$('.player-container')
+        expect(players0.length).toBe(2)
+        expect(await players0[0].yq.textContent('.player-name')).toBe('ゆーた1')
+        expect(await players0[1].yq.textContent('.player-name')).toBe('ゆーた2')
 
-        players = await teams[1].yq.$$('.player-container')
-        expect(players.length).toBe(2)
-        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた3')
-        expect(await players[1].yq.textContent('.player-name')).toBe('ゆーた4')
+        const players1 = await teams[1].yq.$$('.player-container')
+        expect(players1.length).toBe(2)
+        expect(await players1[0].yq.textContent('.player-name')).toBe('ゆーた3')
+        expect(await players1[1].yq.textContent('.player-name')).toBe('ゆーた4')
       })
 
       test('leave a player', async () => {
@@ -111,14 +108,13 @@ describe('assign', () => {
 
         const teams = await p0.yq.$$('.room .team')
 
-        let players
-        players = await teams[0].yq.$$('.player-container')
-        expect(players.length).toBe(1)
-        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた2')
+        const players0 = await teams[0].yq.$$('.player-container')
+        expect(players0.length).toBe(1)
+        expect(await players0[0].yq.textContent('.player-name')).toBe('ゆーた2')
 
-        players = await teams[1].yq.$$('.player-container')
-        expect(players.length).toBe(1)
-        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた3')
+        const players1 = await teams[1].yq.$$('.player-container')
+        expect(players1.length).toBe(1)
+        expect(await players1[0].yq.textContent('.player-name')).toBe('ゆーた3')
       })
 
       test('leave a observer', async () => {
@@ -127,14 +123,13 @@ describe('assign', () => {
 
         const teams = await p0.yq.$$('.room .team')
 
-        let players
-        players = await teams[0].yq.$$('.player-container')
-        expect(players.length).toBe(2)
-        expect(await players[0].yq.textContent('.player-name')).toBe('ゆーた1')
-        expect(await players[1].yq.textContent('.player-name')).toBe('ゆーた2')
+        const players0 = await teams[0].yq.$$('.player-container')
+        expect(players0.length).toBe(2)
+        expect(await players0[0].yq.textContent('.player-name')).toBe('ゆーた1')
+        expect(await players0[1].yq.textContent('.player-name')).toBe('ゆーた2')
 
-        players = await teams[1].yq.$$('.player-container')
-        expect(players.length).toBe(0)
+        const players1 = await teams[1].yq.$$('.player-container')
+        expect(players1.length).toBe(0)
       })
     })
   })
