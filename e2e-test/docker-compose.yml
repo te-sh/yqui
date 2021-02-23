@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  test:
+    build:
+      context: .
+    image: tesh/yqui-e2e-test
+    volumes:
+      - './:/home/yqui/test'
+    environment:
+      - LOCAL_SERVER
+    extra_hosts:
+      - 'docker-host:${DOCKER_HOST_IP}'
