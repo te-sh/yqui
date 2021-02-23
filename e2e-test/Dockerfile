@@ -1,7 +1,7 @@
 FROM ruby:3.0.0-slim
 
 RUN apt-get update \
- && apt-get install -y build-essential \
+ && apt-get install -y build-essential chromium-driver \
  && addgroup --gid 1000 yqui \
  && adduser --system --uid 1000 --ingroup yqui --disabled-password --gecos '' yqui
 
