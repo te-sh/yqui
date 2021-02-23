@@ -15,6 +15,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'support/capybara'
+require 'support/shared'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -103,4 +104,22 @@ RSpec.configure do |config|
 
   # include Capybara DSL
   config.include Capybara::DSL
+
+  # include global context
+  config.include_context 'global context'
+
+  # setup
+  config.before(:each) do
+    (num_windows - 1).times do
+      open_new_window
+    end
+
+    Capybara.current_session.quit
+
+    windows.each do |window|
+      within_window(window) do
+        visit yqui_url
+      end
+    end
+  end
 end
