@@ -5,6 +5,7 @@ services:
     build:
       context: .
     image: tesh/yqui-e2e-test
+    shm_size: 1024m
     volumes:
       - './:/home/yqui/test'
     environment:

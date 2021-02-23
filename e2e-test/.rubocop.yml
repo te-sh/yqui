@@ -10,11 +10,23 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Metrics/BlockLength:
+  Enabled: false
+
 RSpec/ContextWording:
   Enabled: false
 
 RSpec/DescribeClass:
   Enabled: false
 
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/MutableConstant:
   Enabled: false
