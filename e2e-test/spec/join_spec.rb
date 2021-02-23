@@ -1,34 +1,59 @@
 describe 'join' do
   example 'as player' do
-    expect(find('.rooms-table tbody tr:first-child .num-users')).to have_text('0')
+    expect(page).to have_selector('.rooms-table tbody tr:first-child .num-users', text: '0')
 
     within_window(w1) { enter_room(1) }
-    expect(find('.rooms-table tbody tr:first-child .num-users')).to have_text('1')
+    expect(page).to have_selector('.rooms-table tbody tr:first-child .num-users', text: '1')
 
     within_window(w2) { enter_room(2) }
-    expect(find('.rooms-table tbody tr:first-child .num-users')).to have_text('2')
+    expect(page).to have_selector('.rooms-table tbody tr:first-child .num-users', text: '2')
   end
 
   example 'player box' do
     enter_room(0)
 
-    teams = all('.room .team')
     expect(teams.size).to eq 1
-    within(teams[0]) do
-      players = all('.player')
+    within(team0) do
       expect(players.size).to eq 1
-      expect(players[0].find('.player-name')).to have_text('ゆーた0')
+      expect(player0).to have_selector('.player-name', text: 'ゆーた0')
     end
 
     within_window(w1) { enter_room(1) }
 
-    teams = all('.room .team')
     expect(teams.size).to eq 1
-    within(teams[0]) do
-      players = all('.player')
+    within(team0) do
       expect(players.size).to eq 2
-      expect(players[0].find('.player-name')).to have_text('ゆーた0')
-      expect(players[1].find('.player-name')).to have_text('ゆーた1')
+      expect(player0).to have_selector('.player-name', text: 'ゆーた0')
+      expect(player1).to have_selector('.player-name', text: 'ゆーた1')
+    end
+
+    within_window(w1) do
+      expect(teams.size).to eq 1
+      within(team0) do
+        expect(players.size).to eq 2
+        expect(player0).to have_selector('.player-name', text: 'ゆーた0')
+        expect(player1).to have_selector('.player-name', text: 'ゆーた1')
+      end
+    end
+  end
+
+  example 'actions, subactions and chat message' do
+    enter_room(0)
+
+    expect(actions).to have_selector('.player-actions')
+    expect(subactions).to have_selector('.player-subactions')
+    expect(last_message).to have_selector('.message-body', text: 'ゆーた0さんが入室しました')
+
+    within_window(w1) { enter_room(1) }
+
+    expect(actions).to have_selector('.player-actions')
+    expect(subactions).to have_selector('.player-subactions')
+    expect(last_message).to have_selector('.message-body', text: 'ゆーた1さんが入室しました')
+
+    within_window(w1) do
+      expect(actions).to have_selector('.player-actions')
+      expect(subactions).to have_selector('.player-subactions')
+      expect(last_message).to have_selector('.message-body', text: 'ゆーた1さんが入室しました')
     end
   end
 end

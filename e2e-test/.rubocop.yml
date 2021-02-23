@@ -10,6 +10,9 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
 Metrics/BlockLength:
   Enabled: false
 
