@@ -15,7 +15,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'support/capybara'
-require 'support/yqui_operation'
+require 'support/yqui'
 require 'support/shared'
 
 RSpec.configure do |config|
@@ -107,7 +107,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   # include Yqui operations
-  config.include YquiOperation
+  config.include Yqui
 
   # include global context
   config.include_context 'global context'

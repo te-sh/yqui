@@ -1,13 +1,11 @@
 shared_context 'global context' do
+  before(:all) do
+    Capybara.session_name = :s0
+  end
+
   before do
-    Capybara.current_session.quit
-
-    (YquiOperation::NUM_WINDOWS - 1).times do
-      open_new_window
-    end
-
-    windows.each do |window|
-      within_window(window) { visit YquiOperation::YQUI_URL }
+    Yqui::NUM_SESSIONS.times do |i|
+      using_session(:"s#{i}") { visit Yqui::YQUI_URL }
     end
   end
 end
