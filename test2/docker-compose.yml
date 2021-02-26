@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  test:
+    build:
+      context: .
+    image: tesh/yqui-e2e-test
+    volumes:
+      - './:/home/node/test'
+      - '/home/node/test/node_modules'
+    environment:
+      - LOCAL_SERVER
+    extra_hosts:
+      - 'docker-host:${DOCKER_HOST_IP}'
+    cap_add:
+      - SYS_ADMIN
+    command: ['yarn', 'test']
