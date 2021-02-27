@@ -58,14 +58,14 @@ export const mui = {
 // operations
 const s = selectors
 
-export const createWindows = async t => {
+export const createWindows = async (t, num = numWindows) => {
   await t
     .navigateTo(yquiUrl)
     .resizeWindow(windowWidth, windowHeight)
   t.ctx.w0 = await t.getCurrentWindow()
   t.ctx.windows = [t.ctx.w0]
 
-  for (let i = 1; i < numWindows; i++) {
+  for (let i = 1; i < num; i++) {
     await t.switchToWindow(t.ctx.w0)
     const w = await t.openWindow(yquiUrl)
     await t.resizeWindow(windowWidth, windowHeight)

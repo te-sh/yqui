@@ -1,9 +1,11 @@
 import { createWindows, enterRoom, selectors as s, mui } from '../common'
 
 fixture('join/player')
-  .beforeEach(createWindows)
+  .beforeEach(async t => createWindows(t, 2))
 
-test('numer of users', async t => {
+test
+  .before(async t => createWindows(t, 3))
+('numer of users', async t => {
   const numUsers = s.roomRow0.find('.num-users')
 
   await t.expect(numUsers.innerText).eql('0')

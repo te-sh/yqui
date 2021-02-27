@@ -2,7 +2,7 @@ import { Selector } from 'testcafe'
 import { createWindows } from './common'
 
 fixture('rooms')
-  .beforeEach(createWindows)
+  .beforeEach(async t => createWindows(t, 3))
 
 test('title', async t => {
   const appName = Selector('header .app-name')
