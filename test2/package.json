@@ -12,6 +12,8 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
-    "testcafe": "^1.11.0"
+    "eslint-plugin-testcafe-community": "^1.1.0",
+    "testcafe": "^1.11.0",
+    "testcafe-reporter-spec-time": "^4.0.0"
   }
 }

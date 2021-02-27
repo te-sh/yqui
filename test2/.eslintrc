@@ -1,0 +1,13 @@
+{
+  "env": {
+    "es2017": true
+  },
+  "extends": [
+    "standard",
+    "eslint:recommended",
+    "plugin:testcafe-community/recommended"
+  ],
+  "plugins": [
+    "testcafe-community"
+  ]
+}

@@ -1,4 +1,3 @@
-import { Selector } from 'testcafe'
 import { createWindows, enterRoom, leaveRoom, selectors as s, mui } from '../common'
 
 fixture('leave/player')

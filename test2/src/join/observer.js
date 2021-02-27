@@ -1,4 +1,3 @@
-import { Selector } from 'testcafe'
 import { createWindows, enterRoom, selectors as s, mui } from '../common'
 
 fixture('join/observer')
