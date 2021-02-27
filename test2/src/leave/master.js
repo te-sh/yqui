@@ -2,9 +2,9 @@ import { createWindows, enterRoom, leaveRoom, selectors as s, mui } from '../com
 
 fixture('leave/master')
   .beforeEach(async t => {
-    await createWindows(t, 3)
-    await enterRoom(t, 1)
-    await enterRoom(t, 2)
+    await createWindows(3)
+    await enterRoom(1)
+    await enterRoom(2)
   })
 
 test('number of users', async t => {
@@ -14,7 +14,7 @@ test('number of users', async t => {
 
   await t.switchToWindow(t.ctx.w1)
     .click(s.topbar.masterButton)
-  await leaveRoom(t, 1)
+  await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)
     .expect(numUsers.innerText).eql('1')
 
@@ -28,7 +28,7 @@ test('number of users', async t => {
 test('player box', async t => {
   const players0 = s.teams.nth(0).find('.players .player')
 
-  await enterRoom(t, 0)
+  await enterRoom(0)
   await t
     .expect(s.teams.count).eql(1)
     .expect(players0.count).eql(3)
@@ -38,7 +38,7 @@ test('player box', async t => {
 
   await t.switchToWindow(t.ctx.w1)
     .click(s.topbar.masterButton)
-  await leaveRoom(t, 1)
+  await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)
     .expect(s.teams.count).eql(1)
     .expect(players0.count).eql(2)
@@ -55,11 +55,11 @@ test('player box', async t => {
 })
 
 test('chat message', async t => {
-  await enterRoom(t, 0)
+  await enterRoom(0)
 
   await t.switchToWindow(t.ctx.w1)
     .click(s.topbar.masterButton)
-  await leaveRoom(t, 1)
+  await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)
     .expect(s.chat.lastMessage.innerText).eql('ゆーた1さん (司会) が退室しました')
 
@@ -71,7 +71,7 @@ test('chat message', async t => {
 })
 
 test('tobar buttons', async t => {
-  await enterRoom(t, 0)
+  await enterRoom(0)
   await t
     .expect(s.topbar.assignButton.hasAttribute('disabled')).ok()
     .expect(s.topbar.ruleButton.hasAttribute('disabled')).ok()
@@ -82,7 +82,7 @@ test('tobar buttons', async t => {
 
   await t.switchToWindow(t.ctx.w1)
     .click(s.topbar.masterButton)
-  await leaveRoom(t, 1)
+  await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)
     .expect(s.topbar.assignButton.hasAttribute('disabled')).ok()
     .expect(s.topbar.ruleButton.hasAttribute('disabled')).ok()

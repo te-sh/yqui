@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe'
+import { Selector, t } from 'testcafe'
 
 // constant variables
 const yquiUrl = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/'
@@ -58,7 +58,7 @@ export const mui = {
 // operations
 const s = selectors
 
-export const createWindows = async (t, num = numWindows) => {
+export const createWindows = async (num = numWindows) => {
   await t
     .navigateTo(yquiUrl)
     .resizeWindow(windowWidth, windowHeight)
@@ -76,7 +76,7 @@ export const createWindows = async (t, num = numWindows) => {
   await t.switchToWindow(t.ctx.w0)
 }
 
-export const enterRoom = async (t, index, options = {}) => {
+export const enterRoom = async (index, options = {}) => {
   const current = await t.getCurrentWindow()
 
   const name = options.name || `ゆーた${index}`
@@ -102,7 +102,7 @@ export const enterRoom = async (t, index, options = {}) => {
   }
 }
 
-export const leaveRoom = async (t, index, options = {}) => {
+export const leaveRoom = async (index, options = {}) => {
   const current = await t.getCurrentWindow()
 
   await t.switchToWindow(t.ctx.windows[index])
