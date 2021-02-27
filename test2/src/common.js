@@ -8,7 +8,7 @@ const windowHeight = 900
 
 // selectors
 export const selectors = {
-  rooms: Selector('.rooms-table tbody tr').nth(1),
+  roomRow0: Selector('.rooms-table tbody tr').nth(0),
   teams: Selector('.room .team'),
   topbar: {
     assignButton: Selector('header .begin-assign-button'),
@@ -37,6 +37,9 @@ export const selectors = {
       observer: Selector('.enter-room-dialog .enter-room .observer-check'),
       chatAnswer: Selector('.enter-room-dialog .enter-room .chat-answer-check'),
       submit: Selector('.enter-room-dialog .submit')
+    },
+    leaveRoom: {
+      submit: Selector('.leave-room-dialog .submit')
     }
   }
 }
@@ -56,22 +59,30 @@ export const mui = {
 const s = selectors
 
 export const createWindows = async t => {
-  t.ctx.windows = []
-  for (let i = 0; i < numWindows; i++) {
-    const w = await (i == 0 ? t.getCurrentWindow() : t.openWindow(yquiUrl))
+  await t
+    .navigateTo(yquiUrl)
+    .resizeWindow(windowWidth, windowHeight)
+  t.ctx.w0 = await t.getCurrentWindow()
+  t.ctx.windows = [t.ctx.w0]
+
+  for (let i = 1; i < numWindows; i++) {
+    await t.switchToWindow(t.ctx.w0)
+    const w = await t.openWindow(yquiUrl)
     await t.resizeWindow(windowWidth, windowHeight)
     t.ctx.windows.push(w)
     t.ctx[`w${i}`] = w
   }
+
   await t.switchToWindow(t.ctx.w0)
-    .navigateTo(yquiUrl)
 }
 
 export const enterRoom = async (t, index, options = {}) => {
+  const current = await t.getCurrentWindow()
+
   const name = options.name || `ゆーた${index}`
 
   await t.switchToWindow(t.ctx.windows[index])
-    .click(s.rooms.nth(0).find('.enter-room-button button'))
+    .click(s.roomRow0.find('.enter-room-button button'))
     .typeText(s.dialog.enterRoom.name, name, { replace: true })
 
   const observerCheck = s.dialog.enterRoom.observer
@@ -85,4 +96,20 @@ export const enterRoom = async (t, index, options = {}) => {
   }
 
   await t.click(s.dialog.enterRoom.submit)
+
+  if (!options.switchWindow) {
+    await t.switchToWindow(current)
+  }
+}
+
+export const leaveRoom = async (t, index, options = {}) => {
+  const current = await t.getCurrentWindow()
+
+  await t.switchToWindow(t.ctx.windows[index])
+    .click(s.topbar.leaveButton)
+    .click(s.dialog.leaveRoom.submit)
+
+  if (!options.switchWindow) {
+    await t.switchToWindow(current)
+  }
 }

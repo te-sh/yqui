@@ -5,20 +5,15 @@ fixture('join/observer')
   .beforeEach(createWindows)
 
 test('numer of users', async t => {
-  const numUsers = s.rooms.nth(0).find('.num-users')
+  const numUsers = s.roomRow0.find('.num-users')
 
-  await t
-    .expect(numUsers.innerText).eql('0')
+  await t.expect(numUsers.innerText).eql('0')
 
   await enterRoom(t, 1)
-
-  await t.switchToWindow(t.ctx.w0)
-    .expect(numUsers.innerText).eql('1')
+  await t.expect(numUsers.innerText).eql('1')
 
   await enterRoom(t, 2, { observer: true })
-
-  await t.switchToWindow(t.ctx.w0)
-    .expect(numUsers.innerText).eql('2')
+  await t.expect(numUsers.innerText).eql('2')
 })
 
 test('player box', async t => {
@@ -31,12 +26,10 @@ test('player box', async t => {
     .expect(players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
 
   await enterRoom(t, 1, { observer: true })
-
   await t.switchToWindow(t.ctx.w0)
     .expect(s.teams.count).eql(1)
     .expect(players0.count).eql(1)
     .expect(players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
-
   await t.switchToWindow(t.ctx.w1)
     .expect(s.teams.count).eql(1)
     .expect(players0.count).eql(1)
@@ -45,14 +38,12 @@ test('player box', async t => {
 
 test('actions, subactions, chat message', async t => {
   await enterRoom(t, 0)
-
   await t
     .expect(s.actions.player.filterVisible().exists).ok()
     .expect(s.subactions.player.filterVisible().exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた0さんが入室しました')
 
   await enterRoom(t, 1, { observer: true })
-
   await t.switchToWindow(t.ctx.w0)
     .expect(s.actions.player.filterVisible().exists).ok()
     .expect(s.subactions.player.filterVisible().exists).ok()
@@ -66,7 +57,6 @@ test('actions, subactions, chat message', async t => {
 
 test('tobar buttons', async t => {
   await enterRoom(t, 0)
-
   await t
     .expect(s.topbar.assignButton.hasAttribute('disabled')).ok()
     .expect(s.topbar.ruleButton.hasAttribute('disabled')).ok()
@@ -76,7 +66,6 @@ test('tobar buttons', async t => {
     .expect(s.topbar.observerButton.hasClass(mui.iconButton.inherit)).ok()
 
   await enterRoom(t, 1, { observer: true })
-
   await t.switchToWindow(t.ctx.w0)
     .expect(s.topbar.assignButton.hasAttribute('disabled')).ok()
     .expect(s.topbar.ruleButton.hasAttribute('disabled')).ok()
@@ -84,7 +73,6 @@ test('tobar buttons', async t => {
     .expect(s.topbar.masterButton.hasClass(mui.iconButton.inherit)).ok()
     .expect(s.topbar.observerButton.hasAttribute('disabled')).notOk()
     .expect(s.topbar.observerButton.hasClass(mui.iconButton.inherit)).ok()
-  
   await t.switchToWindow(t.ctx.w1)
     .expect(s.topbar.assignButton.hasAttribute('disabled')).ok()
     .expect(s.topbar.ruleButton.hasAttribute('disabled')).ok()

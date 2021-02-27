@@ -1,0 +1,4 @@
+{
+  "browsers": "chromium:headless",
+  "src": ["src/**/*.js"]
+}

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "AFL-2.0",
   "scripts": {
-    "test": "testcafe chromium:headless src",
+    "test": "testcafe",
     "lint": "eslint src/**/*.js"
   },
   "devDependencies": {
