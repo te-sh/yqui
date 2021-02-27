@@ -1,10 +1,18 @@
 import { Selector } from 'testcafe'
+import { createWindows } from './common'
 
 fixture('rooms')
-  .page('http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/')
+  .beforeEach(createWindows)
 
 test('title', async t => {
+  const appName = Selector('header .app-name')
+
   await t
-    .takeScreenshot('rooms.png')
-    .expect(Selector('header .app-name').innerText).eql('Yqui')
+    .expect(appName.innerText).eql('Yqui')
+
+  await t.switchToWindow(t.ctx.w1)
+    .expect(appName.innerText).eql('Yqui')
+
+  await t.switchToWindow(t.ctx.w2)
+    .expect(appName.innerText).eql('Yqui')
 })
