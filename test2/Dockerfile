@@ -2,7 +2,7 @@ FROM node:14.16.0-alpine3.13
 
 RUN apk update \
  && apk upgrade \
- && apk add udev ttf-freefont chromium \
+ && apk add udev ttf-freefont font-noto-cjk unifont chromium \
  && rm -rf /var/cache/apk/*
 
 USER node

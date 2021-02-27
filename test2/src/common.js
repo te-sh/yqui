@@ -3,8 +3,8 @@ import { Selector } from 'testcafe'
 // constant variables
 const yquiUrl = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/'
 const numWindows = 5
-const windowWidth = 1024
-const windowHeight = 768
+const windowWidth = 1440
+const windowHeight = 900
 
 // selectors
 export const selectors = {
@@ -33,8 +33,10 @@ export const selectors = {
   },
   dialog: {
     enterRoom: {
-      name: '.enter-room-dialog .name input',
-      submit: '.enter-room-dialog .submit'
+      name: Selector('.enter-room-dialog .enter-room .name input'),
+      observer: Selector('.enter-room-dialog .enter-room .observer-check'),
+      chatAnswer: Selector('.enter-room-dialog .enter-room .chat-answer-check'),
+      submit: Selector('.enter-room-dialog .submit')
     }
   }
 }
@@ -57,7 +59,7 @@ export const createWindows = async t => {
   t.ctx.windows = []
   for (let i = 0; i < numWindows; i++) {
     const w = await (i == 0 ? t.getCurrentWindow() : t.openWindow(yquiUrl))
-    await t.resizeWindow(windowWindth, windowHeight)
+    await t.resizeWindow(windowWidth, windowHeight)
     t.ctx.windows.push(w)
     t.ctx[`w${i}`] = w
   }
@@ -71,5 +73,16 @@ export const enterRoom = async (t, index, options = {}) => {
   await t.switchToWindow(t.ctx.windows[index])
     .click(s.rooms.nth(0).find('.enter-room-button button'))
     .typeText(s.dialog.enterRoom.name, name, { replace: true })
-    .click(s.dialog.enterRoom.submit)
+
+  const observerCheck = s.dialog.enterRoom.observer
+  if (options.observer ^ await observerCheck.hasClass(mui.checkbox.checked)) {
+    await t.click(observerCheck)
+  }
+
+  const chatAnswerCheck = s.dialog.enterRoom.chatAnswer
+  if (options.chatAnswer ^ chatAnswerCheck.hasClass(mui.checkbox.checked)) {
+    await t.click(chatAnswerCheck)
+  }
+
+  await t.click(s.dialog.enterRoom.submit)
 }
