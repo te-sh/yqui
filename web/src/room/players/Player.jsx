@@ -1,10 +1,13 @@
 import React from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+import { Flipped } from 'react-flip-toolkit'
+import classNames from 'classnames'
 import ItemTypes from '../../lib/item_types'
 import {
   movingPlayerOrder, movedPlayerOrder, cancelMovePlayerOrder
 } from '../../lib/assign'
 import PlayerContainer from './PlayerContainer'
+import './Player.scss'
 
 const Player = ({ player, playerIndex, teamIndex }) => {
   const ref = React.useRef(null)
@@ -55,13 +58,15 @@ const Player = ({ player, playerIndex, teamIndex }) => {
     })
   })
 
-  const opacity = isDragging ? 0.2 : 1
   drag(drop(ref))
 
   return (
-    <div ref={ref} className="player" style={{ cursor: 'move', opacity }}>
-      <PlayerContainer player={player} />
-    </div>
+    <Flipped key={player} flipId={`flip-player-${player}`}>
+      <div ref={ref} className={classNames('player', { dragging: isDragging })}
+           style={{ cursor: 'move' }}>
+        <PlayerContainer player={player} />
+      </div>
+    </Flipped>
   )
 }
 

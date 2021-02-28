@@ -1,0 +1,7 @@
+.player {
+  opacity: 1;
+
+  &.dragging {
+    opacity: 0.2;
+  }
+}
