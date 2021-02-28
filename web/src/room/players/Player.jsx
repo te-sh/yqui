@@ -59,7 +59,7 @@ const Player = ({ player, playerIndex, teamIndex }) => {
   drag(drop(ref))
 
   return (
-    <div ref={ref} style={{ cursor: 'move', opacity }}>
+    <div ref={ref} className="player" style={{ cursor: 'move', opacity }}>
       <PlayerContainer player={player} />
     </div>
   )

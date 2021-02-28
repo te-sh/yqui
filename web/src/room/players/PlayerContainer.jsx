@@ -17,12 +17,12 @@ const PlayerContainer = ({ player, bg, sg, buttons, rule }) => {
   const board = bg.boards.get(player) || initBoard
   const score = sg.player.scores.get(player) || initScore
 
-  const playerClass = classNames('player', { 'my-turn': myTurn })
+  const boxClass = classNames('player-box', { 'my-turn': myTurn })
 
   return (
     <Box className="player-container">
       <PlayerAbove order={order} delay={delay} score={score} />
-      <Paper className={playerClass}>
+      <Paper className={boxClass}>
         <PlayerName className="player-name" player={player} myTurn={myTurn} />
         <PlayerPoint className="player-point" score={score} />
         <PlayerStatus className="player-status" score={score} />
