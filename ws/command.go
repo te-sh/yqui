@@ -34,9 +34,8 @@ func HandleCommand() {
 }
 
 var MasterCommand = []string{
-	"teams", "correct", "wrong", "through", "reset",
-	"all-clear", "undo", "redo", "win-top", "lose-bottom",
-	"board-lock", "rule", "toggle-timer",
+	"correct", "wrong", "through", "reset", "all-clear", "undo", "redo",
+	"win-top", "lose-bottom", "board-lock", "rule", "toggle-timer",
 }
 
 func (room *Room) AvailableCommand(cmd Cmd) bool {
@@ -164,9 +163,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		rule := NewRule()
 		json.Unmarshal(cmd.A, rule)
 		room.SetRule(rule)
-		room.SendRule()
-		room.SendBG()
-		room.SendSG()
+		room.SendRoom()
 	case "toggle-timer":
 		room.ToggleTimer()
 	case "chat":

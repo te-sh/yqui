@@ -88,7 +88,7 @@ const Master = ({ className, hidden, rule, bg, clearEditBoards }) => {
 
   const boardButtons = (
     <>
-      <Button {...buttonAttr} color="default" clasName="board-lock-button"
+      <Button {...buttonAttr} color="default" className="board-lock-button"
               onClick={onBoardLock}>
         { bg.lock ? '回答ロック解除' : '回答ロック' }
       </Button>

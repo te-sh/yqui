@@ -1,10 +1,10 @@
 package main
 
 func (room *Room) SendRoom() {
-	room.Broadcast("room", room, true)
 	room.SendRule()
 	room.SendBG()
 	room.SendSG()
+	room.Broadcast("room", room, true)
 }
 
 func (room *Room) SendRule() {
