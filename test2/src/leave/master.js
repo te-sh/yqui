@@ -10,7 +10,7 @@ const setup = async t => {
 fixture('leave/master').beforeEach(setup)
 
 test('number of users', async t => {
-  const numUsers = s.roomRow0.find('.num-users')
+  const numUsers = s.rooms.row0.find('.num-users')
 
   await t.expect(numUsers.innerText).eql('2')
 
@@ -28,32 +28,30 @@ test('number of users', async t => {
 })
 
 test('player box', async t => {
-  const players0 = s.teams.nth(0).find('.players .player')
-
   await enterRoom(0)
   await t
-    .expect(s.teams.count).eql(1)
-    .expect(players0.count).eql(3)
-    .expect(players0.nth(0).find('.player-name').innerText).eql('ゆーた1')
-    .expect(players0.nth(1).find('.player-name').innerText).eql('ゆーた2')
-    .expect(players0.nth(2).find('.player-name').innerText).eql('ゆーた0')
+    .expect(s.box.teams.count).eql(1)
+    .expect(s.box.players0.count).eql(3)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた1')
+    .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた2')
+    .expect(s.box.players0.nth(2).find('.player-name').innerText).eql('ゆーた0')
 
   await t.switchToWindow(t.ctx.w1)
     .click(s.topbar.masterButton)
   await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)
-    .expect(s.teams.count).eql(1)
-    .expect(players0.count).eql(2)
-    .expect(players0.nth(0).find('.player-name').innerText).eql('ゆーた2')
-    .expect(players0.nth(1).find('.player-name').innerText).eql('ゆーた0')
+    .expect(s.box.teams.count).eql(1)
+    .expect(s.box.players0.count).eql(2)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた2')
+    .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた0')
 
   await t.switchToWindow(t.ctx.w2)
     .click(s.topbar.masterButton)
   await t.closeWindow(t.ctx.w2)
   await t.switchToWindow(t.ctx.w0)
-    .expect(s.teams.count).eql(1)
-    .expect(players0.count).eql(1)
-    .expect(players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
+    .expect(s.box.teams.count).eql(1)
+    .expect(s.box.players0.count).eql(1)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
 })
 
 test('chat message', async t => {

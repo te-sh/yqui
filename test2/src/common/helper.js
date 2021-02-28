@@ -32,7 +32,7 @@ export const enterRoom = async (index, options = {}) => {
   const name = options.name || `ゆーた${index}`
 
   await t.switchToWindow(t.ctx.windows[index])
-    .click(s.roomRow0.find('.enter-room-button button'))
+    .click(s.rooms.row0.find('.enter-room-button button'))
     .typeText(s.dialog.enterRoom.name, name, { replace: true })
 
   const observerCheck = s.dialog.enterRoom.observer

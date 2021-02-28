@@ -1,13 +1,13 @@
 import { selectors as s, mui } from '../common/selectors'
 import { createWindows, enterRoom } from '../common/helper'
 
-const setup2 = async t => createWindows(2)
-const setup3 = async t => createWindows(3)
+const setup2 = async t => await createWindows(2)
+const setup3 = async t => await createWindows(3)
 
 fixture('join/observer').beforeEach(setup2)
 
 test.before(setup3)('numer of users', async t => {
-  const numUsers = s.roomRow0.find('.num-users')
+  const numUsers = s.rooms.row0.find('.num-users')
 
   await t.expect(numUsers.innerText).eql('0')
 
@@ -19,23 +19,21 @@ test.before(setup3)('numer of users', async t => {
 })
 
 test('player box', async t => {
-  const players0 = s.teams.nth(0).find('.players .player')
-
   await enterRoom(0)
   await t
-    .expect(s.teams.count).eql(1)
-    .expect(players0.count).eql(1)
-    .expect(players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
+    .expect(s.box.teams.count).eql(1)
+    .expect(s.box.players0.count).eql(1)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
 
   await enterRoom(1, { observer: true })
   await t.switchToWindow(t.ctx.w0)
-    .expect(s.teams.count).eql(1)
-    .expect(players0.count).eql(1)
-    .expect(players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
+    .expect(s.box.teams.count).eql(1)
+    .expect(s.box.players0.count).eql(1)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
   await t.switchToWindow(t.ctx.w1)
-    .expect(s.teams.count).eql(1)
-    .expect(players0.count).eql(1)
-    .expect(players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
+    .expect(s.box.teams.count).eql(1)
+    .expect(s.box.players0.count).eql(1)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
 })
 
 test('actions, subactions, chat message', async t => {

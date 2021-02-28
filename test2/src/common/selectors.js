@@ -2,8 +2,16 @@ import { Selector } from 'testcafe'
 
 // selectors
 export const selectors = {
-  roomRow0: Selector('.rooms-table tbody tr').nth(0),
-  teams: Selector('.room .team'),
+  rooms: {
+    row0: Selector('.rooms-table tbody tr').nth(0)
+  },
+  box: {
+    teams: Selector('.room .team'),
+    team0: Selector('.room .team').nth(0),
+    team1: Selector('.room .team').nth(1),
+    players0: Selector('.room .team').nth(0).find('.players .player'),
+    players1: Selector('.room .team').nth(1).find('.players .player')
+  },
   topbar: {
     appName: Selector('header .app-name'),
     assignButton: Selector('header .begin-assign-button'),
