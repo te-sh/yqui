@@ -1,4 +1,5 @@
-import { createWindows, enterRoom, leaveRoom, selectors as s, mui } from '../common'
+import { selectors as s, mui } from '../common/selectors'
+import { createWindows, enterRoom, leaveRoom } from '../common/helper'
 
 fixture('leave/master')
   .beforeEach(async t => {

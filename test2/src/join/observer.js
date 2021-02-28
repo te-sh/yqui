@@ -1,4 +1,5 @@
-import { createWindows, enterRoom, selectors as s, mui } from '../common'
+import { selectors as s, mui } from '../common/selectors'
+import { createWindows, enterRoom } from '../common/helper'
 
 fixture('join/observer')
   .beforeEach(async t => createWindows(2))
