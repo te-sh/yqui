@@ -1,12 +1,12 @@
 import { selectors as s, mui } from '../common/selectors'
 import { createWindows, enterRoom } from '../common/helper'
 
-fixture('join/player')
-  .beforeEach(async t => createWindows(2))
+const setup2 = async t => createWindows(2)
+const setup3 = async t => createWindows(3)
 
-test
-  .before(async t => createWindows(3))
-('numer of users', async t => {
+fixture('join/player').beforeEach(setup2)
+
+test.before(setup3)('numer of users', async t => {
   const numUsers = s.roomRow0.find('.num-users')
 
   await t.expect(numUsers.innerText).eql('0')

@@ -1,8 +1,9 @@
 import { selectors as s } from './common/selectors'
 import { createWindows } from './common/helper'
 
-fixture('rooms')
-  .beforeEach(async t => createWindows(3))
+const setup = async t => createWindows(3)
+
+fixture('rooms').beforeEach(setup)
 
 test('title', async t => {
   await t
