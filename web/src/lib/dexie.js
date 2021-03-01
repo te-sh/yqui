@@ -40,9 +40,7 @@ export const storeVolume = async volume => {
 }
 
 export const retrieveVolume = async () => {
-  const x = await retrieveSettings('volume', 100)
-  console.log(x)
-  return x
+  return await retrieveSettings('volume', 100)
 }
 
 export const storeScoreBackup = async (name, encoded) => {

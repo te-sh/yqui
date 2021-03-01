@@ -7,14 +7,16 @@ import './PlayerPoint.scss'
 const PlayerPoint = ({ className, user, score, rule }) => {
   const comp = rule.player.comprehensive.active
 
-  const pointText = user.isMaster || rule.showPoint ? score.point : '-'
-  const batsuText = user.isMaster || rule.showPoint ? score.batsu : '-'
-  const compPointText = user.isMaster || rule.showPoint ? score.compPoint : '-'
+  const text = {
+    point: user.isMaster || rule.showPoint ? score.point : '-',
+    batsu: user.isMaster || rule.showPoint ? score.batsu : '-',
+    compPoint: user.isMaster || rule.showPoint ? score.compPoint : '-'
+  }
 
   const point = (
     <Box className="point">
       <Typography className="content">
-        {pointText}
+        {text.point}
       </Typography>
     </Box>
   )
@@ -22,7 +24,7 @@ const PlayerPoint = ({ className, user, score, rule }) => {
   const batsu = (
     <Box className="batsu">
       <Typography className="content">
-        {batsuText}
+        {text.batsu}
       </Typography>
     </Box>
   )
@@ -30,7 +32,7 @@ const PlayerPoint = ({ className, user, score, rule }) => {
   const compPoint = (
     <Box className="comp-point">
       <Typography className="content">
-        {compPointText}
+        {text.compPoint}
       </Typography>
     </Box>
   )
