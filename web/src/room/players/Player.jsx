@@ -39,17 +39,20 @@ const Player = ({ player, playerIndex, teamIndex }) => {
     },
     drop: (item, _monitor) => {
       const dragTeamIndex = item.teamIndex
+      console.log('drop:', item, teamIndex)
       if (dragTeamIndex !== teamIndex) {
-        return
+        return { moved: false }
       }
       movedPlayerOrder()
+      return { moved: true }
     }
   })
 
   const [{ isDragging }, drag] = useDrag({
     item: { type: ItemTypes.PLAYER, player, playerIndex, teamIndex },
     end: (item, monitor) => {
-      if (!monitor.didDrop()) {
+      const result = monitor.getDropResult()
+      if (!result || !result.moved) {
         cancelMovePlayerOrder()
       }
     },

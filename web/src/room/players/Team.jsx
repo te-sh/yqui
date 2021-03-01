@@ -31,9 +31,10 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
       const dragTeamIndex = item.teamIndex
       const dragPlayerIndex = item.playerIndex
       if (dragTeamIndex === teamIndex || !editTeams) {
-        return
+        return { moved: false }
       }
       movePlayerTeam(dragTeamIndex, dragPlayerIndex, teamIndex)
+      return { moved: true }
     }
   })
 
