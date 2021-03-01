@@ -1,16 +1,12 @@
 .teams {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: wrap;
 
-  .teams-flip {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    flex-wrap: wrap;
-
-    .team-container {
-      margin-top: auto;
-      margin-bottom: auto;
-    }
+  .team-container {
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }

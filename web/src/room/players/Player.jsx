@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import { Flipped } from 'react-flip-toolkit'
+import { motion } from 'framer-motion'
 import classNames from 'classnames'
 import ItemTypes from '../../lib/item_types'
 import {
@@ -61,12 +61,11 @@ const Player = ({ player, playerIndex, teamIndex }) => {
   drag(drop(ref))
 
   return (
-    <Flipped key={player} flipId={`flip-player-${player}`}>
-      <div ref={ref} className={classNames('player', { dragging: isDragging })}
-           style={{ cursor: 'move' }}>
-        <PlayerContainer player={player} />
-      </div>
-    </Flipped>
+    <motion.div ref={ref} style={{ cursor: 'move' }}
+                className={classNames('player', { dragging: isDragging })}
+                key={player} layout>
+      <PlayerContainer player={player} />
+    </motion.div>
   )
 }
 

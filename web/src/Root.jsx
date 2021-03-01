@@ -33,7 +33,6 @@ const Root = ({ setMobile, reset, setWebSocket, recv }) => {
     }
 
     ws.onmessage = evt => {
-      console.log('ws received: ' + evt.data)
       const data = JSON.parse(evt.data)
       if (data.type === 'scoreBackup') {
         saveScoreBackup(data.content)

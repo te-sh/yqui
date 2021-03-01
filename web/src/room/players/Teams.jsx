@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Flipper } from 'react-flip-toolkit'
 import { Paper } from '@material-ui/core'
 import Team from './Team'
 import './Teams.scss'
@@ -37,9 +36,7 @@ const Teams = ({ className, dispTeams }) => {
 
   return (
     <Paper className={className}>
-      <Flipper flipKey={dispTeams} className="teams-flip">
-        {dispTeams.map(teamComponent)}
-      </Flipper>
+      {dispTeams.map(teamComponent)}
     </Paper>
   )
 }
