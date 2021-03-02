@@ -16,6 +16,12 @@ export const selectors = {
   masterDisplay: {
     name: Selector('.room .master-display .master-name')
   },
+  chat: {
+    messages: Selector('.room .messages .message'),
+    lastMessage: Selector('.room .messages .message:last-child .message-body'),
+    chatText: Selector('.room .chat .chat-text input'),
+    sendChatButton: Selector('.room .chat .send-chat-button')
+  },
   box: {
     teams: Selector('.room .team'),
     team0: Selector('.room .team').nth(0),
@@ -35,9 +41,6 @@ export const selectors = {
     player: Selector('.room .subactions .player-subactions'),
     master: Selector('.room .subactions .master-subactions'),
     assign: Selector('.room .subactions .assign-subactions')
-  },
-  chat: {
-    lastMessage: Selector('.room .messages .message:last-child .message-body')
   },
   dialog: {
     enterRoom: {
