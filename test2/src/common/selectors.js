@@ -24,7 +24,9 @@ export const selectors = {
     player: Selector('.room .actions .player-actions'),
     master: Selector('.room .actions .master-actions'),
     observer: Selector('.room .actions .observer-actions'),
-    assign: Selector('.room .actions .assign-actions')
+    assign: Selector('.room .actions .assign-actions'),
+    endAssignButton: Selector('.room .actions .assign-actions .end-assign-button'),
+    cancelAssignButton: Selector('.room .actions .assign-actions .cancel-assign-button')
   },
   subactions: {
     player: Selector('.room .subactions .player-subactions'),
