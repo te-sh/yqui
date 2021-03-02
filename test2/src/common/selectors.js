@@ -5,13 +5,6 @@ export const selectors = {
   rooms: {
     row0: Selector('.rooms-table tbody tr').nth(0)
   },
-  box: {
-    teams: Selector('.room .team'),
-    team0: Selector('.room .team').nth(0),
-    team1: Selector('.room .team').nth(1),
-    players0: Selector('.room .team').nth(0).find('.players .player'),
-    players1: Selector('.room .team').nth(1).find('.players .player')
-  },
   topbar: {
     appName: Selector('header .app-name'),
     assignButton: Selector('header .begin-assign-button'),
@@ -19,6 +12,16 @@ export const selectors = {
     masterButton: Selector('header .toggle-master-button'),
     observerButton: Selector('header .toggle-observer-button'),
     leaveButton: Selector('header .leave-room-button')
+  },
+  masterDisplay: {
+    name: Selector('.room .master-display .master-name')
+  },
+  box: {
+    teams: Selector('.room .team'),
+    team0: Selector('.room .team').nth(0),
+    team1: Selector('.room .team').nth(1),
+    players0: Selector('.room .team').nth(0).find('.players .player'),
+    players1: Selector('.room .team').nth(1).find('.players .player')
   },
   actions: {
     player: Selector('.room .actions .player-actions'),
