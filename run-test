@@ -1,0 +1,7 @@
+#! /bin/sh
+
+cd `dirname $0`
+cd test2
+
+docker-compose pull
+docker-compose run test yarn test --reporter html:./report/index.html
