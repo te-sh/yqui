@@ -26,3 +26,18 @@ services:
     depends_on:
       - web
       - ws
+  test:
+    build:
+      context: './test'
+    image: tesh/yqui-e2e-test
+    volumes:
+      - './test:/home/node/test'
+      - '/home/node/test/node_modules'
+    environment:
+      - TEST_SERVER
+    cap_add:
+      - SYS_ADMIN
+    shm_size: 1024m
+    command: ['yarn', 'test']
+    profiles:
+      - test
