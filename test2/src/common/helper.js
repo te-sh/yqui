@@ -63,3 +63,39 @@ export const leaveRoom = async (index, options = {}) => {
     await t.switchToWindow(current)
   }
 }
+
+export const correct = async (playerIndex, masterIndex, options = {}) => {
+  const current = await t.getCurrentWindow()
+
+  const master = t.ctx.windows[masterIndex]
+  const player = t.ctx.windows[playerIndex]
+  const times = options.times || 1
+
+  for (let i = 0; i < times; ++i) {
+    await t
+      .switchToWindow(player)
+      .click(s.actions.answerButton)
+      .switchToWindow(master)
+      .click(s.actions.correctButton)
+  }
+
+  await t.switchToWindow(current)
+}
+
+export const wrong = async (playerIndex, masterIndex, options = {}) => {
+  const current = await t.getCurrentWindow()
+
+  const master = t.ctx.windows[masterIndex]
+  const player = t.ctx.windows[playerIndex]
+  const times = options.times || 1
+
+  for (let i = 0; i < times; ++i) {
+    await t
+      .switchToWindow(player)
+      .click(s.actions.answerButton)
+      .switchToWindow(master)
+      .click(s.actions.wrongButton)
+  }
+
+  await t.switchToWindow(current)
+}

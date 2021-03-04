@@ -34,13 +34,17 @@ export const selectors = {
     master: Selector('.room .actions .master-actions'),
     observer: Selector('.room .actions .observer-actions'),
     assign: Selector('.room .actions .assign-actions'),
+    answerButton: Selector('.room .actions .player-actions .answer-button'),
+    correctButton: Selector('.room .actions .master-actions .correct-button'),
+    wrongButton: Selector('.room .actions .master-actions .wrong-button'),
     endAssignButton: Selector('.room .actions .assign-actions .end-assign-button'),
     cancelAssignButton: Selector('.room .actions .assign-actions .cancel-assign-button')
   },
   subactions: {
     player: Selector('.room .subactions .player-subactions'),
     master: Selector('.room .subactions .master-subactions'),
-    assign: Selector('.room .subactions .assign-subactions')
+    assign: Selector('.room .subactions .assign-subactions'),
+    allClearButton: Selector('.room .subactions .master-subactions .all-clear-button')
   },
   dialog: {
     enterRoom: {
