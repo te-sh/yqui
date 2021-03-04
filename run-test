@@ -1,7 +1,8 @@
 #! /bin/sh
 
 cd `dirname $0`
-git pull
 
-docker-compose pull
-docker-compose run test yarn test --reporter html:./report/index.html
+git pull
+docker-compose --file docker-compose.prod.yml pull test
+
+docker-compose --file docker-compose.prod.yml run test yarn test --reporter html:./report/index.html

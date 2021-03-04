@@ -1,5 +1,7 @@
 #! /bin/sh
 
+cd `dirname $0`
+
 args=$(getopt -o '' -l skip-pull,skip-yqui,skip-test -- "$@") || exit 1
 eval "set -- $args"
 
@@ -14,18 +16,18 @@ done
 
 if [ -z $SKIP_PULL ]; then
     git pull
-    docker-compose --file docker-compose.prod.yml pull
+    docker-compose --file docker-compose.prod.yml pull ws web proxy
 fi
 
 if [ -z $SKIP_YQUI ]; then
     COMPOSE_PROJECT_NAME=yqui PORT=8085 docker-compose --file docker-compose.prod.yml down
-    COMPOSE_PROJECT_NAME=yqui PORT=8085 docker-compose --file docker-compose.prod.yml up -d ws web proxy
+    COMPOSE_PROJECT_NAME=yqui PORT=8085 docker-compose --file docker-compose.prod.yml up ws web proxy -d
 fi
 
 if [ -z $SKIP_TEST ]; then
     rm -f ws/log/test.log
     COMPOSE_PROJECT_NAME=test PORT=8800 docker-compose --file docker-compose.prod.yml down
-    COMPOSE_PROJECT_NAME=test PORT=8800 docker-compose --file docker-compose.prod.yml up -d ws web proxy
+    COMPOSE_PROJECT_NAME=test PORT=8800 docker-compose --file docker-compose.prod.yml up ws web proxy -d
 fi
 
 docker system prune --volumes --force
