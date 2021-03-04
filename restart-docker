@@ -27,7 +27,7 @@ fi
 if [ -z $SKIP_TEST ]; then
     rm -f ws/log/test.log
     COMPOSE_PROJECT_NAME=test PORT=8800 docker-compose --file docker-compose.prod.yml down
-    COMPOSE_PROJECT_NAME=test PORT=8800 docker-compose --file docker-compose.prod.yml up -d ws web proxy -d
+    COMPOSE_PROJECT_NAME=test PORT=8800 docker-compose --file docker-compose.prod.yml up -d ws web proxy
 fi
 
 docker system prune --volumes --force
