@@ -2,7 +2,7 @@ import { t } from 'testcafe'
 import { selectors as s, mui } from './selectors'
 
 // constant variables
-const yquiUrl = 'http://ec2-13-115-155-138.ap-northeast-1.compute.amazonaws.com:8800/'
+const yquiUrl = process.env.TEST_TARGET || 'http://proxy:8080/'
 const numWindows = 5
 const windowWidth = 1440
 const windowHeight = 900

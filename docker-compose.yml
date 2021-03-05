@@ -34,10 +34,9 @@ services:
       - './test:/home/node/test'
       - '/home/node/test/node_modules'
     environment:
-      - TEST_SERVER
+      - TEST_TARGET
     cap_add:
       - SYS_ADMIN
     shm_size: 1024m
-    command: ['yarn', 'test']
-    profiles:
-      - test
+    tty: true
+    command: ['/bin/sh']
