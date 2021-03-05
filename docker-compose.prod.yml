@@ -19,6 +19,7 @@ services:
     environment:
       - COMPOSE_PROJECT_NAME
     restart: on-failure
+    command: ['./app']
   proxy:
     image: nginx:1.19.7-alpine
     ports:
@@ -40,4 +41,4 @@ services:
     cap_add:
       - SYS_ADMIN
     shm_size: 1024m
-    command: ['yarn', 'test']
+    command: ['yarn', 'test', '--reporter', 'html:./report/index.html']

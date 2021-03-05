@@ -9,6 +9,7 @@ services:
       - './web:/home/node/app'
       - '/home/node/app/node_modules'
     stdin_open: true
+    command: ['yarn', 'start']
   ws:
     build:
       context: './ws'
@@ -17,6 +18,7 @@ services:
       - COMPOSE_PROJECT_NAME
     volumes:
       - './ws:/app'
+    command: ['air', '-c', '.air.toml']
   proxy:
     image: nginx:1.19.7-alpine
     ports:

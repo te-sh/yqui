@@ -13,5 +13,3 @@ RUN apk update \
  && rm -rf /var/cache/apk/*
 
 ENV YQUI_ENV dev
-
-CMD ["air", "-c", ".air.toml"]

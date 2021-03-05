@@ -31,5 +31,3 @@ WORKDIR $APPDIR
 COPY --from=builder --chown=yqui:yqui /app/app .
 
 ENV YQUI_ENV prod
-
-CMD ["./app"]
