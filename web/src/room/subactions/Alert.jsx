@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Box, Typography } from '@material-ui/core'
 import classNames from 'classnames'
 import { chanceText } from '../../lib/rule'
+import './Alert.scss'
 
 const Alert = ({ className, hidden, alert, mobile, rule, numPlayers }) => {
   const alertText = (() => {

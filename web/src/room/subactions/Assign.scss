@@ -1,9 +1,11 @@
-.assign-subactions {
-  .num-teams {
-    width: 4em;
-  }
+.subactions {
+  .subactions-content.assign-subactions {
+    .num-teams {
+      width: 4em;
+    }
 
-  .MuiButtonBase-root {
-    margin-left: 5px;
+    .MuiButtonBase-root.random-assign-button {
+      margin-left: 20px;
+    }
   }
 }

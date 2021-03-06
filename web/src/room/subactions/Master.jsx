@@ -11,6 +11,7 @@ import {
   SEND_RULE, SEND_TOGGLE_TIMER
 } from '../../lib/send'
 import { clearEditBoards } from '../../redux/actions'
+import './Master.scss'
 
 const Master = ({ className, hidden, rule, timer, clearEditBoards }) => {
   const onAllClear = () => {

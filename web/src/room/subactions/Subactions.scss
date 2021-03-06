@@ -15,23 +15,14 @@
       visibility: hidden;
     }
 
-    &.alert-subactions {
-      background-color: #ffcdd2;
-    }
-
-    .win-top-button {
-      margin-left: 20px;
-    }
-
-    .lose-bottom-button {
-      margin-left: 5px;
-    }
-
     .timer {
       display: flex;
-      margin-left: 20px;
       align-items: center;
       justify-content: center;
+
+      &:not(:first-child) {
+        margin-left: 20px;
+      }
 
       .timer-remaining {
         font-family: 'DSEG7Classic';
@@ -44,8 +35,8 @@
       }
     }
 
-    .show-point {
-      margin-left: 20px;
+    .MuiButtonBase-root:not(:first-child) {
+      margin-left: 5px;
     }
 
     .MuiFormControlLabel-label {

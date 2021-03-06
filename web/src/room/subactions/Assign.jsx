@@ -24,14 +24,16 @@ const Assign = ({ className, hidden, numPlayers, rule, dispTeams }) => {
     <Box className="team-component">
       <FormLabel>チーム数</FormLabel>
       <TextField id="numTeams" type="number" className="num-teams"
-                 inputProps={{ style: { textAlign: 'center' } }}
+                 inputProps={{ min: 1, style: { textAlign: 'center' } }}
                  value={numTeams}
                  onChange={evt => setNumTeams(evt.target.value)} />
-      <Button variant="outlined" disabled={!validNumTeams}
+      <Button variant="outlined" className="change-num-teams-button"
+              disabled={!validNumTeams(numTeams)}
               onClick={() => changeNumTeams(parseInt(numTeams))}>
         チーム数変更
       </Button>
-      <Button variant="outlined" disabled={!validNumTeams(numTeams)}
+      <Button variant="outlined" className="random-assign-button"
+              disabled={!validNumTeams(numTeams)}
               onClick={randomAssignTeams}>
         ランダム配置
       </Button>
