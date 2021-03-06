@@ -26,8 +26,10 @@ export const selectors = {
     teams: Selector('.room .team'),
     team0: Selector('.room .team').nth(0),
     team1: Selector('.room .team').nth(1),
+    team2: Selector('.room .team').nth(2),
     players0: Selector('.room .team').nth(0).find('.players .player'),
-    players1: Selector('.room .team').nth(1).find('.players .player')
+    players1: Selector('.room .team').nth(1).find('.players .player'),
+    players2: Selector('.room .team').nth(2).find('.players .player')
   },
   actions: {
     visible: {
@@ -56,6 +58,10 @@ export const selectors = {
     },
     master: {
       allClear: Selector('.room .subactions .master-subactions .all-clear-button')
+    },
+    assign: {
+      numTeams: Selector('.room .subactions .assign-subactions .num-teams'),
+      changeNumTeams: Selector('.room .subactions .assign-subactions .change-num-teams-button')
     }
   },
   dialog: {
