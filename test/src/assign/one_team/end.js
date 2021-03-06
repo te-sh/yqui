@@ -27,6 +27,11 @@ test('player box', async t => {
     .expect(s.box.players0.count).eql(2)
     .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた2')
     .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた3')
+  await t.switchToWindow(t.ctx.w1)
+    .expect(s.box.teams.count).eql(1)
+    .expect(s.box.players0.count).eql(2)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた2')
+    .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた3')
 })
 
 test('actions, subactions', async t => {

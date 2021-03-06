@@ -14,8 +14,14 @@ const setup = async t => {
     .click(s.dialog.rule.team.active)
     .click(s.dialog.rule.submit)
     .click(s.topbar.assign)
-    .dragToElement(s.box.players0.nth(0), s.box.team1.find('.players'))
+    .typeText(s.subactions.assign.numTeams, '2', { replace: true })
+    .click(s.subactions.assign.changeNumTeams)
+    .dragToElement(s.box.players0.nth(0), s.box.team1)
+    .click(s.actions.assign.endAssign)
+    .click(s.topbar.assign)
+    .dragToElement(s.box.players0.nth(0), s.box.team2.find('.players'))
     .dragToElement(s.box.players1.nth(0), s.box.team0.find('.players'))
+    .dragToElement(s.box.players2.nth(0), s.box.team1.find('.players'))
     .click(s.actions.assign.cancelAssign)
 }
 
@@ -23,15 +29,17 @@ fixture('assign/one_team/cancel').beforeEach(setup)
 
 test('player box', async t => {
   await t
-    .expect(s.box.teams.count).eql(1)
-    .expect(s.box.players0.count).eql(2)
-    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた1')
-    .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた2')
+    .expect(s.box.teams.count).eql(2)
+    .expect(s.box.players0.count).eql(1)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた2')
+    .expect(s.box.players1.count).eql(1)
+    .expect(s.box.players1.nth(0).find('.player-name').innerText).eql('ゆーた1')
   await t.switchToWindow(t.ctx.w1)
-    .expect(s.box.teams.count).eql(1)
-    .expect(s.box.players0.count).eql(2)
-    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた1')
-    .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた2')
+    .expect(s.box.teams.count).eql(2)
+    .expect(s.box.players0.count).eql(1)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた2')
+    .expect(s.box.players1.count).eql(1)
+    .expect(s.box.players1.nth(0).find('.player-name').innerText).eql('ゆーた1')
 })
 
 test('actions, subactions', async t => {
