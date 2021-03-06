@@ -29,8 +29,8 @@ test('player box', async t => {
 test('actions, subactions', async t => {
   await t
     .expect(s.actions.visible.assign.exists).ok()
-    .expect(s.actions.visible.assign.find('.team-component').exists).notOk()
     .expect(s.subactions.visible.assign.exists).ok()
+    .expect(s.subactions.visible.assign.find('.team-component').exists).notOk()
 })
 
 test('tobar buttons', async t => {

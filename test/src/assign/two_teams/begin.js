@@ -14,20 +14,27 @@ const setup = async t => {
     .click(s.dialog.rule.team.active)
     .click(s.dialog.rule.submit)
     .click(s.topbar.assign)
+    .typeText(s.subactions.assign.numTeams, '2', { replace: true })
+    .click(s.subactions.assign.changeNumTeams)
+    .dragToElement(s.box.players0.nth(0), s.box.team1)
+    .click(s.actions.assign.endAssign)
+    .click(s.topbar.assign)
 }
 
-fixture('assign/one_team/begin').beforeEach(setup)
+fixture('assign/two_teams/begin').beforeEach(setup)
 
 test('player box', async t => {
   await t
-    .expect(s.box.teams.count).eql(2)
+    .expect(s.box.teams.count).eql(3)
     .expect(s.box.team0.find('.team-title').innerText).eql('チーム1')
-    .expect(s.box.players0.count).eql(2)
-    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた1')
-    .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた2')
-    .expect(s.box.team1.find('.team-title').innerText).eql('観戦席')
+    .expect(s.box.players0.count).eql(1)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた2')
+    .expect(s.box.team1.find('.team-title').innerText).eql('チーム2')
     .expect(s.box.players1.count).eql(1)
-    .expect(s.box.players1.nth(0).find('.player-name').innerText).eql('ゆーた3')
+    .expect(s.box.players1.nth(0).find('.player-name').innerText).eql('ゆーた1')
+    .expect(s.box.team2.find('.team-title').innerText).eql('観戦席')
+    .expect(s.box.players2.count).eql(1)
+    .expect(s.box.players2.nth(0).find('.player-name').innerText).eql('ゆーた3')
 })
 
 test('actions, subactions', async t => {
@@ -35,7 +42,7 @@ test('actions, subactions', async t => {
     .expect(s.actions.visible.assign.exists).ok()
     .expect(s.subactions.visible.assign.exists).ok()
     .expect(s.subactions.visible.assign.find('.team-component').exists).ok()
-    .expect(s.subactions.assign.numTeams.find('input').getAttribute('value')).eql('1')
+    .expect(s.subactions.assign.numTeams.find('input').getAttribute('value')).eql('2')
 })
 
 test('tobar buttons', async t => {
