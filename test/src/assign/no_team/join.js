@@ -8,11 +8,11 @@ const setup = async t => {
   await enterRoom(2)
   await enterRoom(3, { observer: true })
   await t
-    .click(s.topbar.masterButton)
-    .click(s.topbar.assignButton)
+    .click(s.topbar.master)
+    .click(s.topbar.assign)
 }
 
-fixture('assign/inactive/join').beforeEach(setup)
+fixture('assign/no_team/join').beforeEach(setup)
 
 test('join player', async t => {
   await enterRoom(4)

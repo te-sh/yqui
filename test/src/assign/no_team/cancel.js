@@ -8,14 +8,14 @@ const setup = async t => {
   await enterRoom(2)
   await enterRoom(3, { observer: true })
   await t
-    .click(s.topbar.masterButton)
-    .click(s.topbar.assignButton)
+    .click(s.topbar.master)
+    .click(s.topbar.assign)
     .dragToElement(s.box.players0.nth(0), s.box.team1.find('.players'))
     .dragToElement(s.box.players1.nth(0), s.box.team0.find('.players'))
-    .click(s.actions.cancelAssignButton)
+    .click(s.actions.assign.cancelAssign)
 }
 
-fixture('assign/inactive/cancel').beforeEach(setup)
+fixture('assign/no_team/cancel').beforeEach(setup)
 
 test('player box', async t => {
   await t
@@ -27,17 +27,17 @@ test('player box', async t => {
 
 test('actions, subactions', async t => {
   await t
-    .expect(s.actions.master.filterVisible().exists).ok()
-    .expect(s.subactions.master.filterVisible().exists).ok()
+    .expect(s.actions.visible.master.exists).ok()
+    .expect(s.subactions.visible.master.exists).ok()
 })
 
 test('tobar buttons', async t => {
   await t
-    .expect(s.topbar.assignButton.hasAttribute('disabled')).notOk()
-    .expect(s.topbar.assignButton.hasClass(mui.iconButton.inherit)).ok()
-    .expect(s.topbar.ruleButton.hasAttribute('disabled')).notOk()
-    .expect(s.topbar.ruleButton.hasClass(mui.iconButton.inherit)).ok()
-    .expect(s.topbar.masterButton.hasAttribute('disabled')).notOk()
-    .expect(s.topbar.masterButton.hasClass(mui.iconButton.secondary)).ok()
-    .expect(s.topbar.observerButton.hasAttribute('disabled')).ok()
+    .expect(s.topbar.assign.hasAttribute('disabled')).notOk()
+    .expect(s.topbar.assign.hasClass(mui.iconButton.inherit)).ok()
+    .expect(s.topbar.rule.hasAttribute('disabled')).notOk()
+    .expect(s.topbar.rule.hasClass(mui.iconButton.inherit)).ok()
+    .expect(s.topbar.master.hasAttribute('disabled')).notOk()
+    .expect(s.topbar.master.hasClass(mui.iconButton.secondary)).ok()
+    .expect(s.topbar.observer.hasAttribute('disabled')).ok()
 })

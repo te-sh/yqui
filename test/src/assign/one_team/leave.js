@@ -9,11 +9,15 @@ const setup = async t => {
   await enterRoom(3, { observer: true })
   await enterRoom(4, { observer: true })
   await t
-    .click(s.topbar.masterButton)
-    .click(s.topbar.assignButton)
+    .click(s.topbar.master)
+    .click(s.topbar.rule)
+    .click(s.dialog.rule.tab.team)
+    .click(s.dialog.rule.team.active)
+    .click(s.dialog.rule.submit)
+    .click(s.topbar.assign)
 }
 
-fixture('assign/inactive/leave').beforeEach(setup)
+fixture('assign/one_team/leave').beforeEach(setup)
 
 test('leave player', async t => {
   const player0 = await s.box.players1.nth(0).find('.player-name').innerText

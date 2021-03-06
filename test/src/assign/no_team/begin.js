@@ -8,11 +8,11 @@ const setup = async t => {
   await enterRoom(2)
   await enterRoom(3, { observer: true })
   await t
-    .click(s.topbar.masterButton)
-    .click(s.topbar.assignButton)
+    .click(s.topbar.master)
+    .click(s.topbar.assign)
 }
 
-fixture('assign/inactive/begin').beforeEach(setup)
+fixture('assign/no_team/begin').beforeEach(setup)
 
 test('player box', async t => {
   await t
@@ -28,15 +28,15 @@ test('player box', async t => {
 
 test('actions, subactions', async t => {
   await t
-    .expect(s.actions.assign.filterVisible().exists).ok()
-    .expect(s.actions.assign.find('.team-component').exists).notOk()
-    .expect(s.subactions.assign.filterVisible().exists).ok()
+    .expect(s.actions.visible.assign.exists).ok()
+    .expect(s.actions.visible.assign.find('.team-component').exists).notOk()
+    .expect(s.subactions.visible.assign.exists).ok()
 })
 
 test('tobar buttons', async t => {
   await t
-    .expect(s.topbar.assignButton.hasAttribute('disabled')).ok()
-    .expect(s.topbar.ruleButton.hasAttribute('disabled')).ok()
-    .expect(s.topbar.masterButton.hasAttribute('disabled')).ok()
-    .expect(s.topbar.observerButton.hasAttribute('disabled')).ok()
+    .expect(s.topbar.assign.hasAttribute('disabled')).ok()
+    .expect(s.topbar.rule.hasAttribute('disabled')).ok()
+    .expect(s.topbar.master.hasAttribute('disabled')).ok()
+    .expect(s.topbar.observer.hasAttribute('disabled')).ok()
 })

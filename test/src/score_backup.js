@@ -5,7 +5,7 @@ const setup = async t => {
   await createWindows(2)
   await enterRoom(0)
   await enterRoom(1)
-  await t.click(s.topbar.masterButton)
+  await t.click(s.topbar.master)
   await correct(1, 0, { times: 2 })
   await wrong(1, 0, { times: 1 })
 }
@@ -23,7 +23,7 @@ test('join', async t => {
 test('join after all clear', async t => {
   await leaveRoom(1)
   await t
-    .click(s.subactions.allClearButton)
+    .click(s.subactions.master.allClear)
   await enterRoom(1)
   await t
     .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('0')

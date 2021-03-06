@@ -29,20 +29,21 @@ export const createWindows = async (num = numWindows) => {
 export const enterRoom = async (index, options = {}) => {
   const current = await t.getCurrentWindow()
 
-  const name = options.name || `ゆーた${index}`
-
   await t.switchToWindow(t.ctx.windows[index])
     .click(s.rooms.row0.find('.enter-room-button button'))
-    .typeText(s.dialog.enterRoom.name, name, { replace: true })
+    .wait(100)
 
-  const observerCheck = s.dialog.enterRoom.observer
-  if (options.observer ^ await observerCheck.hasClass(mui.checkbox.checked)) {
-    await t.click(observerCheck)
+  const name = options.name || `ゆーた${index}`
+  await t.typeText(s.dialog.enterRoom.name, name, { replace: true })
+
+  const observer = s.dialog.enterRoom.observer
+  if (options.observer ^ await observer.hasClass(mui.checkbox.checked)) {
+    await t.click(observer)
   }
 
-  const chatAnswerCheck = s.dialog.enterRoom.chatAnswer
-  if (options.chatAnswer ^ chatAnswerCheck.hasClass(mui.checkbox.checked)) {
-    await t.click(chatAnswerCheck)
+  const chatAnswer = s.dialog.enterRoom.chatAnswer
+  if (options.chatAnswer ^ await chatAnswer.hasClass(mui.checkbox.checked)) {
+    await t.click(chatAnswer)
   }
 
   await t.click(s.dialog.enterRoom.submit)
@@ -56,7 +57,7 @@ export const leaveRoom = async (index, options = {}) => {
   const current = await t.getCurrentWindow()
 
   await t.switchToWindow(t.ctx.windows[index])
-    .click(s.topbar.leaveButton)
+    .click(s.topbar.leave)
     .click(s.dialog.leaveRoom.submit)
 
   if (!options.switchWindow) {
@@ -74,9 +75,9 @@ export const correct = async (playerIndex, masterIndex, options = {}) => {
   for (let i = 0; i < times; ++i) {
     await t
       .switchToWindow(player)
-      .click(s.actions.answerButton)
+      .click(s.actions.player.answer)
       .switchToWindow(master)
-      .click(s.actions.correctButton)
+      .click(s.actions.master.correct)
   }
 
   await t.switchToWindow(current)
@@ -92,9 +93,9 @@ export const wrong = async (playerIndex, masterIndex, options = {}) => {
   for (let i = 0; i < times; ++i) {
     await t
       .switchToWindow(player)
-      .click(s.actions.answerButton)
+      .click(s.actions.player.answer)
       .switchToWindow(master)
-      .click(s.actions.wrongButton)
+      .click(s.actions.master.wrong)
   }
 
   await t.switchToWindow(current)

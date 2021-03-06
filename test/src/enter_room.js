@@ -19,7 +19,7 @@ test('name', async t => {
 test('not observer', async t => {
   await enterRoom(0)
   await t
-    .expect(s.actions.player.exists).ok()
+    .expect(s.actions.visible.player.exists).ok()
 
   await leaveRoom(0)
   await t
@@ -28,9 +28,9 @@ test('not observer', async t => {
 })
 
 test('observer', async t => {
-  await enterRoom(0)
+  await enterRoom(0, { observer: true })
   await t
-    .expect(s.actions.observer.exists).ok()
+    .expect(s.actions.visible.observer.exists).ok()
 
   await leaveRoom(0)
   await t
@@ -39,23 +39,23 @@ test('observer', async t => {
 })
 
 test('not chat answer', async t => {
-  await enterRoom(0, { chatAnswer: true })
+  await enterRoom(0)
   await t
-    .expect(s.box.players0.nth(0).find('.player-name .chat-mark').exists).ok()
-
-  await leaveRoom(0)
-  await t
-    .click(s.rooms.row0.find('.enter-room-button button'))
-    .expect(s.dialog.enterRoom.chatAnswer.hasClass(mui.checkbox.checked)).ok()
-})
-
-test('chat answer', async t => {
-  await enterRoom(0, { chatAnswer: true })
-  await t
-    .expect(s.box.players0.nth(0).find('.player-name .chat-mark').exists).ok()
+    .expect(s.box.players0.nth(0).find('.player-name .chat-mark').innerText).eql('')
 
   await leaveRoom(0)
   await t
     .click(s.rooms.row0.find('.enter-room-button button'))
     .expect(s.dialog.enterRoom.chatAnswer.hasClass(mui.checkbox.checked)).notOk()
+})
+
+test('chat answer', async t => {
+  await enterRoom(0, { chatAnswer: true })
+  await t
+    .expect(s.box.players0.nth(0).find('.player-name .chat-mark').innerText).eql('©')
+
+  await leaveRoom(0)
+  await t
+    .click(s.rooms.row0.find('.enter-room-button button'))
+    .expect(s.dialog.enterRoom.chatAnswer.hasClass(mui.checkbox.checked)).ok()
 })

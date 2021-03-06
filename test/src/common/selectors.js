@@ -7,11 +7,11 @@ export const selectors = {
   },
   topbar: {
     appName: Selector('header .app-name'),
-    assignButton: Selector('header .begin-assign-button'),
-    ruleButton: Selector('header .open-rule-button'),
-    masterButton: Selector('header .toggle-master-button'),
-    observerButton: Selector('header .toggle-observer-button'),
-    leaveButton: Selector('header .leave-room-button')
+    assign: Selector('header .begin-assign-button'),
+    rule: Selector('header .open-rule-button'),
+    master: Selector('header .toggle-master-button'),
+    observer: Selector('header .toggle-observer-button'),
+    leave: Selector('header .leave-room-button')
   },
   masterDisplay: {
     name: Selector('.room .master-display .master-name')
@@ -30,21 +30,33 @@ export const selectors = {
     players1: Selector('.room .team').nth(1).find('.players .player')
   },
   actions: {
-    player: Selector('.room .actions .player-actions'),
-    master: Selector('.room .actions .master-actions'),
-    observer: Selector('.room .actions .observer-actions'),
-    assign: Selector('.room .actions .assign-actions'),
-    answerButton: Selector('.room .actions .player-actions .answer-button'),
-    correctButton: Selector('.room .actions .master-actions .correct-button'),
-    wrongButton: Selector('.room .actions .master-actions .wrong-button'),
-    endAssignButton: Selector('.room .actions .assign-actions .end-assign-button'),
-    cancelAssignButton: Selector('.room .actions .assign-actions .cancel-assign-button')
+    visible: {
+      player: Selector('.room .actions .player-actions').filterVisible(),
+      master: Selector('.room .actions .master-actions').filterVisible(),
+      observer: Selector('.room .actions .observer-actions').filterVisible(),
+      assign: Selector('.room .actions .assign-actions').filterVisible()
+    },
+    player: {
+      answer: Selector('.room .actions .player-actions .answer-button')
+    },
+    master: {
+      correct: Selector('.room .actions .master-actions .correct-button'),
+      wrong: Selector('.room .actions .master-actions .wrong-button')
+    },
+    assign: {
+      endAssign: Selector('.room .actions .assign-actions .end-assign-button'),
+      cancelAssign: Selector('.room .actions .assign-actions .cancel-assign-button')
+    }
   },
   subactions: {
-    player: Selector('.room .subactions .player-subactions'),
-    master: Selector('.room .subactions .master-subactions'),
-    assign: Selector('.room .subactions .assign-subactions'),
-    allClearButton: Selector('.room .subactions .master-subactions .all-clear-button')
+    visible: {
+      player: Selector('.room .subactions .player-subactions').filterVisible(),
+      master: Selector('.room .subactions .master-subactions').filterVisible(),
+      assign: Selector('.room .subactions .assign-subactions').filterVisible()
+    },
+    master: {
+      allClear: Selector('.room .subactions .master-subactions .all-clear-button')
+    }
   },
   dialog: {
     enterRoom: {
@@ -52,6 +64,18 @@ export const selectors = {
       observer: Selector('.enter-room-dialog .enter-room .observer-check'),
       chatAnswer: Selector('.enter-room-dialog .enter-room .chat-answer-check'),
       submit: Selector('.enter-room-dialog .submit')
+    },
+    rule: {
+      tab: {
+        normal: Selector('.rule-dialog .normal-rule-tab'),
+        team: Selector('.rule-dialog .team-rule-tab'),
+        board: Selector('.rule-dialog .board-rule-tab'),
+        other: Selector('.rule-dialog .other-rule-tab')
+      },
+      team: {
+        active: Selector('.rule-dialog .team-rule .active-check')
+      },
+      submit: Selector('.rule-dialog .submit')
     },
     leaveRoom: {
       submit: Selector('.leave-room-dialog .submit')
