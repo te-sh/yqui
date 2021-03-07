@@ -28,9 +28,12 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 			}
 		}
 		if rule.Other.PassQuiz {
+			if score.ExceedWinPoint(rule.Player.WinLoseRule, rule.Player.Comprehensive) {
+				score.PassSeat = !score.PassSeat
+			}
 			for otherId, otherScore := range ss.Scores {
 				if otherId != id && otherScore.PassSeat {
-					otherScore.Point = 0
+					otherScore.Point = rule.Player.InitPoint
 					otherScore.PassSeat = false
 				}
 			}
@@ -79,13 +82,13 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 
 func (ss *ScoreSet) Correct(id int64, rule *Rule, sound *Sound) {
 	ss.SetCorrect(id, rule)
-	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive, rule.Other.PassQuiz)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive)
 	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
 }
 
 func (ss *ScoreSet) Wrong(id int64, rule *Rule, sound *Sound) {
 	ss.SetWrong(id, rule)
-	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive, rule.Other.PassQuiz)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive)
 	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
 }
 
@@ -139,7 +142,7 @@ func (ss *ScoreSet) CalcTeams(teams Teams, playerSS *ScoreSet, rule *Rule, sound
 		}
 	}
 	if sound != nil {
-		sound.Win = ss.SetWin(rule.Team.WinLoseRule, nil, false) || sound.Win
+		sound.Win = ss.SetWin(rule.Team.WinLoseRule, nil) || sound.Win
 		sound.Lose = ss.SetLose(rule.Team.WinLoseRule) || sound.Lose
 	}
 }
@@ -154,7 +157,7 @@ func (ss *ScoreSet) CorrectBoard(ids []int64, first int64, rule *Rule, sound *So
 			sound.Correct = true
 		}
 	}
-	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive, rule.Other.PassQuiz)
+	sound.Win = ss.SetWin(rule.Player.WinLoseRule, rule.Player.Comprehensive)
 }
 
 func (ss *ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Sound) {

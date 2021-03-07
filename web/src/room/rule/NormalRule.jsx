@@ -115,9 +115,11 @@ const NormalRule = ({ rule, changeRule }) => {
           勝ち抜け
         </FormLabel>
         <FormGroup row={true}>
-          <Checkbox color="default" checked={rule.winPoint.active}
+          <Checkbox color="default" className="win-point-active-check"
+                    checked={rule.winPoint.active}
                     onChange={evt => changeWinPointActive(evt.target.checked)} />
           <TextField label="ポイント" type="number"
+                     className="win-point-value"
                      disabled={!rule.winPoint.active}
                      InputProps={{ required: true }}
                      value={rule.winPoint.value}
@@ -145,9 +147,11 @@ const NormalRule = ({ rule, changeRule }) => {
           失格
         </FormLabel>
         <FormGroup row={true}>
-          <Checkbox color="default" checked={rule.losePoint.active}
+          <Checkbox color="default" className="lose-point-active"
+                    checked={rule.losePoint.active}
                     onChange={evt => changeLosePointActive(evt.target.checked)} />
           <TextField label="ポイント" type="number"
+                     className="lose-point-value"
                      disabled={!rule.losePoint.active}
                      InputProps={{ required: true }}
                      value={rule.losePoint.value}
@@ -162,9 +166,11 @@ const NormalRule = ({ rule, changeRule }) => {
               <MenuItem value={false}>以下</MenuItem>
             </Select>
           </FormGroup>
-          <Checkbox color="default" checked={rule.loseBatsu.active}
+          <Checkbox color="default" className="lose-batsu-active"
+                    checked={rule.loseBatsu.active}
                     onChange={evt => changeLoseBatsuActive(evt.target.checked)} />
           <TextField label="バツ" type="number"
+                     className="lose-batsu-value"
                      disabled={!rule.loseBatsu.active}
                      InputProps={{ required: true }}
                      value={rule.loseBatsu.value}

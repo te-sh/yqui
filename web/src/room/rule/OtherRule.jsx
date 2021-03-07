@@ -28,7 +28,7 @@ const OtherRule = ({ rule, changeRule }) => {
       <FormGroup className="rule-group">
         <FormControlLabel
           control={
-            <Checkbox color="default"
+            <Checkbox color="default" className="pass-seat-check"
                       checked={rule.passQuiz}
                       onChange={evt => changePassQuiz(evt.target.checked)} />
           }

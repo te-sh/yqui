@@ -19,15 +19,12 @@ func (score *Score) ExceedWinPoint(rule WinLoseRule, comprehensive *Comprehensiv
 	return false
 }
 
-func (ss *ScoreSet) SetWin(rule WinLoseRule, comprehensive *ComprehensiveRule, passQuiz bool) (win bool) {
+func (ss *ScoreSet) SetWin(rule WinLoseRule, comprehensive *ComprehensiveRule) (win bool) {
 	var wins []*Score
 	for _, score := range ss.Scores {
 		if score.ExceedWinPoint(rule, comprehensive) {
-			if !passQuiz || score.PassSeat {
+			if !score.PassSeat {
 				wins = append(wins, score)
-				score.PassSeat = false
-			} else {
-				score.PassSeat = true
 			}
 		}
 	}

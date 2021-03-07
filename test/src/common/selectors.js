@@ -78,8 +78,25 @@ export const selectors = {
         board: Selector('.rule-dialog .board-rule-tab'),
         other: Selector('.rule-dialog .other-rule-tab')
       },
+      normal: {
+        winPoint: {
+          active: Selector('.rule-dialog .normal-rule .win-point-active'),
+          value: Selector('.rule-dialog .normal-rule .win-point-value')
+        },
+        losePoint: {
+          active: Selector('.rule-dialog .normal-rule .lose-point-active'),
+          value: Selector('.rule-dialog .normal-rule .lose-point-value')
+        },
+        loseBatsu: {
+          active: Selector('.rule-dialog .normal-rule .lose-batsu-active'),
+          value: Selector('.rule-dialog .normal-rule .lose-batsu-value')
+        }
+      },
       team: {
         active: Selector('.rule-dialog .team-rule .active-check')
+      },
+      other: {
+        passSeat: Selector('.rule-dialog .other-rule .pass-seat-check')
       },
       submit: Selector('.rule-dialog .submit')
     },
