@@ -24,6 +24,7 @@ type NormalRule struct {
 
 type SpecialCorrectRule struct {
 	ConsBonus bool           `json:"consBonus"`
+	PassQuiz  bool           `json:"passQuiz"`
 	Survival  ActiveAndValue `json:"survival"`
 }
 
@@ -57,7 +58,6 @@ type BoardRule struct {
 }
 
 type OtherRule struct {
-	PassQuiz bool       `json:"passQuiz"`
 	Timer    *TimerRule `json:"timer"`
 }
 
@@ -115,6 +115,7 @@ func NewNormalRule() *NormalRule {
 func NewSpecialCorrectRule() *SpecialCorrectRule {
 	rule := new(SpecialCorrectRule)
 	rule.ConsBonus = false
+	rule.PassQuiz = false
 	rule.Survival = ActiveAndValue{false, -1}
 	return rule
 }
@@ -160,7 +161,6 @@ func NewBoardRule() *BoardRule {
 
 func NewOtherRule() *OtherRule {
 	rule := new(OtherRule)
-	rule.PassQuiz = false
 	rule.Timer = NewTimerRule()
 	return rule
 }

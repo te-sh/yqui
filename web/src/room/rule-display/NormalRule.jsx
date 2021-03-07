@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { pointText, batsuText } from '../../lib/rule'
 import ConsBonusHelp from '../rule-help/ConsBonusHelp'
+import PassQuizHelp from '../rule-help/PassQuizHelp'
 import SurvivalHelp from '../rule-help/SurvivalHelp'
 import UpdownHelp from '../rule-help/UpdownHelp'
 import SwedishHelp from '../rule-help/SwedishHelp'
@@ -25,6 +26,10 @@ const NormalRule = ({ simple, rule }) => {
     <> 連答ボーナス<ConsBonusHelp size="small" /></>
   )
 
+  const passQuiz = (
+    <> 通過クイズ<PassQuizHelp size="small" /></>
+  )
+
   const survival = rule => (
     <> サバイバル ({rule.specialCorrect.survival.value}{pointText(simple)})<SurvivalHelp size="small" /></>
   )
@@ -34,6 +39,7 @@ const NormalRule = ({ simple, rule }) => {
       <>
         正解 {rule.pointCorrect}{pointText(simple)}
         {rule.specialCorrect.consBonus && consBonus}
+        {rule.specialCorrect.passQuiz && passQuiz}
         {rule.specialCorrect.survival.active && survival(rule)}
       </>
     )
@@ -76,7 +82,7 @@ const NormalRule = ({ simple, rule }) => {
         <Typography variant="caption">{title}</Typography>
       </Box>
       {correctWrong(rule.player)}
-      {!rule.board.active && <WinLoseRule simple={simple} rule={rule.player} passQuiz={rule.other.passQuiz} />}
+      {!rule.board.active && <WinLoseRule simple={simple} rule={rule.player} />}
     </Box>
   )
 }

@@ -13,6 +13,7 @@ export const initRule = {
     loseBatsu: { active: true, value: 3, above: true },
     specialCorrect: {
       consBonus: false,
+      passQuiz: false,
       survival: { active: false, value: -1 }
     },
     specialWrong: {
@@ -45,7 +46,6 @@ export const initRule = {
     applyNormal: true
   },
   other: {
-    passQuiz: false,
     timer: {
       active: false,
       min: 0,

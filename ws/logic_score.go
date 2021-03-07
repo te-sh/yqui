@@ -27,7 +27,7 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 				}
 			}
 		}
-		if rule.Other.PassQuiz {
+		if rule.Player.SpecialCorrect.PassQuiz {
 			if score.ExceedWinPoint(rule.Player.WinLoseRule, rule.Player.Comprehensive) {
 				score.PassSeat = !score.PassSeat
 			}
@@ -46,7 +46,7 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		if rule.Player.SpecialWrong.Updown {
 			score.Point = rule.Player.InitPoint
-		} else if rule.Other.PassQuiz && score.PassSeat {
+		} else if rule.Player.SpecialCorrect.PassQuiz && score.PassSeat {
 			score.Point = rule.Player.InitPoint
 			score.PassSeat = false
 		} else {

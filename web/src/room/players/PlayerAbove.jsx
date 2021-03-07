@@ -22,7 +22,7 @@ const PlayerAbove = ({ order, delay, score, rule }) => {
     </Typography>
   )
 
-  const showPassSeat = rule.other.passQuiz && score.passSeat
+  const showPassSeat = rule.player.specialCorrect.passQuiz && score.passSeat
 
   const passSeat = (
     <Typography className="pass-seat">通過席</Typography>

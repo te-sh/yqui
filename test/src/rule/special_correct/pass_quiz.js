@@ -11,12 +11,13 @@ const setup = async t => {
     .click(s.topbar.master)
     .click(s.topbar.rule)
     .typeText(s.dialog.rule.normal.winPoint.value, '3', { replace: true })
-    .click(s.dialog.rule.tab.other)
-    .click(s.dialog.rule.other.passSeat)
+    .click(s.dialog.rule.specialCorrect.open)
+    .click(s.dialog.rule.specialCorrect.passQuiz)
+    .click(s.dialog.rule.specialCorrect.open)
     .click(s.dialog.rule.submit)
 }
 
-fixture('rule/other/pass_seat').beforeEach(setup)
+fixture('rule/special_correct/pass_quiz').beforeEach(setup)
 
 test('get on pass seat', async t => {
   await correct(1, 0, { times: 2 })

@@ -92,11 +92,17 @@ export const selectors = {
           value: Selector('.rule-dialog .normal-rule .lose-batsu-value')
         }
       },
+      specialCorrect: {
+        open: Selector('.rule-dialog .normal-rule .special-correct-button'),
+        consBonus: Selector('.special-rule.special-correct .cons-bonus-check'),
+        passQuiz: Selector('.special-rule.special-correct .pass-quiz-check'),
+        survival: {
+          active: Selector('.special-rule.special-correct .survival-active'),
+          value: Selector('.special-rule.special-correct .survival-value')
+        }
+      },
       team: {
         active: Selector('.rule-dialog .team-rule .active-check')
-      },
-      other: {
-        passSeat: Selector('.rule-dialog .other-rule .pass-seat-check')
       },
       submit: Selector('.rule-dialog .submit')
     },

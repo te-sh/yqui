@@ -47,7 +47,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
 
   return (
     <>
-      <Button color="primary" size="small"
+      <Button color="primary" size="small" className="special-wrong-button"
               variant={noSpecial ? 'outlined' : 'contained'}
               onClick={handleClick}>
         特殊
@@ -55,11 +55,11 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
       <Popover open={open} anchorEl={anchorEl}
                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                onClose={handleClose}>
-        <Box className="special-rule">
+        <Box className="special-rule special-wrong">
           <FormGroup className="rule-group">
             <FormControlLabel
               control={
-                <Checkbox color="default"
+                <Checkbox color="default" className="updown"
                           checked={rule.updown}
                           onChange={evt => changeUpdown(evt.target.checked)} />
               }
@@ -68,7 +68,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
           <FormGroup className="rule-group">
             <FormControlLabel
               control={
-                <Checkbox color="default"
+                <Checkbox color="default" className="swedish"
                           checked={rule.swedish}
                           onChange={evt => changeSwedish(evt.target.checked)} />
               }
@@ -77,7 +77,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
           <FormGroup className="rule-group">
             <FormControlLabel
               control={
-                <Checkbox color="default"
+                <Checkbox color="default" className="backstream"
                           checked={rule.backstream}
                           onChange={evt => changeBackstream(evt.target.checked)} />
               }
@@ -86,7 +86,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
           <FormGroup className="rule-group">
             <FormControlLabel
               control={
-                <Checkbox color="default"
+                <Checkbox color="default" className="divide"
                           checked={rule.divide}
                           onChange={evt => changeDivide(evt.target.checked)} />
               }
@@ -95,7 +95,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
           <FormGroup className="rule-group">
             <FormControlLabel
               control={
-                <Checkbox color="default"
+                <Checkbox color="default" className="below-lock"
                           checked={rule.belowLock}
                           onChange={evt => changeBelowLock(evt.target.checked)} />
               }

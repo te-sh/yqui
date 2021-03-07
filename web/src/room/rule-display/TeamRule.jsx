@@ -39,7 +39,7 @@ const TeamRule = ({ simple, rule }) => {
       {point(rule.team)}
       {batsu(rule.team)}
       {lock(rule.team)}
-      <WinLoseRule simple={simple} rule={rule.team} passQuiz={false} />
+      <WinLoseRule simple={simple} rule={rule.team} />
     </Box>
   )
 }
