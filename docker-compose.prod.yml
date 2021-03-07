@@ -35,11 +35,10 @@ services:
       dockerfile: './Dockerfile.prod'
     image: tesh/yqui-e2e-test
     volumes:
-      - './test:/home/node/test'
-      - '/home/node/test/node_modules'
+      - './test/report:/home/node/test/report'
     environment:
       - TEST_TARGET
     cap_add:
       - SYS_ADMIN
     shm_size: 1024m
-    command: ['yarn', 'test', '--reporter', 'html:./report/index.html']
+    command: ['yarn', 'test']
