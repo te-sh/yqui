@@ -37,7 +37,7 @@ const SpecialCorrectRule = ({ rule, changeRule }) => {
 
   const open = Boolean(anchorEl)
 
-  const noSpecial = !rule.consBonus && !rule.survival.active
+  const noSpecial = !rule.consBonus && !rule.passQuiz && !rule.survival.active
 
   return (
     <>

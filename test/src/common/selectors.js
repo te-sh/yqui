@@ -16,6 +16,17 @@ export const selectors = {
   masterDisplay: {
     name: Selector('.room .master-display .master-name')
   },
+  ruleDisplay: {
+    normal: {
+      content: Selector('.room .rule-display .normal-rule .content')
+    },
+    team: {
+      content: Selector('.room .rule-display .team-rule .content')
+    },
+    board: {
+      content: Selector('.room .rule-display .board-rule .content')
+    }
+  },
   chat: {
     messages: Selector('.room .messages .message'),
     lastMessage: Selector('.room .messages .message:last-child .message-body'),
@@ -117,6 +128,10 @@ export const mui = {
   iconButton: {
     inherit: 'MuiIconButton-colorInherit',
     secondary: 'MuiIconButton-colorSecondary'
+  },
+  button: {
+    outlined: 'MuiButton-outlined',
+    contained: 'MuiButton-contained'
   },
   checkbox: {
     checked: 'Mui-checked'

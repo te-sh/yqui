@@ -77,12 +77,14 @@ const NormalRule = ({ simple, rule }) => {
   }
 
   return (
-    <Box>
-      <Box>
+    <Box className="normal-rule">
+      <Box className="title">
         <Typography variant="caption">{title}</Typography>
       </Box>
-      {correctWrong(rule.player)}
-      {!rule.board.active && <WinLoseRule simple={simple} rule={rule.player} />}
+      <Box className="content">
+        {correctWrong(rule.player)}
+        {!rule.board.active && <WinLoseRule simple={simple} rule={rule.player} />}
+      </Box>
     </Box>
   )
 }

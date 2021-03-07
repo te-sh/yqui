@@ -1,12 +1,11 @@
-import { selectors as s } from '../../common/selectors'
+import { selectors as s, mui } from '../../common/selectors'
 import { createWindows, enterRoom, correct, wrong } from '../../common/helper'
 
 const setup = async t => {
-  await createWindows(4)
+  await createWindows(3)
   await enterRoom(0)
   await enterRoom(1)
   await enterRoom(2)
-  await enterRoom(3)
   await t
     .click(s.topbar.master)
     .click(s.topbar.rule)
@@ -18,6 +17,13 @@ const setup = async t => {
 }
 
 fixture('rule/special_correct/pass_quiz').beforeEach(setup)
+
+test('rule display, special button', async t => {
+  await t
+    .expect(s.ruleDisplay.normal.content.innerText).contains('通過クイズ')
+    .click(s.topbar.rule)
+    .expect(s.dialog.rule.specialCorrect.open.hasClass(mui.button.contained)).ok()
+})
 
 test('get on pass seat', async t => {
   await correct(1, 0, { times: 2 })

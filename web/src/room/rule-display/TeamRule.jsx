@@ -32,14 +32,16 @@ const TeamRule = ({ simple, rule }) => {
   )
 
   return (
-    <Box>
-      <Box>
+    <Box className="team-rule">
+      <Box className="title">
         <Typography variant="caption">チームスコア</Typography>
       </Box>
-      {point(rule.team)}
-      {batsu(rule.team)}
-      {lock(rule.team)}
-      <WinLoseRule simple={simple} rule={rule.team} />
+      <Box className="content">
+        {point(rule.team)}
+        {batsu(rule.team)}
+        {lock(rule.team)}
+        <WinLoseRule simple={simple} rule={rule.team} />
+      </Box>
     </Box>
   )
 }
