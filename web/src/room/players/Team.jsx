@@ -60,7 +60,7 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
       <Typography align="center">
         チーム得点
       </Typography>
-      <Paper className="player">
+      <Paper className="content">
         <PlayerPoint score={teamScore} />
         <PlayerStatus score={teamScore} className="player-status" />
       </Paper>

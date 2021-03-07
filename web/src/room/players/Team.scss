@@ -23,6 +23,22 @@
       flex-direction: column;
       justify-content: center;
       align-items: stretch;
+
+      .content {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: auto;
+
+        .player-point {
+          grid-column: 1/2;
+          grid-row: 1/2;
+        }
+
+        .player-status {
+          grid-column: 1/2;
+          grid-row: 1/2;
+        }
+      }
     }
 
     .team-title {
