@@ -31,7 +31,7 @@ services:
   test:
     build:
       context: './test'
-    image: tesh/yqui-e2e-test
+    image: tesh/yqui-e2e-test-dev
     volumes:
       - './test:/home/node/test'
       - '/home/node/test/node_modules'

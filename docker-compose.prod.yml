@@ -32,6 +32,7 @@ services:
   test:
     build:
       context: './test'
+      dockerfile: './Dockerfile.prod'
     image: tesh/yqui-e2e-test
     volumes:
       - './test:/home/node/test'
