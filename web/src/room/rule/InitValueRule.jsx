@@ -28,7 +28,7 @@ const InitValueRule = ({ rule, changeRule }) => {
 
   return (
     <>
-      <Button color="primary" size="small"
+      <Button color="primary" size="small" className="init-value-button"
               variant={noSpecial ? 'outlined' : 'contained'}
               onClick={handleClick}>
         初期値
@@ -36,13 +36,15 @@ const InitValueRule = ({ rule, changeRule }) => {
       <Popover open={open} anchorEl={anchorEl}
                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                onClose={handleClose}>
-        <Box className="rule special-rule">
+        <Box className="special-rule init-value">
           <FormGroup row={true} className="rule-group">
             <TextField label="ポイント" type="number"
+                       className="point"
                        InputProps={{ required: true }}
                        value={rule.initPoint}
                        onChange={evt => changeInitPoint(evt.target.value)} />
             <TextField label="バツ" type="number"
+                       className="batsu"
                        InputProps={{ required: true }}
                        value={rule.initBatsu}
                        onChange={evt => changeInitBatsu(evt.target.value)} />

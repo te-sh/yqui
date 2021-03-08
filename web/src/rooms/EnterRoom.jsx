@@ -52,7 +52,7 @@ const EnterRoom = ({ open, close, submit }) => {
             <FormControl>
               <FormControlLabel
                 control={
-                  <Checkbox color="default" className="observer-check"
+                  <Checkbox color="default" className="observer"
                             checked={observer}
                             onChange={evt => setObserver(evt.target.checked)} />
                 }
@@ -63,7 +63,7 @@ const EnterRoom = ({ open, close, submit }) => {
             <FormControl>
               <FormControlLabel
                 control={
-                  <Checkbox color="default" className="chat-answer-check"
+                  <Checkbox color="default" className="chat-answer"
                             checked={chatAnswer}
                             onChange={evt => setChatAnswer(evt.target.checked)} />
                 }

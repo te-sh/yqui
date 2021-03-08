@@ -68,7 +68,7 @@ const Master = ({ className, hidden, rule, timer, clearEditBoards }) => {
       <Box className="show-point">
         <FormControlLabel
           control={
-            <Checkbox color="default" className="show-point-check"
+            <Checkbox color="default" className="show-point"
                       checked={rule.showPoint}
                       onChange={toggleShowPoint} />
           }

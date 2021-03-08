@@ -25,7 +25,7 @@ const setup = async t => {
     .click(s.actions.assign.cancelAssign)
 }
 
-fixture('assign/one_team/cancel').beforeEach(setup)
+fixture('assign/two_team/cancel').beforeEach(setup)
 
 test('player box', async t => {
   await t

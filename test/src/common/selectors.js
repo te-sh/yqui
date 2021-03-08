@@ -78,8 +78,8 @@ export const selectors = {
   dialog: {
     enterRoom: {
       name: Selector('.enter-room-dialog .enter-room .name input'),
-      observer: Selector('.enter-room-dialog .enter-room .observer-check'),
-      chatAnswer: Selector('.enter-room-dialog .enter-room .chat-answer-check'),
+      observer: Selector('.enter-room-dialog .enter-room .observer'),
+      chatAnswer: Selector('.enter-room-dialog .enter-room .chat-answer'),
       submit: Selector('.enter-room-dialog .submit')
     },
     rule: {
@@ -90,30 +90,42 @@ export const selectors = {
         other: Selector('.rule-dialog .other-rule-tab')
       },
       normal: {
+        pointCorrect: Selector('.rule-dialog .normal-rule .point-correct'),
+        pointWrong: Selector('.rule-dialog .normal-rule .point-wrong'),
+        batsuWrong: Selector('.rule-dialog .normal-rule .batsu-wrong'),
+        lockWrong: Selector('.rule-dialog .normal-rule .lock-wrong'),
         winPoint: {
           active: Selector('.rule-dialog .normal-rule .win-point-active'),
-          value: Selector('.rule-dialog .normal-rule .win-point-value')
+          value: Selector('.rule-dialog .normal-rule .win-point-value'),
+          above: Selector('.rule-dialog .normal-rule .win-point-above')
         },
         losePoint: {
           active: Selector('.rule-dialog .normal-rule .lose-point-active'),
-          value: Selector('.rule-dialog .normal-rule .lose-point-value')
+          value: Selector('.rule-dialog .normal-rule .lose-point-value'),
+          above: Selector('.rule-dialog .normal-rule .lose-point-above')
         },
         loseBatsu: {
           active: Selector('.rule-dialog .normal-rule .lose-batsu-active'),
-          value: Selector('.rule-dialog .normal-rule .lose-batsu-value')
+          value: Selector('.rule-dialog .normal-rule .lose-batsu-value'),
+          above: Selector('.rule-dialog .normal-rule .lose-batsu-above')
         }
+      },
+      initValue: {
+        open: Selector('.rule-dialog .normal-rule .init-value-button'),
+        point: Selector('.special-rule.init-value .point'),
+        batsu: Selector('.special-rule.init-value .batsu')
       },
       specialCorrect: {
         open: Selector('.rule-dialog .normal-rule .special-correct-button'),
-        consBonus: Selector('.special-rule.special-correct .cons-bonus-check'),
-        passQuiz: Selector('.special-rule.special-correct .pass-quiz-check'),
+        consBonus: Selector('.special-rule.special-correct .cons-bonus'),
+        passQuiz: Selector('.special-rule.special-correct .pass-quiz'),
         survival: {
           active: Selector('.special-rule.special-correct .survival-active'),
           value: Selector('.special-rule.special-correct .survival-value')
         }
       },
       team: {
-        active: Selector('.rule-dialog .team-rule .active-check')
+        active: Selector('.rule-dialog .team-rule .active')
       },
       submit: Selector('.rule-dialog .submit')
     },

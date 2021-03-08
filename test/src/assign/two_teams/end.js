@@ -25,11 +25,10 @@ const setup = async t => {
     .click(s.actions.assign.endAssign)
 }
 
-fixture('assign/one_team/end').beforeEach(setup)
+fixture('assign/two_team/end').beforeEach(setup)
 
 test('player box', async t => {
   await t
-    .takeScreenshot('assign.png')
     .expect(s.box.teams.count).eql(2)
     .expect(s.box.players0.count).eql(1)
     .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた1')

@@ -53,7 +53,7 @@ const SpecialCorrectRule = ({ rule, changeRule }) => {
           <FormGroup className="rule-group">
             <FormControlLabel
               control={
-                <Checkbox color="default" className="cons-bonus-check"
+                <Checkbox color="default" className="cons-bonus"
                           checked={rule.consBonus}
                           onChange={evt => changeConsBonus(evt.target.checked)} />
               }
@@ -62,7 +62,7 @@ const SpecialCorrectRule = ({ rule, changeRule }) => {
           <FormGroup className="rule-group">
             <FormControlLabel
               control={
-                <Checkbox color="default" className="pass-quiz-check"
+                <Checkbox color="default" className="pass-quiz"
                           checked={rule.passQuiz}
                           onChange={evt => changePassQuiz(evt.target.checked)} />
               }

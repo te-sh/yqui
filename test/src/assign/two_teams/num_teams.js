@@ -23,7 +23,7 @@ const setup = async t => {
     .click(s.subactions.assign.changeNumTeams)
 }
 
-fixture('assign/one_team/num_teams').beforeEach(setup)
+fixture('assign/two_team/num_teams').beforeEach(setup)
 
 test('player box', async t => {
   await t

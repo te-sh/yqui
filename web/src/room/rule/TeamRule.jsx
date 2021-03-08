@@ -69,7 +69,7 @@ const TeamRule = ({ rule, changeRule }) => {
       <FormGroup className="rule-group">
         <FormControlLabel
           control={
-            <Checkbox color="default" className="active-check"
+            <Checkbox color="default" className="active"
                       checked={rule.active}
                       onChange={evt => changeActive(evt.target.checked)} />
           }
@@ -78,14 +78,14 @@ const TeamRule = ({ rule, changeRule }) => {
       <FormGroup className="rule-group" row={true}>
         <FormControlLabel
           control={
-            <Checkbox color="default" className="share-button-check"
+            <Checkbox color="default" className="share-button"
                       checked={rule.shareButton} disabled={!rule.active}
                       onChange={evt => changeShareButton(evt.target.checked)} />
           }
           label={<>ボタン共有<ShareButtonHelp disabled={!rule.active} /></>} />
         <FormControlLabel
           control={
-            <Checkbox color="default" className="share-lock-check"
+            <Checkbox color="default" className="share-lock"
                       checked={rule.shareLock} disabled={!rule.active}
                       onChange={evt => changeShareLock(evt.target.checked)} />
           }
@@ -115,10 +115,10 @@ const TeamRule = ({ rule, changeRule }) => {
           勝ち抜け
         </FormLabel>
         <FormGroup row={true}>
-          <Checkbox color="default" className="win-point-active-check"
+          <Checkbox color="default" className="win-point-active"
                     checked={rule.winPoint.active} disabled={!rule.active}
                     onChange={evt => changeWinPointActive(evt.target.checked)} />
-          <TextField label="ポイント" type="number" className="win-point"
+          <TextField label="ポイント" type="number" className="win-point-value"
                      disabled={!rule.active || !rule.winPoint.active}
                      InputProps={{ required: true }}
                      value={rule.winPoint.value}
@@ -140,10 +140,10 @@ const TeamRule = ({ rule, changeRule }) => {
           失格
         </FormLabel>
         <FormGroup row={true}>
-          <Checkbox color="default" className="lose-point-active-check"
+          <Checkbox color="default" className="lose-point-active"
                     checked={rule.losePoint.active} disabled={!rule.active}
                     onChange={evt => changeLosePointActive(evt.target.checked)} />
-          <TextField label="ポイント" type="number" className="lose-point"
+          <TextField label="ポイント" type="number" className="lose-point-value"
                      disabled={!rule.active || !rule.losePoint.active}
                      InputProps={{ required: true }}
                      value={rule.losePoint.value}
@@ -158,10 +158,10 @@ const TeamRule = ({ rule, changeRule }) => {
               <MenuItem value={false}>以下</MenuItem>
             </Select>
           </FormGroup>
-          <Checkbox color="default" className="lose-batsu-active-check"
+          <Checkbox color="default" className="lose-batsu-active"
                     checked={rule.loseBatsu.active} disabled={!rule.active}
                     onChange={evt => changeLoseBatsuActive(evt.target.checked)} />
-          <TextField label="バツ" type="number" className="lose-batsu"
+          <TextField label="バツ" type="number" className="lose-batsu-value"
                      disabled={!rule.active || !rule.loseBatsu.active}
                      InputProps={{ required: true }}
                      value={rule.loseBatsu.value}

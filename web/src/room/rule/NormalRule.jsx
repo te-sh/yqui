@@ -80,6 +80,7 @@ const NormalRule = ({ rule, changeRule }) => {
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
+                     className="point-correct"
                      InputProps={{ required: true }}
                      value={rule.pointCorrect}
                      onChange={evt => changePointCorrect(evt.target.value)} />
@@ -93,16 +94,19 @@ const NormalRule = ({ rule, changeRule }) => {
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
+                     className="point-wrong"
                      disabled={rule.specialWrong.updown || rule.specialWrong.divide}
                      InputProps={{ required: true }}
                      value={rule.pointWrong}
                      onChange={evt => changePointWrong(evt.target.value)} />
           <TextField label="バツ" type="number"
+                     className="batsu-wrong"
                      disabled={rule.specialWrong.swedish}
                      InputProps={{ required: true }}
                      value={rule.batsuWrong}
                      onChange={evt => changeBatsuWrong(evt.target.value)} />
           <TextField label="休み" type="number"
+                     className="lock-wrong"
                      InputProps={{ required: true, inputProps: { min: 0 } }}
                      value={rule.lockWrong}
                      onChange={evt => changeLockWrong(evt.target.value)} />
@@ -115,7 +119,7 @@ const NormalRule = ({ rule, changeRule }) => {
           勝ち抜け
         </FormLabel>
         <FormGroup row={true}>
-          <Checkbox color="default" className="win-point-active-check"
+          <Checkbox color="default" className="win-point-active"
                     checked={rule.winPoint.active}
                     onChange={evt => changeWinPointActive(evt.target.checked)} />
           <TextField label="ポイント" type="number"
@@ -127,6 +131,7 @@ const NormalRule = ({ rule, changeRule }) => {
           <FormGroup>
             <InputLabel id="win-point-above">&nbsp;</InputLabel>
             <Select labelId="win-point-above"
+                    className="win-point-above"
                     disabled={!rule.winPoint.active}
                     value={rule.winPoint.above}
                     onChange={evt => changeWinPointAbove(evt.target.value)}>
@@ -159,6 +164,7 @@ const NormalRule = ({ rule, changeRule }) => {
           <FormGroup>
             <InputLabel id="lose-point-above">&nbsp;</InputLabel>
             <Select labelId="lose-point-above"
+                    className="lose-point-above"
                     disabled={!rule.losePoint.active}
                     value={rule.losePoint.above}
                     onChange={evt => changeLosePointAbove(evt.target.value)}>
@@ -178,6 +184,7 @@ const NormalRule = ({ rule, changeRule }) => {
           <FormGroup>
             <InputLabel id="lose-batsu-above">&nbsp;</InputLabel>
             <Select labelId="lose-batsu-above"
+                    className="lose-batsu-above"
                     disabled={!rule.loseBatsu.active}
                     value={rule.loseBatsu.above}
                     onChange={evt => changeLoseBatsuAbove(evt.target.value)}>
