@@ -1,5 +1,5 @@
 import { selectors as s, mui } from '../../common/selectors'
-import { createWindows, enterRoom, correct } from '../../common/helper'
+import { createWindows, enterRoom, correct, wrong } from '../../common/helper'
 
 const setup = async t => {
   await createWindows(4)
@@ -63,5 +63,28 @@ test('lose multple at the same time', async t => {
     .expect(s.box.players0.nth(1).find('.player-status').hasClass('lose')).ok()
     .expect(s.box.players0.nth(2).find('.player-point .point').innerText).eql('0')
     .expect(s.box.players0.nth(2).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(2).find('.player-status').hasClass('lose')).ok()
+})
+
+test('lose during lock', async t => {
+  await t
+    .click(s.topbar.rule)
+    .typeText(s.dialog.rule.normal.lockWrong, '2', { replace: true })
+    .click(s.dialog.rule.submit)
+  await correct(2, 0, { times: 4 })
+  await wrong(1, 0)
+  await correct(2, 0)
+  await t
+    .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('0')
+    .expect(s.box.players0.nth(0).find('.player-point .batsu').innerText).eql('1')
+    .expect(s.box.players0.nth(0).find('.player-status').hasClass('lock')).notOk()
+    .expect(s.box.players0.nth(0).find('.player-status').hasClass('lose')).ok()
+    .expect(s.box.players0.nth(1).find('.player-point .point').innerText).eql('5')
+    .expect(s.box.players0.nth(1).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(1).find('.player-status').hasClass('lock')).notOk()
+    .expect(s.box.players0.nth(1).find('.player-status').hasClass('lose')).notOk()
+    .expect(s.box.players0.nth(2).find('.player-point .point').innerText).eql('0')
+    .expect(s.box.players0.nth(2).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(2).find('.player-status').hasClass('lock')).notOk()
     .expect(s.box.players0.nth(2).find('.player-status').hasClass('lose')).ok()
 })

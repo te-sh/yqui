@@ -33,6 +33,7 @@ func (ss *ScoreSet) SetWin(rule WinLoseRule, comprehensive *ComprehensiveRule) (
 		ss.WinLose.WinNum += 1
 		for _, score := range wins {
 			score.Win = ss.WinLose.WinNum
+			score.Lock = 0
 		}
 	}
 	return
@@ -69,6 +70,7 @@ func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 		ss.WinLose.LoseNum += 1
 		for _, score := range loses {
 			score.Lose = ss.WinLose.LoseNum
+			score.Lock = 0
 		}
 	}
 	return
@@ -97,6 +99,7 @@ func (ss *ScoreSet) WinTop(sound *Sound) {
 	for _, score := range ss.Scores {
 		if score.Win == 0 && score.Lose == 0 && score.Point == max {
 			score.Win = ss.WinLose.WinNum
+			score.Lock = 0
 		}
 	}
 }
@@ -124,6 +127,7 @@ func (ss *ScoreSet) LoseBottom(sound *Sound) {
 	for _, score := range ss.Scores {
 		if score.Win == 0 && score.Lose == 0 && score.Point == min {
 			score.Lose = ss.WinLose.LoseNum
+			score.Lock = 0
 		}
 	}
 }
