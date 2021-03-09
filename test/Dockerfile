@@ -2,7 +2,7 @@ FROM node:14.16.0-alpine3.13
 
 RUN apk update \
  && apk upgrade \
- && apk add udev ttf-freefont font-noto-cjk unifont chromium \
+ && apk add udev ttf-freefont font-noto-cjk unifont chromium dumb-init \
  && rm -rf /var/cache/apk/*
 
 USER node
@@ -15,3 +15,7 @@ ADD package.json yarn.lock ./
 
 RUN yarn install \
  && yarn cache clean
+
+ADD sleep ./
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]

@@ -40,5 +40,4 @@ services:
     cap_add:
       - SYS_ADMIN
     shm_size: 1024m
-    tty: true
-    command: ['/bin/sh']
+    command: ['./sleep']
