@@ -41,7 +41,6 @@ test('correct', async t => {
     .expect(s.box.players0.nth(1).find('.player-point .batsu').innerText).eql('0')
     .expect(s.box.players0.nth(2).find('.player-point .point').innerText).eql('4')
     .expect(s.box.players0.nth(2).find('.player-point .batsu').innerText).eql('0')
-
   await correct(2, 0)
   await t
     .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('4')
@@ -87,4 +86,21 @@ test('lose during lock', async t => {
     .expect(s.box.players0.nth(2).find('.player-point .batsu').innerText).eql('0')
     .expect(s.box.players0.nth(2).find('.player-status').hasClass('lock')).notOk()
     .expect(s.box.players0.nth(2).find('.player-status').hasClass('lose')).ok()
+})
+
+test('change survival point', async t => {
+  await t
+    .click(s.topbar.rule)
+    .click(s.dialog.rule.specialCorrect.open)
+    .typeText(s.dialog.rule.specialCorrect.survival.value, '-2', { replace: true })
+    .click(s.dialog.rule.specialCorrect.open)
+    .click(s.dialog.rule.submit)
+  await correct(1, 0)
+  await t
+    .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('5')
+    .expect(s.box.players0.nth(0).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(1).find('.player-point .point').innerText).eql('3')
+    .expect(s.box.players0.nth(1).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(2).find('.player-point .point').innerText).eql('3')
+    .expect(s.box.players0.nth(2).find('.player-point .batsu').innerText).eql('0')
 })

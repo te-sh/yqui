@@ -85,3 +85,20 @@ test('wrong other on pass seat', async t => {
     .expect(s.box.players0.nth(1).find('.pass-seat').exists).notOk()
     .expect(s.box.players0.nth(1).find('.player-status').hasClass('win')).notOk()
 })
+
+test('change init point', async t => {
+  await t
+    .click(s.topbar.rule)
+    .click(s.dialog.rule.initValue.open)
+    .typeText(s.dialog.rule.initValue.point, '1', { replace: true })
+    .click(s.dialog.rule.initValue.open)
+    .click(s.dialog.rule.submit)
+    .click(s.subactions.master.allClear)
+  await correct(1, 0, { times: 2 })
+  await wrong(1, 0)
+  await t
+    .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('1')
+    .expect(s.box.players0.nth(0).find('.player-point .batsu').innerText).eql('1')
+    .expect(s.box.players0.nth(0).find('.pass-seat').exists).notOk()
+    .expect(s.box.players0.nth(0).find('.player-status').hasClass('win')).notOk()
+})

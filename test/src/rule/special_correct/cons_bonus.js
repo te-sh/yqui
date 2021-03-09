@@ -83,3 +83,22 @@ test('wrong other on consequence', async t => {
     .expect(s.box.players0.nth(1).find('.player-point .batsu').innerText).eql('1')
     .expect(s.box.players0.nth(1).find('.cons-correct').exists).notOk()
 })
+
+test('change point correct', async t => {
+  await t
+    .click(s.topbar.rule)
+    .typeText(s.dialog.rule.normal.pointCorrect, '2', { replace: true })
+    .click(s.dialog.rule.submit)
+  await correct(1, 0)
+  await t
+    .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('2')
+    .expect(s.box.players0.nth(0).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(0).find('.cons-correct').exists).ok()
+    .expect(s.box.players0.nth(0).find('.cons-correct').innerText).eql('1')
+  await correct(1, 0)
+  await t
+    .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('6')
+    .expect(s.box.players0.nth(0).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(0).find('.cons-correct').exists).ok()
+    .expect(s.box.players0.nth(0).find('.cons-correct').innerText).eql('2')
+})
