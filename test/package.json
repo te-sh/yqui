@@ -4,7 +4,7 @@
   "license": "AFL-2.0",
   "scripts": {
     "test": "testcafe",
-    "testHtml": "testcafe --reporter html:./report/index.html",
+    "testHtml": "testcafe --reporter html:./report/index.html --screenshots takeOnFails=true",
     "lint": "eslint src/**/*.js"
   },
   "devDependencies": {
