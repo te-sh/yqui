@@ -5,37 +5,73 @@ import { initRule, pointText, batsuText } from '../../lib/rule'
 const WinLoseRule = ({ simple, rule }) => {
   const aboveText = value => value ? '以上' : '以下'
 
+  const none = (
+    <Box component="span" className="rule-element">
+      なし
+    </Box>
+  )
+
   const win = rule => {
     const comprehensive = rule.comprehensive || initRule.player.comprehensive
 
-    if (rule.winPoint.active || (comprehensive.active && comprehensive.winPoint.active)) {
-      const point = `${rule.winPoint.value}${pointText(simple)}${aboveText(rule.winPoint.above)}`
+    const list = [(
+      rule.winPoint.active &&
+      <Box component="span" className="rule-element" key="win-point">
+        {rule.winPoint.value}{pointText(simple)}
+        <Box component="span" className="rule-above">
+          {aboveText(rule.winPoint.above)}
+        </Box>
+      </Box>
+    ), (
+      comprehensive.active &&
+      <Box component="span" className="rule-element" key="win-comp-point">
+        {comprehensive.winPoint.value}総合{pointText(simple)}
+        <Box component="span" className="rule-above">
+          {aboveText(comprehensive.winPoint.above)}
+        </Box>
+      </Box>
+    )].filter(e => e)
 
-      const compPoint = `${comprehensive.winPoint.value}総合${pointText(simple)}${aboveText(comprehensive.winPoint.above)}`
+    const numWin = (
+      rule.winPlayers > 0 &&
+      <Box component="span" className="rule-element">
+        {rule.winPlayers}人
+      </Box>
+    )
 
-      return (
-        <>
-          {<>勝ち抜け {rule.winPoint.active && point} {comprehensive.active && comprehensive.winPoint.active && compPoint}</>}
-          {rule.winPlayers > 0 && <> {rule.winPlayers}人</>}
-        </>
-      )
-    } else {
-      return <>勝ち抜けなし</>
-    }
+    return (
+      <>
+        <Box component="span" className="rule-title">勝ち抜け</Box>
+        {list.length > 0 ? <>{list}{numWin}</> : none}
+      </>
+    )
   }
 
   const lose = rule => {
-    if (rule.losePoint.active || rule.loseBatsu.active) {
-      return (
-        <>
-          失格
-          {rule.losePoint.active && <> {rule.losePoint.value}{pointText(simple)}{aboveText(rule.losePoint.above)}</>}
-          {rule.loseBatsu.active && <> {rule.loseBatsu.value}{batsuText(simple)}{aboveText(rule.loseBatsu.above)}</>}
-        </>
-      )
-    } else {
-      return <>失格なし</>
-    }
+    const list = [(
+      rule.losePoint.active &&
+      <Box component="span" className="rule-element" key="lose-point">
+        {rule.losePoint.value}{pointText(simple)}
+        <Box component="span" className="rule-above">
+          {aboveText(rule.losePoint.above)}
+        </Box>
+      </Box>
+    ), (
+      rule.loseBatsu.active &&
+      <Box component="span" className="rule-element" key="lose-batsu">
+        {rule.loseBatsu.value}{batsuText(simple)}
+        <Box component="span" className="rule-above">
+          {aboveText(rule.loseBatsu.above)}
+        </Box>
+      </Box>
+    )]
+
+    return (
+      <>
+        <Box component="span" className="rule-title">失格</Box>
+        {list.length > 0 ? list : none}
+      </>
+    )
   }
 
   return (
