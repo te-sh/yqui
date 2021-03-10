@@ -124,6 +124,14 @@ export const selectors = {
           value: Selector('.special-rule.special-correct .survival-value')
         }
       },
+      specialWrong: {
+        open: Selector('.rule-dialog .normal-rule .special-wrong-button'),
+        updown: Selector('.special-rule.special-wrong .updown'),
+        swedish: Selector('.special-rule.special-wrong .swedish'),
+        backstream: Selector('.special-rule.special-wrong .backstream'),
+        divide: Selector('.special-rule.special-wrong .divide'),
+        belowLock: Selector('.special-rule.special-wrong .below-lock')
+      },
       team: {
         active: Selector('.rule-dialog .team-rule .active')
       },
@@ -137,15 +145,14 @@ export const selectors = {
 
 // material-ui classes
 export const mui = {
-  iconButton: {
-    inherit: 'MuiIconButton-colorInherit',
-    secondary: 'MuiIconButton-colorSecondary'
-  },
+  disabled: 'Mui-disabled',
+  checked: 'Mui-checked',
   button: {
     outlined: 'MuiButton-outlined',
     contained: 'MuiButton-contained'
   },
-  checkbox: {
-    checked: 'Mui-checked'
+  iconButton: {
+    inherit: 'MuiIconButton-colorInherit',
+    secondary: 'MuiIconButton-colorSecondary'
   }
 }

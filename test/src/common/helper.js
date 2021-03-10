@@ -37,12 +37,12 @@ export const enterRoom = async (index, options = {}) => {
   await t.typeText(s.dialog.enterRoom.name, name, { replace: true })
 
   const observer = s.dialog.enterRoom.observer
-  if (options.observer ^ await observer.hasClass(mui.checkbox.checked)) {
+  if (options.observer ^ await observer.hasClass(mui.checked)) {
     await t.click(observer)
   }
 
   const chatAnswer = s.dialog.enterRoom.chatAnswer
-  if (options.chatAnswer ^ await chatAnswer.hasClass(mui.checkbox.checked)) {
+  if (options.chatAnswer ^ await chatAnswer.hasClass(mui.checked)) {
     await t.click(chatAnswer)
   }
 

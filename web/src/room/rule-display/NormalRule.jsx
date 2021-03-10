@@ -23,25 +23,26 @@ const NormalRule = ({ simple, rule }) => {
   })()
 
   const correct = rule => {
+    const sc = rule.specialCorrect
     const list = [(
       rule.pointCorrect !== 0 &&
       <Box component="span" className="rule-element" key="point-correct">
         {rule.pointCorrect}{pointText(simple)}
       </Box>
     ), (
-      rule.specialCorrect.consBonus &&
+      sc.consBonus &&
       <Box component="span" className="rule-element" key="cons-bonus">
         連答ボーナス<ConsBonusHelp size="small" />
       </Box>
     ), (
-      rule.specialCorrect.passQuiz &&
+      sc.passQuiz &&
       <Box component="span" className="rule-element" key="pass-quiz">
         通過クイズ<PassQuizHelp size="small" />
       </Box>
     ), (
-      rule.specialCorrect.survival.active &&
+      sc.survival.active &&
       <Box component="span" className="rule-element" key="survival">
-        サバイバル ({rule.specialCorrect.survival.value}{pointText(simple)})<SurvivalHelp size="small" />
+        サバイバル ({sc.survival.value}{pointText(simple)})<SurvivalHelp size="small" />
       </Box>
     )].filter(e => e)
 
@@ -54,38 +55,39 @@ const NormalRule = ({ simple, rule }) => {
   }
 
   const wrong = rule => {
+    const sw = rule.specialWrong
     const list = [(
-      rule.pointWrong !== 0 && !rule.specialWrong.updown &&
+      rule.pointWrong !== 0 && !sw.updown && !sw.backstream && !sw.divide &&
       <Box component="span" className="rule-element" key="point-wrong">
         {rule.pointWrong}{pointText(simple)}
       </Box>
     ), (
-      rule.specialWrong.updown &&
+      sw.updown &&
       <Box component="span" className="rule-element" key="updown">
         アップダウン<UpdownHelp size="small" />
       </Box>
     ), (
-      rule.batsuWrong !== 0 && !rule.specialWrong.swedish &&
+      rule.batsuWrong !== 0 && !sw.swedish &&
       <Box component="span" className="rule-element" key="batsu-wrong">
         {rule.batsuWrong}{batsuText(simple)}
       </Box>
     ), (
-      rule.specialWrong.swedish &&
+      sw.swedish &&
       <Box component="span" className="rule-element" key="swedish">
         Swedish<SwedishHelp size="small" />
       </Box>
     ), (
-      rule.specialWrong.backstream &&
+      sw.backstream &&
       <Box component="span" className="rule-element" key="backstream">
         Backstream<BackstreamHelp size="small" />
       </Box>
     ), (
-      rule.specialWrong.divide &&
+      sw.divide &&
       <Box component="span" className="rule-element" key="divide">
         Divide<DivideHelp size="small" />
       </Box>
     ), (
-      rule.specialWrong.belowLock &&
+      sw.belowLock &&
       <Box component="span" className="rule-element" key="below-lock">
         BelowLock<BelowLockHelp size="small" />
       </Box>
@@ -105,6 +107,7 @@ const NormalRule = ({ simple, rule }) => {
   }
 
   const comp = rule => (
+    rule.comprehensive.active &&
     <>
       <Box component="span" className="rule-title">総合ポイント</Box>
       <Box component="span" className="rule-element" key="mul">
@@ -117,7 +120,7 @@ const NormalRule = ({ simple, rule }) => {
   const correctWrong = rule => (
     <Box>
       <Typography variant="body2">{correct(rule)} {wrong(rule)}</Typography>
-      <Typography variant="body2">{rule.comprehensive.active && comp(rule)}</Typography>
+      <Typography variant="body2">{comp(rule)}</Typography>
     </Box>
   )
 

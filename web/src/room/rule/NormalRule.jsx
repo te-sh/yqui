@@ -72,6 +72,7 @@ const NormalRule = ({ rule, changeRule }) => {
     changeRule(update(rule, { specialWrong: { $set: value } }))
   }
 
+  const sw = rule.specialWrong
   return (
     <>
       <FormGroup component="fieldset" className="rule-group">
@@ -95,18 +96,19 @@ const NormalRule = ({ rule, changeRule }) => {
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
                      className="point-wrong"
-                     disabled={rule.specialWrong.updown || rule.specialWrong.divide}
+                     disabled={sw.updown || sw.backstream || sw.divide}
                      InputProps={{ required: true }}
                      value={rule.pointWrong}
                      onChange={evt => changePointWrong(evt.target.value)} />
           <TextField label="バツ" type="number"
                      className="batsu-wrong"
-                     disabled={rule.specialWrong.swedish}
+                     disabled={sw.swedish}
                      InputProps={{ required: true }}
                      value={rule.batsuWrong}
                      onChange={evt => changeBatsuWrong(evt.target.value)} />
           <TextField label="休み" type="number"
                      className="lock-wrong"
+                     disabled={sw.belowLock}
                      InputProps={{ required: true, inputProps: { min: 0 } }}
                      value={rule.lockWrong}
                      onChange={evt => changeLockWrong(evt.target.value)} />
