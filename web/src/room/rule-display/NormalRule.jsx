@@ -92,7 +92,7 @@ const NormalRule = ({ simple, rule }) => {
         BelowLock<BelowLockHelp size="small" />
       </Box>
     ), (
-      rule.lockWrong !== 0 &&
+      rule.lockWrong !== 0 && !sw.belowLock &&
       <Box component="span" className="rule-element" key="lock-wrong">
         {rule.lockWrong}休
       </Box>
