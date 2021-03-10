@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Box } from '@material-ui/core'
 import classNames from 'classnames'
 import Topbar from './topbar/TopBar'
-import MasterDisplay from './MasterDisplay'
+import RoomInfo from './RoomInfo'
 import RuleDisplay from './rule-display/RuleDisplay'
 import Messages from './chat/Messages'
 import Chat from './chat/Chat'
@@ -31,7 +31,7 @@ const Room = ({ history, showLeft, roomNo }) => {
   return (
     <Box className={roomClass}>
       <Topbar className="top-bar" />
-      <MasterDisplay className="master-display" />
+      <RoomInfo className="room-info" />
       <RuleDisplay className="rule-display" />
       <Messages className="messages" />
       <Chat className="chat" />

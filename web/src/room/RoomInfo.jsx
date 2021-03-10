@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Paper, Typography } from '@material-ui/core'
-import './MasterDisplay.scss'
+import './RoomInfo.scss'
 
-const MasterDisplay = ({ className, master }) => {
+const RoomInfo = ({ className, master }) => {
   const masterName = master ? master.name : '-'
 
   return (
@@ -20,4 +20,4 @@ export default connect(
   state => ({
     master: state.master
   })
-)(MasterDisplay)
+)(RoomInfo)

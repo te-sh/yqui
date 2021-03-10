@@ -30,12 +30,12 @@ test('actions, subactions, chat message, master display', async t => {
     .expect(s.actions.visible.player.exists).ok()
     .expect(s.subactions.visible.player.exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた0さんが解答席に移動しました')
-    .expect(s.masterDisplay.name.innerText).eql('-')
+    .expect(s.roomInfo.masterName.innerText).eql('-')
   await t.switchToWindow(t.ctx.w1)
     .expect(s.actions.visible.player.exists).ok()
     .expect(s.subactions.visible.player.exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた0さんが解答席に移動しました')
-    .expect(s.masterDisplay.name.innerText).eql('-')
+    .expect(s.roomInfo.masterName.innerText).eql('-')
 })
 
 test('tobar buttons', async t => {

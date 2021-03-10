@@ -13,8 +13,8 @@ export const selectors = {
     observer: Selector('header .toggle-observer-button'),
     leave: Selector('header .leave-room-button')
   },
-  masterDisplay: {
-    name: Selector('.room .master-display .master-name')
+  roomInfo: {
+    masterName: Selector('.room .room-info .master-name')
   },
   ruleDisplay: {
     normal: {

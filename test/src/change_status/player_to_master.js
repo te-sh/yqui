@@ -26,12 +26,12 @@ test('actions, subactions, chat message, master display', async t => {
     .expect(s.actions.visible.master.exists).ok()
     .expect(s.subactions.visible.master.exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた0さんが司会席に移動しました')
-    .expect(s.masterDisplay.name.innerText).eql('ゆーた0')
+    .expect(s.roomInfo.masterName.innerText).eql('ゆーた0')
   await t.switchToWindow(t.ctx.w1)
     .expect(s.actions.visible.player.exists).ok()
     .expect(s.subactions.visible.player.exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた0さんが司会席に移動しました')
-    .expect(s.masterDisplay.name.innerText).eql('ゆーた0')
+    .expect(s.roomInfo.masterName.innerText).eql('ゆーた0')
 })
 
 test('tobar buttons', async t => {
