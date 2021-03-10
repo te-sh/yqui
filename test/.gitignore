@@ -1,5 +1,4 @@
 log/*.log
 node_modules
 report/*.html
-screenshots/*.png
-screenshots/thumbnails/*.png
+screenshots/**/*.png
