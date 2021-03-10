@@ -10,8 +10,9 @@ func (ss *ScoreSet) CanPush(id int64) bool {
 
 func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
+		sc := rule.Player.SpecialCorrect
 		score.Point += rule.Player.PointCorrect
-		if rule.Player.SpecialCorrect.ConsBonus {
+		if sc.ConsBonus {
 			score.Point += rule.Player.PointCorrect * score.ConsCorrect
 			score.ConsCorrect += 1
 			for otherId, otherScore := range ss.Scores {
@@ -20,14 +21,7 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 				}
 			}
 		}
-		if rule.Player.SpecialCorrect.Survival.Active {
-			for otherId, otherScore := range ss.Scores {
-				if otherId != id && otherScore.Win == 0 && otherScore.Lose == 0 {
-					otherScore.Point += rule.Player.SpecialCorrect.Survival.Value
-				}
-			}
-		}
-		if rule.Player.SpecialCorrect.PassQuiz {
+		if sc.PassQuiz {
 			if score.ExceedWinPoint(rule.Player.WinLoseRule, rule.Player.Comprehensive) {
 				score.PassSeat = !score.PassSeat
 			}
@@ -38,43 +32,63 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 				}
 			}
 		}
+		if sc.Survival.Active {
+			for otherId, otherScore := range ss.Scores {
+				if otherId != id && otherScore.Win == 0 && otherScore.Lose == 0 {
+					otherScore.Point += sc.Survival.Value
+				}
+			}
+		}
 	}
 	ss.CalcCompPoint(rule.Player)
 }
 
 func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
-		if rule.Player.SpecialWrong.Updown {
-			score.Point = rule.Player.InitPoint
-		} else if rule.Player.SpecialCorrect.PassQuiz && score.PassSeat {
+		sc, sw := rule.Player.SpecialCorrect, rule.Player.SpecialWrong
+
+		if sc.PassQuiz && score.PassSeat {
 			score.Point = rule.Player.InitPoint
 			score.PassSeat = false
-		} else {
+		}
+		if sc.ConsBonus {
+			score.ConsCorrect = 0
+		}
+
+		if !sw.Updown && !sw.Backstream && !sw.Divide  {
 			score.Point += rule.Player.PointWrong
 		}
-		if rule.Player.SpecialWrong.Swedish {
+		if sw.Updown {
+			score.Point = rule.Player.InitPoint
+		}
+
+		if !sw.Swedish {
+			score.Batsu += rule.Player.BatsuWrong
+		}
+		if sw.Swedish {
 			for i := 1; i <= score.Point+1; i++ {
 				if score.Point < i*(i+1)/2 {
 					score.Batsu += i
 					break
 				}
 			}
-		} else {
-			score.Batsu += rule.Player.BatsuWrong
 		}
-		if rule.Player.SpecialWrong.Backstream {
+
+		if sw.Backstream {
 			score.Point -= score.Batsu
 		}
-		if rule.Player.SpecialWrong.Divide && score.Batsu != 0 {
+		if sw.Divide && score.Batsu != 0 {
 			score.Point /= score.Batsu
 		}
-		score.Lock = rule.Player.LockWrong
-		if rule.Player.SpecialWrong.BelowLock && score.Point < rule.Player.InitPoint {
-			score.Lock += rule.Player.InitPoint - score.Point
-			score.Point = rule.Player.InitPoint
+
+		if !sw.BelowLock {
+			score.Lock = rule.Player.LockWrong
 		}
-		if rule.Player.SpecialCorrect.ConsBonus {
-			score.ConsCorrect = 0
+		if sw.BelowLock {
+			if score.Point < rule.Player.InitPoint {
+				score.Lock += rule.Player.InitPoint - score.Point
+				score.Point = rule.Player.InitPoint
+			}
 		}
 	}
 	ss.CalcCompPoint(rule.Player)
