@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppBar, Toolbar, Typography } from '@material-ui/core'
+import TagButton from './TagButton'
 import TopMenu from './TopMenu'
 import './TopBar.scss'
 
@@ -14,6 +15,7 @@ const Topbar = ({ className, roomNo }) => {
         <Typography className="room-name">
           Room {roomNo + 1}
         </Typography>
+        <TagButton />
         <div className="toolbar-grow" />
         <TopMenu />
       </Toolbar>

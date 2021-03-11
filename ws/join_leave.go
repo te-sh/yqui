@@ -67,6 +67,7 @@ func (room *Room) LeaveUser(id int64) (*User, bool) {
 	room.History.Leave(id)
 
 	if len(room.Users) == 0 {
+		room.Tag = NewTag()
 		room.TruncateTeams()
 		room.Rule = NewRule()
 		room.SG.Reset()

@@ -34,7 +34,7 @@ func HandleCommand() {
 }
 
 var MasterCommand = []string{
-	"correct", "wrong", "through", "reset", "all-clear", "undo", "redo",
+	"tag", "correct", "wrong", "through", "reset", "all-clear", "undo", "redo",
 	"win-top", "lose-bottom", "board-lock", "rule", "toggle-timer",
 }
 
@@ -73,6 +73,10 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, user)
 		room.Users.Update(user)
 		room.SendRoom()
+	case "tag":
+		json.Unmarshal(cmd.A, &room.Tag)
+		room.SendRoom()
+		SendToAll("rooms", rooms.MakeSummary(), true)
 	case "teams":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()

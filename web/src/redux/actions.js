@@ -18,6 +18,7 @@ export const SET_BOARD = 'SET_BOARD'
 export const ADD_EDIT_BOARD = 'ADD_EDIT_BOARD'
 export const REMOVE_EDIT_BOARD = 'REMOVE_EDIT_BOARD'
 export const CLEAR_EDIT_BOARDS = 'CLEAR_EDIT_BOARDS'
+export const SET_OPEN_TAG = 'SET_OPEN_TAG'
 export const SET_OPEN_RULE = 'SET_OPEN_RULE'
 export const SET_OPEN_SETTING = 'SET_OPEN_SETTING'
 export const SET_OPEN_HELP = 'SET_OPEN_HELP'
@@ -101,6 +102,10 @@ export const removeEditBoard = board => {
 
 export const clearEditBoards = () => {
   return { type: CLEAR_EDIT_BOARDS }
+}
+
+export const setOpenTag = open => {
+  return { type: SET_OPEN_TAG, open }
 }
 
 export const setOpenRule = open => {

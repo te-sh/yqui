@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Table, TableContainer } from '@material-ui/core'
+import classNames from 'classnames'
 import { restoreScoreBackup } from '../lib/score'
 import { sendWs, SEND_JOIN } from '../lib/send'
 import Topbar from './Topbar'
@@ -10,7 +11,7 @@ import Copyright from './Copyright'
 import EnterRoom from './EnterRoom'
 import './Rooms.scss'
 
-const Rooms = ({ history, rooms, roomNo }) => {
+const Rooms = ({ history, mobile, rooms, roomNo }) => {
   const [enterRoomOpen, setEnterRoomOpen] = React.useState(false)
   const [enterRoomNo, setEnterRoomNo] = React.useState(0)
 
@@ -40,7 +41,7 @@ const Rooms = ({ history, rooms, roomNo }) => {
   )
 
   return (
-    <Box>
+    <Box className={classNames('rooms', { mobile })}>
       <Topbar />
       <Box>
         <TableContainer component={Paper}>
@@ -59,6 +60,7 @@ const Rooms = ({ history, rooms, roomNo }) => {
 
 export default connect(
   state => ({
+    mobile: state.mobile,
     rooms: state.rooms,
     roomNo: state.roomNo
   })

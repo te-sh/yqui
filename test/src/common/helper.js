@@ -30,7 +30,7 @@ export const enterRoom = async (index, options = {}) => {
   const current = await t.getCurrentWindow()
 
   await t.switchToWindow(t.ctx.windows[index])
-    .click(s.rooms.row0.find('.enter-room-button button'))
+    .click(s.rooms.row0.find('.enter-room-button'))
     .wait(100)
 
   const name = options.name || `ゆーた${index}`

@@ -5,9 +5,10 @@ const RoomsHead = () => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell>部屋</TableCell>
-        <TableCell>人数</TableCell>
-        <TableCell />
+        <TableCell className="enter-room" />
+        <TableCell className="room-name">部屋</TableCell>
+        <TableCell className="num-users">人数</TableCell>
+        <TableCell className="room-title">部屋名</TableCell>
       </TableRow>
     </TableHead>
   )

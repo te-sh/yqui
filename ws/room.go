@@ -4,7 +4,15 @@ const numRooms = 16
 
 var rooms = NewRooms()
 
+type RoomSummary struct {
+	NumUsers int    `json:"numUsers"`
+	Title    string `json:"title"`
+}
+
+type RoomsSummary []*RoomSummary
+
 type Room struct {
+	Tag     *RoomTag    `json:"tag"`
 	Users   Users       `json:"users"`
 	Teams   Teams       `json:"teams"`
 	BG      *BoardGroup `json:"-"`
@@ -16,13 +24,11 @@ type Room struct {
 	AESKey  []byte      `json:"-"`
 }
 
-type Rooms []*Room
-
-type RoomSummary struct {
-	NumUsers int `json:"numUsers"`
+type RoomTag struct {
+	Title string `json:"title"`
 }
 
-type RoomsSummary []*RoomSummary
+type Rooms []*Room
 
 func NewRooms() Rooms {
 	var rooms Rooms
@@ -35,6 +41,7 @@ func NewRooms() Rooms {
 func NewRoomSummary(room *Room) *RoomSummary {
 	roomSummary := new(RoomSummary)
 	roomSummary.NumUsers = len(room.Users)
+	roomSummary.Title = room.Tag.Title
 	return roomSummary
 }
 
@@ -42,6 +49,7 @@ func NewRoom() *Room {
 	room := new(Room)
 	team := NewTeam()
 
+	room.Tag = NewTag()
 	room.Users = make(Users)
 	room.Teams = Teams{team}
 	room.BG = NewBoardGroup()
@@ -55,6 +63,12 @@ func NewRoom() *Room {
 	room.RenewAESKey()
 
 	return room
+}
+
+func NewTag() *RoomTag {
+	tag := new(RoomTag)
+	tag.Title = ""
+	return tag
 }
 
 func (room *Room) RenewAESKey() {
