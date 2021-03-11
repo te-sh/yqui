@@ -1,8 +1,0 @@
-#! /bin/sh
-
-cd `dirname $0`
-export PATH=$PATH:/usr/local/bin
-
-git pull
-docker-compose --file docker-compose.prod.yml pull test
-docker-compose --file docker-compose.prod.yml run test
