@@ -47,7 +47,7 @@ const SpecialWrongRule = ({ rule, changeRule }) => {
 
   return (
     <>
-      <Button color="primary" size="small" className="special-wrong-button"
+      <Button color="primary" className="special-wrong-button"
               variant={noSpecial ? 'outlined' : 'contained'}
               onClick={handleClick}>
         特殊

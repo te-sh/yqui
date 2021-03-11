@@ -1,14 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
+import classNames from 'classnames'
 import './RoomInfo.scss'
 
-const RoomInfo = ({ className, users, master, numPlayers }) => {
+const RoomInfo = ({ className, mobile, users, master, numPlayers }) => {
   const masterName = master ? master.name : '-'
   const numObservers = users.size - numPlayers - (master ? 1 : 0)
 
   return (
-    <Paper className={className}>
+    <Paper className={classNames(className, { mobile })}>
       <Box className="info-block">
         <Typography variant="body2">
           <Box component="span" className="info-title">司会</Box>
@@ -39,6 +40,7 @@ const RoomInfo = ({ className, users, master, numPlayers }) => {
 
 export default connect(
   state => ({
+    mobile: state.mobile,
     users: state.users,
     master: state.master,
     numPlayers: state.numPlayers

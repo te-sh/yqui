@@ -14,7 +14,7 @@ import Actions from './actions/Actions'
 import Dialogs from './dialogs/Dialogs'
 import './Room.scss'
 
-const Room = ({ history, showLeft, roomNo }) => {
+const Room = ({ history, mobile, showLeft, roomNo }) => {
   React.useEffect(
     () => {
       if (roomNo === null) {
@@ -25,6 +25,7 @@ const Room = ({ history, showLeft, roomNo }) => {
   )
 
   const roomClass = classNames('room', {
+    mobile,
     'hide-left': !showLeft
   })
 
@@ -46,6 +47,7 @@ const Room = ({ history, showLeft, roomNo }) => {
 
 export default connect(
   state => ({
+    mobile: state.mobile,
     showLeft: state.showLeft,
     roomNo: state.roomNo
   })

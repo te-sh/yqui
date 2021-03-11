@@ -28,7 +28,7 @@ const InitValueRule = ({ rule, changeRule }) => {
 
   return (
     <>
-      <Button color="primary" size="small" className="init-value-button"
+      <Button color="primary" className="init-value-button"
               variant={noSpecial ? 'outlined' : 'contained'}
               onClick={handleClick}>
         初期値

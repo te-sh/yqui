@@ -4,11 +4,12 @@ import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
   Tab, Tabs, Typography
 } from '@material-ui/core'
+import classNames from 'classnames'
 import { setOpenHelp } from '../../redux/actions'
 import TabPanel from '../../lib/TabPanel'
 import './Help.scss'
 
-const Help = ({ open, setOpen }) => {
+const Help = ({ mobile, open, setOpen }) => {
   const [tab, setTab] = React.useState(0)
 
   const close = () => {
@@ -19,7 +20,7 @@ const Help = ({ open, setOpen }) => {
     <Dialog className="help-dialog" open={open}
             aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">ヘルプ</DialogTitle>
-      <DialogContent className="help">
+      <DialogContent className={classNames('help', { mobile })}>
         <Tabs value={tab} onChange={(evt, newTab) => setTab(newTab)}>
           <Tab label="プレイヤー" />
           <Tab label="司会" />
@@ -35,7 +36,7 @@ const Help = ({ open, setOpen }) => {
             <li>
               <Typography>
                 画面下部の
-                <Button variant="outlined" color="primary">
+                <Button variant="outlined" color="primary" size="small">
                   早押し
                 </Button>
                 をクリックする
@@ -44,7 +45,7 @@ const Help = ({ open, setOpen }) => {
             <li>
               <Typography>
                 画面下部の
-                <Button variant="outlined" color="primary">
+                <Button variant="outlined" color="primary" size="small">
                   早押し
                 </Button>
                 の周りのエリアをクリックした後, Enter キーを押す
@@ -60,7 +61,7 @@ const Help = ({ open, setOpen }) => {
             チャット回答マーク
           </Typography>
           <Typography>
-            設定でチャット回答マークをオンにすると名前欄にチャット回答マークが付きます.
+            設定でチャット回答マークをオンにすると名前欄にチャット回答マーク (<span className="chat-mark">©</span>) が付きます.
           </Typography>
           <Typography>
             こうすると司会者があなたがチャット回答かどうかを容易に判断できるようになり, 円滑な進行の助けになるでしょう.
@@ -68,21 +69,22 @@ const Help = ({ open, setOpen }) => {
         </TabPanel>
         <TabPanel value={tab} index={1}>
           <Typography variant="h6">
-            &quot;次の問題&quot; と &quot;リセット&quot;
+            <Button variant="outlined">次の問題</Button>と<Button variant="outlined">リセット</Button>
           </Typography>
           <Typography>
-            &quot;次の問題&quot; は休み中のプレイヤーの休みを減らします. &quot;リセット&quot; は減らしません.
+            <Button variant="outlined" size="small">次の問題</Button>は休み中のプレイヤーの休みを減らします.
+            <Button variant="outlined" size="small">リセット</Button>は減らしません.
             休みルールがない場合は違いはありません.
           </Typography>
           <Typography variant="h6">
-            &quot;最上位勝ち抜け&quot; と &quot;最下位失格&quot;
+            <Button variant="outlined">最上位勝ち抜け</Button>と<Button variant="outlined">最下位失格</Button>
           </Typography>
           <Typography>
-            &quot;最上位勝ち抜け&quot; はクリック時のポイントが最も大きいプレイヤーを勝ち抜けにします.
+            <Button variant="outlined" size="small">最上位勝ち抜け</Button>はクリック時のポイントが最も大きいプレイヤーを勝ち抜けにします.
             そのようなプレイヤーが複数いる場合はそのプレイヤー全員を勝ち抜けにします.
           </Typography>
           <Typography>
-            &quot;最下位失格&quot; はクリック時のポイントが最も小さいプレイヤーを失格にします.
+            <Button variant="outlined" size="small">最下位失格</Button>はクリック時のポイントが最も小さいプレイヤーを失格にします.
             そのようなプレイヤーが複数いる場合はそのプレイヤー全員を失格にします.
           </Typography>
           <Typography>
@@ -113,6 +115,7 @@ const Help = ({ open, setOpen }) => {
 
 export default connect(
   state => ({
+    mobile: state.mobile,
     open: state.open.help
   }),
   dispatch => ({

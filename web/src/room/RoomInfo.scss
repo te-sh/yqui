@@ -4,6 +4,8 @@
 
   .info-block {
     width: 4em;
+    overflow: hidden;
+    white-space: nowrap;
 
     &:first-child {
       flex-grow: 1;
@@ -12,14 +14,20 @@
     &:not(:first-child) {
       text-align: right;
     }
+
+    .info-title {
+      font-size: 0.95em;
+      font-weight: bold;
+    }
+
+    .info-element {
+      margin-left: 0.3em;
+    }
   }
 
-  .info-title {
-    font-size: 0.95em;
-    font-weight: bold;
-  }
-  
-  .info-element {
-    margin-left: 0.3em;
+  &.mobile {
+    .info-block:not(:first-child) {
+      display: none;
+    }
   }
 }

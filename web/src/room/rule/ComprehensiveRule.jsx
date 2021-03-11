@@ -43,7 +43,7 @@ const ComprehensiveRule = ({ rule, changeRule }) => {
 
   return (
     <>
-      <Button color="primary" size="small" className="comprehensive-button"
+      <Button color="primary" className="comprehensive-button"
               variant={noSpecial ? 'outlined' : 'contained'}
               onClick={handleClick}>
         総合ポイント

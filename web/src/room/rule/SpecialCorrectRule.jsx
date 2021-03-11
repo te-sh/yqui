@@ -41,7 +41,7 @@ const SpecialCorrectRule = ({ rule, changeRule }) => {
 
   return (
     <>
-      <Button color="primary" size="small" className="special-correct-button"
+      <Button color="primary" className="special-correct-button"
               variant={noSpecial ? 'outlined' : 'contained'}
               onClick={handleClick}>
         特殊

@@ -7,6 +7,10 @@
     margin-bottom: 15px;
   }
 
+  .MuiFormGroup-row {
+    align-items: flex-end;
+  }
+
   .MuiInputBase-root {
     width: 65px;
 
@@ -17,9 +21,11 @@
 
   .tab-panel {
     height: 23em;
-    padding: 1.5em;
+    padding: 1em;
   }
 
+  .special-correct-button,
+  .special-wrong-button,
   .comprehensive-button {
     margin-left: 10px;
   }
