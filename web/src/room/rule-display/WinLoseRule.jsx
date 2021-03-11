@@ -75,9 +75,7 @@ const WinLoseRule = ({ simple, rule }) => {
   }
 
   return (
-    <Box>
-      <Typography variant="body2">{win(rule)} {lose(rule)}</Typography>
-    </Box>
+    <Typography variant="body2">{win(rule)} {lose(rule)}</Typography>
   )
 }
 

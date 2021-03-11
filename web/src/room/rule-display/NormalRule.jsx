@@ -126,9 +126,9 @@ const NormalRule = ({ simple, rule }) => {
 
   return (
     <Box className="normal-rule">
-      <Box className="title">
-        <Typography variant="caption">{title}</Typography>
-      </Box>
+      <Typography variant="caption">
+        <Box component="span" className="rule-caption">{title}</Box>
+      </Typography>
       <Box className="content">
         {correctWrong(rule.player)}
         {!rule.board.active && <WinLoseRule simple={simple} rule={rule.player} />}

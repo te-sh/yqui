@@ -34,9 +34,9 @@ const TeamRule = ({ simple, rule }) => {
 
   return (
     <Box className="team-rule">
-      <Box className="title">
-        <Typography variant="caption">チームスコア</Typography>
-      </Box>
+      <Typography variant="rule-caption">
+        <Box component="span" className="title">チームスコア</Box>
+      </Typography>
       <Box className="content">
         <Typography variant="body2">{point(rule.team)}</Typography>
         <Typography variant="body2">{batsu(rule.team)}</Typography>

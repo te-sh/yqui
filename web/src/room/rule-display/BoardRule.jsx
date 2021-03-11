@@ -5,9 +5,9 @@ import WinLoseRule from './WinLoseRule'
 
 const BoardRule = ({ simple, rule }) => (
   <Box className="board-rule">
-    <Box className="title">
-      <Typography variant="caption">ボードスコア</Typography>
-    </Box>
+    <Typography variant="caption">
+      <Box component="span" className="rule-caption">ボードスコア</Box>
+    </Typography>
     <Box className="content">
       <Typography variant="body2">
         <Box component="span" className="rule-title">正解</Box>

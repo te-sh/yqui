@@ -1,7 +1,12 @@
 .room-info {
   padding: 5px;
 
-  .master-name {
-    color: #388e3c;
+  .info-title {
+    font-size: 0.95em;
+    font-weight: bold;
+  }
+  
+  .info-element {
+    margin-left: 0.3em;
   }
 }

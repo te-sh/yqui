@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Paper, Typography } from '@material-ui/core'
+import { Box, Paper, Typography } from '@material-ui/core'
 import './RoomInfo.scss'
 
 const RoomInfo = ({ className, master }) => {
@@ -8,10 +8,14 @@ const RoomInfo = ({ className, master }) => {
 
   return (
     <Paper className={className}>
-      <Typography>
-        <span>司会 </span>
-        <span className="master-name">{masterName}</span>
-      </Typography>
+      <Box className="info-block">
+        <Typography variant="body2">
+          <Box component="span" className="info-title">司会</Box>
+          <Box component="span" className="info-element master-name">
+            {masterName}
+          </Box>
+        </Typography>
+      </Box>
     </Paper>
   )
 }

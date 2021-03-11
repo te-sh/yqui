@@ -14,9 +14,9 @@ const ButtonRule = ({ simple, rule, numPlayers }) => {
 
   return (
     <Box className="button-rule">
-      <Box className="title">
-        <Typography variant="caption">ボタン</Typography>
-      </Box>
+      <Typography variant="caption">
+        <Box component="span" className="rule-caption">ボタン</Box>
+      </Typography>
       <Box className="content">
         <Typography variant="body2">{chanceText(simple, rule, numPlayers)}</Typography>
       </Box>
