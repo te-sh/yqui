@@ -36,6 +36,7 @@ services:
     image: tesh/yqui-e2e-test
     volumes:
       - './test/report:/home/node/test/report'
+      - './test/screenshots:/home/node/test/screenshots'
     environment:
       - TEST_TARGET
     cap_add:
