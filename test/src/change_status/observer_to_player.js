@@ -25,15 +25,19 @@ test('player box', async t => {
     .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた0')
 })
 
-test('actions, subactions, chat message', async t => {
+test('actions, subactions, chat message, room info', async t => {
   await t.switchToWindow(t.ctx.w0)
     .expect(s.actions.visible.player.exists).ok()
     .expect(s.subactions.visible.player.exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた0さんが解答席に移動しました')
+    .expect(s.roomInfo.numPlayers.innerText).eql('2人')
+    .expect(s.roomInfo.numObservers.innerText).eql('0人')
   await t.switchToWindow(t.ctx.w1)
     .expect(s.actions.visible.player.exists).ok()
     .expect(s.subactions.visible.player.exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた0さんが解答席に移動しました')
+    .expect(s.roomInfo.numPlayers.innerText).eql('2人')
+    .expect(s.roomInfo.numObservers.innerText).eql('0人')
 })
 
 test('tobar buttons', async t => {

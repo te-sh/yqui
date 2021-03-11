@@ -44,16 +44,20 @@ test('player box', async t => {
     .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
 })
 
-test('chat message', async t => {
+test('chat message, room info', async t => {
   await enterRoom(0)
 
   await leaveRoom(1)
   await t
     .expect(s.chat.lastMessage.innerText).eql('ゆーた1さんが退室しました')
+    .expect(s.roomInfo.numPlayers.innerText).eql('2人')
+    .expect(s.roomInfo.numObservers.innerText).eql('0人')
 
   await t.closeWindow(t.ctx.w2)
   await t
     .expect(s.chat.lastMessage.innerText).eql('ゆーた2さんが退室しました')
+    .expect(s.roomInfo.numPlayers.innerText).eql('1人')
+    .expect(s.roomInfo.numObservers.innerText).eql('0人')
 })
 
 test('tobar buttons', async t => {

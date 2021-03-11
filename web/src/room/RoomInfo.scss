@@ -1,5 +1,18 @@
 .room-info {
   padding: 5px;
+  display: flex;
+
+  .info-block {
+    width: 4em;
+
+    &:first-child {
+      flex-grow: 1;
+    }
+
+    &:not(:first-child) {
+      text-align: right;
+    }
+  }
 
   .info-title {
     font-size: 0.95em;

@@ -54,7 +54,7 @@ test('player box', async t => {
     .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
 })
 
-test('chat message', async t => {
+test('chat message, room info', async t => {
   await enterRoom(0)
 
   await t.switchToWindow(t.ctx.w1)
@@ -62,12 +62,18 @@ test('chat message', async t => {
   await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)
     .expect(s.chat.lastMessage.innerText).eql('ゆーた1さん (司会) が退室しました')
+    .expect(s.roomInfo.masterName.innerText).eql('-')
+    .expect(s.roomInfo.numPlayers.innerText).eql('2人')
+    .expect(s.roomInfo.numObservers.innerText).eql('0人')
 
   await t.switchToWindow(t.ctx.w2)
     .click(s.topbar.master)
   await t.closeWindow(t.ctx.w2)
   await t.switchToWindow(t.ctx.w0)
     .expect(s.chat.lastMessage.innerText).eql('ゆーた2さん (司会) が退室しました')
+    .expect(s.roomInfo.masterName.innerText).eql('-')
+    .expect(s.roomInfo.numPlayers.innerText).eql('1人')
+    .expect(s.roomInfo.numObservers.innerText).eql('0人')
 })
 
 test('tobar buttons', async t => {

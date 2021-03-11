@@ -36,22 +36,28 @@ test('player box', async t => {
     .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
 })
 
-test('actions, subactions, chat message', async t => {
+test('actions, subactions, chat message, room info', async t => {
   await enterRoom(0)
   await t
     .expect(s.actions.visible.player.exists).ok()
     .expect(s.subactions.visible.player.exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた0さんが入室しました')
+    .expect(s.roomInfo.numPlayers.innerText).eql('1人')
+    .expect(s.roomInfo.numObservers.innerText).eql('0人')
 
   await enterRoom(1, { observer: true })
   await t.switchToWindow(t.ctx.w0)
     .expect(s.actions.visible.player.exists).ok()
     .expect(s.subactions.visible.player.exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた1さん (観戦) が入室しました')
+    .expect(s.roomInfo.numPlayers.innerText).eql('1人')
+    .expect(s.roomInfo.numObservers.innerText).eql('1人')
   await t.switchToWindow(t.ctx.w1)
     .expect(s.actions.visible.observer.exists).ok()
     .expect(s.subactions.visible.player.exists).ok()
     .expect(s.chat.lastMessage.innerText).eql('ゆーた1さん (観戦) が入室しました')
+    .expect(s.roomInfo.numPlayers.innerText).eql('1人')
+    .expect(s.roomInfo.numObservers.innerText).eql('1人')
 })
 
 test('tobar buttons', async t => {

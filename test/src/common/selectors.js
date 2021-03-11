@@ -14,7 +14,9 @@ export const selectors = {
     leave: Selector('header .leave-room-button')
   },
   roomInfo: {
-    masterName: Selector('.room .room-info .master-name')
+    masterName: Selector('.room .room-info .master-name'),
+    numPlayers: Selector('.room .room-info .num-players'),
+    numObservers: Selector('.room .room-info .num-observers')
   },
   ruleDisplay: {
     normal: {
