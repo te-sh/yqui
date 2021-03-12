@@ -15,6 +15,7 @@ const Tag = ({ tag, user, open, setOpen }) => {
 
   const onEnter = async () => {
     setTitle(tag.title)
+    setPassword(tag.password)
   }
 
   const ok = () => {

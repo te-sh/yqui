@@ -87,6 +87,7 @@ export const selectors = {
     },
     tag: {
       title: Selector('.tag-dialog .title'),
+      password: Selector('.tag-dialog .password'),
       submit: Selector('.tag-dialog .submit')
     },
     rule: {

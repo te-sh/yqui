@@ -20,7 +20,7 @@ const RoomsBody = ({ rooms, click }) => {
       </TableCell>
       <TableCell className="room-title">
         <Box className="content">
-          {room.hasPassword && <LockOutlined fontSize="small" />}
+          {room.hasPassword && <LockOutlined fontSize="small" className="has-password" />}
           <Typography variant="body2">{room.title}</Typography>
         </Box>
       </TableCell>
