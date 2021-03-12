@@ -13,7 +13,7 @@ const Topbar = ({ className, roomNo }) => {
           Yqui
         </Typography>
         <Typography className="room-name">
-          Room {roomNo + 1}
+          Room{roomNo}
         </Typography>
         <TagButton />
         <div className="toolbar-grow" />

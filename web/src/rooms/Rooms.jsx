@@ -12,21 +12,20 @@ import EnterRoom from './EnterRoom'
 import './Rooms.scss'
 
 const Rooms = ({ history, mobile, rooms, roomNo }) => {
-  const [enterRoomOpen, setEnterRoomOpen] = React.useState(false)
-  const [enterRoomNo, setEnterRoomNo] = React.useState(0)
+  const [open, setOpen] = React.useState(false)
+  const [room, setRoom] = React.useState(null)
 
-  const openEnterRoom = roomNo => {
-    setEnterRoomNo(roomNo)
-    setEnterRoomOpen(true)
+  const openEnterRoom = room => {
+    setRoom(room)
+    setOpen(true)
   }
 
   const closeEnterRoom = () => {
-    setEnterRoomOpen(false)
+    setOpen(false)
   }
 
   const enterRoom = async join => {
     closeEnterRoom()
-    join.roomNo = enterRoomNo
     join.scoreBackup = await restoreScoreBackup(join.name)
     sendWs(SEND_JOIN, join)
   }
@@ -34,7 +33,7 @@ const Rooms = ({ history, mobile, rooms, roomNo }) => {
   React.useEffect(
     () => {
       if (roomNo !== null) {
-        history.push(`/room/${roomNo + 1}`)
+        history.push(`/room/${roomNo}`)
       }
     },
     [history, roomNo]
@@ -52,7 +51,7 @@ const Rooms = ({ history, mobile, rooms, roomNo }) => {
         </TableContainer>
       </Box>
       <Copyright />
-      <EnterRoom open={enterRoomOpen}
+      <EnterRoom room={room} open={open}
                  submit={enterRoom} close={closeEnterRoom} />
     </Box>
   )

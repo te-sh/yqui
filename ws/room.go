@@ -5,6 +5,7 @@ const numRooms = 16
 var rooms = NewRooms()
 
 type RoomSummary struct {
+	No          int    `json:"no"`
 	NumUsers    int    `json:"numUsers"`
 	Title       string `json:"title"`
 	HasPassword bool   `json:"hasPassword"`
@@ -13,6 +14,7 @@ type RoomSummary struct {
 type RoomsSummary []*RoomSummary
 
 type Room struct {
+	No      int         `json:"no"`
 	Tag     *RoomTag    `json:"tag"`
 	Users   Users       `json:"users"`
 	Teams   Teams       `json:"teams"`
@@ -32,26 +34,28 @@ type RoomTag struct {
 
 type Rooms []*Room
 
-func NewRooms() Rooms {
-	var rooms Rooms
-	for i := 0; i < numRooms; i++ {
-		rooms = append(rooms, NewRoom())
-	}
-	return rooms
-}
-
 func NewRoomSummary(room *Room) *RoomSummary {
 	roomSummary := new(RoomSummary)
+	roomSummary.No = room.No
 	roomSummary.NumUsers = len(room.Users)
 	roomSummary.Title = room.Tag.Title
 	roomSummary.HasPassword = len(room.Tag.Password) > 0
 	return roomSummary
 }
 
-func NewRoom() *Room {
+func NewRooms() Rooms {
+	var rooms Rooms
+	for i := 0; i < numRooms; i++ {
+		rooms = append(rooms, NewRoom(i+1))
+	}
+	return rooms
+}
+
+func NewRoom(no int) *Room {
 	room := new(Room)
 	team := NewTeam()
 
+	room.No = no
 	room.Tag = NewTag()
 	room.Users = make(Users)
 	room.Teams = Teams{team}
@@ -75,16 +79,26 @@ func NewTag() *RoomTag {
 	return tag
 }
 
+func (rooms Rooms) FindRoom(roomNo int) *Room {
+	for _, room := range rooms {
+		if room.No == roomNo {
+			return room
+		}
+	}
+	return nil
+}
+
 func (room *Room) RenewAESKey() {
 	RandomBytes(room.AESKey)
 }
 
 func (rooms Rooms) GetRoom(roomNo int) (*Room, bool) {
-	if 0 <= roomNo && roomNo < len(rooms) {
-		return rooms[roomNo], true
-	} else {
-		return nil, false
+	for _, room := range rooms {
+		if room.No == roomNo {
+			return room, true
+		}
 	}
+	return nil, false
 }
 
 func (rooms Rooms) MakeSummary() RoomsSummary {

@@ -58,9 +58,10 @@ func (room *Room) RunCommand(cmd Cmd) {
 		join := MakeJoin(cmd)
 		if user, ok := room.JoinUser(cmd.ID, join); ok {
 			room.SendRoom()
-			SendToOne(cmd.ID, "joined", join.RoomNo, true)
 			SendToAll("rooms", rooms.MakeSummary(), true)
 			room.SendChat(NewSystemChat("join", cmd, user))
+		} else {
+			SendToOne(cmd.ID, "failedJoin", nil, true)
 		}
 	case "leave":
 		if user, ok := room.LeaveUser(cmd.ID); ok {

@@ -1,5 +1,15 @@
 .enter-room {
-  .form-group:not(:first-child) {
-    margin-top: 15px;
+  .form-group {
+    &:nth-child(2) {
+      margin-top: 5px;
+    }
+
+    &:nth-child(3) {
+      margin-top: 10px;
+    }
+
+    &:nth-child(5) {
+      margin-top: 10px;
+    }
   }
 }

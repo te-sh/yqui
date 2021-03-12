@@ -3,17 +3,17 @@ import { Box, Button, TableBody, TableCell, TableRow, Typography } from '@materi
 import { LockOutlined } from '@material-ui/icons'
 
 const RoomsBody = ({ rooms, click }) => {
-  const rows = rooms.map((room, i) => (
-    <TableRow key={i}>
+  const rows = rooms.map(room => (
+    <TableRow key={room.no}>
       <TableCell className="enter-room">
         <Button variant="outlined" color="primary"
                 className="enter-room-button"
-                onClick={() => click(i)}>
+                onClick={() => click(room)}>
           入室
         </Button>
       </TableCell>
       <TableCell className="room-name">
-        <Typography variant="body2">Room{i + 1}</Typography>
+        <Typography variant="body2">Room{room.no}</Typography>
       </TableCell>
       <TableCell className="num-users">
         <Typography variant="body2">{room.numUsers}</Typography>

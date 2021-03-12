@@ -6,8 +6,8 @@ import URI from 'urijs'
 import { saveScoreBackup } from './lib/score'
 import playSound from './lib/sound'
 import {
-  setMobile, reset, setWebSocket, recvSelfID, recvRooms, recvJoined,
-  recvRoom, recvRule, recvBg, recvBoard, recvSg, recvButtons, recvTimer, recvChat
+  setMobile, reset, setWebSocket, recvSelfID, recvRooms, recvRoom,
+  recvRule, recvBg, recvBoard, recvSg, recvButtons, recvTimer, recvChat
 } from './redux/actions'
 import Rooms from './rooms/Rooms'
 import Room from './room/Room'
@@ -67,7 +67,6 @@ export default connect(
     recv: {
       selfID: selfID => dispatch(recvSelfID(selfID)),
       rooms: rooms => dispatch(recvRooms(rooms)),
-      joined: roomNo => dispatch(recvJoined(roomNo)),
       room: room => dispatch(recvRoom(room)),
       rule: rule => dispatch(recvRule(rule)),
       bg: bg => dispatch(recvBg(bg)),

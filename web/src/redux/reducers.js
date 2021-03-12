@@ -1,9 +1,8 @@
 import update from 'immutability-helper'
 import {
-  SET_MOBILE, RESET, SET_WEB_SOCKET, RECV_SELF_ID,
-  RECV_ROOMS, RECV_JOINED, TOGGLE_SHOW_LEFT,
-  RECV_ROOM, RECV_RULE, RECV_BG, RECV_BOARD, RECV_SG,
-  RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS,
+  SET_MOBILE, RESET, SET_WEB_SOCKET, RECV_SELF_ID, RECV_ROOMS,
+  TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_RULE, RECV_BG, RECV_BOARD,
+  RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS,
   SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
   SET_OPEN_TAG, SET_OPEN_RULE, SET_OPEN_SETTING,
   SET_OPEN_HELP, SET_OPEN_LEAVE
@@ -60,6 +59,7 @@ const recvRoom = (action, state) => {
   const teams = teamsFromJson(action.room.teams)
   const players = playersOfTeams(teams)
   return update(state, {
+    roomNo: { $set: action.room.no },
     tag: { $set: action.room.tag },
     users: { $set: users },
     user: { $set: users.get(state.selfID) },
@@ -89,8 +89,6 @@ const yquiApp = (state = initialState, action) => {
       return update(state, { selfID: { $set: action.selfID } })
     case RECV_ROOMS:
       return update(state, { rooms: { $set: action.rooms } })
-    case RECV_JOINED:
-      return update(state, { roomNo: { $set: action.roomNo } })
     case TOGGLE_SHOW_LEFT:
       return update(state, { showLeft: { $set: !state.showLeft } })
     case RECV_ROOM:

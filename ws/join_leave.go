@@ -5,6 +5,7 @@ import "encoding/json"
 type Join struct {
 	RoomNo      int    `json:"roomNo"`
 	Name        string `json:"name"`
+	Password    string `json:"password"`
 	Observer    bool   `json:"observer"`
 	ChatAnswer  bool   `json:"chatAnswer"`
 	BorderColor string `json:"borderColor"`
@@ -20,6 +21,10 @@ func MakeJoin(cmd Cmd) *Join {
 func (room *Room) JoinUser(id int64, join *Join) (*User, bool) {
 	if _, ok := room.Users[id]; ok {
 		LogError("join user", Log{ID: id, Message: "duplicated id", Json: join})
+		return nil, false
+	}
+
+	if room.Tag.Password != "" && room.Tag.Password != join.Password {
 		return nil, false
 	}
 

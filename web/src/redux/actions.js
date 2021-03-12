@@ -3,7 +3,6 @@ export const RESET = 'RESET'
 export const SET_WEB_SOCKET = 'SET_WEB_SOCKET'
 export const RECV_ROOMS = 'RECV_ROOMS'
 export const TOGGLE_SHOW_LEFT = 'TOGGLE_SHOW_LEFT'
-export const RECV_JOINED = 'RECV_JOINED'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
 export const RECV_RULE = 'RECV_RULE'
@@ -46,10 +45,6 @@ export const recvRooms = rooms => {
 
 export const toggleShowLeft = () => {
   return { type: TOGGLE_SHOW_LEFT }
-}
-
-export const recvJoined = roomNo => {
-  return { type: RECV_JOINED, roomNo }
 }
 
 export const recvRoom = room => {

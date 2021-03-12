@@ -10,14 +10,16 @@ import {
 import { COLORS, initUser } from '../lib/user'
 import './EnterRoom.scss'
 
-const EnterRoom = ({ open, close, submit }) => {
+const EnterRoom = ({ room, open, submit, close }) => {
   const [name, setName] = React.useState(initUser.name)
+  const [password, setPassword] = React.useState('')
   const [observer, setObserver] = React.useState(false)
   const [chatAnswer, setChatAnswer] = React.useState(initUser.chatAnswer)
   const [borderColor, setBorderColor] = React.useState(initUser.borderColor)
 
   const onEnter = async () => {
     setName(await retrieveName())
+    setPassword('')
     setChatAnswer(await retrieveChatAnswer())
   }
 
@@ -26,7 +28,9 @@ const EnterRoom = ({ open, close, submit }) => {
     storeName(name)
     storeChatAnswer(chatAnswer)
     submit({
+      roomNo: room.no,
       name,
+      password,
       observer,
       chatAnswer,
       borderColor: borderColor === '#ffffff' ? '#ff000000' : borderColor
@@ -46,6 +50,16 @@ const EnterRoom = ({ open, close, submit }) => {
                          inputProps={{ maxLength: 9 }}
                          value={name}
                          onChange={evt => setName(evt.target.value)} />
+            </FormControl>
+          </FormGroup>
+          <FormGroup className="form-group">
+            <FormControl>
+              <TextField id="password" label="合言葉"
+                         className="password"
+                         disabled={room && !room.hasPassword}
+                         inputProps={{ maxLength: 20 }}
+                         value={password}
+                         onChange={evt => setPassword(evt.target.value)} />
             </FormControl>
           </FormGroup>
           <FormGroup className="form-group">
@@ -71,11 +85,9 @@ const EnterRoom = ({ open, close, submit }) => {
             </FormControl>
           </FormGroup>
           <FormGroup className="form-group">
-            <FormControl>
+            <FormControl className="border-color">
               <FormLabel>枠の色</FormLabel>
-              <GithubPicker width="175"
-                            colors={COLORS}
-                            triangle="hide"
+              <GithubPicker width="175" colors={COLORS} triangle="hide"
                             color={borderColor}
                             onChange={color => setBorderColor(color.hex)} />
             </FormControl>
