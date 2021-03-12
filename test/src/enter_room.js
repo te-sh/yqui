@@ -13,7 +13,7 @@ test('name', async t => {
   await leaveRoom(0)
   await t
     .click(s.rooms.row0.find('.enter-room-button'))
-    .expect(s.dialog.enterRoom.name.getAttribute('value')).eql('ゆーた0')
+    .expect(s.dialog.enterRoom.name.find('input').getAttribute('value')).eql('ゆーた0')
 })
 
 test('not observer', async t => {
