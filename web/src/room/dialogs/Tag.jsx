@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField
+  Button, Dialog, DialogActions, DialogContent, DialogTitle,
+  FormGroup, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { sendWs, SEND_TAG } from '../../lib/send'
@@ -10,6 +11,7 @@ import './Tag.scss'
 
 const Tag = ({ tag, user, open, setOpen }) => {
   const [title, setTitle] = React.useState(tag.title)
+  const [password, setPassword] = React.useState(tag.password)
 
   const onEnter = async () => {
     setTitle(tag.title)
@@ -18,7 +20,8 @@ const Tag = ({ tag, user, open, setOpen }) => {
   const ok = () => {
     setOpen(false)
     sendWs(SEND_TAG, update(tag, {
-      title: { $set: title }
+      title: { $set: title },
+      password: { $set: password }
     }))
   }
 
@@ -29,13 +32,20 @@ const Tag = ({ tag, user, open, setOpen }) => {
   return (
     <Dialog className="tag-dialog" open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">情報</DialogTitle>
+      <DialogTitle id="form-dialog-title">部屋情報</DialogTitle>
       <DialogContent>
-        <TextField label="部屋名" className="title"
-                   InputProps={{ inputProps: { readOnly: !user.isMaster, maxLength: 20 } }}
-                   fullWidth
-                   value={title}
-                   onChange={evt => setTitle(evt.target.value)} />
+        <FormGroup className="info-group">
+          <TextField label="部屋名" className="title"
+                     InputProps={{ inputProps: { readOnly: !user.isMaster, maxLength: 20 } }}
+                     value={title}
+                     onChange={evt => setTitle(evt.target.value)} />
+        </FormGroup>
+        <FormGroup className="info-group">
+          <TextField label="合言葉" className="password"
+                     InputProps={{ inputProps: { readOnly: !user.isMaster, maxLength: 20 } }}
+                     value={password}
+                     onChange={evt => setPassword(evt.target.value)} />
+        </FormGroup>
       </DialogContent>
       <DialogActions>
         <Button className="submit" color="primary" disabled={!user.isMaster} onClick={ok}>

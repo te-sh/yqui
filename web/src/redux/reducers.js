@@ -25,7 +25,8 @@ const initialState = {
   showLeft: true,
   roomNo: null,
   tag: {
-    title: ''
+    title: '',
+    password: ''
   },
   users: initUsers,
   user: initUser,

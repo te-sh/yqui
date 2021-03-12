@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, TableBody, TableCell, TableRow } from '@material-ui/core'
+import { Box, Button, TableBody, TableCell, TableRow, Typography } from '@material-ui/core'
+import { LockOutlined } from '@material-ui/icons'
 
 const RoomsBody = ({ rooms, click }) => {
   const rows = rooms.map((room, i) => (
@@ -12,13 +13,16 @@ const RoomsBody = ({ rooms, click }) => {
         </Button>
       </TableCell>
       <TableCell className="room-name">
-        Room{i + 1}
+        <Typography variant="body2">Room{i + 1}</Typography>
       </TableCell>
       <TableCell className="num-users">
-        {room.numUsers}
+        <Typography variant="body2">{room.numUsers}</Typography>
       </TableCell>
       <TableCell className="room-title">
-        {room.title}
+        <Box className="content">
+          {room.hasPassword && <LockOutlined fontSize="small" />}
+          <Typography variant="body2">{room.title}</Typography>
+        </Box>
       </TableCell>
     </TableRow>
   ))

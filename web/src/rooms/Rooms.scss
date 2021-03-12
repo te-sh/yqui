@@ -4,7 +4,7 @@
     max-width: 38em;
 
     .enter-room {
-      width: 5em;
+      width: 4.8em;
       text-align: center;
     }
 
@@ -14,8 +14,14 @@
     }
 
     .num-users {
-      width: 3em;
+      width: 2.5em;
       text-align: center;
+    }
+
+    .room-title {
+      .content {
+        display: flex;
+      }
     }
 
     th, td {

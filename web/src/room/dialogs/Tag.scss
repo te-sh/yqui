@@ -1,5 +1,9 @@
 .tag-dialog {
-  .title {
+  .info-group:not(:first-child) {
+    margin-top: 5px;
+  }
+
+  .title, .password {
     width: 21em;
   }
 }

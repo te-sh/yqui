@@ -5,8 +5,9 @@ const numRooms = 16
 var rooms = NewRooms()
 
 type RoomSummary struct {
-	NumUsers int    `json:"numUsers"`
-	Title    string `json:"title"`
+	NumUsers    int    `json:"numUsers"`
+	Title       string `json:"title"`
+	HasPassword bool   `json:"hasPassword"`
 }
 
 type RoomsSummary []*RoomSummary
@@ -25,7 +26,8 @@ type Room struct {
 }
 
 type RoomTag struct {
-	Title string `json:"title"`
+	Title    string `json:"title"`
+	Password string `json:"password"`
 }
 
 type Rooms []*Room
@@ -42,6 +44,7 @@ func NewRoomSummary(room *Room) *RoomSummary {
 	roomSummary := new(RoomSummary)
 	roomSummary.NumUsers = len(room.Users)
 	roomSummary.Title = room.Tag.Title
+	roomSummary.HasPassword = len(room.Tag.Password) > 0
 	return roomSummary
 }
 
@@ -68,6 +71,7 @@ func NewRoom() *Room {
 func NewTag() *RoomTag {
 	tag := new(RoomTag)
 	tag.Title = ""
+	tag.Password = ""
 	return tag
 }
 
