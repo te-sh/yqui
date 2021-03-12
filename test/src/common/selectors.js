@@ -7,6 +7,7 @@ export const selectors = {
   },
   topbar: {
     appName: Selector('header .app-name'),
+    roomName: Selector('header .room-name'),
     tag: Selector('header .open-tag-button'),
     assign: Selector('header .begin-assign-button'),
     rule: Selector('header .open-rule-button'),
@@ -79,8 +80,12 @@ export const selectors = {
     }
   },
   dialog: {
+    alert: {
+      message: Selector('.alert-dialog .message')
+    },
     enterRoom: {
       name: Selector('.enter-room-dialog .enter-room .name'),
+      password: Selector('.enter-room-dialog .enter-room .password'),
       observer: Selector('.enter-room-dialog .enter-room .observer'),
       chatAnswer: Selector('.enter-room-dialog .enter-room .chat-answer'),
       submit: Selector('.enter-room-dialog .submit')

@@ -1,7 +1,7 @@
 import { selectors as s, mui } from './common/selectors'
 import { createWindows, enterRoom, leaveRoom } from './common/helper'
 
-const setup = async t => await createWindows(1)
+const setup = async t => await createWindows(2)
 
 fixture('enter_room').beforeEach(setup)
 
@@ -58,4 +58,45 @@ test('chat answer', async t => {
   await t
     .click(s.rooms.row0.find('.enter-room-button'))
     .expect(s.dialog.enterRoom.chatAnswer.hasClass(mui.checked)).ok()
+})
+
+test('no password', async t => {
+  await t
+    .click(s.rooms.row0.find('.enter-room-button'))
+    .expect(s.dialog.enterRoom.password.find('input').hasClass(mui.disabled)).ok()
+    .typeText(s.dialog.enterRoom.name, 'ゆーた0', { replace: true })
+    .click(s.dialog.enterRoom.submit)
+    .expect(s.topbar.roomName.innerText).eql('Room1')
+})
+
+test('enter with correct password', async t => {
+  await enterRoom(1)
+  await t.switchToWindow(t.ctx.w1)
+    .click(s.topbar.master)
+    .click(s.topbar.tag)
+    .typeText(s.dialog.tag.password, 'パスワード', { replace: true })
+    .click(s.dialog.tag.submit)
+  await t.switchToWindow(t.ctx.w0)
+    .click(s.rooms.row0.find('.enter-room-button'))
+    .expect(s.dialog.enterRoom.password.find('input').hasClass(mui.disabled)).notOk()
+    .typeText(s.dialog.enterRoom.name, 'ゆーた0', { replace: true })
+    .typeText(s.dialog.enterRoom.password, 'パスワード', { replace: true })
+    .click(s.dialog.enterRoom.submit)
+    .expect(s.topbar.roomName.innerText).eql('Room1')
+})
+
+test('enter with wrong password', async t => {
+  await enterRoom(1)
+  await t.switchToWindow(t.ctx.w1)
+    .click(s.topbar.master)
+    .click(s.topbar.tag)
+    .typeText(s.dialog.tag.password, 'パスワード', { replace: true })
+    .click(s.dialog.tag.submit)
+  await t.switchToWindow(t.ctx.w0)
+    .click(s.rooms.row0.find('.enter-room-button'))
+    .expect(s.dialog.enterRoom.password.find('input').hasClass(mui.disabled)).notOk()
+    .typeText(s.dialog.enterRoom.name, 'ゆーた0', { replace: true })
+    .typeText(s.dialog.enterRoom.password, 'xxx', { replace: true })
+    .click(s.dialog.enterRoom.submit)
+    .expect(s.dialog.alert.message.innerText).eql('入室できませんでした')
 })

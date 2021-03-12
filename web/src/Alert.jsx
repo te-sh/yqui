@@ -14,11 +14,11 @@ const Alert = ({ alert, setAlert }) => {
   }
 
   return (
-    <Dialog className="leave-room-dialog" open={open}
+    <Dialog className="alert-dialog" open={open}
             aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{display.title}</DialogTitle>
       <DialogContent>
-        <Typography>
+        <Typography className="message">
           {display.message}
         </Typography>
       </DialogContent>
