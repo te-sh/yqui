@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useMediaQuery } from '@material-ui/core'
 import URI from 'urijs'
+import { failedJoinAlert } from './lib/alert'
 import { saveScoreBackup } from './lib/score'
 import playSound from './lib/sound'
 import {
-  setMobile, reset, setWebSocket, recvSelfID, recvRooms, recvRoom,
+  setMobile, reset, setWebSocket, setAlert, recvSelfID, recvRooms, recvRoom,
   recvRule, recvBg, recvBoard, recvSg, recvButtons, recvTimer, recvChat
 } from './redux/actions'
 import Rooms from './rooms/Rooms'
@@ -14,7 +15,7 @@ import Room from './room/Room'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
-const Root = ({ setMobile, reset, setWebSocket, recv }) => {
+const Root = ({ setMobile, reset, setWebSocket, setAlert, recv }) => {
   setMobile(useMediaQuery('(max-width:667px)'))
 
   const createWebSocket = () => {
@@ -34,12 +35,18 @@ const Root = ({ setMobile, reset, setWebSocket, recv }) => {
 
     ws.onmessage = evt => {
       const data = JSON.parse(evt.data)
-      if (data.type === 'scoreBackup') {
-        saveScoreBackup(data.content)
-      } else if (data.type === 'sound') {
-        playSound(data.content)
-      } else if (recv[data.type]) {
-        recv[data.type](data.content)
+      switch (data.type) {
+        case 'failedJoin':
+          setAlert(failedJoinAlert)
+          break
+        case 'scoreBackup':
+          saveScoreBackup(data.content)
+          break
+        case 'sound':
+          playSound(data.content)
+          break
+        default:
+          recv[data.type](data.content)
       }
     }
 
@@ -64,6 +71,7 @@ export default connect(
     setMobile: mobile => dispatch(setMobile(mobile)),
     reset: () => dispatch(reset()),
     setWebSocket: ws => dispatch(setWebSocket(ws)),
+    setAlert: alert => dispatch(setAlert(alert)),
     recv: {
       selfID: selfID => dispatch(recvSelfID(selfID)),
       rooms: rooms => dispatch(recvRooms(rooms)),
