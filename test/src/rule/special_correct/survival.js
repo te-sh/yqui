@@ -95,6 +95,8 @@ test('change survival point', async t => {
     .typeText(s.dialog.rule.specialCorrect.survival.value, '-2', { replace: true })
     .click(s.dialog.rule.specialCorrect.open)
     .click(s.dialog.rule.submit)
+  await t
+    .expect(s.ruleDisplay.normal.content.innerText).contains('サバイバル (-2ポイント)')
   await correct(1, 0)
   await t
     .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('5')
