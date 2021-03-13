@@ -1,5 +1,9 @@
 package main
 
+func (rooms *Rooms) SendRooms() {
+	SendToAll("rooms", rooms.MakeSummary(), true)
+}
+
 func (room *Room) SendRoom() {
 	room.SendRule()
 	room.SendBG()

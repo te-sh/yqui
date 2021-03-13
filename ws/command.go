@@ -58,7 +58,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		join := MakeJoin(cmd)
 		if user, ok := room.JoinUser(cmd.ID, join); ok {
 			room.SendRoom()
-			SendToAll("rooms", rooms.MakeSummary(), true)
+			rooms.SendRooms()
 			room.SendChat(NewSystemChat("join", cmd, user))
 		} else {
 			SendToOne(cmd.ID, "failedJoin", nil, true)
@@ -66,7 +66,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "leave":
 		if user, ok := room.LeaveUser(cmd.ID); ok {
 			room.SendRoom()
-			SendToAll("rooms", rooms.MakeSummary(), true)
+			rooms.SendRooms()
 			room.SendChat(NewSystemChat("leave", cmd, user))
 		}
 	case "user":
@@ -77,7 +77,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 	case "tag":
 		json.Unmarshal(cmd.A, &room.Tag)
 		room.SendRoom()
-		SendToAll("rooms", rooms.MakeSummary(), true)
+		rooms.SendRooms()
 	case "teams":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()
