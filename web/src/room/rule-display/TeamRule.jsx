@@ -34,8 +34,8 @@ const TeamRule = ({ simple, rule }) => {
 
   return (
     <Box className="team-rule">
-      <Typography variant="rule-caption">
-        <Box component="span" className="title">チームスコア</Box>
+      <Typography variant="caption">
+        <Box component="span" className="rule-caption">チームスコア</Box>
       </Typography>
       <Box className="content">
         <Typography variant="body2">{point(rule.team)}</Typography>
