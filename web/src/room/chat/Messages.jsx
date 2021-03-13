@@ -54,6 +54,12 @@ const Messages = ({ className, chats }) => {
             {userName(chat)}さんが{placeMove[chat.text]}に移動しました
           </span>
         )
+      case 'update-tag':
+        return (
+          <span className="message-body message-system">
+            {userName(chat)}さんが部屋情報を更新しました
+          </span>
+        )
       default:
         return null
     }

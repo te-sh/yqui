@@ -78,6 +78,9 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, &room.Tag)
 		room.SendRoom()
 		rooms.SendRooms()
+		if user, ok := room.Users[cmd.ID]; ok {
+			room.SendChat(NewSystemChat("update-tag", cmd, user))
+		}
 	case "teams":
 		json.Unmarshal(cmd.A, &room.Teams)
 		room.ChangeTeams()
