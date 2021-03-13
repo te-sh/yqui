@@ -42,8 +42,8 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 
-	SendToOne(id, "selfID", id, true)
-	SendToOne(id, "rooms", rooms.MakeSummary(), true)
+	SendToOne(id, nil, "selfID", id, true)
+	SendToOne(id, nil, "rooms", rooms.MakeSummary(), true)
 
 LOOP:
 	for {

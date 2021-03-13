@@ -29,7 +29,7 @@ func (room *Room) SendBG() {
 
 		for _, board := range room.BG.Boards {
 			if !board.Open {
-				SendToOne(board.ID, "board", board, false)
+				SendToOne(board.ID, room, "board", board, false)
 			}
 		}
 	}
@@ -41,7 +41,7 @@ func (room *Room) SendBoard(id int64) {
 			room.Broadcast("board", board, true)
 		} else {
 			room.SendToMaster("board", board, true)
-			SendToOne(id, "board", board, false)
+			SendToOne(id, room, "board", board, false)
 		}
 	}
 }
@@ -64,7 +64,7 @@ func (room *Room) SendSG() {
 	for id, user := range room.Users {
 		if score, ok := room.SG.Player.Scores[id]; ok {
 			if encoded, err := room.MakeScoreBackup(user, score); err == nil {
-				SendToOne(id, "scoreBackup", encoded, false)
+				SendToOne(id, room, "scoreBackup", encoded, false)
 			}
 		}
 	}
@@ -86,37 +86,37 @@ func (room *Room) SendSound(sound *Sound) {
 }
 
 func (room *Room) Broadcast(typ string, content interface{}, log bool) {
-	SendToOnes(room.Users.IDs(), typ, content, log)
+	SendToOnes(room.Users.IDs(), room, typ, content, log)
 }
 
 func (room *Room) SendToMaster(typ string, content interface{}, log bool) {
 	if id, ok := room.Users.MasterID(); ok {
-		SendToOne(id, typ, content, log)
+		SendToOne(id, room, typ, content, log)
 	}
 }
 
 func (room *Room) SendToExceptMaster(typ string, content interface{}, log bool) {
 	if id, ok := room.Users.MasterID(); ok {
-		SendToOnes(Int64Remove(room.Users.IDs(), id), typ, content, log)
+		SendToOnes(Int64Remove(room.Users.IDs(), id), room, typ, content, log)
 	} else {
 		room.Broadcast(typ, content, log)
 	}
 }
 
-func SendToOne(id int64, typ string, content interface{}, log bool) {
+func SendToOne(id int64, room *Room, typ string, content interface{}, log bool) {
 	send := Send{Type: typ, Content: content}
 	if conn, ok := mapper.GetConn(id); ok {
 		if log {
-			LogInfo("send to webcoket", Log{Conn: conn, Message: typ, Json: content})
+			LogInfo("send to webcoket", Log{Room: room, Conn: conn, Message: typ, Json: content})
 		}
 		conn.Send <- send
 	}
 }
 
-func SendToOnes(ids []int64, typ string, content interface{}, log bool) {
+func SendToOnes(ids []int64, room *Room, typ string, content interface{}, log bool) {
 	send := Send{Type: typ, Content: content}
 	if log {
-		LogInfo("send to websocket", Log{Message: typ, Json: content})
+		LogInfo("send to websocket", Log{Room: room, Message: typ, Json: content})
 	}
 	for _, id := range ids {
 		if conn, ok := mapper.GetConn(id); ok {

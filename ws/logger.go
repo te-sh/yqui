@@ -32,29 +32,37 @@ func LogPanic() {
 type Log struct {
 	Conn    *Conn
 	ID      int64
+	Room    *Room
 	Message string
 	Json    interface{}
 	Error   error
 }
 
-func (content *Log) IDText() string {
+func (content *Log) GetText() (id, ipAddress, roomNo, userName string) {
 	if content.Conn != nil {
-		return fmt.Sprintf("%v", content.Conn.ID)
-	} else if content.ID > 0 {
-		return fmt.Sprintf("%v", content.ID)
-	}
-	return ""
-}
-
-func (content *Log) IpAddress() string {
-	if content.Conn != nil {
-		return content.Conn.IpAddress
-	} else if content.ID > 0 {
-		if conn, ok := mapper.GetConn(content.ID); ok {
-			return conn.IpAddress
+		id = fmt.Sprintf("%v", content.Conn.ID)
+		ipAddress = content.Conn.IpAddress
+		if room, ok := mapper.GetRoom(content.Conn.ID); ok {
+			roomNo = fmt.Sprintf("Room%v", room.No)
+			if user, ok := room.Users[content.Conn.ID]; ok {
+				userName = user.Name
+			}
 		}
+	} else if content.ID > 0 {
+		id = fmt.Sprintf("%v", content.ID)
+		if conn, ok := mapper.GetConn(content.ID); ok {
+			ipAddress = conn.IpAddress
+		}
+		if room, ok := mapper.GetRoom(content.ID); ok {
+			roomNo = fmt.Sprintf("Room%v", room.No)
+			if user, ok := room.Users[content.ID]; ok {
+				userName = user.Name
+			}
+		}
+	} else if content.Room != nil {
+		roomNo = fmt.Sprintf("Room%v", content.Room.No)
 	}
-	return ""
+	return
 }
 
 func (content *Log) JsonText() string {
@@ -78,9 +86,10 @@ func (content *Log) ErrorText() string {
 }
 
 func WriteLog(typ string, action string, content Log) {
+	id, ipAddress, roomNo, userName := content.GetText()
 	log.Printf(
-		"%v : %v : %v : %v : %v : %v : %v",
-		typ, content.IDText(), content.IpAddress(), action,
+		"%v : %v : %v : %v : %v : %v : %v : %v : %v",
+		typ, id, ipAddress, roomNo, userName, action,
 		content.Message, content.JsonText(), content.ErrorText())
 }
 

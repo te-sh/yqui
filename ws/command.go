@@ -61,7 +61,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 			rooms.SendRooms()
 			room.SendChat(NewSystemChat("join", cmd, user))
 		} else {
-			SendToOne(cmd.ID, "failedJoin", nil, true)
+			SendToOne(cmd.ID, room, "failedJoin", nil, true)
 		}
 	case "leave":
 		if user, ok := room.LeaveUser(cmd.ID); ok {
