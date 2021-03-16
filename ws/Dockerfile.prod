@@ -1,11 +1,9 @@
-FROM golang:1.15.8-alpine3.13 AS builder
+FROM golang:1.16.2-alpine3.13 AS builder
 
 WORKDIR /app
 
 RUN apk update \
- && apk add git \
- && go get gopkg.in/natefinch/lumberjack.v2 \
- && go get github.com/gorilla/websocket
+ && apk add git
 
 ADD . ./
 
@@ -28,6 +26,6 @@ ENV APPDIR $HOME/app
 RUN mkdir -p $APPDIR
 
 WORKDIR $APPDIR
-COPY --from=builder --chown=yqui:yqui /app/app .
+COPY --from=builder --chown=yqui:yqui /app/yqui .
 
 ENV YQUI_ENV prod

@@ -19,7 +19,7 @@ services:
     environment:
       - COMPOSE_PROJECT_NAME
     restart: on-failure
-    command: ['./app']
+    command: ['./yqui']
   proxy:
     image: nginx:1.19.8-alpine
     ports:
