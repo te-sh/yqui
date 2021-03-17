@@ -11,12 +11,9 @@ const setup = async t => {
 
 fixture('rule/normal/point_wrong').beforeEach(setup)
 
-test('rule display', async t => {
+test('wrong', async t => {
   await t
     .expect(s.ruleDisplay.normal.content.innerText).notMatch(/誤答.*0ポイント/)
-})
-
-test('wrong', async t => {
   await wrong(1, 0)
   await t
     .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('0')
