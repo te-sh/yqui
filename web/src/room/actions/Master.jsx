@@ -65,7 +65,7 @@ const Master = ({ className, hidden, rule, clearEditBoards }) => {
               color="secondary" className="wrong-button"
               onClick={() => onWrong(true)}
               startIcon={<Close />}>
-        不正解
+        誤答
       </Button>
       <Button variant="outlined" size="large"
               color="default" className="through-button"
