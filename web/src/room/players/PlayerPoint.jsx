@@ -15,7 +15,7 @@ const PlayerPoint = ({ className, user, score, rule }) => {
 
   const point = (
     <Box className="point">
-      <Typography className="content">
+      <Typography className={classNames('content', { 'show-point': rule.showPoint })}>
         {text.point}
       </Typography>
     </Box>
@@ -23,7 +23,7 @@ const PlayerPoint = ({ className, user, score, rule }) => {
 
   const batsu = (
     <Box className="batsu">
-      <Typography className="content">
+      <Typography className={classNames('content', { 'show-point': rule.showPoint })}>
         {text.batsu}
       </Typography>
     </Box>
@@ -31,7 +31,7 @@ const PlayerPoint = ({ className, user, score, rule }) => {
 
   const compPoint = (
     <Box className="comp-point">
-      <Typography className="content">
+      <Typography className={classNames('content', { 'show-point': rule.showPoint })}>
         {text.compPoint}
       </Typography>
     </Box>

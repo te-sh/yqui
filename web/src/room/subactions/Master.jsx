@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel,
-  MenuItem, Select, Typography
+  Box, Button, FormControl, FormControlLabel, InputLabel,
+  MenuItem, Select, Switch, Typography
 } from '@material-ui/core'
 import classNames from 'classnames'
 import update from 'immutability-helper'
@@ -105,9 +105,9 @@ const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
       <Box className="show-point">
         <FormControlLabel
           control={
-            <Checkbox color="default" className="show-point"
-                      checked={rule.showPoint}
-                      onChange={toggleShowPoint} />
+            <Switch color="primary" className="show-point"
+                    checked={rule.showPoint}
+                    onChange={toggleShowPoint} />
           }
           label="ポイント表示" />
       </Box>
