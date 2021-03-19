@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Box, Button, FormControl, FormControlLabel, InputLabel,
-  MenuItem, Select, Switch, Typography
+  Box, Button, FormControl, FormControlLabel, IconButton,
+  InputLabel, MenuItem, Select, Switch, Typography
 } from '@material-ui/core'
+import { Pause, PlayArrow } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
 import { minSecTime } from '../../lib/util'
@@ -73,25 +74,38 @@ const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
   )
 
   const timerComponent = (
-    <Box className="timer">
-      <Button variant="outlined" color="default" className="toggle-timer-button"
-              onClick={toggleTimer}>
-        タイマー{timer.running ? '停止' : '駆動'}
-      </Button>
+    <Box className="group timer">
+      <Typography>
+        タイマー
+      </Typography>
       <Typography variant="h6"
                   className={classNames('timer-remaining', { running: timer.running })}>
         {minSecTime(timer.remaining)}
       </Typography>
+      <IconButton size="small"
+                  className="start-timer-button"
+                  disabled={timer.running}
+                  onClick={toggleTimer}>
+        <PlayArrow />
+      </IconButton>
+      <IconButton size="small"
+                  className="pause-timer-button"
+                  disabled={!timer.running}
+                  onClick={toggleTimer}>
+        <Pause />
+      </IconButton>
     </Box>
   )
 
   const normalMenu = (
     <Box className="content normal">
-      <Button variant="outlined" color="default" className="all-clear-button"
-              onClick={onAllClear}>
-        オールクリア
-      </Button>
-      <Box className="win-lose">
+      <Box className="group all-clear">
+        <Button variant="outlined" color="default" className="all-clear-button"
+                onClick={onAllClear}>
+          オールクリア
+        </Button>
+      </Box>
+      <Box className="group win-lose">
         <Button variant="outlined" color="default" className="win-top-button"
                 onClick={winTop}>
           最上位勝ち抜け
@@ -102,7 +116,7 @@ const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
         </Button>
       </Box>
       {rule.other.timer.active && timerComponent}
-      <Box className="show-point">
+      <Box className="group show-point">
         <FormControlLabel
           control={
             <Switch color="primary" className="show-point"

@@ -8,7 +8,7 @@ const Player = ({ className, hidden, rule, timer }) => {
   const timerComponent = (
     <Box className="timer">
       <Typography>
-        タイマー{timer.running ? '駆動' : '停止'}中
+        タイマー
       </Typography>
       <Typography variant="h6"
                   className={classNames('timer-remaining', { running: timer.running })}>

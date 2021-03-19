@@ -20,10 +20,6 @@
       align-items: center;
       justify-content: center;
 
-      &:not(:first-child) {
-        margin-left: 20px;
-      }
-
       .timer-remaining {
         font-family: 'DSEG7Classic';
         margin-left: 5px;
