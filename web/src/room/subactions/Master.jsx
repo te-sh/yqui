@@ -1,22 +1,46 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Box, Button, Checkbox, FormControlLabel, Typography
+  Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel,
+  MenuItem, Select, Typography
 } from '@material-ui/core'
 import classNames from 'classnames'
 import update from 'immutability-helper'
 import { minSecTime } from '../../lib/util'
 import {
   sendWs, SEND_ALL_CLEAR, SEND_WIN_TOP, SEND_LOSE_BOTTOM,
-  SEND_RULE, SEND_TOGGLE_TIMER
+  SEND_RULE, SEND_BOARD_LOCK, SEND_BOARDS, SEND_TOGGLE_TIMER
 } from '../../lib/send'
 import { clearEditBoards } from '../../redux/actions'
 import './Master.scss'
 
-const Master = ({ className, hidden, rule, timer, clearEditBoards }) => {
+const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
+  const [menu, setMenu] = React.useState('normal')
+
+  React.useEffect(
+    () => {
+      if (!rule.board.active) {
+        setMenu('normal')
+      }
+    },
+    [rule]
+  )
+
   const onAllClear = () => {
     clearEditBoards()
     sendWs(SEND_ALL_CLEAR)
+  }
+
+  const onBoardLock = () => {
+    sendWs(SEND_BOARD_LOCK, !bg.lock)
+  }
+
+  const onOpenAll = () => {
+    const boards = Object.fromEntries([...bg.boards.keys()].map(id => (
+      [id, update(bg.boards.get(id), { open: { $set: true } })]
+    )))
+    clearEditBoards()
+    sendWs(SEND_BOARDS, boards)
   }
 
   const winTop = () => {
@@ -37,6 +61,17 @@ const Master = ({ className, hidden, rule, timer, clearEditBoards }) => {
     }))
   }
 
+  const menuSelect = (
+    <FormControl>
+      <InputLabel id="menu-label">メニュー</InputLabel>
+      <Select labelId="menu-label" className="menu-select" value={menu}
+              onChange={evt => setMenu(evt.target.value)}>
+        <MenuItem value="normal">通常</MenuItem>
+        <MenuItem value="board">ボード</MenuItem>
+      </Select>
+    </FormControl>
+  )
+
   const timerComponent = (
     <Box className="timer">
       <Button variant="outlined" color="default" className="toggle-timer-button"
@@ -50,20 +85,22 @@ const Master = ({ className, hidden, rule, timer, clearEditBoards }) => {
     </Box>
   )
 
-  return (
-    <Box className={classNames(className, 'master-subactions', { hidden })}>
+  const normalMenu = (
+    <Box className="content normal">
       <Button variant="outlined" color="default" className="all-clear-button"
               onClick={onAllClear}>
         オールクリア
       </Button>
-      <Button variant="outlined" color="default" className="win-top-button"
-              onClick={winTop}>
-        最上位勝ち抜け
-      </Button>
-      <Button variant="outlined" color="default" className="lose-bottom-button"
-              onClick={loseBottom}>
-        最下位失格
-      </Button>
+      <Box className="win-lose">
+        <Button variant="outlined" color="default" className="win-top-button"
+                onClick={winTop}>
+          最上位勝ち抜け
+        </Button>
+        <Button variant="outlined" color="default" className="lose-bottom-button"
+                onClick={loseBottom}>
+          最下位失格
+        </Button>
+      </Box>
       {rule.other.timer.active && timerComponent}
       <Box className="show-point">
         <FormControlLabel
@@ -76,10 +113,32 @@ const Master = ({ className, hidden, rule, timer, clearEditBoards }) => {
       </Box>
     </Box>
   )
+
+  const boardMenu = (
+    <Box className="content board">
+      <Button variant="outlined" color="default" className="board-lock-button"
+              onClick={onBoardLock}>
+        { bg.lock ? '回答ロック解除' : '回答ロック' }
+      </Button>
+      <Button variant="outlined" color="default" className="open-all-button"
+              onClick={onOpenAll}>
+        すべてオープン
+      </Button>
+    </Box>
+  )
+
+  return (
+    <Box className={classNames(className, 'master-subactions', { hidden })}>
+      {rule.board.active && menuSelect}
+      {menu === 'normal' && normalMenu}
+      {menu === 'board' && boardMenu}
+    </Box>
+  )
 }
 
 export default connect(
   state => ({
+    bg: state.bg,
     rule: state.rule,
     timer: state.timer
   }),

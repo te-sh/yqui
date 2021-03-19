@@ -3,15 +3,14 @@ import { connect } from 'react-redux'
 import { Box, Button } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import classNames from 'classnames'
-import update from 'immutability-helper'
 import {
   sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH, SEND_RESET,
-  SEND_UNDO, SEND_REDO, SEND_BOARDS, SEND_BOARD_LOCK
+  SEND_UNDO, SEND_REDO
 } from '../../lib/send'
 import { clearEditBoards } from '../../redux/actions'
 import './Actions.scss'
 
-const Master = ({ className, hidden, rule, bg, clearEditBoards }) => {
+const Master = ({ className, hidden, rule, clearEditBoards }) => {
   const onCorrect = nextQuiz => { sendWs(SEND_CORRECT, { nextQuiz }) }
   const onWrong = nextQuiz => { sendWs(SEND_WRONG, { nextQuiz }) }
 
@@ -19,6 +18,7 @@ const Master = ({ className, hidden, rule, bg, clearEditBoards }) => {
     clearEditBoards()
     sendWs(SEND_THROUGH)
   }
+
   const onReset = () => {
     clearEditBoards()
     sendWs(SEND_RESET)
@@ -27,30 +27,13 @@ const Master = ({ className, hidden, rule, bg, clearEditBoards }) => {
   const onUndo = () => { sendWs(SEND_UNDO) }
   const onRedo = () => { sendWs(SEND_REDO) }
 
-  const onBoardLock = () => { sendWs(SEND_BOARD_LOCK, !bg.lock) }
-  const onOpenAll = () => {
-    const boards = Object.fromEntries([...bg.boards.keys()].map(id => (
-      [id, update(bg.boards.get(id), { open: { $set: true } })]
-    )))
-    clearEditBoards()
-    sendWs(SEND_BOARDS, boards)
-  }
-
   const onKeyDown = evt => {
     switch (evt.keyCode) {
       case 81: // q
-        if (rule.board.active) {
-          onBoardLock()
-        } else {
-          onCorrect(!evt.shiftKey)
-        }
+        onCorrect(!evt.shiftKey)
         break
       case 87: // w
-        if (rule.board.active) {
-          onOpenAll()
-        } else {
-          onWrong(!evt.shiftKey)
-        }
+        onWrong(!evt.shiftKey)
         break
       case 69: // e
         onThrough()
@@ -69,53 +52,38 @@ const Master = ({ className, hidden, rule, bg, clearEditBoards }) => {
     }
   }
 
-  const buttonAttr = { variant: 'outlined', size: 'large' }
-
-  const normalButtons = (
-    <>
-      <Button {...buttonAttr} color="primary" className="correct-button"
+  return (
+    <Box className={classNames(className, 'master-actions', { hidden })}
+         tabIndex="0" onKeyDown={onKeyDown}>
+      <Button variant="outlined" size="large"
+              color="primary" className="correct-button"
               onClick={() => onCorrect(true)}
               startIcon={<RadioButtonUnchecked />}>
         正解
       </Button>
-      <Button {...buttonAttr} color="secondary" className="wrong-button"
+      <Button variant="outlined" size="large"
+              color="secondary" className="wrong-button"
               onClick={() => onWrong(true)}
               startIcon={<Close />}>
         不正解
       </Button>
-    </>
-  )
-
-  const boardButtons = (
-    <>
-      <Button {...buttonAttr} color="default" className="board-lock-button"
-              onClick={onBoardLock}>
-        { bg.lock ? '回答ロック解除' : '回答ロック' }
-      </Button>
-      <Button {...buttonAttr} color="default" className="open-all-button"
-              onClick={onOpenAll}>
-        すべてオープン
-      </Button>
-    </>
-  )
-
-  return (
-    <Box className={classNames(className, 'master-actions', { hidden })}
-         tabIndex="0" onKeyDown={onKeyDown}>
-      {rule.board.active ? boardButtons : normalButtons}
-      <Button {...buttonAttr} color="default" className="through-button"
+      <Button variant="outlined" size="large"
+              color="default" className="through-button"
               onClick={onThrough}>
         次の問題
       </Button>
-      <Button {...buttonAttr} color="default" className="reset-button"
+      <Button variant="outlined" size="large"
+              color="default" className="reset-button"
               onClick={onReset}>
         リセット
       </Button>
-      <Button {...buttonAttr} color="default" className="undo-button"
+      <Button variant="outlined" size="large"
+              color="default" className="undo-button"
               onClick={onUndo}>
         Undo
       </Button>
-      <Button {...buttonAttr} color="default" className="redo-button"
+      <Button variant="outlined" size="large"
+              color="default" className="redo-button"
               onClick={onRedo}>
         Redo
       </Button>
@@ -125,8 +93,7 @@ const Master = ({ className, hidden, rule, bg, clearEditBoards }) => {
 
 export default connect(
   state => ({
-    rule: state.rule,
-    bg: state.bg
+    rule: state.rule
   }),
   dispatch => ({
     clearEditBoards: () => dispatch(clearEditBoards())

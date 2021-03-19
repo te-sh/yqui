@@ -1,11 +1,28 @@
 .subactions {
   .subactions-content.master-subactions {
-    .MuiButtonBase-root.win-top-button {
-      margin-left: 20px;
+    display: flex;
+
+    .menu-select {
+      width: 5em;
     }
 
-    .show-point {
-      margin-left: 20px;
+    .content {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.normal {
+        .win-lose, .show-point {
+          margin-left: 20px;
+        }
+      }
+
+      &.board {
+        .MuiButtonBase-root:not(:first-child) {
+          margin-left: 20px;
+        }
+      }
     }
   }
 }
