@@ -47,7 +47,7 @@ const Chat = ({ className, mobile, isPlayer }) => {
 
   const chatButton = (
     <Button fullWidth onClick={chatMobile}>
-      チャット入力
+      チャット
     </Button>
   )
 

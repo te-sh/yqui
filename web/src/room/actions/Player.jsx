@@ -4,9 +4,10 @@ import { Box, Button, TextField } from '@material-ui/core'
 import update from 'immutability-helper'
 import classNames from 'classnames'
 import { sendWs, SEND_PUSH, SEND_BOARD } from '../../lib/send'
+import { openPrompt } from '../../lib/dialog'
 import './Actions.scss'
 
-const Player = ({ className, hidden, selfID, rule, bg }) => {
+const Player = ({ className, hidden, mobile, selfID, rule, bg }) => {
   const [answer, setAnswer] = React.useState('')
 
   const onKeyDown = evt => {
@@ -19,16 +20,31 @@ const Player = ({ className, hidden, selfID, rule, bg }) => {
     }
   }
 
-  const sendAnswer = (evt) => {
+  const sendAnswer = evt => {
     evt.preventDefault()
-    const newBoard = update(bg.boards.get(selfID), {
-      text: { $set: answer }
-    })
-    sendWs(SEND_BOARD, newBoard)
+    sendBoard(answer)
     setAnswer('')
   }
 
-  const boardComponent = (
+  const sendAnswerMobile = () => {
+    openPrompt({
+      title: 'ボード',
+      close: result => {
+        if (result !== null) {
+          sendBoard(result)
+        }
+      }
+    })
+  }
+
+  const sendBoard = text => {
+    const newBoard = update(bg.boards.get(selfID), {
+      text: { $set: text }
+    })
+    sendWs(SEND_BOARD, newBoard)
+  }
+
+  const boardInput = (
     <Box>
       <form onSubmit={sendAnswer} className="boardactions-content">
         <TextField id="message" variant="outlined" size="small"
@@ -44,6 +60,13 @@ const Player = ({ className, hidden, selfID, rule, bg }) => {
     </Box>
   )
 
+  const boardInputMobile = (
+    <Button disabled={bg.lock}
+            onClick={sendAnswerMobile}>
+      ボード
+    </Button>
+  )
+
   return (
     <Box className={classNames(className, 'player-actions', { hidden })}
          tabIndex="0" onKeyDown={onKeyDown}>
@@ -52,13 +75,14 @@ const Player = ({ className, hidden, selfID, rule, bg }) => {
               onClick={() => sendWs(SEND_PUSH)}>
         早押し
       </Button>
-      {rule.board.active && boardComponent}
+      {rule.board.active && (mobile ? boardInputMobile : boardInput)}
     </Box>
   )
 }
 
 export default connect(
   state => ({
+    mobile: state.mobile,
     selfID: state.selfID,
     rule: state.rule,
     bg: state.bg
