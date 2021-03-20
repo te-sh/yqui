@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Checkbox, FormControl, FormControlLabel, FormGroup,
-  FormLabel, InputLabel, MenuItem, Select, TextField
+  FormLabel, InputLabel, MenuItem, Select, Switch, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
@@ -69,9 +69,9 @@ const TeamRule = ({ rule, changeRule }) => {
       <FormGroup className="rule-group">
         <FormControlLabel
           control={
-            <Checkbox color="default" className="active"
-                      checked={rule.active}
-                      onChange={evt => changeActive(evt.target.checked)} />
+            <Switch color="primary" className="active"
+                    checked={rule.active}
+                    onChange={evt => changeActive(evt.target.checked)} />
           }
           label="チーム戦" />
       </FormGroup>

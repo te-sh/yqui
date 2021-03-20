@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Checkbox, FormControlLabel, FormGroup, TextField
+  FormControlLabel, FormGroup, Switch, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
@@ -24,9 +24,9 @@ const OtherRule = ({ rule, changeRule }) => {
         <FormGroup row={true}>
           <FormControlLabel
             control={
-              <Checkbox color="default"
-                        checked={rule.timer.active}
-                        onChange={evt => changeTimerActive(evt.target.checked)} />
+              <Switch color="primary"
+                      checked={rule.timer.active}
+                      onChange={evt => changeTimerActive(evt.target.checked)} />
             }
             label="タイマー" />
           <TextField label="分" type="number"

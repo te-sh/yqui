@@ -1,7 +1,8 @@
 import React from 'react'
 import {
-  Box, Button, Checkbox, FormControl, FormControlLabel, FormLabel,
-  FormGroup, InputLabel, MenuItem, Popover, Select, TextField
+  Box, Button, Checkbox, FormControl, FormControlLabel,
+  FormLabel, FormGroup, InputLabel, MenuItem, Popover,
+  Select, Switch, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
@@ -55,9 +56,9 @@ const ComprehensiveRule = ({ rule, changeRule }) => {
           <FormGroup className="rule-group">
             <FormControlLabel
               control={
-                <Checkbox color="default"
-                          checked={rule.active}
-                          onChange={evt => changeActive(evt.target.checked)} />
+                <Switch color="primary"
+                        checked={rule.active}
+                        onChange={evt => changeActive(evt.target.checked)} />
               }
               label="表示する" />
           </FormGroup>

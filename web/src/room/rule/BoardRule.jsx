@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Checkbox, FormControl, FormControlLabel,
-  FormGroup, FormLabel, TextField
+  FormGroup, FormLabel, Switch, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
@@ -24,15 +24,15 @@ const BoardRule = ({ rule, changeRule }) => {
       <FormGroup className="rule-group">
         <FormControlLabel
           control={
-            <Checkbox color="default"
-                      checked={rule.active}
-                      onChange={evt => changeActive(evt.target.checked)} />
+            <Switch color="primary"
+                    checked={rule.active}
+                    onChange={evt => changeActive(evt.target.checked)} />
           }
           label="ボード回答" />
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
         <FormLabel component="legend">
-          正答時
+          正解
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"

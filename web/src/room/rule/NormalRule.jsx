@@ -77,7 +77,7 @@ const NormalRule = ({ rule, changeRule }) => {
     <>
       <FormGroup component="fieldset" className="rule-group">
         <FormLabel component="legend">
-          正答時
+          正解
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
@@ -91,7 +91,7 @@ const NormalRule = ({ rule, changeRule }) => {
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
         <FormLabel component="legend">
-          誤答時
+          誤答
         </FormLabel>
         <FormGroup row={true}>
           <TextField label="ポイント" type="number"
