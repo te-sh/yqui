@@ -150,8 +150,8 @@ export const selectors = {
       },
       submit: Selector('.rule-dialog .submit')
     },
-    leaveRoom: {
-      submit: Selector('.leave-room-dialog .submit')
+    confirm: {
+      ok: Selector('.confirm-dialog .ok')
     }
   }
 }

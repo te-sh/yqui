@@ -58,7 +58,7 @@ export const leaveRoom = async (index, options = {}) => {
 
   await t.switchToWindow(t.ctx.windows[index])
     .click(s.topbar.leave)
-    .click(s.dialog.leaveRoom.submit)
+    .click(s.dialog.confirm.ok)
 
   if (!options.switchWindow) {
     await t.switchToWindow(current)
