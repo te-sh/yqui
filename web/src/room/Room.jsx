@@ -12,7 +12,7 @@ import Teams from './players/Teams'
 import Subactions from './subactions/Subactions'
 import Actions from './actions/Actions'
 import Dialogs from './dialogs/Dialogs'
-import MessageBox from '../MessageBox'
+import CommonDialogs from '../dialogs/Dialogs'
 import './Room.scss'
 
 const Room = ({ history, mobile, showLeft, roomNo }) => {
@@ -42,7 +42,7 @@ const Room = ({ history, mobile, showLeft, roomNo }) => {
       <Subactions className="subactions" />
       <Actions className="actions" />
       <Dialogs />
-      <MessageBox />
+      <CommonDialogs />
     </Box>
   )
 }

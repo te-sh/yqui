@@ -17,12 +17,12 @@ export const SET_BOARD = 'SET_BOARD'
 export const ADD_EDIT_BOARD = 'ADD_EDIT_BOARD'
 export const REMOVE_EDIT_BOARD = 'REMOVE_EDIT_BOARD'
 export const CLEAR_EDIT_BOARDS = 'CLEAR_EDIT_BOARDS'
-export const SET_MESSAGE_BOX = 'SET_MESSAGE_BOX'
 export const SET_OPEN_TAG = 'SET_OPEN_TAG'
 export const SET_OPEN_RULE = 'SET_OPEN_RULE'
 export const SET_OPEN_SETTING = 'SET_OPEN_SETTING'
 export const SET_OPEN_HELP = 'SET_OPEN_HELP'
 export const SET_OPEN_LEAVE = 'SET_OPEN_LEAVE'
+export const SET_ALERT = 'SET_ALERT'
 
 export const setMobile = mobile => {
   return { type: SET_MOBILE, mobile }
@@ -100,10 +100,6 @@ export const clearEditBoards = () => {
   return { type: CLEAR_EDIT_BOARDS }
 }
 
-export const setMessageBox = messageBox => {
-  return { type: SET_MESSAGE_BOX, messageBox }
-}
-
 export const setOpenTag = open => {
   return { type: SET_OPEN_TAG, open }
 }
@@ -122,4 +118,8 @@ export const setOpenHelp = open => {
 
 export const setOpenLeave = open => {
   return { type: SET_OPEN_LEAVE, open }
+}
+
+export const setAlert = alert => {
+  return { type: SET_ALERT, alert }
 }

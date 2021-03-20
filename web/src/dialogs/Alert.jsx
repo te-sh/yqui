@@ -3,21 +3,22 @@ import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography
 } from '@material-ui/core'
-import { initMessageBox } from './lib/message_box'
-import { setMessageBox } from './redux/actions'
+import { setAlert } from '../redux/actions'
 
-const MessageBox = ({ messageBox, setMessageBox }) => {
+const Alert = ({ alert, setAlert }) => {
+  const info = alert || {}
+
   const close = () => {
-    setMessageBox(initMessageBox)
+    setAlert(null)
   }
 
   return (
-    <Dialog className="message-box-dialog" open={messageBox.open}
+    <Dialog className="alert-dialog" open={!!alert}
             aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">{messageBox.title}</DialogTitle>
+      <DialogTitle id="form-dialog-title">{info.title}</DialogTitle>
       <DialogContent>
         <Typography className="message">
-          {messageBox.message}
+          {info.message}
         </Typography>
       </DialogContent>
       <DialogActions>
@@ -31,9 +32,9 @@ const MessageBox = ({ messageBox, setMessageBox }) => {
 
 export default connect(
   state => ({
-    messageBox: state.messageBox
+    alert: state.dialog.alert
   }),
   dispatch => ({
-    setMessageBox: value => dispatch(setMessageBox(value))
+    setAlert: alert => dispatch(setAlert(alert))
   })
-)(MessageBox)
+)(Alert)

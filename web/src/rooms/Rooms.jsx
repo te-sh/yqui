@@ -9,7 +9,7 @@ import RoomsHead from './RoomsHead'
 import RoomsBody from './RoomsBody'
 import Copyright from './Copyright'
 import EnterRoom from './EnterRoom'
-import MessageBox from '../MessageBox'
+import CommonDialogs from '../dialogs/Dialogs'
 import './Rooms.scss'
 
 const Rooms = ({ history, mobile, rooms, roomNo }) => {
@@ -54,7 +54,7 @@ const Rooms = ({ history, mobile, rooms, roomNo }) => {
       <Copyright />
       <EnterRoom room={room} open={open}
                  submit={enterRoom} close={closeEnterRoom} />
-      <MessageBox />
+      <CommonDialogs />
     </Box>
   )
 }

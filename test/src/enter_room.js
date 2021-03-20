@@ -98,5 +98,5 @@ test('enter with wrong password', async t => {
     .typeText(s.dialog.enterRoom.name, 'ゆーた0', { replace: true })
     .typeText(s.dialog.enterRoom.password, 'xxx', { replace: true })
     .click(s.dialog.enterRoom.submit)
-    .expect(s.dialog.messageBox.message.innerText).eql('入室できませんでした')
+    .expect(s.dialog.alert.message.innerText).eql('入室できませんでした')
 })
