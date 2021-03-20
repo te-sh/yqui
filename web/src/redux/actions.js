@@ -23,6 +23,7 @@ export const SET_OPEN_SETTING = 'SET_OPEN_SETTING'
 export const SET_OPEN_HELP = 'SET_OPEN_HELP'
 export const SET_ALERT = 'SET_ALERT'
 export const SET_CONFIRM = 'SET_CONFIRM'
+export const SET_PROMPT = 'SET_PROMPT'
 
 export const setMobile = mobile => {
   return { type: SET_MOBILE, mobile }
@@ -122,4 +123,8 @@ export const setAlert = alert => {
 
 export const setConfirm = confirm => {
   return { type: SET_CONFIRM, confirm }
+}
+
+export const setPrompt = prompt => {
+  return { type: SET_PROMPT, prompt }
 }
