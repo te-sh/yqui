@@ -8,14 +8,16 @@ import { setConfirm } from '../redux/actions'
 const Confirm = ({ confirm, setConfirm }) => {
   const info = confirm || {}
 
-  const ok = () => {
+  const ok = evt => {
+    evt.preventDefault()
     setConfirm(null)
     if (confirm.close) {
       confirm.close(true)
     }
   }
 
-  const cancel = () => {
+  const cancel = evt => {
+    evt.preventDefault()
     setConfirm(null)
     if (confirm.close) {
       confirm.close(false)
@@ -25,20 +27,22 @@ const Confirm = ({ confirm, setConfirm }) => {
   return (
     <Dialog className="confirm-dialog" open={!!confirm}
             aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">{info.title}</DialogTitle>
-      <DialogContent>
-        <Typography className="message">
-          {info.message}
-        </Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button className="ok" color="primary" onClick={ok}>
-          OK
-        </Button>
-        <Button className="cancel" color="secondary" onClick={cancel}>
-          キャンセル
-        </Button>
-      </DialogActions>
+      <form onSubmit={ok}>
+        <DialogTitle id="form-dialog-title">{info.title}</DialogTitle>
+        <DialogContent>
+          <Typography className="message">
+            {info.message}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button type="submit" className="ok" color="primary" onClick={ok}>
+            OK
+          </Button>
+          <Button className="cancel" color="secondary" onClick={cancel}>
+            キャンセル
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   )
 }

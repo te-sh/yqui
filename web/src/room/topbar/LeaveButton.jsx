@@ -37,7 +37,7 @@ const LeaveButton = ({ mobile, reset }) => {
     )
   } else {
     return (
-      <ListItem button onClick={open}>
+      <ListItem button onClick={leave}>
         <ListItemIcon><Close /></ListItemIcon>
         <ListItemText>退室</ListItemText>
       </ListItem>
