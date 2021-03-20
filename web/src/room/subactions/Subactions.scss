@@ -31,7 +31,7 @@
       }
     }
 
-    .MuiButtonBase-root:not(:first-child) {
+    .MuiButtonBase-root:not(.MuiIconButton-root):not(:first-child) {
       margin-left: 5px;
     }
 

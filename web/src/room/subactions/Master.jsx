@@ -1,10 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Box, Button, FormControl, FormControlLabel, IconButton,
-  InputLabel, MenuItem, Select, Switch, Typography
+  Box, Button, FormControlLabel, IconButton, Switch, Typography
 } from '@material-ui/core'
-import { Pause, PlayArrow } from '@material-ui/icons'
+import { DoubleArrow, Pause, PlayArrow } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
 import { minSecTime } from '../../lib/util'
@@ -62,16 +61,23 @@ const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
     }))
   }
 
-  const menuSelect = (
-    <FormControl>
-      <InputLabel id="menu-label">メニュー</InputLabel>
-      <Select labelId="menu-label" className="menu-select" value={menu}
-              onChange={evt => setMenu(evt.target.value)}>
-        <MenuItem value="normal">通常</MenuItem>
-        <MenuItem value="board">ボード</MenuItem>
-      </Select>
-    </FormControl>
+  const menuToBoard = (
+    <Box>
+      <Button onClick={() => setMenu('board')}>
+        ボード <DoubleArrow />
+      </Button>
+    </Box>
   )
+
+  const menuToNormal = (
+    <Box>
+      <Button onClick={() => setMenu('normal')}>
+        通常 <DoubleArrow />
+      </Button>
+    </Box>
+  )
+
+  const menuSelect = menu === 'normal' ? menuToBoard : menuToNormal
 
   const timerComponent = (
     <Box className="group timer">
@@ -143,9 +149,9 @@ const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
 
   return (
     <Box className={classNames(className, 'master-subactions', { hidden })}>
-      {rule.board.active && menuSelect}
       {menu === 'normal' && normalMenu}
       {menu === 'board' && boardMenu}
+      {rule.board.active && menuSelect}
     </Box>
   )
 }
