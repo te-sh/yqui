@@ -21,6 +21,10 @@
         .group:not(:first-child) {
           padding-left: 10px;
         }
+
+        .show-point label {
+          margin-right: 0px;
+        }
       }
 
       &.board {
