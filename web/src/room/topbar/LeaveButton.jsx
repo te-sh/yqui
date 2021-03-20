@@ -4,11 +4,22 @@ import {
   Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
 } from '@material-ui/core'
 import { Close } from '@material-ui/icons'
-import { setOpenLeave } from '../../redux/actions'
+import { sendWs, SEND_LEAVE } from '../../lib/send'
+import { openConfirm } from '../../lib/dialog'
+import { reset } from '../../redux/actions'
 
-const LeaveButton = ({ mobile, setOpen }) => {
-  const open = () => {
-    setOpen(true)
+const LeaveButton = ({ mobile, reset }) => {
+  const leave = () => {
+    openConfirm({
+      title: '退室',
+      message: '退室します. よろしいですか?',
+      close: result => {
+        if (result) {
+          sendWs(SEND_LEAVE)
+          reset()
+        }
+      }
+    })
   }
 
   if (!mobile) {
@@ -17,7 +28,7 @@ const LeaveButton = ({ mobile, setOpen }) => {
         <Tooltip title="退室">
           <span>
             <IconButton className="leave-room-button" color="inherit"
-                        onClick={open}>
+                        onClick={leave}>
               <Close />
             </IconButton>
           </span>
@@ -39,6 +50,6 @@ export default connect(
     mobile: state.mobile
   }),
   dispatch => ({
-    setOpen: open => dispatch(setOpenLeave(open))
+    reset: () => dispatch(reset())
   })
 )(LeaveButton)

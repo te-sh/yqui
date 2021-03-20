@@ -23,7 +23,7 @@ const Confirm = ({ confirm, setConfirm }) => {
   }
 
   return (
-    <Dialog className="alert-dialog" open={!!confirm}
+    <Dialog className="confirm-dialog" open={!!confirm}
             aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{info.title}</DialogTitle>
       <DialogContent>

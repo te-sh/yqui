@@ -4,7 +4,7 @@ import {
   TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_RULE, RECV_BG, RECV_BOARD,
   RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS,
   SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
-  SET_OPEN_TAG, SET_OPEN_RULE, SET_OPEN_SETTING, SET_OPEN_HELP, SET_OPEN_LEAVE,
+  SET_OPEN_TAG, SET_OPEN_RULE, SET_OPEN_SETTING, SET_OPEN_HELP,
   SET_ALERT, SET_CONFIRM
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
@@ -49,8 +49,7 @@ const initialState = {
     tag: false,
     rule: false,
     setting: false,
-    help: false,
-    leave: false
+    help: false
   },
   dialog: {
     alert: null,
@@ -129,8 +128,6 @@ const yquiApp = (state = initialState, action) => {
       return update(state, { open: { setting: { $set: action.open } } })
     case SET_OPEN_HELP:
       return update(state, { open: { help: { $set: action.open } } })
-    case SET_OPEN_LEAVE:
-      return update(state, { open: { leave: { $set: action.open } } })
     case SET_ALERT:
       return update(state, { dialog: { alert: { $set: action.alert } } })
     case SET_CONFIRM:

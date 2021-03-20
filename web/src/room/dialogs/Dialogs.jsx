@@ -3,7 +3,6 @@ import Tag from './Tag'
 import Rule from '../rule/Rule'
 import Setting from './Setting'
 import Help from './Help'
-import Leave from './Leave'
 
 const Dialogs = () => {
   return (
@@ -12,7 +11,6 @@ const Dialogs = () => {
       <Rule />
       <Setting />
       <Help />
-      <Leave />
     </>
   )
 }
