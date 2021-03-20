@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useMediaQuery } from '@material-ui/core'
 import URI from 'urijs'
-import { failedJoinAlert } from './lib/alert'
+import { failedJoinAlert } from './lib/message_box'
 import { saveScoreBackup } from './lib/score'
 import playSound from './lib/sound'
 import {
-  setMobile, reset, setWebSocket, setAlert, recvSelfID, recvRooms, recvRoom,
+  setMobile, reset, setWebSocket, setMessageBox, recvSelfID, recvRooms, recvRoom,
   recvRule, recvBg, recvBoard, recvSg, recvButtons, recvTimer, recvChat
 } from './redux/actions'
 import Rooms from './rooms/Rooms'
@@ -15,7 +15,7 @@ import Room from './room/Room'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
-const Root = ({ setMobile, reset, setWebSocket, setAlert, recv }) => {
+const Root = ({ setMobile, reset, setWebSocket, setMessageBox, recv }) => {
   setMobile(useMediaQuery('(max-width:667px)'))
 
   const createWebSocket = () => {
@@ -37,7 +37,7 @@ const Root = ({ setMobile, reset, setWebSocket, setAlert, recv }) => {
       const data = JSON.parse(evt.data)
       switch (data.type) {
         case 'failedJoin':
-          setAlert(failedJoinAlert)
+          setMessageBox(failedJoinAlert)
           break
         case 'scoreBackup':
           saveScoreBackup(data.content)
@@ -71,7 +71,7 @@ export default connect(
     setMobile: mobile => dispatch(setMobile(mobile)),
     reset: () => dispatch(reset()),
     setWebSocket: ws => dispatch(setWebSocket(ws)),
-    setAlert: alert => dispatch(setAlert(alert)),
+    setMessageBox: value => dispatch(setMessageBox(value)),
     recv: {
       selfID: selfID => dispatch(recvSelfID(selfID)),
       rooms: rooms => dispatch(recvRooms(rooms)),

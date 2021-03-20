@@ -80,8 +80,8 @@ export const selectors = {
     }
   },
   dialog: {
-    alert: {
-      message: Selector('.alert-dialog .message')
+    messageBox: {
+      message: Selector('.message-box-dialog .message')
     },
     enterRoom: {
       name: Selector('.enter-room-dialog .enter-room .name'),

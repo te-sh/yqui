@@ -17,7 +17,7 @@ export const SET_BOARD = 'SET_BOARD'
 export const ADD_EDIT_BOARD = 'ADD_EDIT_BOARD'
 export const REMOVE_EDIT_BOARD = 'REMOVE_EDIT_BOARD'
 export const CLEAR_EDIT_BOARDS = 'CLEAR_EDIT_BOARDS'
-export const SET_ALERT = 'SET_ALERT'
+export const SET_MESSAGE_BOX = 'SET_MESSAGE_BOX'
 export const SET_OPEN_TAG = 'SET_OPEN_TAG'
 export const SET_OPEN_RULE = 'SET_OPEN_RULE'
 export const SET_OPEN_SETTING = 'SET_OPEN_SETTING'
@@ -100,8 +100,8 @@ export const clearEditBoards = () => {
   return { type: CLEAR_EDIT_BOARDS }
 }
 
-export const setAlert = alert => {
-  return { type: SET_ALERT, alert }
+export const setMessageBox = messageBox => {
+  return { type: SET_MESSAGE_BOX, messageBox }
 }
 
 export const setOpenTag = open => {
