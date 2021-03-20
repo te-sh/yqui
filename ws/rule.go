@@ -58,7 +58,7 @@ type BoardRule struct {
 }
 
 type OtherRule struct {
-	Timer    *TimerRule `json:"timer"`
+	Timer *TimerRule `json:"timer"`
 }
 
 type TimerRule struct {

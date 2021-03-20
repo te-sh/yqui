@@ -55,7 +55,7 @@ func (ss *ScoreSet) SetWrong(id int64, rule *Rule) {
 			score.ConsCorrect = 0
 		}
 
-		if !sw.Updown && !sw.Backstream && !sw.Divide  {
+		if !sw.Updown && !sw.Backstream && !sw.Divide {
 			score.Point += rule.Player.PointWrong
 		}
 		if sw.Updown {
