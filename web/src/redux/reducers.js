@@ -5,7 +5,7 @@ import {
   RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS,
   SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
   SET_OPEN_TAG, SET_OPEN_RULE, SET_OPEN_SETTING, SET_OPEN_HELP, SET_OPEN_LEAVE,
-  SET_ALERT
+  SET_ALERT, SET_CONFIRM
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { initBg, mergeBgWithJson } from '../lib/board'
@@ -53,7 +53,8 @@ const initialState = {
     leave: false
   },
   dialog: {
-    alert: null
+    alert: null,
+    confirm: null
   }
 }
 
@@ -132,6 +133,8 @@ const yquiApp = (state = initialState, action) => {
       return update(state, { open: { leave: { $set: action.open } } })
     case SET_ALERT:
       return update(state, { dialog: { alert: { $set: action.alert } } })
+    case SET_CONFIRM:
+      return update(state, { dialog: { confirm: { $set: action.confirm } } })
     default:
       return state
   }
