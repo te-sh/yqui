@@ -1,5 +1,5 @@
 import { selectors as s, mui } from '../common/selectors'
-import { createWindows, enterRoom, leaveRoom } from '../common/helper'
+import { createWindows, closeWindows, enterRoom, leaveRoom } from '../common/helper'
 
 const setup = async t => {
   await createWindows(3)
@@ -7,7 +7,7 @@ const setup = async t => {
   await enterRoom(2)
 }
 
-fixture('leave/player').beforeEach(setup)
+fixture('leave/player').beforeEach(setup).afterEach(closeWindows)
 
 test('number of users', async t => {
   const numUsers = s.rooms.row0.find('.num-users')
