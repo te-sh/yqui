@@ -1,5 +1,5 @@
 import { selectors as s } from '../../common/selectors'
-import { createWindows, enterRoom } from '../../common/helper'
+import { createWindows, closeWindows, enterRoom } from '../../common/helper'
 
 const setup = async t => {
   await createWindows(5)
@@ -13,7 +13,7 @@ const setup = async t => {
     .click(s.topbar.assign)
 }
 
-fixture('assign/no_team/move').beforeEach(setup)
+fixture('assign/no_team/move').beforeEach(setup).afterEach(closeWindows)
 
 test('in player area', async t => {
   const x0 = Math.trunc((await s.box.players0.nth(0).boundingClientRect).left)

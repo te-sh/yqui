@@ -26,6 +26,19 @@ export const createWindows = async (num = numWindows) => {
   await t.switchToWindow(t.ctx.w0)
 }
 
+export const closeWindows = async () => {
+  while (t.ctx.windows.length > 1) {
+    try {
+      const w = t.ctx.windows.pop()
+      await t.closeWindow(w)
+    } catch (e) {
+      if (e.code !== 'E74') {
+        throw e
+      }
+    }
+  }
+}
+
 export const enterRoom = async (index, options = {}) => {
   const current = await t.getCurrentWindow()
 

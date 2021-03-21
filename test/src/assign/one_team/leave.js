@@ -1,5 +1,5 @@
 import { selectors as s } from '../../common/selectors'
-import { createWindows, enterRoom, leaveRoom } from '../../common/helper'
+import { createWindows, closeWindows, enterRoom, leaveRoom } from '../../common/helper'
 
 const setup = async t => {
   await createWindows(5)
@@ -17,7 +17,7 @@ const setup = async t => {
     .click(s.topbar.assign)
 }
 
-fixture('assign/one_team/leave').beforeEach(setup)
+fixture('assign/one_team/leave').beforeEach(setup).afterEach(closeWindows)
 
 test('leave player', async t => {
   const player0 = await s.box.players1.nth(0).find('.player-name').innerText
