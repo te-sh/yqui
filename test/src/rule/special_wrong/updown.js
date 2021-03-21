@@ -1,5 +1,5 @@
 import { selectors as s, mui } from '../../common/selectors'
-import { createWindows, enterRoom, correct, wrong } from '../../common/helper'
+import { createWindows, closeWindows, enterRoom, correct, wrong } from '../../common/helper'
 
 const setup = async t => {
   await createWindows(3)
@@ -15,7 +15,7 @@ const setup = async t => {
     .click(s.dialog.rule.submit)
 }
 
-fixture('rule/special_wrong/updown').beforeEach(setup)
+fixture('rule/special_wrong/updown').beforeEach(setup).afterEach(closeWindows)
 
 test('rule display, special button, etc', async t => {
   await t

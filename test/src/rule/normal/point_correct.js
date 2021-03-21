@@ -1,5 +1,5 @@
 import { selectors as s } from '../../common/selectors'
-import { createWindows, enterRoom, correct } from '../../common/helper'
+import { createWindows, closeWindows, enterRoom, correct } from '../../common/helper'
 
 const setup = async t => {
   await createWindows(3)
@@ -9,7 +9,7 @@ const setup = async t => {
   await t.click(s.topbar.master)
 }
 
-fixture('rule/normal/point_correct').beforeEach(setup)
+fixture('rule/normal/point_correct').beforeEach(setup).afterEach(closeWindows)
 
 test('correct', async t => {
   await t

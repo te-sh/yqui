@@ -1,5 +1,5 @@
 import { selectors as s, mui } from '../../common/selectors'
-import { createWindows, enterRoom, correct, wrong } from '../../common/helper'
+import { createWindows, closeWindows, enterRoom, correct, wrong } from '../../common/helper'
 
 const setup = async t => {
   await createWindows(4)
@@ -23,7 +23,7 @@ const setup = async t => {
     .click(s.subactions.master.allClear)
 }
 
-fixture('rule/special_correct/survival').beforeEach(setup)
+fixture('rule/special_correct/survival').beforeEach(setup).afterEach(closeWindows)
 
 test('rule display, special button', async t => {
   await t
