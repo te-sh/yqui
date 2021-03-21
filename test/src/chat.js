@@ -1,5 +1,5 @@
 import { selectors as s } from './common/selectors'
-import { createWindows, enterRoom } from './common/helper'
+import { createWindows, closeWindows, enterRoom } from './common/helper'
 
 const setup = async t => {
   await createWindows(3)
@@ -7,7 +7,7 @@ const setup = async t => {
   await enterRoom(1)
 }
 
-fixture('chat').beforeEach(setup)
+fixture('chat').beforeEach(setup).afterEach(closeWindows)
 
 test('send chat', async t => {
   await t

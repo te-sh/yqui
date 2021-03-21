@@ -1,9 +1,9 @@
 import { selectors as s } from './common/selectors'
-import { createWindows } from './common/helper'
+import { createWindows, closeWindows } from './common/helper'
 
 const setup = async t => await createWindows(3)
 
-fixture('rooms').beforeEach(setup)
+fixture('rooms').beforeEach(setup).afterEach(closeWindows)
 
 test('title', async t => {
   await t

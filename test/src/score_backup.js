@@ -1,5 +1,5 @@
 import { selectors as s } from './common/selectors'
-import { createWindows, enterRoom, leaveRoom, correct, wrong } from './common/helper'
+import { createWindows, closeWindows, enterRoom, leaveRoom, correct, wrong } from './common/helper'
 
 const setup = async t => {
   await createWindows(2)
@@ -10,7 +10,7 @@ const setup = async t => {
   await wrong(1, 0, { times: 1 })
 }
 
-fixture('score backup').beforeEach(setup)
+fixture('score backup').beforeEach(setup).afterEach(closeWindows)
 
 test('join', async t => {
   await leaveRoom(1)

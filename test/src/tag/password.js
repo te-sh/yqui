@@ -1,5 +1,5 @@
 import { selectors as s } from '../common/selectors'
-import { createWindows, enterRoom, leaveRoom } from '../common/helper'
+import { createWindows, closeWindows, enterRoom, leaveRoom } from '../common/helper'
 
 const setup = async t => {
   await createWindows(3)
@@ -12,7 +12,7 @@ const setup = async t => {
     .click(s.dialog.tag.submit)
 }
 
-fixture('tag/password').beforeEach(setup)
+fixture('tag/password').beforeEach(setup).afterEach(closeWindows)
 
 test('in rooms', async t => {
   await t.switchToWindow(t.ctx.w2)

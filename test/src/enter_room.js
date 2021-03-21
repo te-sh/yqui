@@ -1,9 +1,9 @@
 import { selectors as s, mui } from './common/selectors'
-import { createWindows, enterRoom, leaveRoom } from './common/helper'
+import { createWindows, closeWindows, enterRoom, leaveRoom } from './common/helper'
 
 const setup = async t => await createWindows(2)
 
-fixture('enter_room').beforeEach(setup)
+fixture('enter_room').beforeEach(setup).afterEach(closeWindows)
 
 test('name', async t => {
   await enterRoom(0)
