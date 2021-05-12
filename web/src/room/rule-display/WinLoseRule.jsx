@@ -5,12 +5,6 @@ import { initRule, pointText, batsuText } from '../../lib/rule'
 const WinLoseRule = ({ simple, rule }) => {
   const aboveText = value => value ? '以上' : '以下'
 
-  const none = (
-    <Box component="span" className="rule-element">
-      なし
-    </Box>
-  )
-
   const win = rule => {
     const comprehensive = rule.comprehensive || initRule.player.comprehensive
 
@@ -30,21 +24,20 @@ const WinLoseRule = ({ simple, rule }) => {
           {aboveText(comprehensive.winPoint.above)}
         </Box>
       </Box>
-    )].filter(e => e)
-
-    const numWin = (
+    ), (
       rule.winPlayers > 0 &&
-      <Box component="span" className="rule-element">
+      <Box component="span" className="rule-element" key="win-players">
         {rule.winPlayers}人
       </Box>
-    )
+    )].filter(e => e)
 
-    return (
+    const ret = (
       <>
         <Box component="span" className="rule-title">勝ち抜け</Box>
-        {list.length > 0 ? <>{list}{numWin}</> : none}
+        <>{list}</>
       </>
     )
+    return list.length > 0 ? ret : null
   }
 
   const lose = rule => {
@@ -64,18 +57,21 @@ const WinLoseRule = ({ simple, rule }) => {
           {aboveText(rule.loseBatsu.above)}
         </Box>
       </Box>
-    )]
+    )].filter(e => e)
 
-    return (
+    const ret = (
       <>
         <Box component="span" className="rule-title">失格</Box>
-        {list.length > 0 ? list : none}
+        <>{list}</>
       </>
     )
+    return list.length > 0 ? ret : null
   }
 
   return (
-    <Typography variant="body2">{win(rule)} {lose(rule)}</Typography>
+    <Box className="win-lose">
+      <Typography variant="body2">{win(rule)} {lose(rule)}</Typography>
+    </Box>
   )
 }
 

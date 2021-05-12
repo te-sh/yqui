@@ -22,7 +22,8 @@ export const selectors = {
   },
   ruleDisplay: {
     normal: {
-      content: Selector('.room .rule-display .normal-rule .content')
+      content: Selector('.room .rule-display .normal-rule .content'),
+      winLose: Selector('.room .rule-display .normal-rule .content .win-lose')
     },
     team: {
       content: Selector('.room .rule-display .team-rule .content')
@@ -121,7 +122,8 @@ export const selectors = {
           active: Selector('.rule-dialog .normal-rule .lose-batsu-active'),
           value: Selector('.rule-dialog .normal-rule .lose-batsu-value'),
           above: Selector('.rule-dialog .normal-rule .lose-batsu-above')
-        }
+        },
+        winPlayers: Selector('.rule-dialog .normal-rule .win-players')
       },
       initValue: {
         open: Selector('.rule-dialog .normal-rule .init-value-button'),

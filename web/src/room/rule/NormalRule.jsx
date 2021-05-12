@@ -141,9 +141,8 @@ const NormalRule = ({ rule, changeRule }) => {
               <MenuItem value={false}>以下</MenuItem>
             </Select>
           </FormGroup>
-          <TextField label="人数"
-                     type="number"
-                     disabled={!rule.winPoint.active}
+          <TextField label="人数" type="number"
+                     className="win-players"
                      InputProps={{ required: true, inputProps: { min: 0 } }}
                      value={rule.winPlayers}
                      onChange={evt => changeWinPlayers(evt.target.value)} />
