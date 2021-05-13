@@ -118,7 +118,7 @@ const NormalRule = ({ simple, rule }) => {
   )
 
   const correctWrong = rule => (
-    <Box>
+    <Box className="correct-wrong">
       <Typography variant="body2">{correct(rule)} {wrong(rule)}</Typography>
       <Typography variant="body2">{comp(rule)}</Typography>
     </Box>

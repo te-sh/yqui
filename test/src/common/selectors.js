@@ -23,6 +23,7 @@ export const selectors = {
   ruleDisplay: {
     normal: {
       content: Selector('.room .rule-display .normal-rule .content'),
+      correctWrong: Selector('.room .rule-display .normal-rule .content .correct-wrong'),
       winLose: Selector('.room .rule-display .normal-rule .content .win-lose')
     },
     team: {
