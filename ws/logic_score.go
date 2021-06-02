@@ -11,7 +11,16 @@ func (ss *ScoreSet) CanPush(id int64) bool {
 func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 	if score, ok := ss.Scores[id]; ok {
 		sc := rule.Player.SpecialCorrect
-		score.Point += rule.Player.PointCorrect
+		if !sc.Survival.Active ||
+			(rule.Player.PointCorrect != 0 && score.Point < rule.Player.InitPoint) {
+			score.Point += rule.Player.PointCorrect
+		} else {
+			for otherId, otherScore := range ss.Scores {
+				if otherId != id && otherScore.Win == 0 && otherScore.Lose == 0 {
+					otherScore.Point += sc.Survival.Value
+				}
+			}
+		}
 		if sc.ConsBonus {
 			score.Point += rule.Player.PointCorrect * score.ConsCorrect
 			score.ConsCorrect += 1
@@ -29,13 +38,6 @@ func (ss *ScoreSet) SetCorrect(id int64, rule *Rule) {
 				if otherId != id && otherScore.PassSeat {
 					otherScore.Point = rule.Player.InitPoint
 					otherScore.PassSeat = false
-				}
-			}
-		}
-		if sc.Survival.Active {
-			for otherId, otherScore := range ss.Scores {
-				if otherId != id && otherScore.Win == 0 && otherScore.Lose == 0 {
-					otherScore.Point += sc.Survival.Value
 				}
 			}
 		}

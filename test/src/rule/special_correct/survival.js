@@ -95,7 +95,6 @@ test('change survival point', async t => {
     .typeText(s.dialog.rule.specialCorrect.survival.value, '-2', { replace: true })
     .click(s.dialog.rule.specialCorrect.open)
     .click(s.dialog.rule.submit)
-  await t
     .expect(s.ruleDisplay.normal.content.innerText).contains('サバイバル (-2ポイント)')
   await correct(1, 0)
   await t
@@ -104,5 +103,29 @@ test('change survival point', async t => {
     .expect(s.box.players0.nth(1).find('.player-point .point').innerText).eql('3')
     .expect(s.box.players0.nth(1).find('.player-point .batsu').innerText).eql('0')
     .expect(s.box.players0.nth(2).find('.player-point .point').innerText).eql('3')
+    .expect(s.box.players0.nth(2).find('.player-point .batsu').innerText).eql('0')
+})
+
+test('correct point is positive', async t => {
+  await t
+    .click(s.topbar.rule)
+    .typeText(s.dialog.rule.normal.pointCorrect, '1', { replace: true })
+    .click(s.dialog.rule.submit)
+    .expect(s.ruleDisplay.normal.content.innerText).contains('1ポイントサバイバル (-1ポイント)')
+  await correct(1, 0)
+  await t
+    .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('5')
+    .expect(s.box.players0.nth(0).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(1).find('.player-point .point').innerText).eql('4')
+    .expect(s.box.players0.nth(1).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(2).find('.player-point .point').innerText).eql('4')
+    .expect(s.box.players0.nth(2).find('.player-point .batsu').innerText).eql('0')
+  await correct(2, 0)
+  await t
+    .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('5')
+    .expect(s.box.players0.nth(0).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(1).find('.player-point .point').innerText).eql('5')
+    .expect(s.box.players0.nth(1).find('.player-point .batsu').innerText).eql('0')
+    .expect(s.box.players0.nth(2).find('.player-point .point').innerText).eql('4')
     .expect(s.box.players0.nth(2).find('.player-point .batsu').innerText).eql('0')
 })
