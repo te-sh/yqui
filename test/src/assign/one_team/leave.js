@@ -14,7 +14,7 @@ const setup = async t => {
     .click(s.dialog.rule.tab.team)
     .click(s.dialog.rule.team.active)
     .click(s.dialog.rule.submit)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
 }
 
 fixture('assign/one_team/leave').beforeEach(setup).afterEach(closeWindows)

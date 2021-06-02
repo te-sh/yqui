@@ -13,7 +13,7 @@ const setup = async t => {
     .click(s.dialog.rule.tab.team)
     .click(s.dialog.rule.team.active)
     .click(s.dialog.rule.submit)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
     .dragToElement(s.box.players0.nth(0), s.box.team1.find('.players'))
     .dragToElement(s.box.players1.nth(0), s.box.team0.find('.players'))
     .click(s.actions.assign.endAssign)
@@ -42,8 +42,6 @@ test('actions, subactions', async t => {
 
 test('tobar buttons', async t => {
   await t
-    .expect(s.topbar.assign.hasAttribute('disabled')).notOk()
-    .expect(s.topbar.assign.hasClass(mui.iconButton.inherit)).ok()
     .expect(s.topbar.rule.hasAttribute('disabled')).notOk()
     .expect(s.topbar.rule.hasClass(mui.iconButton.inherit)).ok()
     .expect(s.topbar.master.hasAttribute('disabled')).notOk()

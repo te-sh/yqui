@@ -11,6 +11,7 @@ import {
   sendWs, SEND_ALL_CLEAR, SEND_WIN_TOP, SEND_LOSE_BOTTOM,
   SEND_RULE, SEND_BOARD_LOCK, SEND_BOARDS, SEND_TOGGLE_TIMER
 } from '../../lib/send'
+import { beginAssign } from '../../lib/assign'
 import { clearEditBoards } from '../../redux/actions'
 import './Master.scss'
 
@@ -130,6 +131,12 @@ const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
                     onChange={toggleShowPoint} />
           }
           label="ポイント表示" />
+      </Box>
+      <Box className="group edit">
+        <Button variant="outlined" color="default" className="assign-button"
+                onClick={beginAssign}>
+          解答者割当
+        </Button>
       </Box>
     </Box>
   )

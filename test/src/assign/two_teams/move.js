@@ -16,13 +16,13 @@ const setup = async t => {
     .click(s.dialog.rule.tab.team)
     .click(s.dialog.rule.team.active)
     .click(s.dialog.rule.submit)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
     .typeText(s.subactions.assign.numTeams, '2', { replace: true })
     .click(s.subactions.assign.changeNumTeams)
     .dragToElement(s.box.players0.nth(0), s.box.team1)
     .dragToElement(s.box.players0.nth(1), s.box.team1)
     .click(s.actions.assign.endAssign)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
 }
 
 fixture('assign/two_teams/move').beforeEach(setup).afterEach(closeWindows)

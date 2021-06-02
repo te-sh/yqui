@@ -13,12 +13,12 @@ const setup = async t => {
     .click(s.dialog.rule.tab.team)
     .click(s.dialog.rule.team.active)
     .click(s.dialog.rule.submit)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
     .typeText(s.subactions.assign.numTeams, '2', { replace: true })
     .click(s.subactions.assign.changeNumTeams)
     .dragToElement(s.box.players0.nth(0), s.box.team1)
     .click(s.actions.assign.endAssign)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
 }
 
 fixture('assign/two_teams/begin').beforeEach(setup).afterEach(closeWindows)
@@ -47,7 +47,6 @@ test('actions, subactions', async t => {
 
 test('tobar buttons', async t => {
   await t
-    .expect(s.topbar.assign.hasAttribute('disabled')).ok()
     .expect(s.topbar.rule.hasAttribute('disabled')).ok()
     .expect(s.topbar.master.hasAttribute('disabled')).ok()
     .expect(s.topbar.observer.hasAttribute('disabled')).ok()

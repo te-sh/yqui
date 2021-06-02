@@ -9,7 +9,6 @@ export const selectors = {
     appName: Selector('header .app-name'),
     roomName: Selector('header .room-name'),
     tag: Selector('header .open-tag-button'),
-    assign: Selector('header .begin-assign-button'),
     rule: Selector('header .open-rule-button'),
     master: Selector('header .toggle-master-button'),
     observer: Selector('header .toggle-observer-button'),
@@ -74,7 +73,8 @@ export const selectors = {
       assign: Selector('.room .subactions .assign-subactions').filterVisible()
     },
     master: {
-      allClear: Selector('.room .subactions .master-subactions .all-clear-button')
+      allClear: Selector('.room .subactions .master-subactions .all-clear-button'),
+      assign: Selector('.room .subactions .master-subactions .assign-button')
     },
     assign: {
       numTeams: Selector('.room .subactions .assign-subactions .num-teams'),

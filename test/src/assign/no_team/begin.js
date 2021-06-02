@@ -9,7 +9,7 @@ const setup = async t => {
   await enterRoom(3, { observer: true })
   await t
     .click(s.topbar.master)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
 }
 
 fixture('assign/no_team/begin').beforeEach(setup).afterEach(closeWindows)
@@ -35,7 +35,6 @@ test('actions, subactions', async t => {
 
 test('tobar buttons', async t => {
   await t
-    .expect(s.topbar.assign.hasAttribute('disabled')).ok()
     .expect(s.topbar.rule.hasAttribute('disabled')).ok()
     .expect(s.topbar.master.hasAttribute('disabled')).ok()
     .expect(s.topbar.observer.hasAttribute('disabled')).ok()

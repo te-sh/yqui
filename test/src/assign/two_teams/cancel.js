@@ -13,12 +13,12 @@ const setup = async t => {
     .click(s.dialog.rule.tab.team)
     .click(s.dialog.rule.team.active)
     .click(s.dialog.rule.submit)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
     .typeText(s.subactions.assign.numTeams, '2', { replace: true })
     .click(s.subactions.assign.changeNumTeams)
     .dragToElement(s.box.players0.nth(0), s.box.team1)
     .click(s.actions.assign.endAssign)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
     .dragToElement(s.box.players0.nth(0), s.box.team2.find('.players'))
     .dragToElement(s.box.players1.nth(0), s.box.team0.find('.players'))
     .dragToElement(s.box.players2.nth(0), s.box.team1.find('.players'))
@@ -50,8 +50,6 @@ test('actions, subactions', async t => {
 
 test('tobar buttons', async t => {
   await t
-    .expect(s.topbar.assign.hasAttribute('disabled')).notOk()
-    .expect(s.topbar.assign.hasClass(mui.iconButton.inherit)).ok()
     .expect(s.topbar.rule.hasAttribute('disabled')).notOk()
     .expect(s.topbar.rule.hasClass(mui.iconButton.inherit)).ok()
     .expect(s.topbar.master.hasAttribute('disabled')).notOk()

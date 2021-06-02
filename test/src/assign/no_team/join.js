@@ -9,7 +9,7 @@ const setup = async t => {
   await enterRoom(3, { observer: true })
   await t
     .click(s.topbar.master)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
 }
 
 fixture('assign/no_team/join').beforeEach(setup).afterEach(closeWindows)

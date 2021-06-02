@@ -44,14 +44,12 @@ test('actions, subactions, chat message, room info', async t => {
 
 test('tobar buttons', async t => {
   await t.switchToWindow(t.ctx.w0)
-    .expect(s.topbar.assign.hasAttribute('disabled')).ok()
     .expect(s.topbar.rule.hasAttribute('disabled')).ok()
     .expect(s.topbar.master.hasAttribute('disabled')).notOk()
     .expect(s.topbar.master.hasClass(mui.iconButton.inherit)).ok()
     .expect(s.topbar.observer.hasAttribute('disabled')).notOk()
     .expect(s.topbar.observer.hasClass(mui.iconButton.inherit)).ok()
   await t.switchToWindow(t.ctx.w1)
-    .expect(s.topbar.assign.hasAttribute('disabled')).ok()
     .expect(s.topbar.rule.hasAttribute('disabled')).ok()
     .expect(s.topbar.master.hasAttribute('disabled')).notOk()
     .expect(s.topbar.master.hasClass(mui.iconButton.inherit)).ok()

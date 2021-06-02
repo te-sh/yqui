@@ -13,7 +13,7 @@ const setup = async t => {
     .click(s.dialog.rule.tab.team)
     .click(s.dialog.rule.team.active)
     .click(s.dialog.rule.submit)
-    .click(s.topbar.assign)
+    .click(s.subactions.master.assign)
 }
 
 fixture('assign/one_team/begin').beforeEach(setup).afterEach(closeWindows)
@@ -40,7 +40,6 @@ test('actions, subactions', async t => {
 
 test('tobar buttons', async t => {
   await t
-    .expect(s.topbar.assign.hasAttribute('disabled')).ok()
     .expect(s.topbar.rule.hasAttribute('disabled')).ok()
     .expect(s.topbar.master.hasAttribute('disabled')).ok()
     .expect(s.topbar.observer.hasAttribute('disabled')).ok()
