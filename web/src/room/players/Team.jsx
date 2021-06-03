@@ -11,7 +11,7 @@ import PlayerPoint from './PlayerPoint'
 import PlayerStatus from './PlayerStatus'
 import './Team.scss'
 
-const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
+const Team = ({ team, teamIndex, score: { sg }, rule, editTeams }) => {
   const [hover, setHover] = React.useState(false)
 
   const [, dropRef] = useDrop({
@@ -85,7 +85,7 @@ const Team = ({ team, teamIndex, sg, rule, editTeams }) => {
 
 export default connect(
   state => ({
-    sg: state.sg,
+    score: state.score,
     rule: state.rule,
     editTeams: state.editTeams
   })

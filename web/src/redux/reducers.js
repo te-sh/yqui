@@ -1,10 +1,9 @@
 import update from 'immutability-helper'
 import {
-  RESET, RECV_SELF_ID, RECV_ROOMS, TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_RULE,
-  RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS
+  RESET, RECV_SELF_ID, RECV_ROOMS, TOGGLE_SHOW_LEFT, RECV_ROOM,
+  RECV_RULE, RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
-import { initSg, mergeSgWithJson } from '../lib/score'
 import { initButtons, buttonsFromJson } from '../lib/buttons'
 import { initRule } from '../lib/rule'
 import {
@@ -13,12 +12,14 @@ import {
 import { initialState as browserState, browserReducer } from './browser_reducer'
 import { initialState as dialogState, dialogReducer } from './dialog_reducer'
 import { initialState as openState, openReducer } from './open_reducer'
+import { initialState as scoreState, scoreReducer } from './score_reducer'
 import { initialState as boardState, boardReducer } from './board_reducer'
 
 const initialState = {
   browser: browserState,
   dialog: dialogState,
   open: openState,
+  score: scoreState,
   board: boardState,
   selfID: null,
   rooms: [],
@@ -34,7 +35,6 @@ const initialState = {
   isPlayer: false,
   numPlayers: 0,
   teams: [],
-  sg: initSg,
   buttons: initButtons,
   rule: initRule,
   timer: {
@@ -68,6 +68,7 @@ const yquiApp = (state = initialState, action) => {
   state = update(state, { browser: { $set: browserReducer(state.browser, action) } })
   state = update(state, { dialog: { $set: dialogReducer(state.dialog, action) } })
   state = update(state, { open: { $set: openReducer(state.open, action) } })
+  state = update(state, { score: { $set: scoreReducer(state.score, action) } })
   state = update(state, { board: { $set: boardReducer(state.board, action) } })
 
   switch (action.type) {
@@ -87,8 +88,6 @@ const yquiApp = (state = initialState, action) => {
       return recvRoom(action, state)
     case RECV_RULE:
       return update(state, { rule: { $set: action.rule } })
-    case RECV_SG:
-      return update(state, { sg: { $set: mergeSgWithJson(state, action.sg) } })
     case RECV_BUTTONS:
       return update(state, { buttons: { $set: buttonsFromJson(action.buttons) } })
     case RECV_TIMER:

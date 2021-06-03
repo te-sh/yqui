@@ -4,7 +4,6 @@ export const TOGGLE_SHOW_LEFT = 'TOGGLE_SHOW_LEFT'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
 export const RECV_RULE = 'RECV_RULE'
-export const RECV_SG = 'RECV_SG'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_TIMER = 'RECV_TIMER'
 export const RECV_CHAT = 'RECV_CHAT'
@@ -32,10 +31,6 @@ export const recvRoom = room => {
 
 export const recvRule = rule => {
   return { type: RECV_RULE, rule }
-}
-
-export const recvSg = sg => {
-  return { type: RECV_SG, sg }
 }
 
 export const recvButtons = buttons => {

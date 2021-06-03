@@ -8,8 +8,9 @@ import { saveScoreBackup } from './lib/score'
 import playSound from './lib/sound'
 import { setMobile, setWebSocket } from './redux/browser_actions'
 import {
-  reset, recvSelfID, recvRooms, recvRoom, recvRule, recvSg, recvButtons, recvTimer, recvChat
+  reset, recvSelfID, recvRooms, recvRoom, recvRule, recvButtons, recvTimer, recvChat
 } from './redux/actions'
+import { recvSg } from './redux/score_actions'
 import { recvBg, recvBoard } from './redux/board_actions'
 import Rooms from './rooms/Rooms'
 import Room from './room/Room'
