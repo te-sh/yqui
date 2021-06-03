@@ -39,7 +39,6 @@ const Player = ({ player, playerIndex, teamIndex }) => {
     },
     drop: (item, _monitor) => {
       const dragTeamIndex = item.teamIndex
-      console.log('drop:', item, teamIndex)
       if (dragTeamIndex !== teamIndex) {
         return { moved: false }
       }
@@ -48,8 +47,9 @@ const Player = ({ player, playerIndex, teamIndex }) => {
     }
   })
 
-  const [{ isDragging }, drag] = useDrag({
-    item: { type: ItemTypes.PLAYER, player, playerIndex, teamIndex },
+  const [{ dragging }, drag] = useDrag({
+    type: ItemTypes.PLAYER,
+    item: () => ({ player, playerIndex, teamIndex }),
     end: (item, monitor) => {
       const result = monitor.getDropResult()
       if (!result || !result.moved) {
@@ -57,7 +57,7 @@ const Player = ({ player, playerIndex, teamIndex }) => {
       }
     },
     collect: monitor => ({
-      isDragging: monitor.isDragging()
+      dragging: monitor.isDragging()
     })
   })
 
@@ -65,7 +65,7 @@ const Player = ({ player, playerIndex, teamIndex }) => {
 
   return (
     <motion.div ref={ref} style={{ cursor: 'move' }}
-                className={classNames('player', { dragging: isDragging })}
+                className={classNames('player', { dragging })}
                 key={player} layout>
       <PlayerContainer player={player} />
     </motion.div>
