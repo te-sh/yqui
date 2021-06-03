@@ -7,7 +7,7 @@ import {
 import update from 'immutability-helper'
 import { parseNumber } from '../../lib/util'
 import { initRule } from '../../lib/rule'
-import { sendWs, SEND_RULE } from '../../lib/send'
+import { sendWs, RULE } from '../../lib/send'
 import { setOpenRule } from '../../redux/actions'
 import TabPanel from '../../lib/TabPanel'
 import InitValueRule from './InitValueRule'
@@ -47,7 +47,7 @@ const Rule = ({ rule, open, setOpen }) => {
       board: { $set: board },
       other: { $set: other }
     })
-    sendWs(SEND_RULE, newRule)
+    sendWs(RULE, newRule)
     setOpen(false)
     evt.preventDefault()
   }

@@ -8,7 +8,7 @@ import { GithubPicker } from 'react-color'
 import update from 'immutability-helper'
 import { storeVolume, retrieveVolume } from '../../lib/dexie'
 import { COLORS, initUser } from '../../lib/user'
-import { sendWs, SEND_USER } from '../../lib/send'
+import { sendWs, USER } from '../../lib/send'
 import { setOpenSetting } from '../../redux/actions'
 import './Setting.scss'
 
@@ -24,7 +24,7 @@ const Setting = ({ user, open, setOpen }) => {
   }
 
   const submit = evt => {
-    sendWs(SEND_USER, update(user, {
+    sendWs(USER, update(user, {
       chatAnswer: { $set: chatAnswer },
       borderColor: { $set: borderColor === '#ffffff' ? '#ff000000' : borderColor }
     }))

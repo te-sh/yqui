@@ -4,10 +4,10 @@ import {
   Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
 } from '@material-ui/core'
 import { Visibility } from '@material-ui/icons'
-import { sendWs, SEND_TOGGLE_OBSERVER } from '../../lib/send'
+import { sendWs, TOGGLE_OBSERVER } from '../../lib/send'
 
 const ObserverButton = ({ mobile, user, isPlayer }) => {
-  const toggleObserver = () => { sendWs(SEND_TOGGLE_OBSERVER) }
+  const toggleObserver = () => { sendWs(TOGGLE_OBSERVER) }
   const isObserver = !user.isMaster && !isPlayer
 
   if (!mobile) {

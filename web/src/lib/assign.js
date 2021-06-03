@@ -1,7 +1,7 @@
 import update from 'immutability-helper'
 import { shuffle } from './util'
 import { playersOfTeams, isInTeams } from './team'
-import { sendWs, SEND_TEAMS } from './send'
+import { sendWs, TEAMS } from './send'
 import { setTeams } from '../redux/actions'
 import store from '../redux/store'
 
@@ -22,7 +22,7 @@ export const beginAssign = () => {
 export const endAssign = () => {
   const teams = splitEditTeams()[0]
   store.dispatch(setTeams({ editTeams: null }))
-  sendWs(SEND_TEAMS, teams)
+  sendWs(TEAMS, teams)
 }
 
 export const cancelAssign = () => {
@@ -85,7 +85,7 @@ export const movingPlayerOrder = (teamIndex, fromPlayerIndex, toPlayerIndex) => 
 export const movedPlayerOrder = () => {
   const { dispTeams, editTeams } = store.getState()
   if (!editTeams) {
-    sendWs(SEND_TEAMS, dispTeams)
+    sendWs(TEAMS, dispTeams)
   } else {
     store.dispatch(setTeams({
       editTeams: dispTeams

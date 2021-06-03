@@ -4,11 +4,11 @@ import {
   Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
 } from '@material-ui/core'
 import { Portrait } from '@material-ui/icons'
-import { sendWs, SEND_TOGGLE_MASTER } from '../../lib/send'
+import { sendWs, TOGGLE_MASTER } from '../../lib/send'
 
 const MasterButton = ({ mobile, user, master, isPlayer, editTeams }) => {
   const onToggleMaster = () => {
-    sendWs(SEND_TOGGLE_MASTER)
+    sendWs(TOGGLE_MASTER)
   }
 
   const disabled = (!user.isMaster && (master !== undefined || !isPlayer)) || !!editTeams

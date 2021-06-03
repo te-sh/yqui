@@ -5,7 +5,7 @@ import {
   FormGroup, TextField
 } from '@material-ui/core'
 import update from 'immutability-helper'
-import { sendWs, SEND_TAG } from '../../lib/send'
+import { sendWs, TAG } from '../../lib/send'
 import { setOpenTag } from '../../redux/actions'
 import './Tag.scss'
 
@@ -20,7 +20,7 @@ const Tag = ({ tag, user, open, setOpen }) => {
 
   const ok = () => {
     setOpen(false)
-    sendWs(SEND_TAG, update(tag, {
+    sendWs(TAG, update(tag, {
       title: { $set: title },
       password: { $set: password }
     }))

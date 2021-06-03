@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Box, Paper, Table, TableContainer } from '@material-ui/core'
 import classNames from 'classnames'
 import { restoreScoreBackup } from '../lib/score'
-import { sendWs, SEND_JOIN } from '../lib/send'
+import { sendWs, JOIN } from '../lib/send'
 import Topbar from './Topbar'
 import RoomsHead from './RoomsHead'
 import RoomsBody from './RoomsBody'
@@ -28,7 +28,7 @@ const Rooms = ({ history, mobile, rooms, roomNo }) => {
   const enterRoom = async join => {
     closeEnterRoom()
     join.scoreBackup = await restoreScoreBackup(join.name)
-    sendWs(SEND_JOIN, join)
+    sendWs(JOIN, join)
   }
 
   React.useEffect(

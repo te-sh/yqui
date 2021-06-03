@@ -4,7 +4,7 @@ import {
   Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
 } from '@material-ui/core'
 import { Close } from '@material-ui/icons'
-import { sendWs, SEND_LEAVE } from '../../lib/send'
+import { sendWs, LEAVE } from '../../lib/send'
 import { openConfirm } from '../../lib/dialog'
 import { reset } from '../../redux/actions'
 
@@ -15,7 +15,7 @@ const LeaveButton = ({ mobile, reset }) => {
       message: '退室します. よろしいですか?',
       close: result => {
         if (result) {
-          sendWs(SEND_LEAVE)
+          sendWs(LEAVE)
           reset()
         }
       }

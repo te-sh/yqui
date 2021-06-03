@@ -6,7 +6,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { Close, RadioButtonUnchecked, Remove } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
-import { sendWs, SEND_BOARD } from '../../lib/send'
+import { sendWs, BOARD } from '../../lib/send'
 import { setBoard, addEditBoard, removeEditBoard } from '../../redux/actions'
 import './Board.scss'
 
@@ -26,13 +26,13 @@ const Board = ({ className, user, board, setBoard, addEditBoard, removeEditBoard
     }
     const newBoard = update(board, { open: { $set: true } })
     removeEditBoard(board)
-    sendWs(SEND_BOARD, newBoard)
+    sendWs(BOARD, newBoard)
   }
 
   const changeCorrect = (evt, newCorrect) => {
     const newBoard = update(board, { correct: { $set: newCorrect } })
     if (board.open) {
-      sendWs(SEND_BOARD, newBoard)
+      sendWs(BOARD, newBoard)
     } else {
       addEditBoard(board)
       setBoard(newBoard)

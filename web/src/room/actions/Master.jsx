@@ -3,29 +3,26 @@ import { connect } from 'react-redux'
 import { Box, Button } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import classNames from 'classnames'
-import {
-  sendWs, SEND_CORRECT, SEND_WRONG, SEND_THROUGH, SEND_RESET,
-  SEND_UNDO, SEND_REDO
-} from '../../lib/send'
+import { sendWs, CORRECT, WRONG, THROUGH, RESET, UNDO, REDO } from '../../lib/send'
 import { clearEditBoards } from '../../redux/actions'
 import './Actions.scss'
 
 const Master = ({ className, hidden, rule, clearEditBoards }) => {
-  const onCorrect = nextQuiz => { sendWs(SEND_CORRECT, { nextQuiz }) }
-  const onWrong = nextQuiz => { sendWs(SEND_WRONG, { nextQuiz }) }
+  const onCorrect = nextQuiz => { sendWs(CORRECT, { nextQuiz }) }
+  const onWrong = nextQuiz => { sendWs(WRONG, { nextQuiz }) }
 
   const onThrough = () => {
     clearEditBoards()
-    sendWs(SEND_THROUGH)
+    sendWs(THROUGH)
   }
 
   const onReset = () => {
     clearEditBoards()
-    sendWs(SEND_RESET)
+    sendWs(RESET)
   }
 
-  const onUndo = () => { sendWs(SEND_UNDO) }
-  const onRedo = () => { sendWs(SEND_REDO) }
+  const onUndo = () => { sendWs(UNDO) }
+  const onRedo = () => { sendWs(REDO) }
 
   const onKeyDown = evt => {
     switch (evt.keyCode) {

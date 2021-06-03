@@ -8,8 +8,7 @@ import classNames from 'classnames'
 import update from 'immutability-helper'
 import { minSecTime } from '../../lib/util'
 import {
-  sendWs, SEND_ALL_CLEAR, SEND_WIN_TOP, SEND_LOSE_BOTTOM,
-  SEND_RULE, SEND_BOARD_LOCK, SEND_BOARDS, SEND_TOGGLE_TIMER
+  sendWs, ALL_CLEAR, WIN_TOP, LOSE_BOTTOM, RULE, BOARD_LOCK, BOARDS, TOGGLE_TIMER
 } from '../../lib/send'
 import { beginAssign } from '../../lib/assign'
 import { clearEditBoards } from '../../redux/actions'
@@ -29,11 +28,11 @@ const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
 
   const onAllClear = () => {
     clearEditBoards()
-    sendWs(SEND_ALL_CLEAR)
+    sendWs(ALL_CLEAR)
   }
 
   const onBoardLock = () => {
-    sendWs(SEND_BOARD_LOCK, !bg.lock)
+    sendWs(BOARD_LOCK, !bg.lock)
   }
 
   const onOpenAll = () => {
@@ -41,23 +40,23 @@ const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
       [id, update(bg.boards.get(id), { open: { $set: true } })]
     )))
     clearEditBoards()
-    sendWs(SEND_BOARDS, boards)
+    sendWs(BOARDS, boards)
   }
 
   const winTop = () => {
-    sendWs(SEND_WIN_TOP)
+    sendWs(WIN_TOP)
   }
 
   const loseBottom = () => {
-    sendWs(SEND_LOSE_BOTTOM)
+    sendWs(LOSE_BOTTOM)
   }
 
   const toggleTimer = () => {
-    sendWs(SEND_TOGGLE_TIMER)
+    sendWs(TOGGLE_TIMER)
   }
 
   const toggleShowPoint = evt => {
-    sendWs(SEND_RULE, update(rule, {
+    sendWs(RULE, update(rule, {
       showPoint: { $set: evt.target.checked }
     }))
   }

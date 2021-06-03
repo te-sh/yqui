@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, IconButton, Paper, TextField } from '@material-ui/core'
 import { Edit } from '@material-ui/icons'
-import { sendWs, SEND_PUSH, SEND_CHAT } from '../../lib/send'
+import { sendWs, PUSH, CHAT } from '../../lib/send'
 import { openPrompt } from '../../lib/dialog'
 import './Chat.scss'
 
@@ -14,9 +14,9 @@ const Chat = ({ className, mobile, isPlayer }) => {
     if (message === '') {
       return
     } else if (isPlayer && (message.startsWith('!') || message.startsWith('！'))) {
-      sendWs(SEND_PUSH)
+      sendWs(PUSH)
     } else {
-      sendWs(SEND_CHAT, message)
+      sendWs(CHAT, message)
     }
     setMessage('')
   }
@@ -26,7 +26,7 @@ const Chat = ({ className, mobile, isPlayer }) => {
       title: 'チャット',
       close: result => {
         if (result) {
-          sendWs(SEND_CHAT, result)
+          sendWs(CHAT, result)
         }
       }
     })

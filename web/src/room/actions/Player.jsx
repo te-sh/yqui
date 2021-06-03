@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Box, Button, TextField } from '@material-ui/core'
 import update from 'immutability-helper'
 import classNames from 'classnames'
-import { sendWs, SEND_PUSH, SEND_BOARD } from '../../lib/send'
+import { sendWs, PUSH, BOARD } from '../../lib/send'
 import { openPrompt } from '../../lib/dialog'
 import './Actions.scss'
 
@@ -13,7 +13,7 @@ const Player = ({ className, hidden, mobile, selfID, rule, bg }) => {
   const onKeyDown = evt => {
     switch (evt.keyCode) {
       case 13:
-        sendWs(SEND_PUSH)
+        sendWs(PUSH)
         break
       default:
         break
@@ -41,7 +41,7 @@ const Player = ({ className, hidden, mobile, selfID, rule, bg }) => {
     const newBoard = update(bg.boards.get(selfID), {
       text: { $set: text }
     })
-    sendWs(SEND_BOARD, newBoard)
+    sendWs(BOARD, newBoard)
   }
 
   const boardInput = (
@@ -72,7 +72,7 @@ const Player = ({ className, hidden, mobile, selfID, rule, bg }) => {
          tabIndex="0" onKeyDown={onKeyDown}>
       <Button variant="outlined" color="primary" size="large"
               className="answer-button"
-              onClick={() => sendWs(SEND_PUSH)}>
+              onClick={() => sendWs(PUSH)}>
         早押し
       </Button>
       {rule.board.active && (mobile ? boardInputMobile : boardInput)}
