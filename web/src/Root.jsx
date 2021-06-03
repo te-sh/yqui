@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useMediaQuery } from '@material-ui/core'
 import URI from 'urijs'
 import { openAlert } from './lib/dialog'
-import { saveScoreBackup } from './lib/score'
+import { storeScoreBackup } from './lib/dexie'
 import playSound from './lib/sound'
 import { setMobile, setWebSocket } from './redux/browser_actions'
 import {
@@ -17,7 +17,7 @@ import Room from './room/Room'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
-const Root = ({ setMobile, reset, setWebSocket, recv }) => {
+const Root = ({ user, setMobile, setWebSocket, reset, recv }) => {
   setMobile(useMediaQuery('(max-width:667px)'))
 
   const createWebSocket = () => {
@@ -45,7 +45,7 @@ const Root = ({ setMobile, reset, setWebSocket, recv }) => {
           })
           break
         case 'scoreBackup':
-          saveScoreBackup(data.content)
+          storeScoreBackup(user.name, data.content)
           break
         case 'sound':
           playSound(data.content)
@@ -71,11 +71,13 @@ const Root = ({ setMobile, reset, setWebSocket, recv }) => {
 }
 
 export default connect(
-  null,
+  state => ({
+    user: state.user
+  }),
   dispatch => ({
     setMobile: mobile => dispatch(setMobile(mobile)),
-    reset: () => dispatch(reset()),
     setWebSocket: ws => dispatch(setWebSocket(ws)),
+    reset: () => dispatch(reset()),
     recv: {
       selfID: selfID => dispatch(recvSelfID(selfID)),
       rooms: rooms => dispatch(recvRooms(rooms)),
