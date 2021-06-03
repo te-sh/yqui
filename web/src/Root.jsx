@@ -7,6 +7,7 @@ import { openAlert } from './lib/dialog'
 import { storeScoreBackup } from './lib/dexie'
 import playSound from './lib/sound'
 import { setMobile, setWebSocket } from './redux/browser_actions'
+import store from './redux/store'
 import {
   reset, recvSelfID, recvRooms, recvRoom, recvRule, recvButtons, recvTimer, recvChat
 } from './redux/actions'
@@ -17,7 +18,12 @@ import Room from './room/Room'
 
 const uri = URI(window.location.href).protocol('ws').pathname('/ws')
 
-const Root = ({ user, setMobile, setWebSocket, reset, recv }) => {
+const getUserName = () => {
+  const { user } = store.getState()
+  return user.name
+}
+
+const Root = ({ setMobile, setWebSocket, reset, recv }) => {
   setMobile(useMediaQuery('(max-width:667px)'))
 
   const createWebSocket = () => {
@@ -45,7 +51,8 @@ const Root = ({ user, setMobile, setWebSocket, reset, recv }) => {
           })
           break
         case 'scoreBackup':
-          storeScoreBackup(user.name, data.content)
+          // 'user' must not connect to this component to avoid reload it
+          storeScoreBackup(getUserName(), data.content)
           break
         case 'sound':
           playSound(data.content)
@@ -71,9 +78,7 @@ const Root = ({ user, setMobile, setWebSocket, reset, recv }) => {
 }
 
 export default connect(
-  state => ({
-    user: state.user
-  }),
+  null,
   dispatch => ({
     setMobile: mobile => dispatch(setMobile(mobile)),
     setWebSocket: ws => dispatch(setWebSocket(ws)),
