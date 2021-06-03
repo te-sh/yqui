@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core'
 import update from 'immutability-helper'
 import { sendWs, TAG } from '../../lib/send'
-import { setOpenTag } from '../../redux/actions'
+import { setOpenTag } from '../../redux/open_actions'
 import './Tag.scss'
 
 const Tag = ({ tag, user, open, setOpen }) => {

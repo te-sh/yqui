@@ -4,7 +4,7 @@ import {
   Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
 } from '@material-ui/core'
 import { PlaylistAddCheck } from '@material-ui/icons'
-import { setOpenRule } from '../../redux/actions'
+import { setOpenRule } from '../../redux/open_actions'
 
 const RuleButton = ({ mobile, user, editTeams, setOpen }) => {
   const open = () => {

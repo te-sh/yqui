@@ -9,7 +9,7 @@ import update from 'immutability-helper'
 import { storeVolume, retrieveVolume } from '../../lib/dexie'
 import { COLORS, initUser } from '../../lib/user'
 import { sendWs, USER } from '../../lib/send'
-import { setOpenSetting } from '../../redux/actions'
+import { setOpenSetting } from '../../redux/open_actions'
 import './Setting.scss'
 
 const Setting = ({ user, open, setOpen }) => {

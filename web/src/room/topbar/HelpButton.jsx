@@ -4,7 +4,7 @@ import {
   Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
 } from '@material-ui/core'
 import { HelpOutline } from '@material-ui/icons'
-import { setOpenHelp } from '../../redux/actions'
+import { setOpenHelp } from '../../redux/open_actions'
 
 const HelpButton = ({ browser: { mobile }, setOpen }) => {
   const open = () => {

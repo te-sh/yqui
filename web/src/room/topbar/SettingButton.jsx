@@ -4,7 +4,7 @@ import {
   Box, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip
 } from '@material-ui/core'
 import { Settings } from '@material-ui/icons'
-import { setOpenSetting } from '../../redux/actions'
+import { setOpenSetting } from '../../redux/open_actions'
 import './TopBar.scss'
 
 const SettingButton = ({ browser: { mobile }, setOpen }) => {

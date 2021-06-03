@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, IconButton, Tooltip } from '@material-ui/core'
 import { Book } from '@material-ui/icons'
-import { setOpenTag } from '../../redux/actions'
+import { setOpenTag } from '../../redux/open_actions'
 
 const TagButton = ({ setOpen }) => {
   const open = () => {

@@ -5,7 +5,7 @@ import {
   Tab, Tabs, Typography
 } from '@material-ui/core'
 import classNames from 'classnames'
-import { setOpenHelp } from '../../redux/actions'
+import { setOpenHelp } from '../../redux/open_actions'
 import TabPanel from '../../lib/TabPanel'
 import './Help.scss'
 

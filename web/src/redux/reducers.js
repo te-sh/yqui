@@ -2,8 +2,7 @@ import update from 'immutability-helper'
 import {
   RESET, RECV_SELF_ID, RECV_ROOMS, TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_RULE,
   RECV_BG, RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT,
-  SET_TEAMS, SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
-  SET_OPEN_TAG, SET_OPEN_RULE, SET_OPEN_SETTING, SET_OPEN_HELP
+  SET_TEAMS, SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { initBg, mergeBgWithJson } from '../lib/board'
@@ -15,10 +14,12 @@ import {
 } from '../lib/team'
 import { initialState as browserState, browserReducer } from './browser_reducer'
 import { initialState as dialogState, dialogReducer } from './dialog_reducer'
+import { initialState as openState, openReducer } from './open_reducer'
 
 const initialState = {
   browser: browserState,
   dialog: dialogState,
+  open: openState,
   selfID: null,
   rooms: [],
   showLeft: true,
@@ -44,13 +45,7 @@ const initialState = {
   editBoards: new Set(),
   chats: [],
   editTeams: null,
-  dispTeams: [],
-  open: {
-    tag: false,
-    rule: false,
-    setting: false,
-    help: false
-  }
+  dispTeams: []
 }
 
 const recvRoom = (action, state) => {
@@ -74,6 +69,7 @@ const recvRoom = (action, state) => {
 const yquiApp = (state = initialState, action) => {
   state = update(state, { browser: { $set: browserReducer(state.browser, action) } })
   state = update(state, { dialog: { $set: dialogReducer(state.dialog, action) } })
+  state = update(state, { open: { $set: openReducer(state.open, action) } })
 
   switch (action.type) {
     case RESET:
@@ -114,14 +110,6 @@ const yquiApp = (state = initialState, action) => {
       return update(state, { editBoards: { $remove: [action.board.id] } })
     case CLEAR_EDIT_BOARDS:
       return update(state, { editBoards: { $set: new Set() } })
-    case SET_OPEN_TAG:
-      return update(state, { open: { tag: { $set: action.open } } })
-    case SET_OPEN_RULE:
-      return update(state, { open: { rule: { $set: action.open } } })
-    case SET_OPEN_SETTING:
-      return update(state, { open: { setting: { $set: action.open } } })
-    case SET_OPEN_HELP:
-      return update(state, { open: { help: { $set: action.open } } })
     default:
       return state
   }
