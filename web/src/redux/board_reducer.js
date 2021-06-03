@@ -12,6 +12,13 @@ export const initialState = {
   edit: new Set()
 }
 
+export const initialBoard = {
+  id: -1,
+  text: '',
+  correct: 'none',
+  open: false
+}
+
 const mergeBgWithJson = ({ bg, edit }, json) => {
   if (json === undefined) {
     return bg

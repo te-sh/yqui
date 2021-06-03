@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { Box, Paper, Typography } from '@material-ui/core'
 import ItemTypes from '../../lib/item_types'
 import { classNamesK } from '../../lib/util'
-import { initScore } from '../../lib/score'
 import { movePlayerTeam } from '../../lib/assign'
+import { initialScore } from '../../redux/score_reducer'
 import Players from './Players'
 import PlayerPoint from './PlayerPoint'
 import PlayerStatus from './PlayerStatus'
@@ -38,7 +38,7 @@ const Team = ({ team, teamIndex, score: { sg }, rule, editTeams }) => {
     }
   })
 
-  const teamScore = sg.team.scores.get(team.id) || initScore
+  const teamScore = sg.team.scores.get(team.id) || initialScore
   const teamClass = classNamesK('team', {
     hover,
     edit: !!editTeams,
