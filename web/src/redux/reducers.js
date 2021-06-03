@@ -61,8 +61,8 @@ const recvRoom = (state, { room }) => {
 
 const setTeams = (state, { editTeams, dispTeams }) => {
   return update(state, {
-    editTeams: { $set: editTeams || state.editTeams },
-    dispTeams: { $set: dispTeams || state.dispTeams }
+    editTeams: { $set: editTeams !== undefined ? editTeams : state.editTeams },
+    dispTeams: { $set: dispTeams !== undefined ? dispTeams : state.dispTeams }
   })
 }
 
