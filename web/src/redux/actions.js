@@ -1,5 +1,4 @@
 export const RESET = 'RESET'
-export const RECV_ROOMS = 'RECV_ROOMS'
 export const TOGGLE_SHOW_LEFT = 'TOGGLE_SHOW_LEFT'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
@@ -13,10 +12,6 @@ export const reset = () => {
 
 export const recvSelfID = selfID => {
   return { type: RECV_SELF_ID, selfID }
-}
-
-export const recvRooms = rooms => {
-  return { type: RECV_ROOMS, rooms }
 }
 
 export const toggleShowLeft = () => {
