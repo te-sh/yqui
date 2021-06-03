@@ -1,11 +1,8 @@
 import update from 'immutability-helper'
-import { SET_MOBILE, SET_WEB_SOCKET } from './browser_actions'
-import { SET_ALERT, SET_CONFIRM, SET_PROMPT } from './dialog_actions'
 import {
-  RESET, RECV_SELF_ID, RECV_ROOMS,
-  TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_RULE, RECV_BG, RECV_BOARD,
-  RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS,
-  SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
+  RESET, RECV_SELF_ID, RECV_ROOMS, TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_RULE,
+  RECV_BG, RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT,
+  SET_TEAMS, SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
   SET_OPEN_TAG, SET_OPEN_RULE, SET_OPEN_SETTING, SET_OPEN_HELP
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
@@ -16,12 +13,12 @@ import { initRule } from '../lib/rule'
 import {
   playersOfTeams, teamsFromJson, recvTeamsUpdator, setTeamsUpdator
 } from '../lib/team'
+import { initialState as browserState, browserReducer } from './browser_reducer'
+import { initialState as dialogState, dialogReducer } from './dialog_reducer'
 
 const initialState = {
-  browser: {
-    mobile: false,
-    ws: null
-  },
+  browser: browserState,
+  dialog: dialogState,
   selfID: null,
   rooms: [],
   showLeft: true,
@@ -53,11 +50,6 @@ const initialState = {
     rule: false,
     setting: false,
     help: false
-  },
-  dialog: {
-    alert: null,
-    confirm: null,
-    prompt: null
   }
 }
 
@@ -80,11 +72,10 @@ const recvRoom = (action, state) => {
 }
 
 const yquiApp = (state = initialState, action) => {
+  state = update(state, { browser: { $set: browserReducer(state.browser, action) } })
+  state = update(state, { dialog: { $set: dialogReducer(state.dialog, action) } })
+
   switch (action.type) {
-    case SET_MOBILE:
-      return update(state, { browser: { mobile: { $set: action.mobile } } })
-    case SET_WEB_SOCKET:
-      return update(state, { browser: { ws: { $set: action.ws } } })
     case RESET:
       return update(initialState, {
         browser: { $set: state.browser },
@@ -131,12 +122,6 @@ const yquiApp = (state = initialState, action) => {
       return update(state, { open: { setting: { $set: action.open } } })
     case SET_OPEN_HELP:
       return update(state, { open: { help: { $set: action.open } } })
-    case SET_ALERT:
-      return update(state, { dialog: { alert: { $set: action.alert } } })
-    case SET_CONFIRM:
-      return update(state, { dialog: { confirm: { $set: action.confirm } } })
-    case SET_PROMPT:
-      return update(state, { dialog: { prompt: { $set: action.prompt } } })
     default:
       return state
   }
