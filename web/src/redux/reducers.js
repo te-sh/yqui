@@ -1,11 +1,9 @@
 import update from 'immutability-helper'
 import {
   RESET, RECV_SELF_ID, RECV_ROOMS, TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_RULE,
-  RECV_BG, RECV_BOARD, RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT,
-  SET_TEAMS, SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS
+  RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
-import { initBg, mergeBgWithJson } from '../lib/board'
 import { initSg, mergeSgWithJson } from '../lib/score'
 import { initButtons, buttonsFromJson } from '../lib/buttons'
 import { initRule } from '../lib/rule'
@@ -15,11 +13,13 @@ import {
 import { initialState as browserState, browserReducer } from './browser_reducer'
 import { initialState as dialogState, dialogReducer } from './dialog_reducer'
 import { initialState as openState, openReducer } from './open_reducer'
+import { initialState as boardState, boardReducer } from './board_reducer'
 
 const initialState = {
   browser: browserState,
   dialog: dialogState,
   open: openState,
+  board: boardState,
   selfID: null,
   rooms: [],
   showLeft: true,
@@ -34,7 +34,6 @@ const initialState = {
   isPlayer: false,
   numPlayers: 0,
   teams: [],
-  bg: initBg,
   sg: initSg,
   buttons: initButtons,
   rule: initRule,
@@ -42,7 +41,6 @@ const initialState = {
     running: false,
     remaining: 0
   },
-  editBoards: new Set(),
   chats: [],
   editTeams: null,
   dispTeams: []
@@ -70,6 +68,7 @@ const yquiApp = (state = initialState, action) => {
   state = update(state, { browser: { $set: browserReducer(state.browser, action) } })
   state = update(state, { dialog: { $set: dialogReducer(state.dialog, action) } })
   state = update(state, { open: { $set: openReducer(state.open, action) } })
+  state = update(state, { board: { $set: boardReducer(state.board, action) } })
 
   switch (action.type) {
     case RESET:
@@ -88,10 +87,6 @@ const yquiApp = (state = initialState, action) => {
       return recvRoom(action, state)
     case RECV_RULE:
       return update(state, { rule: { $set: action.rule } })
-    case RECV_BG:
-      return update(state, { bg: { $set: mergeBgWithJson(state, action.bg) } })
-    case RECV_BOARD:
-      return update(state, { bg: { boards: { $add: [[action.board.id, action.board]] } } })
     case RECV_SG:
       return update(state, { sg: { $set: mergeSgWithJson(state, action.sg) } })
     case RECV_BUTTONS:
@@ -102,14 +97,6 @@ const yquiApp = (state = initialState, action) => {
       return update(state, { chats: { $push: [action.chat] } })
     case SET_TEAMS:
       return update(state, setTeamsUpdator(action.payload))
-    case SET_BOARD:
-      return update(state, { bg: { boards: { $add: [[action.board.id, action.board]] } } })
-    case ADD_EDIT_BOARD:
-      return update(state, { editBoards: { $add: [action.board.id] } })
-    case REMOVE_EDIT_BOARD:
-      return update(state, { editBoards: { $remove: [action.board.id] } })
-    case CLEAR_EDIT_BOARDS:
-      return update(state, { editBoards: { $set: new Set() } })
     default:
       return state
   }

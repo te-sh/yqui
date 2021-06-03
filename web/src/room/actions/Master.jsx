@@ -4,7 +4,7 @@ import { Box, Button } from '@material-ui/core'
 import { Close, RadioButtonUnchecked } from '@material-ui/icons'
 import classNames from 'classnames'
 import { sendWs, CORRECT, WRONG, THROUGH, RESET, UNDO, REDO } from '../../lib/send'
-import { clearEditBoards } from '../../redux/actions'
+import { clearEditBoards } from '../../redux/board_actions'
 import './Actions.scss'
 
 const Master = ({ className, hidden, rule, clearEditBoards }) => {

@@ -12,7 +12,7 @@ import PlayerStatus from './PlayerStatus'
 import Board from './Board'
 import './PlayerContainer.scss'
 
-const PlayerContainer = ({ player, bg, sg, buttons, rule }) => {
+const PlayerContainer = ({ player, board: { bg }, sg, buttons, rule }) => {
   const [order, delay, myTurn] = pushOrder(buttons, player)
   const board = bg.boards.get(player) || initBoard
   const score = sg.player.scores.get(player) || initScore
@@ -34,7 +34,7 @@ const PlayerContainer = ({ player, bg, sg, buttons, rule }) => {
 
 export default connect(
   state => ({
-    bg: state.bg,
+    board: state.board,
     sg: state.sg,
     buttons: state.buttons,
     rule: state.rule

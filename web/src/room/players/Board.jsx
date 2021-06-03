@@ -7,7 +7,7 @@ import { Close, RadioButtonUnchecked, Remove } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
 import { sendWs, BOARD } from '../../lib/send'
-import { setBoard, addEditBoard, removeEditBoard } from '../../redux/actions'
+import { setBoard, addEditBoard, removeEditBoard } from '../../redux/board_actions'
 import './Board.scss'
 
 const Board = ({ className, user, board, setBoard, addEditBoard, removeEditBoard }) => {

@@ -11,10 +11,10 @@ import {
   sendWs, ALL_CLEAR, WIN_TOP, LOSE_BOTTOM, RULE, BOARD_LOCK, BOARDS, TOGGLE_TIMER
 } from '../../lib/send'
 import { beginAssign } from '../../lib/assign'
-import { clearEditBoards } from '../../redux/actions'
+import { clearEditBoards } from '../../redux/board_actions'
 import './Master.scss'
 
-const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
+const Master = ({ className, hidden, board: { bg }, rule, timer, clearEditBoards }) => {
   const [menu, setMenu] = React.useState('normal')
 
   React.useEffect(
@@ -164,7 +164,7 @@ const Master = ({ className, hidden, bg, rule, timer, clearEditBoards }) => {
 
 export default connect(
   state => ({
-    bg: state.bg,
+    board: state.board,
     rule: state.rule,
     timer: state.timer
   }),
