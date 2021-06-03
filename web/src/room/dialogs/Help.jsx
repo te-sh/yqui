@@ -77,11 +77,11 @@ const Help = ({ browser: { mobile }, open, setOpen }) => {
             休みルールがない場合は違いはありません.
           </Typography>
           <Typography variant="h6">
-            <Button variant="outlined">最上位勝ち抜け</Button>と<Button variant="outlined">最下位失格</Button>
+            <Button variant="outlined">最上位勝抜</Button>と<Button variant="outlined">最下位失格</Button>
           </Typography>
           <Typography>
-            <Button variant="outlined" size="small">最上位勝ち抜け</Button>はクリック時のポイントが最も大きいプレイヤーを勝ち抜けにします.
-            そのようなプレイヤーが複数いる場合はそのプレイヤー全員を勝ち抜けにします.
+            <Button variant="outlined" size="small">最上位勝抜</Button>はクリック時のポイントが最も大きいプレイヤーを勝抜にします.
+            そのようなプレイヤーが複数いる場合はそのプレイヤー全員を勝抜にします.
           </Typography>
           <Typography>
             <Button variant="outlined" size="small">最下位失格</Button>はクリック時のポイントが最も小さいプレイヤーを失格にします.
@@ -91,16 +91,16 @@ const Help = ({ browser: { mobile }, open, setOpen }) => {
             いずれの場合もボタンなどはリセットされます.
           </Typography>
           <Typography variant="h6">
-            勝ち抜け人数
+            勝抜人数
           </Typography>
           <Typography>
-            ルールで勝ち抜けの人数を設定できます.
+            ルールで勝抜の人数を設定できます.
           </Typography>
           <Typography>
             これはルール表示にだけ使われます. その他の処理 (セット終了など) は行いません.
           </Typography>
           <Typography>
-            勝ち抜け人数を 0 以下に設定するとルール表示に勝ち抜け人数を表示しません.
+            勝抜人数を 0 以下に設定するとルール表示に勝抜人数を表示しません.
           </Typography>
         </TabPanel>
       </DialogContent>

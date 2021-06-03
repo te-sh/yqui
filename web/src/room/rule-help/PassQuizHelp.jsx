@@ -6,10 +6,10 @@ const PassQuizHelp = ({ size }) => {
   const tooltip = (
     <>
       <Typography variant="body2">
-        ポイントが勝ち抜け条件を満たす状態になったら通過席につきます.
+        ポイントが勝抜条件を満たす状態になったら通過席につきます.
       </Typography>
       <Typography variant="body2">
-        通過席についているときに正解すると勝ち抜けです.
+        通過席についているときに正解すると勝抜です.
       </Typography>
       <Typography variant="body2">
         通過席についているときに誤答した場合, もしくは他の人が正解した場合はポイントが初期値になります.

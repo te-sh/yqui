@@ -33,7 +33,7 @@ const WinLoseRule = ({ simple, rule }) => {
 
     const ret = (
       <>
-        <Box component="span" className="rule-title">勝ち抜け</Box>
+        <Box component="span" className="rule-title">勝抜</Box>
         <>{list}</>
       </>
     )

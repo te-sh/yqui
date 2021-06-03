@@ -76,7 +76,7 @@ const ComprehensiveRule = ({ rule, changeRule }) => {
           </FormGroup>
           <FormGroup component="fieldset" className="rule-group">
             <FormLabel component="legend">
-              勝ち抜け
+              勝抜
             </FormLabel>
             <FormGroup row={true}>
               <Checkbox color="default" checked={rule.winPoint.active}

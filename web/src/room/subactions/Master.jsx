@@ -114,7 +114,7 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, clearEditBoards
       <Box className="group win-lose">
         <Button variant="outlined" color="default" className="win-top-button"
                 onClick={winTop}>
-          最上位勝ち抜け
+          最上位勝抜
         </Button>
         <Button variant="outlined" color="default" className="lose-bottom-button"
                 onClick={loseBottom}>
