@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core'
 import classNames from 'classnames'
 import { setOpenHelp } from '../../redux/open_actions'
-import TabPanel from '../../lib/TabPanel'
+import TabPanel from '../../tab/TabPanel'
 import './Help.scss'
 
 const Help = ({ browser: { mobile }, open, setOpen }) => {
