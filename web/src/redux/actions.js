@@ -1,7 +1,6 @@
 export const RESET = 'RESET'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
 export const RECV_ROOM = 'RECV_ROOM'
-export const RECV_RULE = 'RECV_RULE'
 export const SET_TEAMS = 'SET_EDIT_TEAMS'
 
 export const reset = () => {
@@ -14,10 +13,6 @@ export const recvSelfID = selfID => {
 
 export const recvRoom = room => {
   return { type: RECV_ROOM, room }
-}
-
-export const recvRule = rule => {
-  return { type: RECV_RULE, rule }
 }
 
 export const setTeams = payload => {

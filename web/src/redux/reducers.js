@@ -1,7 +1,6 @@
 import update from 'immutability-helper'
-import { RESET, RECV_SELF_ID, RECV_ROOM, RECV_RULE, SET_TEAMS } from './actions'
+import { RESET, RECV_SELF_ID, RECV_ROOM, SET_TEAMS } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
-import { initRule } from '../lib/rule'
 import {
   playersOfTeams, teamsFromJson, recvTeamsUpdator, setTeamsUpdator
 } from '../lib/team'
@@ -11,6 +10,7 @@ import { initialState as openState, openReducer } from './open_reducer'
 import { initialState as roomsState, roomsReducer } from './rooms_reducer'
 import { initialState as appearState, appearReducer } from './appear_reducer'
 import { initialState as chatState, chatReducer } from './chat_reducer'
+import { initialState as ruleState, ruleReducer } from './rule_reducer'
 import { initialState as buttonsState, buttonsReducer } from './buttons_reducer'
 import { initialState as scoreState, scoreReducer } from './score_reducer'
 import { initialState as boardState, boardReducer } from './board_reducer'
@@ -23,6 +23,7 @@ const initialState = {
   rooms: roomsState,
   appear: appearState,
   chat: chatState,
+  rule: ruleState,
   buttons: buttonsState,
   score: scoreState,
   board: boardState,
@@ -39,7 +40,6 @@ const initialState = {
   isPlayer: false,
   numPlayers: 0,
   teams: [],
-  rule: initRule,
   editTeams: null,
   dispTeams: []
 }
@@ -68,6 +68,7 @@ const yquiApp = (state = initialState, action) => {
   state = update(state, { rooms: { $set: roomsReducer(state.rooms, action) } })
   state = update(state, { appear: { $set: appearReducer(state.appear, action) } })
   state = update(state, { chat: { $set: chatReducer(state.chat, action) } })
+  state = update(state, { rule: { $set: ruleReducer(state.rule, action) } })
   state = update(state, { buttons: { $set: buttonsReducer(state.buttons, action) } })
   state = update(state, { score: { $set: scoreReducer(state.score, action) } })
   state = update(state, { board: { $set: boardReducer(state.board, action) } })
@@ -84,8 +85,6 @@ const yquiApp = (state = initialState, action) => {
       return update(state, { selfID: { $set: action.selfID } })
     case RECV_ROOM:
       return recvRoom(action, state)
-    case RECV_RULE:
-      return update(state, { rule: { $set: action.rule } })
     case SET_TEAMS:
       return update(state, setTeamsUpdator(action.payload))
     default:
