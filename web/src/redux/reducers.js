@@ -17,8 +17,10 @@ import {
 } from '../lib/team'
 
 const initialState = {
-  mobile: false,
-  ws: null,
+  browser: {
+    mobile: false,
+    ws: null
+  },
   selfID: null,
   rooms: [],
   showLeft: true,
@@ -79,16 +81,15 @@ const recvRoom = (action, state) => {
 const yquiApp = (state = initialState, action) => {
   switch (action.type) {
     case SET_MOBILE:
-      return update(state, { mobile: { $set: action.mobile } })
+      return update(state, { browser: { mobile: { $set: action.mobile } } })
     case RESET:
       return update(initialState, {
-        mobile: { $set: state.mobile },
-        ws: { $set: state.ws },
+        browser: { $set: state.browser },
         selfID: { $set: state.selfID },
         rooms: { $set: state.rooms }
       })
     case SET_WEB_SOCKET:
-      return update(state, { ws: { $set: action.ws } })
+      return update(state, { browser: { ws: { $set: action.ws } } })
     case RECV_SELF_ID:
       return update(state, { selfID: { $set: action.selfID } })
     case RECV_ROOMS:

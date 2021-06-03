@@ -6,7 +6,7 @@ import Master from './Master'
 import Observer from './Observer'
 import Player from './Player'
 
-const Actions = ({ className, mobile, user, isPlayer, editTeams }) => {
+const Actions = ({ className, browser: { mobile }, user, isPlayer, editTeams }) => {
   let status
   if (editTeams) {
     status = 'assign'
@@ -30,7 +30,7 @@ const Actions = ({ className, mobile, user, isPlayer, editTeams }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     user: state.user,
     isPlayer: state.isPlayer,
     editTeams: state.editTeams

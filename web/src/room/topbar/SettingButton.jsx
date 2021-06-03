@@ -7,7 +7,7 @@ import { Settings } from '@material-ui/icons'
 import { setOpenSetting } from '../../redux/actions'
 import './TopBar.scss'
 
-const SettingButton = ({ mobile, setOpen }) => {
+const SettingButton = ({ browser: { mobile }, setOpen }) => {
   const open = () => {
     setOpen(true)
   }
@@ -37,7 +37,7 @@ const SettingButton = ({ mobile, setOpen }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile
+    browser: state.browser
   }),
   dispatch => ({
     setOpen: open => dispatch(setOpenSetting(open))

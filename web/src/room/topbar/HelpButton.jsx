@@ -6,7 +6,7 @@ import {
 import { HelpOutline } from '@material-ui/icons'
 import { setOpenHelp } from '../../redux/actions'
 
-const HelpButton = ({ mobile, setOpen }) => {
+const HelpButton = ({ browser: { mobile }, setOpen }) => {
   const open = () => {
     setOpen(true)
   }
@@ -36,7 +36,7 @@ const HelpButton = ({ mobile, setOpen }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile
+    browser: state.browser
   }),
   dispatch => ({
     setOpen: open => dispatch(setOpenHelp(open))

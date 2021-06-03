@@ -9,7 +9,7 @@ import SettingButton from './SettingButton'
 import HelpButton from './HelpButton'
 import LeaveButton from './LeaveButton'
 
-const TopMenu = ({ mobile }) => {
+const TopMenu = ({ browser: { mobile } }) => {
   const [open, setOpen] = React.useState(false)
 
   if (!mobile) {
@@ -46,6 +46,6 @@ const TopMenu = ({ mobile }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile
+    browser: state.browser
   })
 )(TopMenu)

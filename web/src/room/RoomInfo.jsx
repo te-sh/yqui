@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { isInTeams } from '../lib/team'
 import './RoomInfo.scss'
 
-const RoomInfo = ({ className, mobile, users, master, teams }) => {
+const RoomInfo = ({ className, browser: { mobile }, users, master, teams }) => {
   const masterName = master ? master.name : '-'
 
   const players = [...users.keys()].filter(id => !users.get(id).isMaster && isInTeams(teams, id))
@@ -60,7 +60,7 @@ const RoomInfo = ({ className, mobile, users, master, teams }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     users: state.users,
     master: state.master,
     teams: state.teams

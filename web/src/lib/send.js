@@ -25,7 +25,7 @@ export const TOGGLE_TIMER = 'toggle-timer'
 export const CHAT = 'chat'
 
 export const sendWs = (cmd, arg) => {
-  const { ws } = store.getState()
+  const { browser: { ws } } = store.getState()
   if (ws) {
     if (arg === undefined) {
       ws.send(JSON.stringify({ c: cmd }))

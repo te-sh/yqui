@@ -8,7 +8,7 @@ import Master from './Master'
 import Player from './Player'
 import './Subactions.scss'
 
-const Subactions = ({ className, mobile, user, buttons, editTeams }) => {
+const Subactions = ({ className, browser: { mobile }, user, buttons, editTeams }) => {
   const alert = isContinueingMultiChance(buttons) ? 'multiChance' : null
 
   let status
@@ -34,7 +34,7 @@ const Subactions = ({ className, mobile, user, buttons, editTeams }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     user: state.user,
     buttons: state.buttons,
     editTeams: state.editTeams

@@ -8,7 +8,7 @@ import { sendWs, LEAVE } from '../../lib/send'
 import { openConfirm } from '../../lib/dialog'
 import { reset } from '../../redux/actions'
 
-const LeaveButton = ({ mobile, reset }) => {
+const LeaveButton = ({ browser: { mobile }, reset }) => {
   const leave = () => {
     openConfirm({
       title: '退室',
@@ -47,7 +47,7 @@ const LeaveButton = ({ mobile, reset }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile
+    browser: state.browser
   }),
   dispatch => ({
     reset: () => dispatch(reset())

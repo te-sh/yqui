@@ -12,7 +12,7 @@ import EnterRoom from './EnterRoom'
 import CommonDialogs from '../dialogs/Dialogs'
 import './Rooms.scss'
 
-const Rooms = ({ history, mobile, rooms, roomNo }) => {
+const Rooms = ({ history, browser: { mobile }, rooms, roomNo }) => {
   const [open, setOpen] = React.useState(false)
   const [room, setRoom] = React.useState(null)
 
@@ -61,7 +61,7 @@ const Rooms = ({ history, mobile, rooms, roomNo }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     rooms: state.rooms,
     roomNo: state.roomNo
   })

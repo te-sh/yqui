@@ -9,7 +9,7 @@ import { setOpenHelp } from '../../redux/actions'
 import TabPanel from '../../lib/TabPanel'
 import './Help.scss'
 
-const Help = ({ mobile, open, setOpen }) => {
+const Help = ({ browser: { mobile }, open, setOpen }) => {
   const [tab, setTab] = React.useState(0)
 
   const close = () => {
@@ -115,7 +115,7 @@ const Help = ({ mobile, open, setOpen }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     open: state.open.help
   }),
   dispatch => ({

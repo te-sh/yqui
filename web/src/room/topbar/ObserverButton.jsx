@@ -6,7 +6,7 @@ import {
 import { Visibility } from '@material-ui/icons'
 import { sendWs, TOGGLE_OBSERVER } from '../../lib/send'
 
-const ObserverButton = ({ mobile, user, isPlayer }) => {
+const ObserverButton = ({ browser: { mobile }, user, isPlayer }) => {
   const toggleObserver = () => { sendWs(TOGGLE_OBSERVER) }
   const isObserver = !user.isMaster && !isPlayer
 
@@ -36,7 +36,7 @@ const ObserverButton = ({ mobile, user, isPlayer }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     user: state.user,
     isPlayer: state.isPlayer
   })

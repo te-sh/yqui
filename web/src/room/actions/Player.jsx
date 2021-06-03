@@ -7,7 +7,7 @@ import { sendWs, PUSH, BOARD } from '../../lib/send'
 import { openPrompt } from '../../lib/dialog'
 import './Actions.scss'
 
-const Player = ({ className, hidden, mobile, selfID, rule, bg }) => {
+const Player = ({ className, hidden, browser: { mobile }, selfID, rule, bg }) => {
   const [answer, setAnswer] = React.useState('')
 
   const onKeyDown = evt => {
@@ -82,7 +82,7 @@ const Player = ({ className, hidden, mobile, selfID, rule, bg }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     selfID: state.selfID,
     rule: state.rule,
     bg: state.bg

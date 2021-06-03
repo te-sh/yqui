@@ -15,7 +15,7 @@ import Dialogs from './dialogs/Dialogs'
 import CommonDialogs from '../dialogs/Dialogs'
 import './Room.scss'
 
-const Room = ({ history, mobile, showLeft, roomNo }) => {
+const Room = ({ history, browser: { mobile }, showLeft, roomNo }) => {
   React.useEffect(
     () => {
       if (roomNo === null) {
@@ -49,7 +49,7 @@ const Room = ({ history, mobile, showLeft, roomNo }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     showLeft: state.showLeft,
     roomNo: state.roomNo
   })

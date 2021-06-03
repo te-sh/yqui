@@ -7,7 +7,7 @@ import NormalRule from './NormalRule'
 import TeamRule from './TeamRule'
 import './RuleDisplay.scss'
 
-const RuleDisplay = ({ className, mobile, rule }) => {
+const RuleDisplay = ({ className, browser: { mobile }, rule }) => {
   const showBoardRule = rule.board.active
   const showNormalRule = (rule.board.active && rule.board.applyNormal) || !rule.board.active
   const showTeamRule = rule.team.active
@@ -24,7 +24,7 @@ const RuleDisplay = ({ className, mobile, rule }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     rule: state.rule
   })
 )(RuleDisplay)

@@ -38,7 +38,7 @@ const RuleButton = ({ mobile, user, editTeams, setOpen }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     user: state.user,
     editTeams: state.editTeams
   }),

@@ -6,7 +6,7 @@ import { sendWs, PUSH, CHAT } from '../../lib/send'
 import { openPrompt } from '../../lib/dialog'
 import './Chat.scss'
 
-const Chat = ({ className, mobile, isPlayer }) => {
+const Chat = ({ className, browser: { mobile }, isPlayer }) => {
   const [message, setMessage] = React.useState('')
 
   const chat = evt => {
@@ -60,7 +60,7 @@ const Chat = ({ className, mobile, isPlayer }) => {
 
 export default connect(
   state => ({
-    mobile: state.mobile,
+    browser: state.browser,
     isPlayer: state.isPlayer
   })
 )(Chat)
