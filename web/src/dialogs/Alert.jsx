@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography
 } from '@material-ui/core'
-import { setAlert } from '../redux/actions'
+import { setAlert } from '../redux/dialog_actions'
 
 const Alert = ({ alert, setAlert }) => {
   const info = alert || {}

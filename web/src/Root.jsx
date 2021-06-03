@@ -6,9 +6,10 @@ import URI from 'urijs'
 import { openAlert } from './lib/dialog'
 import { saveScoreBackup } from './lib/score'
 import playSound from './lib/sound'
+import { setMobile, setWebSocket } from './redux/browser_actions'
 import {
-  setMobile, reset, setWebSocket, recvSelfID, recvRooms, recvRoom,
-  recvRule, recvBg, recvBoard, recvSg, recvButtons, recvTimer, recvChat
+  reset, recvSelfID, recvRooms, recvRoom, recvRule, recvBg,
+  recvBoard, recvSg, recvButtons, recvTimer, recvChat
 } from './redux/actions'
 import Rooms from './rooms/Rooms'
 import Room from './room/Room'

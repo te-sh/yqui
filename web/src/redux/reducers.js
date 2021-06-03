@@ -1,11 +1,12 @@
 import update from 'immutability-helper'
+import { SET_MOBILE, SET_WEB_SOCKET } from './browser_actions'
+import { SET_ALERT, SET_CONFIRM, SET_PROMPT } from './dialog_actions'
 import {
-  SET_MOBILE, RESET, SET_WEB_SOCKET, RECV_SELF_ID, RECV_ROOMS,
+  RESET, RECV_SELF_ID, RECV_ROOMS,
   TOGGLE_SHOW_LEFT, RECV_ROOM, RECV_RULE, RECV_BG, RECV_BOARD,
   RECV_SG, RECV_BUTTONS, RECV_TIMER, RECV_CHAT, SET_TEAMS,
   SET_BOARD, ADD_EDIT_BOARD, REMOVE_EDIT_BOARD, CLEAR_EDIT_BOARDS,
-  SET_OPEN_TAG, SET_OPEN_RULE, SET_OPEN_SETTING, SET_OPEN_HELP,
-  SET_ALERT, SET_CONFIRM, SET_PROMPT
+  SET_OPEN_TAG, SET_OPEN_RULE, SET_OPEN_SETTING, SET_OPEN_HELP
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { initBg, mergeBgWithJson } from '../lib/board'
@@ -82,14 +83,14 @@ const yquiApp = (state = initialState, action) => {
   switch (action.type) {
     case SET_MOBILE:
       return update(state, { browser: { mobile: { $set: action.mobile } } })
+    case SET_WEB_SOCKET:
+      return update(state, { browser: { ws: { $set: action.ws } } })
     case RESET:
       return update(initialState, {
         browser: { $set: state.browser },
         selfID: { $set: state.selfID },
         rooms: { $set: state.rooms }
       })
-    case SET_WEB_SOCKET:
-      return update(state, { browser: { ws: { $set: action.ws } } })
     case RECV_SELF_ID:
       return update(state, { selfID: { $set: action.selfID } })
     case RECV_ROOMS:

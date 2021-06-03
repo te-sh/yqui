@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography
 } from '@material-ui/core'
-import { setConfirm } from '../redux/actions'
+import { setConfirm } from '../redux/dialog_actions'
 
 const Confirm = ({ confirm, setConfirm }) => {
   const info = confirm || {}

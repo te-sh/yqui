@@ -1,4 +1,4 @@
-import { setAlert, setConfirm, setPrompt } from '../redux/actions'
+import { setAlert, setConfirm, setPrompt } from '../redux/dialog_actions'
 import store from '../redux/store'
 
 export const openAlert = alert => {

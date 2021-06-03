@@ -1,6 +1,4 @@
-export const SET_MOBILE = 'SET_MOBILE'
 export const RESET = 'RESET'
-export const SET_WEB_SOCKET = 'SET_WEB_SOCKET'
 export const RECV_ROOMS = 'RECV_ROOMS'
 export const TOGGLE_SHOW_LEFT = 'TOGGLE_SHOW_LEFT'
 export const RECV_SELF_ID = 'RECV_SELF_ID'
@@ -21,20 +19,9 @@ export const SET_OPEN_TAG = 'SET_OPEN_TAG'
 export const SET_OPEN_RULE = 'SET_OPEN_RULE'
 export const SET_OPEN_SETTING = 'SET_OPEN_SETTING'
 export const SET_OPEN_HELP = 'SET_OPEN_HELP'
-export const SET_ALERT = 'SET_ALERT'
-export const SET_CONFIRM = 'SET_CONFIRM'
-export const SET_PROMPT = 'SET_PROMPT'
-
-export const setMobile = mobile => {
-  return { type: SET_MOBILE, mobile }
-}
 
 export const reset = () => {
   return { type: RESET }
-}
-
-export const setWebSocket = ws => {
-  return { type: SET_WEB_SOCKET, ws }
 }
 
 export const recvSelfID = selfID => {
@@ -115,16 +102,4 @@ export const setOpenSetting = open => {
 
 export const setOpenHelp = open => {
   return { type: SET_OPEN_HELP, open }
-}
-
-export const setAlert = alert => {
-  return { type: SET_ALERT, alert }
-}
-
-export const setConfirm = confirm => {
-  return { type: SET_CONFIRM, confirm }
-}
-
-export const setPrompt = prompt => {
-  return { type: SET_PROMPT, prompt }
 }

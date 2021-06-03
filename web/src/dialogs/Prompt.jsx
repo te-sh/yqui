@@ -4,7 +4,7 @@ import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
   TextField, Typography
 } from '@material-ui/core'
-import { setPrompt } from '../redux/actions'
+import { setPrompt } from '../redux/dialog_actions'
 
 const Prompt = ({ prompt, setPrompt }) => {
   const [text, setText] = React.useState('')
