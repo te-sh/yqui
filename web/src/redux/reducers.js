@@ -42,13 +42,13 @@ const initialState = {
   dispTeams: []
 }
 
-const recvRoom = (state, action) => {
-  const users = usersFromJson(action.room.users)
-  const teams = teamsFromJson(action.room.teams)
+const recvRoom = (state, { room }) => {
+  const users = usersFromJson(room.users)
+  const teams = teamsFromJson(room.teams)
   const players = playersOfTeams(teams)
   return update(state, {
-    roomNo: { $set: action.room.no },
-    tag: { $set: action.room.tag },
+    roomNo: { $set: room.no },
+    tag: { $set: room.tag },
     users: { $set: users },
     user: { $set: users.get(state.selfID) },
     master: { $set: findMaster(users) },
@@ -79,7 +79,7 @@ const yquiApp = (state = initialState, action) => {
     case RECV_ROOM:
       return recvRoom(state, action)
     case SET_TEAMS:
-      return setTeams(state, action)
+      return setTeams(state, action.payload)
     default:
       return update(state, {
         browser: { $set: browserReducer(state.browser, action) },
