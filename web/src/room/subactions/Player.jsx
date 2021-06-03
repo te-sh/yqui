@@ -26,7 +26,7 @@ const Player = ({ className, hidden, rule, timer }) => {
 
 export default connect(
   state => ({
-    rule: state.rule,
-    timer: state.timer
+    timer: state.timer,
+    rule: state.rule
   })
 )(Player)

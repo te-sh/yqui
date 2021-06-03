@@ -8,12 +8,11 @@ import { storeScoreBackup } from './lib/dexie'
 import playSound from './lib/sound'
 import { setMobile, setWebSocket } from './redux/browser_actions'
 import store from './redux/store'
-import {
-  reset, recvSelfID, recvRooms, recvRoom, recvRule, recvButtons, recvTimer
-} from './redux/actions'
+import { reset, recvSelfID, recvRooms, recvRoom, recvRule, recvButtons } from './redux/actions'
 import { recvChat } from './redux/chat_actions'
 import { recvSg } from './redux/score_actions'
 import { recvBg, recvBoard } from './redux/board_actions'
+import { recvTimer } from './redux/timer_actions'
 import Rooms from './rooms/Rooms'
 import Room from './room/Room'
 

@@ -168,8 +168,8 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, clearEditBoards
 export default connect(
   state => ({
     board: state.board,
-    rule: state.rule,
-    timer: state.timer
+    timer: state.timer,
+    rule: state.rule
   }),
   dispatch => ({
     clearEditBoards: () => dispatch(clearEditBoards())

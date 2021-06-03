@@ -1,7 +1,7 @@
 import update from 'immutability-helper'
 import {
   RESET, RECV_SELF_ID, RECV_ROOMS, TOGGLE_SHOW_LEFT, RECV_ROOM,
-  RECV_RULE, RECV_BUTTONS, RECV_TIMER, SET_TEAMS
+  RECV_RULE, RECV_BUTTONS, SET_TEAMS
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { initButtons, buttonsFromJson } from '../lib/buttons'
@@ -15,6 +15,7 @@ import { initialState as openState, openReducer } from './open_reducer'
 import { initialState as chatState, chatReducer } from './chat_reducer'
 import { initialState as scoreState, scoreReducer } from './score_reducer'
 import { initialState as boardState, boardReducer } from './board_reducer'
+import { initialState as timerState, timerReducer } from './timer_reducer'
 
 const initialState = {
   browser: browserState,
@@ -23,6 +24,7 @@ const initialState = {
   chat: chatState,
   score: scoreState,
   board: boardState,
+  timer: timerState,
   selfID: null,
   rooms: [],
   showLeft: true,
@@ -39,10 +41,6 @@ const initialState = {
   teams: [],
   buttons: initButtons,
   rule: initRule,
-  timer: {
-    running: false,
-    remaining: 0
-  },
   editTeams: null,
   dispTeams: []
 }
@@ -72,6 +70,7 @@ const yquiApp = (state = initialState, action) => {
   state = update(state, { chat: { $set: chatReducer(state.chat, action) } })
   state = update(state, { score: { $set: scoreReducer(state.score, action) } })
   state = update(state, { board: { $set: boardReducer(state.board, action) } })
+  state = update(state, { timer: { $set: timerReducer(state.timer, action) } })
 
   switch (action.type) {
     case RESET:
@@ -92,8 +91,6 @@ const yquiApp = (state = initialState, action) => {
       return update(state, { rule: { $set: action.rule } })
     case RECV_BUTTONS:
       return update(state, { buttons: { $set: buttonsFromJson(action.buttons) } })
-    case RECV_TIMER:
-      return update(state, { timer: { $set: action.timer } })
     case SET_TEAMS:
       return update(state, setTeamsUpdator(action.payload))
     default:
