@@ -6,7 +6,6 @@ export const RECV_ROOM = 'RECV_ROOM'
 export const RECV_RULE = 'RECV_RULE'
 export const RECV_BUTTONS = 'RECV_BUTTONS'
 export const RECV_TIMER = 'RECV_TIMER'
-export const RECV_CHAT = 'RECV_CHAT'
 export const SET_TEAMS = 'SET_EDIT_TEAMS'
 
 export const reset = () => {
@@ -39,10 +38,6 @@ export const recvButtons = buttons => {
 
 export const recvTimer = timer => {
   return { type: RECV_TIMER, timer }
-}
-
-export const recvChat = chat => {
-  return { type: RECV_CHAT, chat }
 }
 
 export const setTeams = payload => {

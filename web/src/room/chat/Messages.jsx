@@ -4,7 +4,7 @@ import { Box, Paper, Typography } from '@material-ui/core'
 import { format, fromUnixTime } from 'date-fns'
 import './Messages.scss'
 
-const Messages = ({ className, chats }) => {
+const Messages = ({ className, chat: { messages } }) => {
   const ref = React.createRef()
 
   React.useEffect(
@@ -12,7 +12,7 @@ const Messages = ({ className, chats }) => {
       const el = ref.current
       el.scrollTop = el.scrollHeight
     },
-    [chats, ref]
+    [messages, ref]
   )
 
   const placeJoinLeave = { player: '', master: ' (司会) ', observer: ' (観戦) ' }
@@ -78,13 +78,13 @@ const Messages = ({ className, chats }) => {
 
   return (
     <Paper className={className} ref={ref}>
-      {chats.map(row)}
+      {messages.map(row)}
     </Paper>
   )
 }
 
 export default connect(
   state => ({
-    chats: state.chats
+    chat: state.chat
   })
 )(Messages)

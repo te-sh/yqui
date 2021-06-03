@@ -9,8 +9,9 @@ import playSound from './lib/sound'
 import { setMobile, setWebSocket } from './redux/browser_actions'
 import store from './redux/store'
 import {
-  reset, recvSelfID, recvRooms, recvRoom, recvRule, recvButtons, recvTimer, recvChat
+  reset, recvSelfID, recvRooms, recvRoom, recvRule, recvButtons, recvTimer
 } from './redux/actions'
+import { recvChat } from './redux/chat_actions'
 import { recvSg } from './redux/score_actions'
 import { recvBg, recvBoard } from './redux/board_actions'
 import Rooms from './rooms/Rooms'
@@ -84,16 +85,16 @@ export default connect(
     setWebSocket: ws => dispatch(setWebSocket(ws)),
     reset: () => dispatch(reset()),
     recv: {
+      chat: chat => dispatch(recvChat(chat)),
+      sg: sg => dispatch(recvSg(sg)),
+      bg: bg => dispatch(recvBg(bg)),
+      board: board => dispatch(recvBoard(board)),
       selfID: selfID => dispatch(recvSelfID(selfID)),
       rooms: rooms => dispatch(recvRooms(rooms)),
       room: room => dispatch(recvRoom(room)),
       rule: rule => dispatch(recvRule(rule)),
-      bg: bg => dispatch(recvBg(bg)),
-      board: board => dispatch(recvBoard(board)),
-      sg: sg => dispatch(recvSg(sg)),
       buttons: buttons => dispatch(recvButtons(buttons)),
-      timer: timer => dispatch(recvTimer(timer)),
-      chat: chat => dispatch(recvChat(chat))
+      timer: timer => dispatch(recvTimer(timer))
     }
   })
 )(Root)
