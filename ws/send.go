@@ -8,6 +8,7 @@ func (room *Room) SendRoom() {
 	room.SendRule()
 	room.SendBG()
 	room.SendSG()
+	room.SendButtons()
 	room.Broadcast("room", room, true)
 }
 
