@@ -1,9 +1,7 @@
 import update from 'immutability-helper'
 import { RESET, RECV_SELF_ID, RECV_ROOM, SET_TEAMS } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
-import {
-  playersOfTeams, teamsFromJson, recvTeamsUpdator, setTeamsUpdator
-} from '../lib/team'
+import { playersOfTeams, teamsFromJson, recvTeamsUpdator } from '../lib/team'
 import { initialState as browserState, browserReducer } from './browser_reducer'
 import { initialState as dialogState, dialogReducer } from './dialog_reducer'
 import { initialState as openState, openReducer } from './open_reducer'
@@ -44,7 +42,7 @@ const initialState = {
   dispTeams: []
 }
 
-const recvRoom = (action, state) => {
+const recvRoom = (state, action) => {
   const users = usersFromJson(action.room.users)
   const teams = teamsFromJson(action.room.teams)
   const players = playersOfTeams(teams)
@@ -61,19 +59,14 @@ const recvRoom = (action, state) => {
   })
 }
 
-const yquiApp = (state = initialState, action) => {
-  state = update(state, { browser: { $set: browserReducer(state.browser, action) } })
-  state = update(state, { dialog: { $set: dialogReducer(state.dialog, action) } })
-  state = update(state, { open: { $set: openReducer(state.open, action) } })
-  state = update(state, { rooms: { $set: roomsReducer(state.rooms, action) } })
-  state = update(state, { appear: { $set: appearReducer(state.appear, action) } })
-  state = update(state, { chat: { $set: chatReducer(state.chat, action) } })
-  state = update(state, { rule: { $set: ruleReducer(state.rule, action) } })
-  state = update(state, { buttons: { $set: buttonsReducer(state.buttons, action) } })
-  state = update(state, { score: { $set: scoreReducer(state.score, action) } })
-  state = update(state, { board: { $set: boardReducer(state.board, action) } })
-  state = update(state, { timer: { $set: timerReducer(state.timer, action) } })
+const setTeams = (state, { editTeams, dispTeams }) => {
+  return update(state, {
+    editTeams: { $set: editTeams || state.editTeams },
+    dispTeams: { $set: dispTeams || state.dispTeams }
+  })
+}
 
+const yquiApp = (state = initialState, action) => {
   switch (action.type) {
     case RESET:
       return update(initialState, {
@@ -84,11 +77,23 @@ const yquiApp = (state = initialState, action) => {
     case RECV_SELF_ID:
       return update(state, { selfID: { $set: action.selfID } })
     case RECV_ROOM:
-      return recvRoom(action, state)
+      return recvRoom(state, action)
     case SET_TEAMS:
-      return update(state, setTeamsUpdator(action.payload))
+      return setTeams(state, action)
     default:
-      return state
+      return update(state, {
+        browser: { $set: browserReducer(state.browser, action) },
+        dialog: { $set: dialogReducer(state.dialog, action) },
+        open: { $set: openReducer(state.open, action) },
+        rooms: { $set: roomsReducer(state.rooms, action) },
+        appear: { $set: appearReducer(state.appear, action) },
+        chat: { $set: chatReducer(state.chat, action) },
+        rule: { $set: ruleReducer(state.rule, action) },
+        buttons: { $set: buttonsReducer(state.buttons, action) },
+        score: { $set: scoreReducer(state.score, action) },
+        board: { $set: boardReducer(state.board, action) },
+        timer: { $set: timerReducer(state.timer, action) }
+      })
   }
 }
 

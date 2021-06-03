@@ -44,14 +44,3 @@ const adjustTeamPlayers = (editTeams, users, teams) => {
 
   return newTeams
 }
-
-export const setTeamsUpdator = ({ editTeams, dispTeams }) => {
-  const updator = {}
-  if (editTeams !== undefined) {
-    updator.editTeams = { $set: editTeams }
-  }
-  if (dispTeams !== undefined) {
-    updator.dispTeams = { $set: dispTeams }
-  }
-  return updator
-}
