@@ -1,7 +1,6 @@
 import update from 'immutability-helper'
 import {
-  RESET, RECV_SELF_ID, TOGGLE_SHOW_LEFT, RECV_ROOM,
-  RECV_RULE, RECV_BUTTONS, SET_TEAMS
+  RESET, RECV_SELF_ID, RECV_ROOM, RECV_RULE, RECV_BUTTONS, SET_TEAMS
 } from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { initButtons, buttonsFromJson } from '../lib/buttons'
@@ -13,6 +12,7 @@ import { initialState as browserState, browserReducer } from './browser_reducer'
 import { initialState as dialogState, dialogReducer } from './dialog_reducer'
 import { initialState as openState, openReducer } from './open_reducer'
 import { initialState as roomsState, roomsReducer } from './rooms_reducer'
+import { initialState as appearState, appearReducer } from './appear_reducer'
 import { initialState as chatState, chatReducer } from './chat_reducer'
 import { initialState as scoreState, scoreReducer } from './score_reducer'
 import { initialState as boardState, boardReducer } from './board_reducer'
@@ -23,12 +23,12 @@ const initialState = {
   dialog: dialogState,
   open: openState,
   rooms: roomsState,
+  appear: appearState,
   chat: chatState,
   score: scoreState,
   board: boardState,
   timer: timerState,
   selfID: null,
-  showLeft: true,
   roomNo: null,
   tag: {
     title: '',
@@ -69,6 +69,7 @@ const yquiApp = (state = initialState, action) => {
   state = update(state, { dialog: { $set: dialogReducer(state.dialog, action) } })
   state = update(state, { open: { $set: openReducer(state.open, action) } })
   state = update(state, { rooms: { $set: roomsReducer(state.rooms, action) } })
+  state = update(state, { appear: { $set: appearReducer(state.appear, action) } })
   state = update(state, { chat: { $set: chatReducer(state.chat, action) } })
   state = update(state, { score: { $set: scoreReducer(state.score, action) } })
   state = update(state, { board: { $set: boardReducer(state.board, action) } })
@@ -83,8 +84,6 @@ const yquiApp = (state = initialState, action) => {
       })
     case RECV_SELF_ID:
       return update(state, { selfID: { $set: action.selfID } })
-    case TOGGLE_SHOW_LEFT:
-      return update(state, { showLeft: { $set: !state.showLeft } })
     case RECV_ROOM:
       return recvRoom(action, state)
     case RECV_RULE:

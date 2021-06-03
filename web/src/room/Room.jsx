@@ -50,7 +50,7 @@ const Room = ({ history, browser: { mobile }, showLeft, roomNo }) => {
 export default connect(
   state => ({
     browser: state.browser,
-    showLeft: state.showLeft,
+    showLeft: state.appear.showLeft,
     roomNo: state.roomNo
   })
 )(Room)

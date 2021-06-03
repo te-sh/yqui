@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, ButtonBase } from '@material-ui/core'
 import { ArrowLeft, ArrowRight } from '@material-ui/icons'
-import { toggleShowLeft } from '../redux/actions'
+import { toggleShowLeft } from '../redux/appear_actions'
 import './ToggleLeft.scss'
 
 const ToggleLeft = ({ className, showLeft, toggleShowLeft }) => {
@@ -17,7 +17,7 @@ const ToggleLeft = ({ className, showLeft, toggleShowLeft }) => {
 
 export default connect(
   state => ({
-    showLeft: state.showLeft
+    showLeft: state.appear.showLeft
   }),
   dispatch => ({
     toggleShowLeft: () => dispatch(toggleShowLeft())
