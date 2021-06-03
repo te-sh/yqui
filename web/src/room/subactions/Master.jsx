@@ -31,7 +31,7 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, clearEditBoards
     sendWs(ALL_CLEAR)
   }
 
-  const onBoardLock = () => {
+  const toggleBoardLock = () => {
     sendWs(BOARD_LOCK, !bg.lock)
   }
 
@@ -142,10 +142,13 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, clearEditBoards
 
   const boardMenu = (
     <Box className="content board">
-      <Button variant="outlined" color="default" className="board-lock-button"
-              onClick={onBoardLock}>
-        { bg.lock ? '回答ロック解除' : '回答ロック' }
-      </Button>
+      <FormControlLabel
+        control={
+          <Switch color="primary" className="show-point"
+                  checked={bg.lock}
+                  onChange={toggleBoardLock} />
+        }
+        label="解答ロック" />
       <Button variant="outlined" color="default" className="open-all-button"
               onClick={onOpenAll}>
         すべてオープン
