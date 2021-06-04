@@ -213,6 +213,12 @@ func (room *Room) SetRule(rule *Rule) {
 	room.Rule = rule
 }
 
+func (room *Room) UpdateScores(scores Scores) {
+	room.History.Save(room.SG, room.Buttons)
+	room.SG.Player.UpdateScores(scores)
+	room.History.Add(room.SG, room.Buttons)
+}
+
 func (room *Room) TruncateTeams() {
 	if len(room.Teams) > 1 {
 		for _, team := range room.Teams[1:] {

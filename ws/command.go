@@ -172,6 +172,11 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, rule)
 		room.SetRule(rule)
 		room.SendRoom()
+	case "scores":
+		scores := make(Scores)
+		json.Unmarshal(cmd.A, &scores)
+		room.UpdateScores(scores)
+		room.SendSG()
 	case "toggle-timer":
 		room.ToggleTimer()
 	case "chat":

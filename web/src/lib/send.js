@@ -21,6 +21,7 @@ export const BOARD_LOCK = 'board-lock'
 export const TOGGLE_OBSERVER = 'toggle-observer'
 export const TOGGLE_MASTER = 'toggle-master'
 export const RULE = 'rule'
+export const SCORES = 'scores'
 export const TOGGLE_TIMER = 'toggle-timer'
 export const CHAT = 'chat'
 

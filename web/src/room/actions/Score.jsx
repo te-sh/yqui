@@ -2,11 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Button } from '@material-ui/core'
 import classNames from 'classnames'
+import { sendWs, SCORES } from '../../lib/send'
 import { unsetEditScores } from '../../redux/score_actions'
 import './Actions.scss'
 
-const Score = ({ className, hidden, unsetEditScores }) => {
+const Score = ({ className, hidden, score: { edit }, unsetEditScores }) => {
   const endScore = () => {
+    const scores = Object.fromEntries([...edit.scores.keys()].map(id => (
+      [id, edit.scores.get(id)]
+    )))
+    sendWs(SCORES, scores)
     unsetEditScores()
   }
 
