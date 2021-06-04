@@ -79,6 +79,8 @@ export const selectors = {
     },
     master: {
       allClear: Selector('.room .subactions .master-subactions .all-clear-button'),
+      winTop: Selector('.room .subactions .master-subactions .win-top-button'),
+      loseBottom: Selector('.room .subactions .master-subactions .lose-bottom-button'),
       editScore: Selector('.room .subactions .master-subactions .edit-score-button'),
       assign: Selector('.room .subactions .master-subactions .assign-button')
     },
@@ -156,6 +158,12 @@ export const selectors = {
       },
       team: {
         active: Selector('.rule-dialog .team-rule .active')
+      },
+      other: {
+        point: Selector('.rule-dialog .other-rule .point'),
+        pointAndBatsu: Selector('.rule-dialog .other-rule .point-and-batsu'),
+        compPoint: Selector('.rule-dialog .other-rule .comp-point'),
+        compPointAndPoint: Selector('.rule-dialog .other-rule .comp-point-and-point')
       },
       submit: Selector('.rule-dialog .submit')
     },

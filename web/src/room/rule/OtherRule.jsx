@@ -55,17 +55,17 @@ const OtherRule = ({ rule, changeRule, comprehensive }) => {
         </FormLabel>
         <RadioGroup value={rule.winLoseOrder}
                     onChange={evt => changeWinLoseOrder(evt.target.value)}>
-          <FormControlLabel value="point"
+          <FormControlLabel value="point" className="point"
                             control={<Radio />}
                             label={<>ポイント<PointHelp /></>} />
-          <FormControlLabel value="point-and-batsu"
+          <FormControlLabel value="point-and-batsu" className="point-and-batsu"
                             control={<Radio />}
                             label={<>ポイント, 同じならバツ<PointAndBatsuHelp /></>} />
-          <FormControlLabel value="comp-point"
+          <FormControlLabel value="comp-point" className="comp-point"
                             control={<Radio />}
                             disabled={!comprehensive}
                             label={<>総合ポイント<CompPointHelp /></>} />
-          <FormControlLabel value="comp-point-and-point"
+          <FormControlLabel value="comp-point-and-point" className="comp-point-and-point"
                             control={<Radio />}
                             disabled={!comprehensive}
                             label={<>総合ポイント, 同じならポイント<CompPointAndPointHelp /></>} />
