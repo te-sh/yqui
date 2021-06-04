@@ -80,12 +80,11 @@ const Help = ({ browser: { mobile }, open, setOpen }) => {
             <Button variant="outlined">最上位勝抜</Button>と<Button variant="outlined">最下位失格</Button>
           </Typography>
           <Typography>
-            <Button variant="outlined" size="small">最上位勝抜</Button>はクリック時のポイントが最も大きいプレイヤーを勝抜にします.
-            そのようなプレイヤーが複数いる場合はそのプレイヤー全員を勝抜にします.
+            <Button variant="outlined" size="small">最上位勝抜</Button>および
+            <Button variant="outlined" size="small">最下位失格</Button>はルール設定にしたがって勝抜または失格のプレイヤーを決定します.
           </Typography>
           <Typography>
-            <Button variant="outlined" size="small">最下位失格</Button>はクリック時のポイントが最も小さいプレイヤーを失格にします.
-            そのようなプレイヤーが複数いる場合はそのプレイヤー全員を失格にします.
+            該当するプレイヤーが複数いる場合はそのプレイヤー全員を勝抜または失格にします.
           </Typography>
           <Typography>
             いずれの場合もボタンなどはリセットされます.

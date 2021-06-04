@@ -187,7 +187,7 @@ func (ss *ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Soun
 }
 
 func (ss *ScoreSet) UpdateScores(scores Scores) {
-	for id, score := range(ss.Scores) {
+	for id, score := range ss.Scores {
 		if newScore, ok := scores[id]; ok {
 			score.Point = newScore.Point
 			score.Batsu = newScore.Batsu

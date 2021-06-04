@@ -37,6 +37,12 @@ const Rule = ({ rule, open, setOpen }) => {
 
   const changePlayerComprehensive = value => {
     setPlayer(update(player, { comprehensive: { $set: value } }))
+    console.log(value, other)
+    if (!value.active &&
+        (other.winLoseOrder === 'comp-point' ||
+         other.winLoseOrder === 'comp-point-and-point')) {
+      setOther(update(other, { winLoseOrder: { $set: 'point' } }))
+    }
   }
 
   const submit = evt => {
@@ -87,7 +93,8 @@ const Rule = ({ rule, open, setOpen }) => {
             <BoardRule rule={board} changeRule={setBoard} />
           </TabPanel>
           <TabPanel value={tab} index={3} className="other-rule">
-            <OtherRule rule={other} changeRule={setOther} />
+            <OtherRule rule={other} changeRule={setOther}
+                       comprehensive={player.comprehensive.active} />
           </TabPanel>
         </DialogContent>
         <DialogActions>

@@ -65,6 +65,16 @@ func (users Users) IDs() []int64 {
 	return ids
 }
 
+func (users Users) PlayerIDs() []int64 {
+	var ids []int64
+	for _, user := range users {
+		if user.Place() == "player" {
+			ids = append(ids, user.ID)
+		}
+	}
+	return ids
+}
+
 func (users Users) MasterID() (int64, bool) {
 	for _, user := range users {
 		if user.IsMaster {

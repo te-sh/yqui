@@ -17,6 +17,6 @@ func (winLose *WinLose) Clone() *WinLose {
 }
 
 func (winLose *WinLose) Reset() {
-	winLose.WinNum = 0
-	winLose.LoseNum = 0
+	winLose.WinNum = 1
+	winLose.LoseNum = 1
 }

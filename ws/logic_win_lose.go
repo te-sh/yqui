@@ -1,5 +1,9 @@
 package main
 
+import (
+	"sort"
+)
+
 func (score *Score) ExceedWinPoint(rule WinLoseRule, comprehensive *ComprehensiveRule) bool {
 	if score.Win != 0 {
 		return false
@@ -30,11 +34,11 @@ func (ss *ScoreSet) SetWin(rule WinLoseRule, comprehensive *ComprehensiveRule) (
 	}
 	win = len(wins) > 0
 	if win {
-		ss.WinLose.WinNum += 1
 		for _, score := range wins {
 			score.Win = ss.WinLose.WinNum
 			score.Lock = 0
 		}
+		ss.WinLose.WinNum += len(wins)
 	}
 	return
 }
@@ -76,58 +80,144 @@ func (ss *ScoreSet) SetLose(rule WinLoseRule) (lose bool) {
 	return
 }
 
-func (ss *ScoreSet) WinTop(sound *Sound) {
-	alive, max := false, 0
-	for _, score := range ss.Scores {
-		if score.Win == 0 && score.Lose == 0 {
-			alive = true
-			max = score.Point
-		}
-	}
-	if !alive {
+func (ss *ScoreSet) WinTop(ids []int64, rule *OtherRule, sound *Sound) {
+	scores := ss.MakeScoresForSort(ids)
+	if len(scores) == 0 {
 		return
 	}
 	sound.Win = true
-	for _, score := range ss.Scores {
-		if score.Win == 0 && score.Lose == 0 {
-			if max < score.Point {
-				max = score.Point
+
+	t := len(scores)
+	switch rule.WinLoseOrder {
+	case "point":
+		sort.Slice(scores, func(i, j int) bool {
+			return scores[i].Point > scores[j].Point
+		})
+		for i, score := range scores {
+			if score.Point != scores[0].Point {
+				t = i
+				break
+			}
+		}
+	case "point-and-batsu":
+		sort.Slice(scores, func(i, j int) bool {
+			if scores[i].Point == scores[j].Point {
+				return scores[i].Batsu < scores[j].Batsu
+			} else {
+				return scores[i].Point > scores[j].Point
+			}
+		})
+		for i, score := range scores {
+			if score.Point != scores[0].Point || score.Batsu != scores[0].Batsu {
+				t = i
+				break
+			}
+		}
+	case "comp-point":
+		sort.Slice(scores, func(i, j int) bool {
+			return scores[i].CompPoint > scores[j].CompPoint
+		})
+		for i, score := range scores {
+			if score.Point != scores[0].Point {
+				t = i
+				break
+			}
+		}
+	case "comp-point-and-point":
+		sort.Slice(scores, func(i, j int) bool {
+			if scores[i].CompPoint == scores[j].CompPoint {
+				return scores[i].Point > scores[j].Point
+			} else {
+				return scores[i].CompPoint > scores[j].CompPoint
+			}
+		})
+		for i, score := range scores {
+			if score.CompPoint != scores[0].CompPoint || score.Point != scores[0].Point {
+				t = i
+				break
 			}
 		}
 	}
-	ss.WinLose.WinNum += 1
-	for _, score := range ss.Scores {
-		if score.Win == 0 && score.Lose == 0 && score.Point == max {
-			score.Win = ss.WinLose.WinNum
-			score.Lock = 0
-		}
+
+	for i := 0; i < t; i++ {
+		scores[i].Win = ss.WinLose.WinNum
 	}
+	ss.WinLose.WinNum += t
 }
 
-func (ss *ScoreSet) LoseBottom(sound *Sound) {
-	alive, min := false, 0
-	for _, score := range ss.Scores {
-		if score.Win == 0 && score.Lose == 0 {
-			alive = true
-			min = score.Point
-		}
-	}
-	if !alive {
+func (ss *ScoreSet) LoseBottom(ids []int64, rule *OtherRule, sound *Sound) {
+	scores := ss.MakeScoresForSort(ids)
+	if len(scores) == 0 {
 		return
 	}
 	sound.Lose = true
-	for _, score := range ss.Scores {
-		if score.Win == 0 && score.Lose == 0 {
-			if min > score.Point {
-				min = score.Point
+
+	t := len(scores)
+	switch rule.WinLoseOrder {
+	case "point":
+		sort.Slice(scores, func(i, j int) bool {
+			return scores[i].Point < scores[j].Point
+		})
+		for i, score := range scores {
+			if score.Point != scores[0].Point {
+				t = i
+				break
+			}
+		}
+	case "point-and-batsu":
+		sort.Slice(scores, func(i, j int) bool {
+			if scores[i].Point == scores[j].Point {
+				return scores[i].Batsu > scores[j].Batsu
+			} else {
+				return scores[i].Point < scores[j].Point
+			}
+		})
+		for i, score := range scores {
+			if score.Point != scores[0].Point || score.Batsu != scores[0].Batsu {
+				t = i
+				break
+			}
+		}
+	case "comp-point":
+		sort.Slice(scores, func(i, j int) bool {
+			return scores[i].CompPoint < scores[j].CompPoint
+		})
+		for i, score := range scores {
+			if score.Point != scores[0].Point {
+				t = i
+				break
+			}
+		}
+	case "comp-point-and-point":
+		sort.Slice(scores, func(i, j int) bool {
+			if scores[i].CompPoint == scores[j].CompPoint {
+				return scores[i].Point < scores[j].Point
+			} else {
+				return scores[i].CompPoint < scores[j].CompPoint
+			}
+		})
+		for i, score := range scores {
+			if score.CompPoint != scores[0].CompPoint || score.Point != scores[0].Point {
+				t = i
+				break
 			}
 		}
 	}
-	ss.WinLose.LoseNum += 1
-	for _, score := range ss.Scores {
-		if score.Win == 0 && score.Lose == 0 && score.Point == min {
-			score.Lose = ss.WinLose.LoseNum
-			score.Lock = 0
+
+	for i := 0; i < t; i++ {
+		scores[i].Lose = ss.WinLose.LoseNum
+	}
+	ss.WinLose.LoseNum += t
+}
+
+func (ss *ScoreSet) MakeScoresForSort(ids []int64) ([]*Score) {
+	var scores []*Score
+	for _, id := range ids {
+		if score, ok := ss.Scores[id]; ok {
+			if score.Win == 0 && score.Lose == 0 {
+				scores = append(scores, score)
+			}
 		}
 	}
+	return scores
 }

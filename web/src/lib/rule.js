@@ -50,7 +50,8 @@ export const initRule = {
       active: false,
       min: 0,
       sec: 0
-    }
+    },
+    winLoseOrder: 'point'
   },
   showPoint: true
 }
