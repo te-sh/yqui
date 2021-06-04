@@ -137,7 +137,7 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, setEditScores, 
           label="ポイント表示" />
       </Box>
       <Box className="group edit">
-        <Button variant="outlined" color="default" className="score-button"
+        <Button variant="outlined" color="default" className="edit-score-button"
                 onClick={editScores}>
           スコア編集
         </Button>

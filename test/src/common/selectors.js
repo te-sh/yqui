@@ -52,6 +52,7 @@ export const selectors = {
       player: Selector('.room .actions .player-actions').filterVisible(),
       master: Selector('.room .actions .master-actions').filterVisible(),
       observer: Selector('.room .actions .observer-actions').filterVisible(),
+      editScore: Selector('.room .actions .edit-score-actions').filterVisible(),
       assign: Selector('.room .actions .assign-actions').filterVisible()
     },
     player: {
@@ -60,6 +61,10 @@ export const selectors = {
     master: {
       correct: Selector('.room .actions .master-actions .correct-button'),
       wrong: Selector('.room .actions .master-actions .wrong-button')
+    },
+    editScore: {
+      endEditScore: Selector('.room .actions .edit-score-actions .end-edit-score-button'),
+      cancelEditScore: Selector('.room .actions .edit-score-actions .cancel-edit-score-button')
     },
     assign: {
       endAssign: Selector('.room .actions .assign-actions .end-assign-button'),
@@ -74,6 +79,7 @@ export const selectors = {
     },
     master: {
       allClear: Selector('.room .subactions .master-subactions .all-clear-button'),
+      editScore: Selector('.room .subactions .master-subactions .edit-score-button'),
       assign: Selector('.room .subactions .master-subactions .assign-button')
     },
     assign: {

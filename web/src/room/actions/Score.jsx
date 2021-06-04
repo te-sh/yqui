@@ -20,14 +20,14 @@ const Score = ({ className, hidden, score: { edit }, unsetEditScores }) => {
   }
 
   return (
-    <Box className={classNames(className, 'score-actions', { hidden })}>
+    <Box className={classNames(className, 'edit-score-actions', { hidden })}>
       <Button variant="outlined" color="primary" size="large"
-              className="end-score-button"
+              className="end-edit-score-button"
               onClick={endScore}>
         設定
       </Button>
       <Button variant="outlined" color="secondary" size="large"
-              className="cancel-score-button"
+              className="cancel-edit-score-button"
               onClick={cancelScore}>
         閉じる
       </Button>
