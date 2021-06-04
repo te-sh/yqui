@@ -58,13 +58,13 @@ const Help = ({ browser: { mobile }, open, setOpen }) => {
             </li>
           </ul>
           <Typography variant="h6">
-            チャット回答マーク
+            チャット解答マーク
           </Typography>
           <Typography>
-            設定でチャット回答マークをオンにすると名前欄にチャット回答マーク (<span className="chat-mark">©</span>) が付きます.
+            設定でチャット解答マークをオンにすると名前欄にチャット解答マーク (<span className="chat-mark">©</span>) が付きます.
           </Typography>
           <Typography>
-            こうすると司会者があなたがチャット回答かどうかを容易に判断できるようになり, 円滑な進行の助けになるでしょう.
+            こうすると司会者があなたがチャット解答かどうかを容易に判断できるようになり, 円滑な進行の助けになるでしょう.
           </Typography>
         </TabPanel>
         <TabPanel value={tab} index={1}>

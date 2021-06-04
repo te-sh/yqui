@@ -54,7 +54,7 @@ const Player = ({ className, hidden, browser: { mobile }, selfID, rule, board: {
                    onKeyDown={evt => evt.stopPropagation()} />
         <Button type="submit" variant="outlined" color="default" size="large"
                 className="board-answer-button" disabled={bg.lock}>
-          ボード回答
+          ボード解答
         </Button>
       </form>
     </Box>

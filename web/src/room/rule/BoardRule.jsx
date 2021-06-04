@@ -28,7 +28,7 @@ const BoardRule = ({ rule, changeRule }) => {
                     checked={rule.active}
                     onChange={evt => changeActive(evt.target.checked)} />
           }
-          label="ボード回答" />
+          label="ボード解答" />
       </FormGroup>
       <FormGroup component="fieldset" className="rule-group">
         <FormLabel component="legend">
