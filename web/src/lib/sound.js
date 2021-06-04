@@ -3,7 +3,7 @@ import { retrieveVolume } from './dexie'
 let context
 const buffer = {}
 
-const sounds = ['push', 'correct', 'wrong', 'roundwin', 'open', 'timeup']
+const sounds = ['push', 'correct', 'wrong', 'roundwin', 'open', 'timeup', 'chat']
 
 window.addEventListener('load', () => {
   const AudioContext = window.AudioContext || window.webkitAudioContext

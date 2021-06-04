@@ -31,6 +31,7 @@ type Sound struct {
 	Lose    bool
 	Open    bool
 	Timeup  bool
+	Chat    bool
 }
 
 func NewSound() *Sound {
@@ -41,6 +42,12 @@ func NewSound() *Sound {
 func TimeupSound() *Sound {
 	sound := new(Sound)
 	sound.Timeup = true
+	return sound
+}
+
+func ChatSound() *Sound {
+	sound := new(Sound)
+	sound.Chat = true
 	return sound
 }
 
@@ -63,6 +70,9 @@ func (sound *Sound) MakeSounds() []string {
 	}
 	if sound.Timeup {
 		sounds = append(sounds, "timeup")
+	}
+	if sound.Chat {
+		sounds = append(sounds, "chat")
 	}
 	return sounds
 }

@@ -184,6 +184,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 			chat := Chat{Type: "message", Time: cmd.Time, Name: user.Name}
 			json.Unmarshal(cmd.A, &chat.Text)
 			room.SendChat(NewNormalChat(cmd, user))
+			room.SendSound(ChatSound())
 		}
 	}
 }
