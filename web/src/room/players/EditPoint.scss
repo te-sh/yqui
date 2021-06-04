@@ -1,0 +1,7 @@
+.edit-point {
+  margin: 10px;
+
+  .MuiTextField-root:not(:first-child) {
+    margin-top: 5px;
+  }
+}

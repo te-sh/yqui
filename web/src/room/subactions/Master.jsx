@@ -11,10 +11,11 @@ import {
   sendWs, ALL_CLEAR, WIN_TOP, LOSE_BOTTOM, RULE, BOARD_LOCK, BOARDS, TOGGLE_TIMER
 } from '../../lib/send'
 import { beginAssign } from '../../lib/assign'
+import { setEditScores } from '../../redux/score_actions'
 import { clearEditBoards } from '../../redux/board_actions'
 import './Master.scss'
 
-const Master = ({ className, hidden, board: { bg }, rule, timer, clearEditBoards }) => {
+const Master = ({ className, hidden, board: { bg }, rule, timer, setEditScores, clearEditBoards }) => {
   const [menu, setMenu] = React.useState('normal')
 
   React.useEffect(
@@ -59,6 +60,10 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, clearEditBoards
     sendWs(RULE, update(rule, {
       showPoint: { $set: evt.target.checked }
     }))
+  }
+
+  const editScores = () => {
+    setEditScores()
   }
 
   const menuToBoard = (
@@ -132,6 +137,10 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, clearEditBoards
           label="ポイント表示" />
       </Box>
       <Box className="group edit">
+        <Button variant="outlined" color="default" className="score-button"
+                onClick={editScores}>
+          スコア編集
+        </Button>
         <Button variant="outlined" color="default" className="assign-button"
                 onClick={beginAssign}>
           解答者割当
@@ -167,11 +176,13 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, clearEditBoards
 
 export default connect(
   state => ({
+    score: state.score,
     board: state.board,
     timer: state.timer,
     rule: state.rule
   }),
   dispatch => ({
+    setEditScores: () => dispatch(setEditScores()),
     clearEditBoards: () => dispatch(clearEditBoards())
   })
 )(Master)

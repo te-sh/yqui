@@ -59,7 +59,7 @@ const recvRoom = (state, { room }) => {
   })
 }
 
-const setTeams = (state, { editTeams, dispTeams }) => {
+const setTeams = (state, { payload: { editTeams, dispTeams } }) => {
   return update(state, {
     editTeams: { $set: editTeams !== undefined ? editTeams : state.editTeams },
     dispTeams: { $set: dispTeams !== undefined ? dispTeams : state.dispTeams }
@@ -79,7 +79,7 @@ const yquiApp = (state = initialState, action) => {
     case RECV_ROOM:
       return recvRoom(state, action)
     case SET_TEAMS:
-      return setTeams(state, action.payload)
+      return setTeams(state, action)
     default:
       return update(state, {
         browser: { $set: browserReducer(state.browser, action) },
