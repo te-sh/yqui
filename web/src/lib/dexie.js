@@ -35,6 +35,14 @@ export const retrieveChatAnswer = async () => {
   return await retrieveSettings('chatAnswer', false)
 }
 
+export const storeChatSound = async chatSound => {
+  await storeSettings('chatSound', chatSound)
+}
+
+export const retrieveChatSound = async () => {
+  return await retrieveSettings('chatSound', true)
+}
+
 export const storeVolume = async volume => {
   await storeSettings('volume', volume)
 }

@@ -1,4 +1,4 @@
-import { retrieveVolume } from './dexie'
+import { retrieveChatSound, retrieveVolume } from './dexie'
 
 let context
 const buffer = {}
@@ -29,8 +29,13 @@ const loadSound = (name, url) => {
 }
 
 const playSound = async sounds => {
+  const chatSound = await retrieveChatSound()
   let t = 0
   for (const name of sounds) {
+    if (name === 'chat' && !chatSound) {
+      continue
+    }
+
     const source = context.createBufferSource()
     source.buffer = buffer[name]
 

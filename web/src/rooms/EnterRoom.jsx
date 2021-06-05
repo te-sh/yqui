@@ -1,7 +1,7 @@
 import React from 'react'
 import {
-  Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
-  FormControl, FormControlLabel, FormGroup, FormLabel, TextField
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl,
+  FormControlLabel, FormGroup, FormLabel, Switch, TextField
 } from '@material-ui/core'
 import { GithubPicker } from 'react-color'
 import {
@@ -66,9 +66,9 @@ const EnterRoom = ({ room, open, submit, close }) => {
             <FormControl>
               <FormControlLabel
                 control={
-                  <Checkbox color="default" className="observer"
-                            checked={observer}
-                            onChange={evt => setObserver(evt.target.checked)} />
+                  <Switch color="primary" className="observer"
+                          checked={observer}
+                          onChange={evt => setObserver(evt.target.checked)} />
                 }
                 label="観戦" />
             </FormControl>
@@ -77,9 +77,9 @@ const EnterRoom = ({ room, open, submit, close }) => {
             <FormControl>
               <FormControlLabel
                 control={
-                  <Checkbox color="default" className="chat-answer"
-                            checked={chatAnswer}
-                            onChange={evt => setChatAnswer(evt.target.checked)} />
+                  <Switch color="primary" className="chat-answer"
+                          checked={chatAnswer}
+                          onChange={evt => setChatAnswer(evt.target.checked)} />
                 }
                 label="チャット解答マーク" />
             </FormControl>
