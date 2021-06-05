@@ -139,6 +139,10 @@ export const selectors = {
         point: Selector('.special-rule.init-value .point'),
         batsu: Selector('.special-rule.init-value .batsu')
       },
+      comprehensive: {
+        open: Selector('.rule-dialog .normal-rule .comprehensive-button'),
+        active: Selector('.special-rule.comprehensive .active')
+      },
       specialCorrect: {
         open: Selector('.rule-dialog .normal-rule .special-correct-button'),
         consBonus: Selector('.special-rule.special-correct .cons-bonus'),

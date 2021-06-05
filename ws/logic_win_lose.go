@@ -118,7 +118,7 @@ func (ss *ScoreSet) WinTop(ids []int64, rule *OtherRule, sound *Sound) {
 			return scores[i].CompPoint > scores[j].CompPoint
 		})
 		for i, score := range scores {
-			if score.Point != scores[0].Point {
+			if score.CompPoint != scores[0].CompPoint {
 				t = i
 				break
 			}
@@ -183,7 +183,7 @@ func (ss *ScoreSet) LoseBottom(ids []int64, rule *OtherRule, sound *Sound) {
 			return scores[i].CompPoint < scores[j].CompPoint
 		})
 		for i, score := range scores {
-			if score.Point != scores[0].Point {
+			if score.CompPoint != scores[0].CompPoint {
 				t = i
 				break
 			}

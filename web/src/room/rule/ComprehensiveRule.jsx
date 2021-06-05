@@ -52,9 +52,10 @@ const ComprehensiveRule = ({ rule, changeRule }) => {
       <Popover open={open} anchorEl={anchorEl}
                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                onClose={handleClose}>
-        <Box className="rule special-rule">
+        <Box className="special-rule comprehensive">
           <FormGroup className="rule-group">
             <FormControlLabel
+              className="active"
               control={
                 <Switch color="primary"
                         checked={rule.active}
@@ -79,10 +80,13 @@ const ComprehensiveRule = ({ rule, changeRule }) => {
               勝抜
             </FormLabel>
             <FormGroup row={true}>
-              <Checkbox color="default" checked={rule.winPoint.active}
+              <Checkbox color="default"
+                        className="point-active"
+                        checked={rule.winPoint.active}
                         disabled={!rule.active}
                         onChange={evt => changeWinPointActive(evt.target.checked)} />
               <TextField label="ポイント" type="number"
+                         className="point-value"
                          disabled={!rule.active || !rule.winPoint.active}
                          InputProps={{ required: true }}
                          value={rule.winPoint.value}
