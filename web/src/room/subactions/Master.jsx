@@ -1,22 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {
-  Box, Button, FormControlLabel, IconButton, Switch, Typography
-} from '@material-ui/core'
-import { DoubleArrow, Pause, PlayArrow } from '@material-ui/icons'
+import { Box, Button, FormControlLabel, Switch } from '@material-ui/core'
+import { DoubleArrow } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
-import { minSecTime } from '../../lib/util'
 import {
-  sendWs, ALL_CLEAR, WIN_TOP, LOSE_BOTTOM, RULE, BOARD_LOCK, BOARDS, TOGGLE_TIMER
+  sendWs, ALL_CLEAR, WIN_TOP, LOSE_BOTTOM, RULE, BOARD_LOCK, BOARDS
 } from '../../lib/send'
 import { beginAssign } from '../../lib/assign'
 import { setEditScores } from '../../redux/score_actions'
 import { clearEditBoards } from '../../redux/board_actions'
 import { updateDispTeams } from '../../redux/actions'
+import Timer from './Timer'
 import './Master.scss'
 
-const Master = ({ className, hidden, board: { bg }, rule, timer, setEditScores, clearEditBoards, updateDispTeams }) => {
+const Master = ({ className, hidden, board: { bg }, rule, setEditScores, clearEditBoards, updateDispTeams }) => {
   const [menu, setMenu] = React.useState('normal')
 
   React.useEffect(
@@ -53,10 +51,6 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, setEditScores, 
     sendWs(LOSE_BOTTOM)
   }
 
-  const toggleTimer = () => {
-    sendWs(TOGGLE_TIMER)
-  }
-
   const toggleShowPoint = evt => {
     sendWs(RULE, update(rule, {
       showPoint: { $set: evt.target.checked }
@@ -86,30 +80,6 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, setEditScores, 
 
   const menuSelect = menu === 'normal' ? menuToBoard : menuToNormal
 
-  const timerComponent = (
-    <Box className="group timer">
-      <Typography>
-        タイマー
-      </Typography>
-      <Typography variant="h6"
-                  className={classNames('timer-remaining', { running: timer.running })}>
-        {minSecTime(timer.remaining)}
-      </Typography>
-      <IconButton size="small"
-                  className="start-timer-button"
-                  disabled={timer.running}
-                  onClick={toggleTimer}>
-        <PlayArrow />
-      </IconButton>
-      <IconButton size="small"
-                  className="pause-timer-button"
-                  disabled={!timer.running}
-                  onClick={toggleTimer}>
-        <Pause />
-      </IconButton>
-    </Box>
-  )
-
   const normalMenu = (
     <Box className="content normal">
       <Box className="group all-clear">
@@ -128,7 +98,7 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, setEditScores, 
           最下位失格
         </Button>
       </Box>
-      {rule.other.timer.active && timerComponent}
+      <Timer className="group" />
       <Box className="group show-point">
         <FormControlLabel
           control={
@@ -180,7 +150,6 @@ export default connect(
   state => ({
     score: state.score,
     board: state.board,
-    timer: state.timer,
     rule: state.rule
   }),
   dispatch => ({

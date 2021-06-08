@@ -15,22 +15,6 @@
       visibility: hidden;
     }
 
-    .timer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .timer-remaining {
-        font-family: 'DSEG7Classic';
-        margin-left: 5px;
-        color: #424242;
-
-        &.running {
-          color: #c62828;
-        }
-      }
-    }
-
     .MuiButtonBase-root:not(.MuiIconButton-root):not(:first-child) {
       margin-left: 5px;
     }
