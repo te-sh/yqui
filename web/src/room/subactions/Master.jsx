@@ -4,17 +4,16 @@ import { Box, Button, FormControlLabel, Switch } from '@material-ui/core'
 import { DoubleArrow } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
-import {
-  sendWs, ALL_CLEAR, WIN_TOP, LOSE_BOTTOM, RULE, BOARD_LOCK, BOARDS
-} from '../../lib/send'
+import { sendWs, ALL_CLEAR, WIN_TOP, LOSE_BOTTOM, RULE } from '../../lib/send'
 import { beginAssign } from '../../lib/assign'
 import { setEditScores } from '../../redux/score_actions'
 import { clearEditBoards } from '../../redux/board_actions'
 import { updateDispTeams } from '../../redux/actions'
 import Timer from './Timer'
+import Board from './Board'
 import './Master.scss'
 
-const Master = ({ className, hidden, board: { bg }, rule, setEditScores, clearEditBoards, updateDispTeams }) => {
+const Master = ({ className, hidden, rule, setEditScores, clearEditBoards, updateDispTeams }) => {
   const [menu, setMenu] = React.useState('normal')
 
   React.useEffect(
@@ -29,18 +28,6 @@ const Master = ({ className, hidden, board: { bg }, rule, setEditScores, clearEd
   const onAllClear = () => {
     clearEditBoards()
     sendWs(ALL_CLEAR)
-  }
-
-  const toggleBoardLock = () => {
-    sendWs(BOARD_LOCK, !bg.lock)
-  }
-
-  const onOpenAll = () => {
-    const boards = Object.fromEntries([...bg.boards.keys()].map(id => (
-      [id, update(bg.boards.get(id), { open: { $set: true } })]
-    )))
-    clearEditBoards()
-    sendWs(BOARDS, boards)
   }
 
   const winTop = () => {
@@ -121,26 +108,10 @@ const Master = ({ className, hidden, board: { bg }, rule, setEditScores, clearEd
     </Box>
   )
 
-  const boardMenu = (
-    <Box className="content board">
-      <FormControlLabel
-        control={
-          <Switch color="primary" className="show-point"
-                  checked={bg.lock}
-                  onChange={toggleBoardLock} />
-        }
-        label="解答ロック" />
-      <Button variant="outlined" color="default" className="open-all-button"
-              onClick={onOpenAll}>
-        すべてオープン
-      </Button>
-    </Box>
-  )
-
   return (
     <Box className={classNames(className, 'master-subactions', { hidden })}>
       {menu === 'normal' && normalMenu}
-      {menu === 'board' && boardMenu}
+      {menu === 'board' && <Board className="content" /> }
       {rule.board.active && menuSelect}
     </Box>
   )
