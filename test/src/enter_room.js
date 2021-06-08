@@ -24,7 +24,7 @@ test('not observer', async t => {
   await leaveRoom(0)
   await t
     .click(s.rooms.row0.find('.enter-room-button'))
-    .expect(s.dialog.enterRoom.observer.hasClass(mui.checked)).notOk()
+    .expect(s.dialog.enterRoom.observer.find('span').hasClass(mui.checked)).notOk()
 })
 
 test('observer', async t => {
@@ -35,7 +35,7 @@ test('observer', async t => {
   await leaveRoom(0)
   await t
     .click(s.rooms.row0.find('.enter-room-button'))
-    .expect(s.dialog.enterRoom.observer.hasClass(mui.checked)).notOk()
+    .expect(s.dialog.enterRoom.observer.find('span').hasClass(mui.checked)).notOk()
 })
 
 test('not chat answer', async t => {
@@ -46,7 +46,7 @@ test('not chat answer', async t => {
   await leaveRoom(0)
   await t
     .click(s.rooms.row0.find('.enter-room-button'))
-    .expect(s.dialog.enterRoom.chatAnswer.hasClass(mui.checked)).notOk()
+    .expect(s.dialog.enterRoom.chatAnswer.find('span').hasClass(mui.checked)).notOk()
 })
 
 test('chat answer', async t => {
@@ -57,7 +57,9 @@ test('chat answer', async t => {
   await leaveRoom(0)
   await t
     .click(s.rooms.row0.find('.enter-room-button'))
-    .expect(s.dialog.enterRoom.chatAnswer.hasClass(mui.checked)).ok()
+    .expect(s.dialog.enterRoom.chatAnswer.find('span').hasClass(mui.checked)).ok()
+
+  await enterRoom(1, { chatAnswer: false }) // reset chat answer
 })
 
 test('no password', async t => {
