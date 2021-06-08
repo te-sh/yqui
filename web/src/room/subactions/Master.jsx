@@ -13,9 +13,10 @@ import {
 import { beginAssign } from '../../lib/assign'
 import { setEditScores } from '../../redux/score_actions'
 import { clearEditBoards } from '../../redux/board_actions'
+import { updateDispTeams } from '../../redux/actions'
 import './Master.scss'
 
-const Master = ({ className, hidden, board: { bg }, rule, timer, setEditScores, clearEditBoards }) => {
+const Master = ({ className, hidden, board: { bg }, rule, timer, setEditScores, clearEditBoards, updateDispTeams }) => {
   const [menu, setMenu] = React.useState('normal')
 
   React.useEffect(
@@ -64,6 +65,7 @@ const Master = ({ className, hidden, board: { bg }, rule, timer, setEditScores, 
 
   const editScores = () => {
     setEditScores()
+    updateDispTeams()
   }
 
   const menuToBoard = (
@@ -183,6 +185,7 @@ export default connect(
   }),
   dispatch => ({
     setEditScores: () => dispatch(setEditScores()),
-    clearEditBoards: () => dispatch(clearEditBoards())
+    clearEditBoards: () => dispatch(clearEditBoards()),
+    updateDispTeams: () => dispatch(updateDispTeams())
   })
 )(Master)

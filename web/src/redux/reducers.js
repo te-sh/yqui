@@ -1,5 +1,7 @@
 import update from 'immutability-helper'
-import { RESET, RECV_SELF_ID, RECV_ROOM, SET_TEAMS } from './actions'
+import {
+  RESET, RECV_SELF_ID, RECV_ROOM, SET_TEAMS, UPDATE_DISP_TEAMS
+} from './actions'
 import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
 import { playersOfTeams, teamsFromJson, recvTeamsUpdator } from '../lib/team'
 import { initialState as browserState, browserReducer } from './browser_reducer'
@@ -80,6 +82,10 @@ const yquiApp = (state = initialState, action) => {
       return recvRoom(state, action)
     case SET_TEAMS:
       return setTeams(state, action)
+    case UPDATE_DISP_TEAMS:
+      return update(state, {
+        dispTeams: { $set: Array.from(state.dispTeams) }
+      })
     default:
       return update(state, {
         browser: { $set: browserReducer(state.browser, action) },

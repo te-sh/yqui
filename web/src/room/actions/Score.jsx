@@ -4,19 +4,22 @@ import { Box, Button } from '@material-ui/core'
 import classNames from 'classnames'
 import { sendWs, SCORES } from '../../lib/send'
 import { unsetEditScores } from '../../redux/score_actions'
+import { updateDispTeams } from '../../redux/actions'
 import './Actions.scss'
 
-const Score = ({ className, hidden, score: { edit }, unsetEditScores }) => {
+const Score = ({ className, hidden, score: { edit }, unsetEditScores, updateDispTeams }) => {
   const endScore = () => {
     const scores = Object.fromEntries([...edit.scores.keys()].map(id => (
       [id, edit.scores.get(id)]
     )))
     sendWs(SCORES, scores)
     unsetEditScores()
+    updateDispTeams()
   }
 
   const cancelScore = () => {
     unsetEditScores()
+    updateDispTeams()
   }
 
   return (
@@ -40,6 +43,7 @@ export default connect(
     score: state.score
   }),
   dispatch => ({
-    unsetEditScores: () => dispatch(unsetEditScores())
+    unsetEditScores: () => dispatch(unsetEditScores()),
+    updateDispTeams: () => dispatch(updateDispTeams())
   })
 )(Score)
