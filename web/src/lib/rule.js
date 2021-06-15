@@ -46,6 +46,7 @@ export const initRule = {
     applyNormal: true
   },
   other: {
+    showWinTimes: false,
     timer: {
       active: false,
       min: 0,

@@ -16,6 +16,7 @@ type Score struct {
 	PassSeat    bool `json:"passSeat"`
 	Win         int  `json:"win"`
 	Lose        int  `json:"lose"`
+	WinTimes    int  `json:"winTimes"`
 }
 
 func NewScoreSet() *ScoreSet {
@@ -71,6 +72,7 @@ func (score *Score) Reset() {
 	score.PassSeat = false
 	score.Win = 0
 	score.Lose = 0
+	score.WinTimes = 0
 }
 
 func (ss *ScoreSet) Add(id int64) {

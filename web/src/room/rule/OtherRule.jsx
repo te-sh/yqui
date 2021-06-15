@@ -10,6 +10,10 @@ import CompPointHelp from '../rule-help/win-lose/CompPointHelp'
 import CompPointAndPointHelp from '../rule-help/win-lose/CompPointAndPointHelp'
 
 const OtherRule = ({ rule, changeRule, comprehensive }) => {
+  const changeShowWinTimes = value => {
+    changeRule(update(rule, { showWinTimes: { $set: value } }))
+  }
+
   const changeTimerActive = value => {
     changeRule(update(rule, { timer: { active: { $set: value } } }))
   }
@@ -28,6 +32,17 @@ const OtherRule = ({ rule, changeRule, comprehensive }) => {
 
   return (
     <>
+      <FormGroup className="rule-group">
+        <FormGroup row={true}>
+          <FormControlLabel
+            control={
+              <Switch color="primary"
+                      checked={rule.showWinTimes}
+                      onChange={evt => changeShowWinTimes(evt.target.checked)} />
+            }
+            label="勝抜回数表示" />
+        </FormGroup>
+      </FormGroup>
       <FormGroup className="rule-group">
         <FormGroup row={true}>
           <FormControlLabel

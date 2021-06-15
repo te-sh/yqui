@@ -58,6 +58,7 @@ type BoardRule struct {
 }
 
 type OtherRule struct {
+	ShowWinTimes bool       `json:"showWinTimes"`
 	Timer        *TimerRule `json:"timer"`
 	WinLoseOrder string     `json:"winLoseOrder"`
 }
@@ -162,6 +163,7 @@ func NewBoardRule() *BoardRule {
 
 func NewOtherRule() *OtherRule {
 	rule := new(OtherRule)
+	rule.ShowWinTimes = false
 	rule.Timer = NewTimerRule()
 	rule.WinLoseOrder = "point"
 	return rule

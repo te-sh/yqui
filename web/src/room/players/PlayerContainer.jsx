@@ -10,6 +10,7 @@ import PlayerName from './PlayerName'
 import PlayerPoint from './PlayerPoint'
 import EditPoint from './EditPoint'
 import PlayerStatus from './PlayerStatus'
+import PlayerBelow from './PlayerBelow'
 import Board from './Board'
 import './PlayerContainer.scss'
 
@@ -41,6 +42,7 @@ const PlayerContainer = ({ player, score: { sg, edit }, board: { bg }, buttons, 
         <PlayerName className="player-name" player={player} myTurn={myTurn} />
         {mainComponent()}
       </Paper>
+      <PlayerBelow rule={rule} score={score} />
     </Box>
   )
 }

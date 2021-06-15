@@ -21,7 +21,8 @@ export const initialScore = {
   consCorrect: 0,
   passSeat: false,
   win: 0,
-  lose: 0
+  lose: 0,
+  winTimes: 0
 }
 
 const recvSg = (state, { sg }) => {

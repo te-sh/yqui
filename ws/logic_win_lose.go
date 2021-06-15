@@ -36,6 +36,7 @@ func (ss *ScoreSet) SetWin(rule WinLoseRule, comprehensive *ComprehensiveRule) (
 	if win {
 		for _, score := range wins {
 			score.Win = ss.WinLose.WinNum
+			score.WinTimes += 1
 			score.Lock = 0
 		}
 		ss.WinLose.WinNum += len(wins)
@@ -141,6 +142,7 @@ func (ss *ScoreSet) WinTop(ids []int64, rule *OtherRule, sound *Sound) {
 
 	for i := 0; i < t; i++ {
 		scores[i].Win = ss.WinLose.WinNum
+		scores[i].WinTimes += 1
 	}
 	ss.WinLose.WinNum += t
 }
