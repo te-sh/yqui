@@ -170,10 +170,10 @@ func (room *Room) Reset() {
 	room.History.Add(room.SG, room.Buttons)
 }
 
-func (room *Room) AllClear() {
+func (room *Room) Clear(clearArg *ClearArg) {
 	sg, buttons := room.SG, room.Buttons
 	room.History.Save(sg, buttons)
-	sg.Reset()
+	sg.Reset(clearArg.WinTimes)
 	sg.Init(room.Rule)
 	buttons.Reset()
 	room.BG.Reset()

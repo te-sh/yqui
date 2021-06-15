@@ -19,9 +19,9 @@ func (sg *ScoreGroup) Clone() *ScoreGroup {
 	return newSG
 }
 
-func (sg *ScoreGroup) Reset() {
-	sg.Player.Reset()
-	sg.Team.Reset()
+func (sg *ScoreGroup) Reset(winTimes bool) {
+	sg.Player.Reset(winTimes)
+	sg.Team.Reset(winTimes)
 }
 
 func (sg *ScoreGroup) Init(rule *Rule) {

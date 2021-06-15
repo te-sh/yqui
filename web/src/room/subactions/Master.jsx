@@ -4,7 +4,7 @@ import { Box, Button, FormControlLabel, Switch } from '@material-ui/core'
 import { DoubleArrow } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
-import { sendWs, ALL_CLEAR, WIN_TOP, LOSE_BOTTOM, RULE } from '../../lib/send'
+import { sendWs, CLEAR, WIN_TOP, LOSE_BOTTOM, RULE } from '../../lib/send'
 import { beginAssign } from '../../lib/assign'
 import { setEditScores } from '../../redux/score_actions'
 import { clearEditBoards } from '../../redux/board_actions'
@@ -25,9 +25,9 @@ const Master = ({ className, hidden, rule, setEditScores, clearEditBoards, updat
     [rule]
   )
 
-  const onAllClear = () => {
+  const onClear = winTimes => {
     clearEditBoards()
-    sendWs(ALL_CLEAR)
+    sendWs(CLEAR, { winTimes })
   }
 
   const winTop = () => {
@@ -48,6 +48,20 @@ const Master = ({ className, hidden, rule, setEditScores, clearEditBoards, updat
     setEditScores()
     updateDispTeams()
   }
+
+  const allClear = (
+    <Button variant="outlined" color="default" className="all-clear-button"
+            onClick={() => onClear(true)}>
+      オールクリア
+    </Button>
+  )
+
+  const scoreClear = (
+    <Button variant="outlined" color="default" className="score-clear-button"
+            onClick={() => onClear(false)}>
+      スコアクリア
+    </Button>
+  )
 
   const menuToBoard = (
     <Box>
@@ -70,10 +84,8 @@ const Master = ({ className, hidden, rule, setEditScores, clearEditBoards, updat
   const normalMenu = (
     <Box className="content normal">
       <Box className="group all-clear">
-        <Button variant="outlined" color="default" className="all-clear-button"
-                onClick={onAllClear}>
-          オールクリア
-        </Button>
+        {allClear}
+        {rule.other.showWinTimes && scoreClear}
       </Box>
       <Box className="group win-lose">
         <Button variant="outlined" color="default" className="win-top-button"

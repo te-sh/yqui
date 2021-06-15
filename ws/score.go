@@ -28,7 +28,7 @@ func NewScoreSet() *ScoreSet {
 
 func NewScore() *Score {
 	score := new(Score)
-	score.Reset()
+	score.Reset(true)
 	return score
 }
 
@@ -52,18 +52,18 @@ func (score *Score) Clone() *Score {
 	return &newScore
 }
 
-func (ss *ScoreSet) Reset() {
-	ss.Scores.Reset()
+func (ss *ScoreSet) Reset(winTimes bool) {
+	ss.Scores.Reset(winTimes)
 	ss.WinLose.Reset()
 }
 
-func (scores Scores) Reset() {
+func (scores Scores) Reset(winTimes bool) {
 	for _, score := range scores {
-		score.Reset()
+		score.Reset(winTimes)
 	}
 }
 
-func (score *Score) Reset() {
+func (score *Score) Reset(winTimes bool) {
 	score.Point = 0
 	score.Batsu = 0
 	score.Lock = 0
@@ -72,7 +72,9 @@ func (score *Score) Reset() {
 	score.PassSeat = false
 	score.Win = 0
 	score.Lose = 0
-	score.WinTimes = 0
+	if winTimes {
+		score.WinTimes = 0
+	}
 }
 
 func (ss *ScoreSet) Add(id int64) {

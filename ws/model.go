@@ -6,6 +6,10 @@ type JudgeArg struct {
 	NextQuiz bool `json:"nextQuiz"`
 }
 
+type ClearArg struct {
+	WinTimes bool `json:"winTimes"`
+}
+
 type Chat struct {
 	Type string `json:"type"`
 	Time int64  `json:"time"`
