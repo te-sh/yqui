@@ -212,7 +212,7 @@ func (ss *ScoreSet) LoseBottom(ids []int64, rule *OtherRule, sound *Sound) {
 	ss.WinLose.LoseNum += t
 }
 
-func (ss *ScoreSet) MakeScoresForSort(ids []int64) ([]*Score) {
+func (ss *ScoreSet) MakeScoresForSort(ids []int64) []*Score {
 	var scores []*Score
 	for _, id := range ids {
 		if score, ok := ss.Scores[id]; ok {
