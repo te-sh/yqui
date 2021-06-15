@@ -2,10 +2,9 @@ import { selectors as s } from '../common/selectors'
 import { createWindows, closeWindows, enterRoom, correct } from '../common/helper'
 
 const setup = async t => {
-  await createWindows(3)
+  await createWindows(2)
   await enterRoom(0)
   await enterRoom(1)
-  await enterRoom(2)
   await t
     .click(s.topbar.master)
     .click(s.topbar.rule)

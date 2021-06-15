@@ -186,13 +186,14 @@ func (ss *ScoreSet) WrongBoard(ids []int64, first int64, rule *Rule, sound *Soun
 	sound.Lose = ss.SetLose(rule.Player.WinLoseRule)
 }
 
-func (ss *ScoreSet) UpdateScores(scores Scores) {
+func (ss *ScoreSet) UpdateScores(scores Scores, rule *NormalRule) {
 	for id, score := range ss.Scores {
 		if newScore, ok := scores[id]; ok {
 			score.Point = newScore.Point
 			score.Batsu = newScore.Batsu
 			score.Lock = newScore.Lock
 			score.WinTimes = newScore.WinTimes
+			score.CalcCompPoint(rule)
 		}
 	}
 }

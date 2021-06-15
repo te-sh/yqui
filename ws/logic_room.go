@@ -215,7 +215,7 @@ func (room *Room) SetRule(rule *Rule) {
 
 func (room *Room) UpdateScores(scores Scores) {
 	room.History.Save(room.SG, room.Buttons)
-	room.SG.Player.UpdateScores(scores)
+	room.SG.Player.UpdateScores(scores, room.Rule.Player)
 	room.History.Add(room.SG, room.Buttons)
 }
 
