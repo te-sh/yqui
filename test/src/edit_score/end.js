@@ -63,3 +63,20 @@ test('calc comp point', async t => {
     .expect(s.box.players0.nth(0).find('.player-point .batsu').innerText).eql('9')
     .expect(s.box.players0.nth(0).find('.player-point .comp-point').innerText).eql('27')
 })
+
+test('calc team point', async t => {
+  await t
+    .click(s.actions.editScore.endEditScore)
+    .click(s.topbar.rule)
+    .click(s.dialog.rule.tab.team)
+    .click(s.dialog.rule.team.active)
+    .click(s.dialog.rule.submit)
+    .click(s.subactions.master.editScore)
+    .typeText(s.box.players0.nth(0).find('.edit-point .point input'), '2', { replace: true })
+    .typeText(s.box.players0.nth(0).find('.edit-point .batsu input'), '1', { replace: true })
+    .click(s.actions.editScore.endEditScore)
+    .expect(s.box.players0.nth(0).find('.player-point .point').innerText).eql('2')
+    .expect(s.box.players0.nth(0).find('.player-point .batsu').innerText).eql('1')
+    .expect(s.box.team0.find('.team-point .point').innerText).eql('2')
+    .expect(s.box.team0.find('.team-point .batsu').innerText).eql('1')
+})

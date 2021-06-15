@@ -214,9 +214,11 @@ func (room *Room) SetRule(rule *Rule) {
 }
 
 func (room *Room) UpdateScores(scores Scores) {
-	room.History.Save(room.SG, room.Buttons)
-	room.SG.Player.UpdateScores(scores, room.Rule.Player)
-	room.History.Add(room.SG, room.Buttons)
+	sg, buttons, rule := room.SG, room.Buttons, room.Rule
+	room.History.Save(sg, buttons)
+	sg.Player.UpdateScores(scores, rule.Player)
+	sg.Team.CalcTeams(room.Teams, sg.Player, rule, nil)
+	room.History.Add(sg, buttons)
 }
 
 func (room *Room) TruncateTeams() {
