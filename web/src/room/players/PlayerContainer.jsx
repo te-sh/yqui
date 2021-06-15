@@ -29,7 +29,7 @@ const PlayerContainer = ({ player, score: { sg, edit }, board: { bg }, buttons, 
         <>
           <PlayerPoint className="player-point" score={score} />
           <PlayerStatus className="player-status" score={score} />
-          { rule.board.active ? <Board className="board" board={board} /> : null }
+          {rule.board.active ? <Board className="board" board={board} /> : null}
         </>
       )
     }
@@ -42,7 +42,7 @@ const PlayerContainer = ({ player, score: { sg, edit }, board: { bg }, buttons, 
         <PlayerName className="player-name" player={player} myTurn={myTurn} />
         {mainComponent()}
       </Paper>
-      <PlayerBelow rule={rule} score={score} />
+      {!edit && <PlayerBelow rule={rule} score={score} />}
     </Box>
   )
 }

@@ -79,6 +79,7 @@ export const selectors = {
     },
     master: {
       allClear: Selector('.room .subactions .master-subactions .all-clear-button'),
+      scoreClear: Selector('.room .subactions .master-subactions .score-clear-button'),
       winTop: Selector('.room .subactions .master-subactions .win-top-button'),
       loseBottom: Selector('.room .subactions .master-subactions .lose-bottom-button'),
       editScore: Selector('.room .subactions .master-subactions .edit-score-button'),
@@ -164,6 +165,7 @@ export const selectors = {
         active: Selector('.rule-dialog .team-rule .active')
       },
       other: {
+        showWinTimes: Selector('.rule-dialog .other-rule .show-win-times'),
         point: Selector('.rule-dialog .other-rule .point'),
         pointAndBatsu: Selector('.rule-dialog .other-rule .point-and-batsu'),
         compPoint: Selector('.rule-dialog .other-rule .comp-point'),

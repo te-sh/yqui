@@ -192,7 +192,7 @@ func (ss *ScoreSet) UpdateScores(scores Scores) {
 			score.Point = newScore.Point
 			score.Batsu = newScore.Batsu
 			score.Lock = newScore.Lock
+			score.WinTimes = newScore.WinTimes
 		}
 	}
 }
-

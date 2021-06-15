@@ -36,7 +36,7 @@ const OtherRule = ({ rule, changeRule, comprehensive }) => {
         <FormGroup row={true}>
           <FormControlLabel
             control={
-              <Switch color="primary"
+              <Switch color="primary" className="show-win-times"
                       checked={rule.showWinTimes}
                       onChange={evt => changeShowWinTimes(evt.target.checked)} />
             }
@@ -47,7 +47,7 @@ const OtherRule = ({ rule, changeRule, comprehensive }) => {
         <FormGroup row={true}>
           <FormControlLabel
             control={
-              <Switch color="primary"
+              <Switch color="primary" className="timer"
                       checked={rule.timer.active}
                       onChange={evt => changeTimerActive(evt.target.checked)} />
             }

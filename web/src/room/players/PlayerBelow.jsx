@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
 import { EmojiEvents } from '@material-ui/icons'
 import './PlayerBelow.scss'
 
@@ -10,7 +10,8 @@ const PlayerBelow = ({ rule, score }) => {
 
   const winTimes = (
     <Box className="win-times">
-      {Array(score.winTimes).fill(0).map((_, i) => win(i))}
+      {score.winTimes > 5 ? win(0) : Array(score.winTimes).fill(0).map((_, i) => win(i))}
+      {score.winTimes > 5 && <Typography variant="body2">× {score.winTimes}</Typography>}
     </Box>
   )
 

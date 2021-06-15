@@ -1,7 +1,23 @@
 .edit-point {
   margin: 10px;
 
-  .MuiTextField-root:not(:first-child) {
-    margin-top: 5px;
+  .field {
+    display: flex;
+    align-items: center;
+
+    &:not(:first-child) {
+      margin-top: 5px;
+    }
+
+    label {
+      width: 53px;
+      font-size: small;
+      text-align: right;
+    }
+
+    .MuiTextField-root {
+      margin-left: 5px;
+      width: 45px;
+    }
   }
 }
