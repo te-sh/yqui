@@ -4,16 +4,16 @@ import { Box, Button, FormControlLabel, Switch } from '@material-ui/core'
 import { DoubleArrow } from '@material-ui/icons'
 import classNames from 'classnames'
 import update from 'immutability-helper'
-import { sendWs, CLEAR, WIN_TOP, LOSE_BOTTOM, RULE } from '../../lib/send'
+import { sendWs, WIN_TOP, LOSE_BOTTOM, RULE } from '../../lib/send'
 import { beginAssign } from '../../lib/assign'
 import { setEditScores } from '../../redux/score_actions'
-import { clearEditBoards } from '../../redux/board_actions'
 import { updateDispTeams } from '../../redux/actions'
+import Clear from './Clear'
 import Timer from './Timer'
 import Board from './Board'
 import './Master.scss'
 
-const Master = ({ className, hidden, rule, setEditScores, clearEditBoards, updateDispTeams }) => {
+const Master = ({ className, hidden, rule, setEditScores, updateDispTeams }) => {
   const [menu, setMenu] = React.useState('normal')
 
   React.useEffect(
@@ -24,11 +24,6 @@ const Master = ({ className, hidden, rule, setEditScores, clearEditBoards, updat
     },
     [rule]
   )
-
-  const onClear = winTimes => {
-    clearEditBoards()
-    sendWs(CLEAR, { winTimes })
-  }
 
   const winTop = () => {
     sendWs(WIN_TOP)
@@ -48,20 +43,6 @@ const Master = ({ className, hidden, rule, setEditScores, clearEditBoards, updat
     setEditScores()
     updateDispTeams()
   }
-
-  const allClear = (
-    <Button variant="outlined" color="default" className="all-clear-button"
-            onClick={() => onClear(true)}>
-      オールクリア
-    </Button>
-  )
-
-  const scoreClear = (
-    <Button variant="outlined" color="default" className="score-clear-button"
-            onClick={() => onClear(false)}>
-      スコアクリア
-    </Button>
-  )
 
   const menuToBoard = (
     <Box>
@@ -83,10 +64,7 @@ const Master = ({ className, hidden, rule, setEditScores, clearEditBoards, updat
 
   const normalMenu = (
     <Box className="content normal">
-      <Box className="group all-clear">
-        {allClear}
-        {rule.other.showWinTimes && scoreClear}
-      </Box>
+      <Clear className="group" />
       <Box className="group win-lose">
         <Button variant="outlined" color="default" className="win-top-button"
                 onClick={winTop}>
@@ -137,7 +115,6 @@ export default connect(
   }),
   dispatch => ({
     setEditScores: () => dispatch(setEditScores()),
-    clearEditBoards: () => dispatch(clearEditBoards()),
     updateDispTeams: () => dispatch(updateDispTeams())
   })
 )(Master)
