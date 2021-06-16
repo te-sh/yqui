@@ -6,10 +6,13 @@ const PointAndBatsuHelp = ({ size }) => {
   const tooltip = (
     <>
       <Typography variant="body2">
-        最上位勝抜はポイントの最上位者の中でバツの最下位者が勝抜となります.
+        ポイントが多い方が上位となります.
       </Typography>
       <Typography variant="body2">
-        最下位失格はポイントの最下位者の中でバツの最上位者が失格となります.
+        ポイントが同じならバツが少ない方が上位となります.
+      </Typography>
+      <Typography variant="body2">
+        ポイントもバツも同じなら同位となります.
       </Typography>
     </>
   )

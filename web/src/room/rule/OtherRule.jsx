@@ -66,7 +66,7 @@ const OtherRule = ({ rule, changeRule, comprehensive }) => {
       </FormGroup>
       <FormGroup className="rule-group">
         <FormLabel component="legend">
-          最上位勝抜と最下位失格の優先順位
+          最上位勝抜と最下位失格の順位決定方式
         </FormLabel>
         <RadioGroup value={rule.winLoseOrder}
                     onChange={evt => changeWinLoseOrder(evt.target.value)}>

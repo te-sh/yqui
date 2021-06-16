@@ -6,10 +6,10 @@ const CompPointHelp = ({ size }) => {
   const tooltip = (
     <>
       <Typography variant="body2">
-        最上位勝抜は総合ポイントの最上位者が勝抜となります.
+        総合ポイントが多い方が上位となります.
       </Typography>
       <Typography variant="body2">
-        最下位失格は総合ポイントの最下位者が失格となります.
+        総合ポイントが同じなら同位となります.
       </Typography>
     </>
   )
