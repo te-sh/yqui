@@ -79,7 +79,7 @@ export const selectors = {
     },
     master: {
       allClear: Selector('.room .subactions .master-subactions .all-clear-button'),
-      scoreClear: Selector('.room .subactions .master-subactions .score-clear-button'),
+      partialClear: Selector('.room .subactions .master-subactions .partial-clear-button'),
       winTop: Selector('.room .subactions .master-subactions .win-top-button'),
       loseBottom: Selector('.room .subactions .master-subactions .lose-bottom-button'),
       editScore: Selector('.room .subactions .master-subactions .edit-score-button'),
@@ -105,6 +105,12 @@ export const selectors = {
       title: Selector('.tag-dialog .title'),
       password: Selector('.tag-dialog .password'),
       submit: Selector('.tag-dialog .submit')
+    },
+    clear: {
+      win: Selector('.clear-dialog .win'),
+      lose: Selector('.clear-dialog .lose'),
+      winTimes: Selector('.clear-dialog .win-times'),
+      submit: Selector('.clear-dialog .submit')
     },
     rule: {
       tab: {

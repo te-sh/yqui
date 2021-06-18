@@ -64,7 +64,9 @@ func (scores Scores) Reset(clearArg *ClearArg) {
 }
 
 func (score *Score) Reset(clearArg *ClearArg) {
-	if clearArg == nil || clearArg.Score {
+	if (score.Win == 0 && score.Lose == 0) ||
+		(score.Win != 0 && (clearArg == nil || clearArg.Win)) ||
+		(score.Lose != 0 && (clearArg == nil || clearArg.Lose)) {
 		score.Point = 0
 		score.Batsu = 0
 		score.Lock = 0
@@ -99,8 +101,10 @@ func (ss *ScoreSet) Init(rule *NormalRule) {
 }
 
 func (score *Score) Init(rule *NormalRule) {
-	score.Point = rule.InitPoint
-	score.Batsu = rule.InitBatsu
+	if score.Win == 0 && score.Lose == 0 {
+		score.Point = rule.InitPoint
+		score.Batsu = rule.InitBatsu
+	}
 }
 
 func (ss *ScoreSet) CalcCompPoint(rule *NormalRule) {

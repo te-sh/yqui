@@ -7,10 +7,17 @@ type JudgeArg struct {
 }
 
 type ClearArg struct {
-	Score    bool `json:"score"`
 	Win      bool `json:"win"`
 	Lose     bool `json:"lose"`
 	WinTimes bool `json:"winTimes"`
+}
+
+func NewClearArg() *ClearArg {
+	clearArg := new(ClearArg)
+	clearArg.Win = true
+	clearArg.Lose = true
+	clearArg.WinTimes = true
+	return clearArg
 }
 
 type Chat struct {

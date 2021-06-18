@@ -115,7 +115,7 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendBG()
 		room.SendButtons()
 	case "clear":
-		clearArg := new(ClearArg)
+		clearArg := NewClearArg()
 		json.Unmarshal(cmd.A, clearArg)
 		room.Clear(clearArg)
 		room.RenewAESKey()

@@ -9,20 +9,19 @@ import { setOpenClear } from '../../redux/open_actions'
 import './Clear.scss'
 
 const Clear = ({ rule, open, setOpen }) => {
-  const [score, setScore] = React.useState(true)
   const [win, setWin] = React.useState(true)
   const [lose, setLose] = React.useState(true)
   const [winTimes, setWinTimes] = React.useState(true)
 
   const onEnter = async () => {
-    if (!rule.other.showWinTimes) {
-      setWinTimes(true)
-    }
+    setWin(true)
+    setLose(true)
+    setWinTimes(true)
   }
 
   const ok = () => {
     setOpen(false)
-    sendWs(CLEAR, { score, win, lose, winTimes })
+    sendWs(CLEAR, { win, lose, winTimes })
   }
 
   const cancel = () => {
@@ -35,17 +34,8 @@ const Clear = ({ rule, open, setOpen }) => {
       <DialogTitle id="form-dialog-title">クリア</DialogTitle>
       <DialogContent>
         <Typography className="text">
-          ボタン, ボードに加えて下記のチェックされた項目をクリアします.
+          スコア, ボタン, ボードに加えて下記のチェックされた項目をクリアします.
         </Typography>
-        <FormGroup className="clear-group">
-          <FormControlLabel
-            control={
-              <Checkbox color="default" className="win"
-                        checked={score}
-                        onChange={evt => setScore(evt.target.checked)} />
-            }
-            label="ポイント, バツ, 休" />
-        </FormGroup>
         <FormGroup className="clear-group">
           <FormControlLabel
             control={
