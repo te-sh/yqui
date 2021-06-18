@@ -28,7 +28,7 @@ func NewScoreSet() *ScoreSet {
 
 func NewScore() *Score {
 	score := new(Score)
-	score.Reset(true)
+	score.Reset(nil)
 	return score
 }
 
@@ -52,27 +52,33 @@ func (score *Score) Clone() *Score {
 	return &newScore
 }
 
-func (ss *ScoreSet) Reset(winTimes bool) {
-	ss.Scores.Reset(winTimes)
-	ss.WinLose.Reset()
+func (ss *ScoreSet) Reset(clearArg *ClearArg) {
+	ss.Scores.Reset(clearArg)
+	ss.WinLose.Reset(clearArg)
 }
 
-func (scores Scores) Reset(winTimes bool) {
+func (scores Scores) Reset(clearArg *ClearArg) {
 	for _, score := range scores {
-		score.Reset(winTimes)
+		score.Reset(clearArg)
 	}
 }
 
-func (score *Score) Reset(winTimes bool) {
-	score.Point = 0
-	score.Batsu = 0
-	score.Lock = 0
-	score.CompPoint = 0
-	score.ConsCorrect = 0
-	score.PassSeat = false
-	score.Win = 0
-	score.Lose = 0
-	if winTimes {
+func (score *Score) Reset(clearArg *ClearArg) {
+	if clearArg == nil || clearArg.Score {
+		score.Point = 0
+		score.Batsu = 0
+		score.Lock = 0
+		score.CompPoint = 0
+		score.ConsCorrect = 0
+		score.PassSeat = false
+	}
+	if clearArg == nil || clearArg.Win {
+		score.Win = 0
+	}
+	if clearArg == nil || clearArg.Lose {
+		score.Lose = 0
+	}
+	if clearArg == nil || clearArg.WinTimes {
 		score.WinTimes = 0
 	}
 }

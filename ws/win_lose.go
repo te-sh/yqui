@@ -7,7 +7,7 @@ type WinLose struct {
 
 func NewWinLose() *WinLose {
 	winLose := new(WinLose)
-	winLose.Reset()
+	winLose.Reset(nil)
 	return winLose
 }
 
@@ -16,7 +16,11 @@ func (winLose *WinLose) Clone() *WinLose {
 	return &newWinLose
 }
 
-func (winLose *WinLose) Reset() {
-	winLose.WinNum = 1
-	winLose.LoseNum = 1
+func (winLose *WinLose) Reset(clearArg *ClearArg) {
+	if clearArg == nil || clearArg.Win {
+		winLose.WinNum = 1
+	}
+	if clearArg == nil || clearArg.Lose {
+		winLose.LoseNum = 1
+	}
 }

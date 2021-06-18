@@ -7,6 +7,9 @@ type JudgeArg struct {
 }
 
 type ClearArg struct {
+	Score    bool `json:"score"`
+	Win      bool `json:"win"`
+	Lose     bool `json:"lose"`
 	WinTimes bool `json:"winTimes"`
 }
 

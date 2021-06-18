@@ -4,32 +4,25 @@ import { Box, Button } from '@material-ui/core'
 import classNames from 'classnames'
 import { sendWs, CLEAR } from '../../lib/send'
 import { clearEditBoards } from '../../redux/board_actions'
+import { setOpenClear } from '../../redux/open_actions'
 import './Master.scss'
 
-const Clear = ({ className, rule, clearEditBoards }) => {
-  const onClear = winTimes => {
+const Clear = ({ className, rule, clearEditBoards, setOpen }) => {
+  const onAllClear = () => {
     clearEditBoards()
-    sendWs(CLEAR, { winTimes })
+    sendWs(CLEAR)
   }
-
-  const allClear = (
-    <Button variant="outlined" color="default" className="all-clear-button"
-            onClick={() => onClear(true)}>
-      オールクリア
-    </Button>
-  )
-
-  const scoreClear = (
-    <Button variant="outlined" color="default" className="score-clear-button"
-            onClick={() => onClear(false)}>
-      スコアクリア
-    </Button>
-  )
 
   return (
     <Box className={classNames(className, 'clear')}>
-      {allClear}
-      {rule.other.showWinTimes && scoreClear}
+      <Button variant="outlined" color="default" className="all-clear-button"
+              onClick={() => onAllClear()}>
+        オールクリア
+      </Button>
+      <Button variant="outlined" color="default" className="partial-clear-button"
+              onClick={() => setOpen(true)}>
+        一部クリア
+      </Button>
     </Box>
   )
 }
@@ -39,6 +32,7 @@ export default connect(
     rule: state.rule
   }),
   dispatch => ({
-    clearEditBoards: () => dispatch(clearEditBoards())
+    clearEditBoards: () => dispatch(clearEditBoards()),
+    setOpen: open => dispatch(setOpenClear(open))
   })
 )(Clear)

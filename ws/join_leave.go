@@ -75,7 +75,7 @@ func (room *Room) LeaveUser(id int64) (*User, bool) {
 		room.Tag = NewTag()
 		room.TruncateTeams()
 		room.Rule = NewRule()
-		room.SG.Reset(true)
+		room.SG.Reset(nil)
 		room.RenewAESKey()
 	}
 

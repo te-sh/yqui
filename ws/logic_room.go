@@ -173,7 +173,7 @@ func (room *Room) Reset() {
 func (room *Room) Clear(clearArg *ClearArg) {
 	sg, buttons := room.SG, room.Buttons
 	room.History.Save(sg, buttons)
-	sg.Reset(clearArg.WinTimes)
+	sg.Reset(clearArg)
 	sg.Init(room.Rule)
 	buttons.Reset()
 	room.BG.Reset()
