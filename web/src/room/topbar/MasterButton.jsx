@@ -6,12 +6,12 @@ import {
 import { Portrait } from '@material-ui/icons'
 import { sendWs, TOGGLE_MASTER } from '../../lib/send'
 
-const MasterButton = ({ browser: { mobile }, user, master, isPlayer, editTeams }) => {
+const MasterButton = ({ browser: { mobile }, user, master, editTeams }) => {
   const onToggleMaster = () => {
     sendWs(TOGGLE_MASTER)
   }
 
-  const disabled = (!user.isMaster && (master !== undefined || !isPlayer)) || !!editTeams
+  const disabled = (!user.isMaster && (master !== undefined || !user.isPlayer)) || !!editTeams
 
   if (!mobile) {
     return (
@@ -42,7 +42,6 @@ export default connect(
     browser: state.browser,
     user: state.user,
     master: state.master,
-    isPlayer: state.isPlayer,
     editTeams: state.editTeams
   })
 )(MasterButton)

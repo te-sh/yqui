@@ -37,7 +37,6 @@ const initialState = {
   users: initUsers,
   user: initUser,
   master: null,
-  isPlayer: false,
   numPlayers: 0,
   teams: [],
   editTeams: null,
@@ -54,7 +53,6 @@ const recvRoom = (state, { room }) => {
     users: { $set: users },
     user: { $set: users.get(state.selfID) },
     master: { $set: findMaster(users) },
-    isPlayer: { $set: players.includes(state.selfID) },
     numPlayers: { $set: players.length },
     teams: { $set: teams },
     ...recvTeamsUpdator(state, users, teams)

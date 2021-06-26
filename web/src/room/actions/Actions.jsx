@@ -7,7 +7,7 @@ import Master from './Master'
 import Observer from './Observer'
 import Player from './Player'
 
-const Actions = ({ className, browser: { mobile }, score, user, isPlayer, editTeams }) => {
+const Actions = ({ className, browser: { mobile }, score, user, editTeams }) => {
   let status
   if (score.edit) {
     status = 'score'
@@ -15,10 +15,10 @@ const Actions = ({ className, browser: { mobile }, score, user, isPlayer, editTe
     status = 'assign'
   } else if (user.isMaster) {
     status = 'master'
-  } else if (!isPlayer) {
-    status = 'observer'
-  } else {
+  } else if (user.isPlayer) {
     status = 'player'
+  } else {
+    status = 'observer'
   }
 
   return (
@@ -37,7 +37,6 @@ export default connect(
     browser: state.browser,
     score: state.score,
     user: state.user,
-    isPlayer: state.isPlayer,
     editTeams: state.editTeams
   })
 )(Actions)

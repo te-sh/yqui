@@ -1,5 +1,9 @@
 package main
 
+import (
+	"encoding/json"
+)
+
 type Users map[int64]*User
 
 type User struct {
@@ -40,14 +44,29 @@ func (user *User) Clone() *User {
 	return &newUser
 }
 
+func (user *User) IsPlayer() bool {
+	return !user.IsMaster && user.Team != nil
+}
+
 func (user *User) Place() string {
 	if user.IsMaster {
 		return "master"
-	} else if user.Team == nil {
-		return "observer"
-	} else {
+	} else if user.IsPlayer() {
 		return "player"
+	} else {
+		return "observer"
 	}
+}
+
+func (user *User) MarshalJSON() ([]byte, error) {
+	type Alias User
+	return json.Marshal(&struct {
+		*Alias
+		IsPlayer bool `json:"isPlayer"`
+	}{
+		Alias:    (*Alias)(user),
+		IsPlayer: user.IsPlayer(),
+	})
 }
 
 func (users Users) Update(user *User) {
@@ -68,7 +87,7 @@ func (users Users) IDs() []int64 {
 func (users Users) PlayerIDs() []int64 {
 	var ids []int64
 	for _, user := range users {
-		if user.Place() == "player" {
+		if user.IsPlayer() {
 			ids = append(ids, user.ID)
 		}
 	}

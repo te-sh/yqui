@@ -6,14 +6,14 @@ import { sendWs, PUSH, CHAT } from '../../lib/send'
 import { openPrompt } from '../../lib/dialog'
 import './Chat.scss'
 
-const Chat = ({ className, browser: { mobile }, isPlayer }) => {
+const Chat = ({ className, browser: { mobile }, user }) => {
   const [message, setMessage] = React.useState('')
 
   const chat = evt => {
     evt.preventDefault()
     if (message === '') {
       return
-    } else if (isPlayer && (message.startsWith('!') || message.startsWith('！'))) {
+    } else if (user.isPlayer && (message.startsWith('!') || message.startsWith('！'))) {
       sendWs(PUSH)
     } else {
       sendWs(CHAT, message)
@@ -61,6 +61,6 @@ const Chat = ({ className, browser: { mobile }, isPlayer }) => {
 export default connect(
   state => ({
     browser: state.browser,
-    isPlayer: state.isPlayer
+    user: state.user
   })
 )(Chat)
