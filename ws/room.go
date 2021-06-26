@@ -1,5 +1,9 @@
 package main
 
+import (
+	"encoding/json"
+)
+
 const numRooms = 16
 
 var rooms = NewRooms()
@@ -77,6 +81,17 @@ func NewTag() *RoomTag {
 	tag.Title = ""
 	tag.Password = ""
 	return tag
+}
+
+func (room *Room) MarshalJSON() ([]byte, error) {
+	type Alias Room
+	return json.Marshal(&struct {
+		*Alias
+		Summary *UsersSummary `json:"summary"`
+	}{
+		Alias:   (*Alias)(room),
+		Summary: NewUsersSummary(room.Users),
+	})
 }
 
 func (rooms Rooms) FindRoom(roomNo int) *Room {

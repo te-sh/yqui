@@ -5,7 +5,7 @@ import { chanceText } from '../../lib/rule'
 import ShareButtonHelp from '../rule-help/ShareButtonHelp'
 import './RuleDisplay.scss'
 
-const ButtonRule = ({ simple, rule, numPlayers }) => {
+const ButtonRule = ({ simple, rule, summary: { numPlayers } }) => {
   const shareButtonComponent = (
     <Box>
       <Typography variant="body2">チームでボタンを共有<ShareButtonHelp size="small" /></Typography>
@@ -27,6 +27,6 @@ const ButtonRule = ({ simple, rule, numPlayers }) => {
 
 export default connect(
   state => ({
-    numPlayers: state.numPlayers
+    summary: state.summary
   })
 )(ButtonRule)

@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { changeNumTeams, randomAssignTeams } from '../../lib/assign'
 import './Assign.scss'
 
-const Assign = ({ className, hidden, numPlayers, rule, dispTeams }) => {
+const Assign = ({ className, hidden, rule, summary: { numPlayers }, dispTeams }) => {
   const [numTeams, setNumTeams] = React.useState('1')
 
   React.useEffect(
@@ -49,8 +49,8 @@ const Assign = ({ className, hidden, numPlayers, rule, dispTeams }) => {
 
 export default connect(
   state => ({
-    numPlayers: state.numPlayers,
     rule: state.rule,
+    summary: state.summary,
     dispTeams: state.teams
   })
 )(Assign)

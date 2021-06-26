@@ -2,8 +2,8 @@ import update from 'immutability-helper'
 import {
   RESET, RECV_SELF_ID, RECV_ROOM, SET_TEAMS, UPDATE_DISP_TEAMS
 } from './actions'
-import { initUsers, initUser, usersFromJson, findMaster } from '../lib/user'
-import { playersOfTeams, teamsFromJson, recvTeamsUpdator } from '../lib/team'
+import { initUsers, initUser, usersFromJson } from '../lib/user'
+import { teamsFromJson, recvTeamsUpdator } from '../lib/team'
 import { initialState as browserState, browserReducer } from './browser_reducer'
 import { initialState as dialogState, dialogReducer } from './dialog_reducer'
 import { initialState as openState, openReducer } from './open_reducer'
@@ -36,26 +36,29 @@ const initialState = {
   },
   users: initUsers,
   user: initUser,
-  master: null,
-  numPlayers: 0,
   teams: [],
   editTeams: null,
-  dispTeams: []
+  dispTeams: [],
+  summary: {
+    masterName: '',
+    numPlayers: 0,
+    playerNames: [],
+    numObservers: 0,
+    observerNames: []
+  }
 }
 
 const recvRoom = (state, { room }) => {
   const users = usersFromJson(room.users)
   const teams = teamsFromJson(room.teams)
-  const players = playersOfTeams(teams)
   return update(state, {
     roomNo: { $set: room.no },
     tag: { $set: room.tag },
     users: { $set: users },
     user: { $set: users.get(state.selfID) },
-    master: { $set: findMaster(users) },
-    numPlayers: { $set: players.length },
     teams: { $set: teams },
-    ...recvTeamsUpdator(state, users, teams)
+    ...recvTeamsUpdator(state, users, teams),
+    summary: { $set: room.summary }
   })
 }
 

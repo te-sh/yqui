@@ -7,11 +7,11 @@ export const initUsers = new Map()
 export const initUser = {
   id: -1,
   isMaster: false,
+  isPlayer: false,
+  isObserver: false,
   name: '',
   chatAnswer: false,
   borderColor: '#ff000000'
 }
 
 export const usersFromJson = json => toIntMap(json)
-
-export const findMaster = users => [...users.values()].find(user => user.isMaster)

@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { chanceText } from '../../lib/rule'
 import './Alert.scss'
 
-const Alert = ({ className, hidden, alert, mobile, rule, numPlayers }) => {
+const Alert = ({ className, hidden, alert, mobile, rule, summary: { numPlayers } }) => {
   const alertText = (() => {
     switch (alert) {
       case 'multiChance':
@@ -28,6 +28,6 @@ export default connect(
   state => ({
     mobile: state.mobile,
     rule: state.rule,
-    numPlayers: state.numPlayers
+    summary: state.summary
   })
 )(Alert)

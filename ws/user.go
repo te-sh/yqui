@@ -6,6 +6,14 @@ import (
 
 type Users map[int64]*User
 
+type UsersSummary struct {
+	MasterName    string   `json:"masterName"`
+	NumPlayers    int      `json:"numPlayers"`
+	PlayerNames   []string `json:"playerNames"`
+	NumObservers  int      `json:"numObservers"`
+	ObserverNames []string `json:"observerNames"`
+}
+
 type User struct {
 	ID          int64  `json:"id"`
 	Team        *Team  `json:"-"`
@@ -20,6 +28,36 @@ type Teams []*Team
 type Team struct {
 	ID      int64   `json:"id"`
 	Players []int64 `json:"players"`
+}
+
+func NewUsersSummary(users Users) *UsersSummary {
+	summary := new(UsersSummary)
+
+	if id, ok1 := users.MasterID(); ok1 {
+		if user, ok2 := users[id]; ok2 {
+			summary.MasterName = user.Name
+		}
+	}
+
+	playerIDs := users.PlayerIDs()
+	summary.NumPlayers = len(playerIDs)
+	summary.PlayerNames = []string{}
+	for _, id := range playerIDs {
+		if user, ok := users[id]; ok {
+			summary.PlayerNames = append(summary.PlayerNames, user.Name)
+		}
+	}
+
+	observerIDs := users.ObserverIDs()
+	summary.NumObservers = len(observerIDs)
+	summary.ObserverNames = []string{}
+	for _, id := range observerIDs {
+		if user, ok := users[id]; ok {
+			summary.ObserverNames = append(summary.ObserverNames, user.Name)
+		}
+	}
+
+	return summary
 }
 
 func NewUser(id int64, name string) *User {
@@ -48,6 +86,10 @@ func (user *User) IsPlayer() bool {
 	return !user.IsMaster && user.Team != nil
 }
 
+func (user *User) IsObserver() bool {
+	return !user.IsMaster && user.Team == nil
+}
+
 func (user *User) Place() string {
 	if user.IsMaster {
 		return "master"
@@ -62,10 +104,12 @@ func (user *User) MarshalJSON() ([]byte, error) {
 	type Alias User
 	return json.Marshal(&struct {
 		*Alias
-		IsPlayer bool `json:"isPlayer"`
+		IsPlayer   bool `json:"isPlayer"`
+		IsObserver bool `json:"isObserver"`
 	}{
-		Alias:    (*Alias)(user),
-		IsPlayer: user.IsPlayer(),
+		Alias:      (*Alias)(user),
+		IsPlayer:   user.IsPlayer(),
+		IsObserver: user.IsObserver(),
 	})
 }
 
@@ -84,6 +128,15 @@ func (users Users) IDs() []int64 {
 	return ids
 }
 
+func (users Users) MasterID() (int64, bool) {
+	for _, user := range users {
+		if user.IsMaster {
+			return user.ID, true
+		}
+	}
+	return 0, false
+}
+
 func (users Users) PlayerIDs() []int64 {
 	var ids []int64
 	for _, user := range users {
@@ -94,13 +147,14 @@ func (users Users) PlayerIDs() []int64 {
 	return ids
 }
 
-func (users Users) MasterID() (int64, bool) {
+func (users Users) ObserverIDs() []int64 {
+	var ids []int64
 	for _, user := range users {
-		if user.IsMaster {
-			return user.ID, true
+		if user.IsObserver() {
+			ids = append(ids, user.ID)
 		}
 	}
-	return 0, false
+	return ids
 }
 
 func (teams Teams) First() (*Team, bool) {
