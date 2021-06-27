@@ -19,29 +19,29 @@ export const initialBoard = {
   open: false
 }
 
-const mergeBgWithJson = ({ bg, edit }, json) => {
-  if (json === undefined) {
+const recvBg = ({ bg, edit }, action) => {
+  if (action === undefined) {
     return bg
   }
 
-  const newBoards = toIntMap(json.boards)
+  const boards = toIntMap(action.boards)
   return {
-    boards: new Map([...newBoards.keys()].map(id => {
+    boards: new Map([...boards.keys()].map(id => {
       if (bg.boards.has(id) && edit.has(id) &&
-          bg.boards.get(id).text === newBoards.get(id).text) {
+          bg.boards.get(id).text === boards.get(id).text) {
         return [id, bg.boards.get(id)]
       } else {
-        return [id, newBoards.get(id)]
+        return [id, boards.get(id)]
       }
     })),
-    lock: json.lock
+    lock: action.lock
   }
 }
 
 export const boardReducer = (state, action) => {
   switch (action.type) {
     case RECV_BG:
-      return update(state, { bg: { $set: mergeBgWithJson(state, action.bg) } })
+      return update(state, { bg: { $set: recvBg(state, action.bg) } })
     case RECV_BOARD:
       return update(state, { bg: { boards: { $add: [[action.board.id, action.board]] } } })
     case SET_BOARD:
