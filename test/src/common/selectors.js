@@ -73,6 +73,7 @@ export const selectors = {
   },
   subactions: {
     visible: {
+      alert: Selector('.room .subactions .alert-subactions').filterVisible(),
       player: Selector('.room .subactions .player-subactions').filterVisible(),
       master: Selector('.room .subactions .master-subactions').filterVisible(),
       assign: Selector('.room .subactions .assign-subactions').filterVisible()
@@ -120,6 +121,7 @@ export const selectors = {
         other: Selector('.rule-dialog .other-rule-tab')
       },
       normal: {
+        rightNum: Selector('.rule-dialog .normal-rule .right-num'),
         pointCorrect: Selector('.rule-dialog .normal-rule .point-correct'),
         pointWrong: Selector('.rule-dialog .normal-rule .point-wrong'),
         batsuWrong: Selector('.rule-dialog .normal-rule .batsu-wrong'),
