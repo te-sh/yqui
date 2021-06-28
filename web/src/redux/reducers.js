@@ -11,7 +11,7 @@ import { initialState as roomsState, roomsReducer } from './rooms_reducer'
 import { initialState as appearState, appearReducer } from './appear_reducer'
 import { initialState as chatState, chatReducer } from './chat_reducer'
 import { initialState as ruleState, ruleReducer } from './rule_reducer'
-import { initialState as buttonsState, buttonsReducer } from './buttons_reducer'
+import { initialState as buttonState, buttonReducer } from './button_reducer'
 import { initialState as scoreState, scoreReducer } from './score_reducer'
 import { initialState as boardState, boardReducer } from './board_reducer'
 import { initialState as timerState, timerReducer } from './timer_reducer'
@@ -24,7 +24,7 @@ const initialState = {
   appear: appearState,
   chat: chatState,
   rule: ruleState,
-  buttons: buttonsState,
+  button: buttonState,
   score: scoreState,
   board: boardState,
   timer: timerState,
@@ -96,7 +96,7 @@ const yquiApp = (state = initialState, action) => {
         appear: { $set: appearReducer(state.appear, action) },
         chat: { $set: chatReducer(state.chat, action) },
         rule: { $set: ruleReducer(state.rule, action) },
-        buttons: { $set: buttonsReducer(state.buttons, action) },
+        button: { $set: buttonReducer(state.button, action) },
         score: { $set: scoreReducer(state.score, action) },
         board: { $set: boardReducer(state.board, action) },
         timer: { $set: timerReducer(state.timer, action) }

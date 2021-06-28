@@ -7,11 +7,11 @@ import './PlayerAbove.scss'
 
 const PlayerAbove = ({ order, delay, score, rule }) => {
   const pushOrderClass = classNamesK('push-order', {
-    pushed: order >= 0
+    pushed: order > 0
   })
 
   const pushOrderContentClass = classNamesK('push-order-content', {
-    hasRight: order < rule.rightNum
+    hasRight: order <= rule.rightNum
   })
 
   const showConsCorrect = rule.player.specialCorrect.consBonus && score.consCorrect > 0
@@ -40,7 +40,7 @@ const PlayerAbove = ({ order, delay, score, rule }) => {
       <Paper className={pushOrderClass}>
         <Typography align="center"
                     className={pushOrderContentClass}>
-          {order >= 0 && order + 1}
+          {order > 0 && order}
         </Typography>
       </Paper>
       <Box className="push-speed">

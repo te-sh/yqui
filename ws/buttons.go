@@ -10,9 +10,34 @@ type Buttons struct {
 	Answerers []int64 `json:"answerers"`
 }
 
+type Button struct {
+	User              map[int64]*ButtonUser `json:"user"`
+	ContinueingChance bool                  `json:"continueingChance"`
+}
+
+type ButtonUser struct {
+	Order  int   `json:"order"`
+	Delay  int64 `json:"delay"`
+	MyTurn bool  `json:"myTurn"`
+}
+
 func NewButtons() *Buttons {
 	buttons := new(Buttons)
 	return buttons
+}
+
+func NewButton(buttons *Buttons) *Button {
+	status := new(Button)
+	status.User = make(map[int64]*ButtonUser)
+	for i, pusher := range buttons.Pushers {
+		user := new(ButtonUser)
+		user.Order = i + 1
+		user.Delay = buttons.PushTimes[i] - buttons.PushTimes[0]
+		user.MyTurn = i == len(buttons.Answerers)
+		status.User[pusher] = user
+	}
+	status.ContinueingChance = len(buttons.Pushers) > 0 && len(buttons.Pushers) == len(buttons.Answerers)
+	return status
 }
 
 func (buttons *Buttons) Clone() *Buttons {

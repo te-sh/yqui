@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Paper } from '@material-ui/core'
-import { isContinueingMultiChance } from '../../lib/buttons'
 import Score from './Score'
 import Alert from './Alert'
 import Assign from './Assign'
@@ -9,12 +8,11 @@ import Master from './Master'
 import Player from './Player'
 import './Subactions.scss'
 
-const Subactions = ({ className, browser: { mobile }, score, user, buttons, editTeams }) => {
-  const alert = isContinueingMultiChance(buttons) ? 'multiChance' : null
-
-  let status
-  if (alert) {
+const Subactions = ({ className, browser: { mobile }, score, user, button, editTeams }) => {
+  let status, alert
+  if (button.continueingChance) {
     status = 'alert'
+    alert = 'multiChance'
   } else if (score.edit) {
     status = 'score'
   } else if (editTeams) {
@@ -41,7 +39,7 @@ export default connect(
     browser: state.browser,
     score: state.score,
     user: state.user,
-    buttons: state.buttons,
+    button: state.button,
     editTeams: state.editTeams
   })
 )(Subactions)

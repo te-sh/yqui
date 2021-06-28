@@ -8,7 +8,7 @@ func (room *Room) SendRoom() {
 	room.SendRule()
 	room.SendBG()
 	room.SendSG()
-	room.SendButtons()
+	room.SendButton()
 	room.Broadcast("room", room, true)
 }
 
@@ -47,8 +47,8 @@ func (room *Room) SendBoard(id int64) {
 	}
 }
 
-func (room *Room) SendButtons() {
-	room.Broadcast("buttons", room.Buttons, true)
+func (room *Room) SendButton() {
+	room.Broadcast("button", NewButton(room.Buttons), true)
 }
 
 func (room *Room) SendSG() {

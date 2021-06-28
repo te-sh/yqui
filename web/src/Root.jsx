@@ -12,7 +12,7 @@ import { reset, recvSelfID, recvRoom } from './redux/actions'
 import { recvRooms } from './redux/rooms_actions'
 import { recvChat } from './redux/chat_actions'
 import { recvRule } from './redux/rule_actions'
-import { recvButtons } from './redux/buttons_actions'
+import { recvButton } from './redux/button_actions'
 import { recvSg } from './redux/score_actions'
 import { recvBg, recvBoard } from './redux/board_actions'
 import { recvTimer } from './redux/timer_actions'
@@ -90,7 +90,7 @@ export default connect(
       rooms: rooms => dispatch(recvRooms(rooms)),
       chat: chat => dispatch(recvChat(chat)),
       rule: rule => dispatch(recvRule(rule)),
-      buttons: buttons => dispatch(recvButtons(buttons)),
+      button: button => dispatch(recvButton(button)),
       sg: sg => dispatch(recvSg(sg)),
       bg: bg => dispatch(recvBg(bg)),
       board: board => dispatch(recvBoard(board)),

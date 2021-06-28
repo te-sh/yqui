@@ -87,14 +87,14 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.SendRoom()
 	case "push":
 		room.PushButton(cmd.ID, cmd.Time, sound)
-		room.SendButtons()
+		room.SendButton()
 		room.SendSound(sound)
 	case "correct":
 		judgeArg := new(JudgeArg)
 		json.Unmarshal(cmd.A, judgeArg)
 		room.Correct(judgeArg, sound)
 		room.SendSG()
-		room.SendButtons()
+		room.SendButton()
 		sound.Correct = true
 		room.SendSound(sound)
 	case "wrong":
@@ -102,18 +102,18 @@ func (room *Room) RunCommand(cmd Cmd) {
 		json.Unmarshal(cmd.A, judgeArg)
 		room.Wrong(judgeArg, sound)
 		room.SendSG()
-		room.SendButtons()
+		room.SendButton()
 		sound.Wrong = true
 		room.SendSound(sound)
 	case "through":
 		room.Through()
 		room.SendBG()
 		room.SendSG()
-		room.SendButtons()
+		room.SendButton()
 	case "reset":
 		room.Reset()
 		room.SendBG()
-		room.SendButtons()
+		room.SendButton()
 	case "clear":
 		clearArg := NewClearArg()
 		json.Unmarshal(cmd.A, clearArg)
@@ -121,26 +121,26 @@ func (room *Room) RunCommand(cmd Cmd) {
 		room.RenewAESKey()
 		room.SendBG()
 		room.SendSG()
-		room.SendButtons()
+		room.SendButton()
 	case "undo":
 		room.History.Move(-1, room.SG, room.Buttons)
 		room.SendSG()
-		room.SendButtons()
+		room.SendButton()
 	case "redo":
 		room.History.Move(+1, room.SG, room.Buttons)
 		room.SendSG()
-		room.SendButtons()
+		room.SendButton()
 	case "win-top":
 		room.WinTop(sound)
 		room.SendBG()
 		room.SendSG()
-		room.SendButtons()
+		room.SendButton()
 		room.SendSound(sound)
 	case "lose-bottom":
 		room.LoseBottom(sound)
 		room.SendBG()
 		room.SendSG()
-		room.SendButtons()
+		room.SendButton()
 		room.SendSound(sound)
 	case "boards":
 		newBoards := make(Boards)

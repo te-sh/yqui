@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Box, Paper } from '@material-ui/core'
 import classNames from 'classnames'
-import { pushOrder } from '../../lib/buttons'
 import { initialScore } from '../../redux/score_reducer'
 import { initialBoard } from '../../redux/board_reducer'
+import { initialButtonUser } from '../../redux/button_reducer'
 import PlayerAbove from './PlayerAbove'
 import PlayerName from './PlayerName'
 import PlayerPoint from './PlayerPoint'
@@ -14,8 +14,8 @@ import PlayerBelow from './PlayerBelow'
 import Board from './Board'
 import './PlayerContainer.scss'
 
-const PlayerContainer = ({ player, score: { sg, edit }, board: { bg }, buttons, rule }) => {
-  const [order, delay, myTurn] = pushOrder(buttons, player)
+const PlayerContainer = ({ player, score: { sg, edit }, board: { bg }, button, rule }) => {
+  const { order, delay, myTurn } = button.user.get(player) || initialButtonUser
   const score = sg.player.scores.get(player) || initialScore
   const board = bg.boards.get(player) || initialBoard
 
@@ -51,7 +51,7 @@ export default connect(
   state => ({
     board: state.board,
     score: state.score,
-    buttons: state.buttons,
+    button: state.button,
     rule: state.rule
   })
 )(PlayerContainer)
