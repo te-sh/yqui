@@ -1,4 +1,4 @@
-FROM node:16.3.0-alpine3.13
+FROM node:16.4.2-alpine3.14
 
 USER node
 ENV HOME /home/node

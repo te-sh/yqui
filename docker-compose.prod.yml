@@ -21,7 +21,7 @@ services:
     restart: on-failure
     command: ['./yqui']
   proxy:
-    image: nginx:1.21.0-alpine
+    image: nginx:1.21.1-alpine
     ports:
       - '${PORT:-8080}:8080'
     volumes:
