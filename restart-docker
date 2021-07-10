@@ -20,8 +20,8 @@ if [ -z $SKIP_PULL ]; then
 fi
 
 if [ -z $SKIP_YQUI ]; then
-    COMPOSE_PROJECT_NAME=yqui PORT=8085 docker-compose --file docker-compose.prod.yml down
-    COMPOSE_PROJECT_NAME=yqui PORT=8085 docker-compose --file docker-compose.prod.yml up -d ws web proxy
+    COMPOSE_PROJECT_NAME=yqui PORT=80 docker-compose --file docker-compose.prod.yml down
+    COMPOSE_PROJECT_NAME=yqui PORT=80 docker-compose --file docker-compose.prod.yml up -d ws web proxy
 fi
 
 if [ -z $SKIP_TEST ]; then
