@@ -1,42 +1,61 @@
 .rooms {
-  .rooms-table {
-    margin-left: 2em;
-    max-width: 38em;
+  .main {
+    display: flex;
 
-    .enter-room {
-      width: 4.8em;
-      text-align: center;
-    }
+    .left {
+      width: 50%;
+      padding: 0 20px;
+      
+      .rooms-table {
+        .enter-room {
+          width: 4.8em;
+          text-align: center;
+        }
 
-    .room-name {
-      width: 4em;
-      text-align: center;
-    }
+        .room-name {
+          width: 4em;
+          text-align: center;
+        }
 
-    .num-users {
-      width: 2.5em;
-      text-align: center;
-    }
+        .num-users {
+          width: 2.5em;
+          text-align: center;
+        }
 
-    .room-title {
-      .content {
-        display: flex;
+        .room-title {
+          .content {
+            display: flex;
+          }
+        }
+
+        th, td {
+          overflow: hidden;
+          white-space: nowrap;
+        }
       }
     }
 
-    th, td {
-      overflow: hidden;
-      white-space: nowrap;
+    .right {
+      width: 50%;
     }
   }
 
   &.mobile {
-    .rooms-table {
-      margin-left: 0px;
-    }
-  }
+    .main {
+      display: block;
 
-  .copyright {
-    padding: 10px;
+      .left {
+        width: 100%;
+        padding: 0px;
+
+        .rooms-table {
+          margin-left: 0px;
+        }
+      }
+
+      .right {
+        width: 100%;
+      }
+    }
   }
 }

@@ -7,7 +7,7 @@ import { sendWs, JOIN } from '../lib/send'
 import Topbar from './Topbar'
 import RoomsHead from './RoomsHead'
 import RoomsBody from './RoomsBody'
-import Copyright from './Copyright'
+import Note from './Note'
 import EnterRoom from './EnterRoom'
 import CommonDialogs from '../dialogs/Dialogs'
 import './Rooms.scss'
@@ -43,15 +43,19 @@ const Rooms = ({ history, browser: { mobile }, rooms, roomNo }) => {
   return (
     <Box className={classNames('rooms', { mobile })}>
       <Topbar />
-      <Box>
-        <TableContainer component={Paper}>
-          <Table className="rooms-table">
-            <RoomsHead />
-            <RoomsBody rooms={rooms} click={openEnterRoom} />
-          </Table>
-        </TableContainer>
+      <Box className="main">
+        <Paper className="left">
+          <TableContainer>
+            <Table className="rooms-table">
+              <RoomsHead />
+              <RoomsBody rooms={rooms} click={openEnterRoom} />
+            </Table>
+          </TableContainer>
+        </Paper>
+        <Paper className="right">
+          <Note />
+        </Paper>
       </Box>
-      <Copyright />
       <EnterRoom room={room} open={open}
                  submit={enterRoom} close={closeEnterRoom} />
       <CommonDialogs />
