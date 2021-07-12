@@ -26,7 +26,15 @@ export const createWindows = async (num = numWindows) => {
   await t.switchToWindow(t.ctx.w0)
 }
 
-export const closeWindows = async () => {
+export const closeWindows = async closeWindows => {
+  return Promise.race([timeoutPromise(3000), closeWindowsPromise()])
+}
+
+const timeoutPromise = async msec => {
+  return new Promise((resolve, reject) => setTimeout(reject, msec))
+}
+
+const closeWindowsPromise = async () => {
   while (t.ctx.windows.length > 1) {
     try {
       const w = t.ctx.windows.pop()
