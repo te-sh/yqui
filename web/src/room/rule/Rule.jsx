@@ -26,13 +26,17 @@ const Rule = ({ rule, open, setOpen }) => {
   const [board, setBoard] = React.useState(initRule.board)
   const [other, setOther] = React.useState(initRule.other)
 
-  const setRule = rule => {
+  const setRule = () => {
     setTab(0)
     setRightNum(rule.rightNum)
     setPlayer(rule.player)
     setTeam(rule.team)
     setBoard(rule.board)
     setOther(rule.other)
+  }
+
+  const onEnter = () => {
+    setRule()
   }
 
   const changePlayerComprehensive = value => {
@@ -63,7 +67,8 @@ const Rule = ({ rule, open, setOpen }) => {
   }
 
   return (
-    <Dialog className="rule-dialog" open={open} onEnter={() => setRule(rule)}
+    <Dialog className="rule-dialog" open={open}
+            TransitionProps={{ onEnter }}
             aria-labelledby="form-dialog-title">
       <form onSubmit={submit}>
         <DialogTitle id="form-dialog-title">ルール</DialogTitle>

@@ -31,7 +31,8 @@ const Tag = ({ tag, user, open, setOpen }) => {
   }
 
   return (
-    <Dialog className="tag-dialog" open={open} onEnter={onEnter}
+    <Dialog className="tag-dialog" open={open}
+            TransitionProps={{ onEnter }}
             aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">部屋情報</DialogTitle>
       <DialogContent>
