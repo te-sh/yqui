@@ -38,8 +38,7 @@ const EnterRoom = ({ room, open, submit, close }) => {
   }
 
   return (
-    <Dialog className="enter-room-dialog" open={open}
-            TransisionProps={{ onEnter }}
+    <Dialog className="enter-room-dialog" open={open} onEnter={onEnter}
             aria-labelledby="form-dialog-title">
       <form onSubmit={onSubmit}>
         <DialogTitle id="form-dialog-title">入室</DialogTitle>
