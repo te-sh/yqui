@@ -41,7 +41,8 @@ const Setting = ({ user, open, setOpen }) => {
   }
 
   return (
-    <Dialog className="setting-dialog" open={open} onEnter={onEnter}
+    <Dialog className="setting-dialog" open={open}
+            TransisionProps={{ onEnter }}
             aria-labelledby="form-dialog-title">
       <form onSubmit={submit}>
         <DialogTitle id="form-dialog-title">設定</DialogTitle>

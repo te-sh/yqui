@@ -29,7 +29,8 @@ const Clear = ({ rule, open, setOpen }) => {
   }
 
   return (
-    <Dialog className="clear-dialog" open={open} onEnter={onEnter}
+    <Dialog className="clear-dialog" open={open}
+            TransisionProps={{ onEnter }}
             aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">クリア</DialogTitle>
       <DialogContent>
