@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Box, Button, TextField } from '@material-ui/core'
+import { Badge, Box, Button, TextField } from '@material-ui/core'
 import update from 'immutability-helper'
 import classNames from 'classnames'
 import { sendWs, PUSH, BOARD } from '../../lib/send'
@@ -8,6 +8,7 @@ import { openPrompt } from '../../lib/dialog'
 import './Actions.scss'
 
 const Player = ({ className, hidden, browser: { mobile }, selfID, rule, board: { bg } }) => {
+  const [focus, setFocus] = React.useState(false)
   const [answer, setAnswer] = React.useState('')
 
   const onKeyDown = evt => {
@@ -69,12 +70,18 @@ const Player = ({ className, hidden, browser: { mobile }, selfID, rule, board: {
 
   return (
     <Box className={classNames(className, 'player-actions', { hidden })}
-         tabIndex="0" onKeyDown={onKeyDown}>
-      <Button variant="outlined" color="primary" size="large"
-              className="answer-button"
-              onClick={() => sendWs(PUSH)}>
-        早押し
-      </Button>
+         tabIndex="0"
+         onKeyDown={onKeyDown}
+         onFocus={() => setFocus(true)}
+         onBlur={() => setFocus(false)}>
+      <Badge color="primary" overlap="circular"
+             badgeContent="&#x21b5;" invisible={!focus}>
+        <Button variant="outlined" color="primary" size="large"
+                className="answer-button"
+                onClick={() => sendWs(PUSH)}>
+          早押し
+        </Button>
+      </Badge>
       {rule.board.active && (mobile ? boardInputMobile : boardInput)}
     </Box>
   )
