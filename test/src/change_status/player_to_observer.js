@@ -5,7 +5,9 @@ const setup = async t => {
   await createWindows(2)
   await enterRoom(0)
   await enterRoom(1)
-  await t.click(s.topbar.observer)
+  await t
+    .click(s.topbar.master)
+    .click(s.topbar.observer)
 }
 
 fixture('change_status/player_to_observer').beforeEach(setup).afterEach(closeWindows)

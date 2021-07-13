@@ -6,6 +6,7 @@ const setup = async t => {
   await enterRoom(0)
   await enterRoom(1)
   await t
+    .click(s.topbar.master)
     .click(s.topbar.observer)
     .click(s.topbar.observer)
 }

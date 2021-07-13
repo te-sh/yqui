@@ -5,7 +5,9 @@ const setup = async t => {
   await createWindows(2)
   await enterRoom(0)
   await enterRoom(1)
-  await t.click(s.topbar.master)
+  await t
+    .click(s.topbar.master)
+    .click(s.topbar.master)
 }
 
 fixture('change_status/player_to_master').beforeEach(setup).afterEach(closeWindows)

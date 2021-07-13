@@ -16,7 +16,21 @@ test('name', async t => {
     .expect(s.dialog.enterRoom.name.find('input').getAttribute('value')).eql('ゆーた0')
 })
 
+test('first user', async t => {
+  await t
+    .click(s.rooms.row0.find('.enter-room-button'))
+    .expect(s.dialog.enterRoom.observer.find('span').hasClass(mui.disabled)).ok()
+})
+
+test('not first user', async t => {
+  await enterRoom(1)
+  await t
+    .click(s.rooms.row0.find('.enter-room-button'))
+    .expect(s.dialog.enterRoom.observer.find('span').hasClass(mui.disabled)).notOk()
+})
+
 test('not observer', async t => {
+  await enterRoom(1)
   await enterRoom(0)
   await t
     .expect(s.actions.visible.player.exists).ok()
@@ -28,6 +42,7 @@ test('not observer', async t => {
 })
 
 test('observer', async t => {
+  await enterRoom(1)
   await enterRoom(0, { observer: true })
   await t
     .expect(s.actions.visible.observer.exists).ok()

@@ -15,6 +15,7 @@ test('number of users', async t => {
   await t.expect(numUsers.innerText).eql('2')
 
   await t.switchToWindow(t.ctx.w1)
+    .click(s.topbar.master)
     .click(s.topbar.observer)
   await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)
@@ -31,12 +32,12 @@ test('player box', async t => {
   await enterRoom(0)
   await t
     .expect(s.box.teams.count).eql(1)
-    .expect(s.box.players0.count).eql(3)
-    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた1')
-    .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた2')
-    .expect(s.box.players0.nth(2).find('.player-name').innerText).eql('ゆーた0')
+    .expect(s.box.players0.count).eql(2)
+    .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた2')
+    .expect(s.box.players0.nth(1).find('.player-name').innerText).eql('ゆーた0')
 
   await t.switchToWindow(t.ctx.w1)
+    .click(s.topbar.master)
     .click(s.topbar.observer)
   await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)
@@ -58,6 +59,7 @@ test('chat message, room info', async t => {
   await enterRoom(0)
 
   await t.switchToWindow(t.ctx.w1)
+    .click(s.topbar.master)
     .click(s.topbar.observer)
   await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)
@@ -78,12 +80,12 @@ test('tobar buttons', async t => {
   await enterRoom(0)
   await t
     .expect(s.topbar.rule.hasAttribute('disabled')).ok()
-    .expect(s.topbar.master.hasAttribute('disabled')).notOk()
-    .expect(s.topbar.master.hasClass(mui.iconButton.inherit)).ok()
+    .expect(s.topbar.master.hasAttribute('disabled')).ok()
     .expect(s.topbar.observer.hasAttribute('disabled')).notOk()
     .expect(s.topbar.observer.hasClass(mui.iconButton.inherit)).ok()
 
   await t.switchToWindow(t.ctx.w1)
+    .click(s.topbar.master)
     .click(s.topbar.observer)
   await leaveRoom(1)
   await t.switchToWindow(t.ctx.w0)

@@ -6,7 +6,6 @@ const setup = async t => {
   await enterRoom(0)
   await enterRoom(1)
   await t
-    .click(s.topbar.master)
     .click(s.topbar.tag)
     .typeText(s.dialog.tag.title, '部屋タイトル', { replace: true })
     .click(s.dialog.tag.submit)

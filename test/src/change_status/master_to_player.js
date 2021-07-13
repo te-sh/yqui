@@ -7,7 +7,6 @@ const setup = async t => {
   await enterRoom(1)
   await t
     .click(s.topbar.master)
-    .click(s.topbar.master)
 }
 
 fixture('change_status/master_to_player').beforeEach(setup).afterEach(closeWindows)

@@ -5,7 +5,6 @@ const setup = async t => {
   await createWindows(2)
   await enterRoom(0)
   await enterRoom(1)
-  await t.click(s.topbar.master)
   await correct(1, 0, { times: 2 })
   await wrong(1, 0, { times: 1 })
 }
