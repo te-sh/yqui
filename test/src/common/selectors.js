@@ -97,6 +97,7 @@ export const selectors = {
     },
     enterRoom: {
       name: Selector('.enter-room-dialog .enter-room .name'),
+      title: Selector('.enter-room-dialog .enter-room .title'),
       password: Selector('.enter-room-dialog .enter-room .password'),
       observer: Selector('.enter-room-dialog .enter-room .observer'),
       chatAnswer: Selector('.enter-room-dialog .enter-room .chat-answer'),

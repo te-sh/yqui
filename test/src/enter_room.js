@@ -20,6 +20,8 @@ test('name', async t => {
 test('first user', async t => {
   await t
     .click(s.rooms.row0.find('.enter-room-button'))
+    .expect(s.dialog.enterRoom.title.find('input').hasAttribute('readonly')).notOk()
+    .expect(s.dialog.enterRoom.password.find('input').hasClass(mui.disabled)).notOk()
     .expect(s.dialog.enterRoom.observer.find('span').hasClass(mui.disabled)).ok()
 })
 
@@ -27,7 +29,41 @@ test('not first user', async t => {
   await enterRoom(1)
   await t
     .click(s.rooms.row0.find('.enter-room-button'))
+    .expect(s.dialog.enterRoom.title.find('input').hasAttribute('readonly')).ok()
+    .expect(s.dialog.enterRoom.password.find('input').hasClass(mui.disabled)).ok()
     .expect(s.dialog.enterRoom.observer.find('span').hasClass(mui.disabled)).notOk()
+})
+
+test('set room title', async t => {
+  await t
+    .click(s.rooms.row0.find('.enter-room-button'))
+    .typeText(s.dialog.enterRoom.name, 'ゆーた0', { replace: true })
+    .typeText(s.dialog.enterRoom.title, '部屋タイトル', { replace: true })
+    .click(s.dialog.enterRoom.submit)
+    .click(s.topbar.tag)
+    .expect(s.dialog.tag.title.find('input').getAttribute('value')).eql('部屋タイトル')
+
+  await t.switchToWindow(t.ctx.w1)
+    .click(s.rooms.row0.find('.enter-room-button'))
+    .expect(s.dialog.enterRoom.title.find('input').getAttribute('value')).eql('部屋タイトル')
+    .expect(s.dialog.enterRoom.password.find('input').hasClass(mui.disabled)).ok()
+    .expect(s.dialog.enterRoom.password.find('input').getAttribute('value')).eql('(不要)')
+})
+
+test('set room password', async t => {
+  await t
+    .click(s.rooms.row0.find('.enter-room-button'))
+    .typeText(s.dialog.enterRoom.name, 'ゆーた0', { replace: true })
+    .typeText(s.dialog.enterRoom.password, 'xxx', { replace: true })
+    .click(s.dialog.enterRoom.submit)
+    .click(s.topbar.tag)
+    .expect(s.dialog.tag.password.find('input').getAttribute('value')).eql('xxx')
+
+  await t.switchToWindow(t.ctx.w1)
+    .click(s.rooms.row0.find('.enter-room-button'))
+    .expect(s.dialog.enterRoom.title.find('input').getAttribute('value')).eql('(Room1)')
+    .expect(s.dialog.enterRoom.password.find('input').hasClass(mui.disabled)).notOk()
+    .expect(s.dialog.enterRoom.password.find('input').getAttribute('value')).eql('')
 })
 
 test('not observer', async t => {
@@ -81,6 +117,7 @@ test('chat answer', async t => {
 })
 
 test('no password', async t => {
+  await enterRoom(1)
   await t
     .click(s.rooms.row0.find('.enter-room-button'))
     .expect(s.dialog.enterRoom.password.find('input').hasClass(mui.disabled)).ok()

@@ -34,7 +34,7 @@ func HandleCommand() {
 }
 
 var MasterCommand = []string{
-	"tag", "correct", "wrong", "through", "reset", "all-clear", "undo", "redo",
+	"tag", "correct", "wrong", "through", "reset", "clear", "undo", "redo",
 	"win-top", "lose-bottom", "board-lock", "rule", "toggle-timer",
 }
 

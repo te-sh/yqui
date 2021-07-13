@@ -12,6 +12,7 @@ import './EnterRoom.scss'
 
 const EnterRoom = ({ room, open, submit, close }) => {
   const [name, setName] = React.useState(initUser.name)
+  const [title, setTitle] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [observer, setObserver] = React.useState(false)
   const [chatAnswer, setChatAnswer] = React.useState(initUser.chatAnswer)
@@ -21,8 +22,9 @@ const EnterRoom = ({ room, open, submit, close }) => {
 
   const onEnter = async () => {
     setName(await retrieveName())
+    setTitle(!first && room.title === '' ? `(Room${room.no})` : room.title)
+    setPassword(!first && !room.hasPassword ? '(不要)' : '')
     setObserver(false)
-    setPassword('')
     setChatAnswer(await retrieveChatAnswer())
   }
 
@@ -34,7 +36,7 @@ const EnterRoom = ({ room, open, submit, close }) => {
       roomNo: room.no,
       first,
       name,
-      password,
+      tag: { title, password },
       observer,
       chatAnswer,
       borderColor: borderColor === '#ffffff' ? '#ff000000' : borderColor
@@ -59,9 +61,18 @@ const EnterRoom = ({ room, open, submit, close }) => {
           </FormGroup>
           <FormGroup className="form-group">
             <FormControl>
+              <TextField id="title" label="部屋名"
+                         className="title"
+                         inputProps={{ readOnly: !first, maxLength: 20 }}
+                         value={title}
+                         onChange={evt => setTitle(evt.target.value)} />
+            </FormControl>
+          </FormGroup>
+          <FormGroup className="form-group">
+            <FormControl>
               <TextField id="password" label="合言葉"
                          className="password"
-                         disabled={room && !room.hasPassword}
+                         disabled={!first && room && !room.hasPassword}
                          inputProps={{ maxLength: 20 }}
                          value={password}
                          onChange={evt => setPassword(evt.target.value)} />

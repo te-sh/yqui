@@ -3,14 +3,15 @@ package main
 import "encoding/json"
 
 type Join struct {
-	RoomNo      int    `json:"roomNo"`
-	First       bool   `json:"first"`
-	Name        string `json:"name"`
-	Password    string `json:"password"`
-	Observer    bool   `json:"observer"`
-	ChatAnswer  bool   `json:"chatAnswer"`
-	BorderColor string `json:"borderColor"`
-	ScoreBackup string `json:"scoreBackup"`
+	RoomNo      int      `json:"roomNo"`
+	First       bool     `json:"first"`
+	Name        string   `json:"name"`
+	Tag         *RoomTag `json:"tag"`
+	Password    string   `json:"password"`
+	Observer    bool     `json:"observer"`
+	ChatAnswer  bool     `json:"chatAnswer"`
+	BorderColor string   `json:"borderColor"`
+	ScoreBackup string   `json:"scoreBackup"`
 }
 
 func MakeJoin(cmd Cmd) *Join {
@@ -26,8 +27,12 @@ func (room *Room) JoinUser(id int64, join *Join) (*User, bool) {
 	}
 
 	if join.First && len(room.Users) != 0 ||
-		room.Tag.Password != "" && room.Tag.Password != join.Password {
+		room.Tag.Password != "" && room.Tag.Password != join.Tag.Password {
 		return nil, false
+	}
+
+	if join.First {
+		room.Tag = join.Tag
 	}
 
 	user := NewUser(id, join.Name)
