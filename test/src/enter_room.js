@@ -6,6 +6,7 @@ const setup = async t => await createWindows(2)
 fixture('enter_room').beforeEach(setup).afterEach(closeWindows)
 
 test('name', async t => {
+  await enterRoom(1)
   await enterRoom(0)
   await t
     .expect(s.box.players0.nth(0).find('.player-name').innerText).eql('ゆーた0')
@@ -54,6 +55,7 @@ test('observer', async t => {
 })
 
 test('not chat answer', async t => {
+  await enterRoom(1)
   await enterRoom(0)
   await t
     .expect(s.box.players0.nth(0).find('.player-name .chat-mark').innerText).eql('')
@@ -65,6 +67,7 @@ test('not chat answer', async t => {
 })
 
 test('chat answer', async t => {
+  await enterRoom(1)
   await enterRoom(0, { chatAnswer: true })
   await t
     .expect(s.box.players0.nth(0).find('.player-name .chat-mark').innerText).eql('©')
@@ -74,7 +77,7 @@ test('chat answer', async t => {
     .click(s.rooms.row0.find('.enter-room-button'))
     .expect(s.dialog.enterRoom.chatAnswer.find('span').hasClass(mui.checked)).ok()
 
-  await enterRoom(1, { chatAnswer: false }) // reset chat answer
+  await enterRoom(0, { chatAnswer: false }) // reset chat answer
 })
 
 test('no password', async t => {
@@ -89,7 +92,6 @@ test('no password', async t => {
 test('enter with correct password', async t => {
   await enterRoom(1)
   await t.switchToWindow(t.ctx.w1)
-    .click(s.topbar.master)
     .click(s.topbar.tag)
     .typeText(s.dialog.tag.password, 'パスワード', { replace: true })
     .click(s.dialog.tag.submit)
@@ -105,7 +107,6 @@ test('enter with correct password', async t => {
 test('enter with wrong password', async t => {
   await enterRoom(1)
   await t.switchToWindow(t.ctx.w1)
-    .click(s.topbar.master)
     .click(s.topbar.tag)
     .typeText(s.dialog.tag.password, 'パスワード', { replace: true })
     .click(s.dialog.tag.submit)
