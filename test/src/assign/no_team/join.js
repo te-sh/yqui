@@ -8,7 +8,6 @@ const setup = async t => {
   await enterRoom(2)
   await enterRoom(3, { observer: true })
   await t
-    .click(s.topbar.master)
     .click(s.subactions.master.assign)
 }
 

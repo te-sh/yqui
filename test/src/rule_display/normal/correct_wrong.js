@@ -4,7 +4,6 @@ import { createWindows, closeWindows, enterRoom } from '../../common/helper'
 const setup = async t => {
   await createWindows(1)
   await enterRoom(0)
-  await t.click(s.topbar.master)
 }
 
 fixture('rule_display/normal/correct_wrong').beforeEach(setup).afterEach(closeWindows)

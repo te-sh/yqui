@@ -6,7 +6,6 @@ const setup = async t => {
   await enterRoom(0)
   await enterRoom(1)
   await enterRoom(2)
-  await t.click(s.topbar.master)
 }
 
 fixture('rule/normal/batsu_wrong').beforeEach(setup).afterEach(closeWindows)

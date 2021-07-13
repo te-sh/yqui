@@ -7,8 +7,6 @@ const setup = async t => {
   await enterRoom(1)
   await enterRoom(2)
   await enterRoom(3)
-  await t
-    .click(s.topbar.master)
 }
 
 fixture('win_lose/lose_bottom/point').beforeEach(setup).afterEach(closeWindows)

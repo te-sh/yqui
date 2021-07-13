@@ -8,7 +8,6 @@ const setup = async t => {
   await enterRoom(2)
   await enterRoom(3, { observer: true })
   await t
-    .click(s.topbar.master)
     .click(s.topbar.rule)
     .click(s.dialog.rule.tab.team)
     .click(s.dialog.rule.team.active)

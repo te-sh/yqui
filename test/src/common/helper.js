@@ -27,7 +27,7 @@ export const createWindows = async (num = numWindows) => {
 }
 
 export const closeWindows = async closeWindows => {
-  return Promise.race([timeoutPromise(3000), closeWindowsPromise()])
+  return Promise.race([timeoutPromise(10000), closeWindowsPromise()])
 }
 
 const timeoutPromise = async msec => {

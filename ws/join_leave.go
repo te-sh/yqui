@@ -4,6 +4,7 @@ import "encoding/json"
 
 type Join struct {
 	RoomNo      int    `json:"roomNo"`
+	First       bool   `json:"first"`
 	Name        string `json:"name"`
 	Password    string `json:"password"`
 	Observer    bool   `json:"observer"`
@@ -24,7 +25,8 @@ func (room *Room) JoinUser(id int64, join *Join) (*User, bool) {
 		return nil, false
 	}
 
-	if room.Tag.Password != "" && room.Tag.Password != join.Password {
+	if join.First && len(room.Users) != 0 ||
+		room.Tag.Password != "" && room.Tag.Password != join.Password {
 		return nil, false
 	}
 
@@ -32,7 +34,9 @@ func (room *Room) JoinUser(id int64, join *Join) (*User, bool) {
 	user.ChatAnswer = join.ChatAnswer
 	user.BorderColor = join.BorderColor
 	room.Users[id] = user
-	if !join.Observer {
+	if join.First {
+		user.IsMaster = true
+	} else if !join.Observer {
 		room.Teams.AddPlayer(user)
 	}
 	room.BG.Boards.Add(id)

@@ -7,7 +7,6 @@ const setup = async t => {
   await enterRoom(1)
   await enterRoom(2)
   await t
-    .click(s.topbar.master)
     .click(s.subactions.master.editScore)
 }
 

@@ -8,7 +8,6 @@ const setup = async t => {
   await enterRoom(2)
   await enterRoom(3, { observer: true })
   await t
-    .click(s.topbar.master)
     .click(s.subactions.master.assign)
     .dragToElement(s.box.players0.nth(0), s.box.team1.find('.players'))
     .dragToElement(s.box.players1.nth(0), s.box.team0.find('.players'))

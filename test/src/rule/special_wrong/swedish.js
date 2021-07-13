@@ -7,7 +7,6 @@ const setup = async t => {
   await enterRoom(1)
   await enterRoom(2)
   await t
-    .click(s.topbar.master)
     .click(s.topbar.rule)
     .typeText(s.dialog.rule.normal.winPoint.value, '10', { replace: true })
     .typeText(s.dialog.rule.normal.loseBatsu.value, '10', { replace: true })

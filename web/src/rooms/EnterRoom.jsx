@@ -17,8 +17,11 @@ const EnterRoom = ({ room, open, submit, close }) => {
   const [chatAnswer, setChatAnswer] = React.useState(initUser.chatAnswer)
   const [borderColor, setBorderColor] = React.useState(initUser.borderColor)
 
+  const first = room && room.numUsers === 0
+
   const onEnter = async () => {
     setName(await retrieveName())
+    setObserver(false)
     setPassword('')
     setChatAnswer(await retrieveChatAnswer())
   }
@@ -29,6 +32,7 @@ const EnterRoom = ({ room, open, submit, close }) => {
     storeChatAnswer(chatAnswer)
     submit({
       roomNo: room.no,
+      first,
       name,
       password,
       observer,
@@ -71,7 +75,7 @@ const EnterRoom = ({ room, open, submit, close }) => {
                           checked={observer}
                           onChange={evt => setObserver(evt.target.checked)} />
                 }
-                label="観戦" />
+                label="観戦" disabled={first} />
             </FormControl>
           </FormGroup>
           <FormGroup className="form-group">

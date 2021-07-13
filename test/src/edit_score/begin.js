@@ -5,8 +5,6 @@ const setup = async t => {
   await createWindows(2)
   await enterRoom(0)
   await enterRoom(1)
-  await t
-    .click(s.topbar.master)
 }
 
 fixture('edit_score/begin').beforeEach(setup).afterEach(closeWindows)

@@ -8,7 +8,6 @@ const setup = async t => {
   await enterRoom(2)
   await enterRoom(3)
   await t
-    .click(s.topbar.master)
     .click(s.topbar.rule)
     .typeText(s.dialog.rule.normal.rightNum, '2', { replace: true })
     .click(s.dialog.rule.submit)
